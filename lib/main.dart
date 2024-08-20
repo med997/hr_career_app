@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const MyHomePage(title: 'hi'),
+        home: const MyHomePage(title: 'hi',),
         );
   }
 }
@@ -77,7 +77,6 @@ class MyHomePage extends StatelessWidget {
           }else{
             return const Text('error');
           }
-
         },
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
