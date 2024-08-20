@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:hr_career_platform/features/company/data/models/company_model.dart';
+
 import '../../domain/entities/job.dart';
 
 
@@ -19,11 +21,11 @@ class JobModel extends Job {
     required super.category,
     required super.deadlineDate,
     required super.nationalities,
-    required super.qualifications,
-    required super.status,
+    super.qualifications,
+    super.status,
     required super.jobDesc,
     required super.jobRequirements,
-    required super.companyId,
+     super.companyId,
     super.company,
   });
 
@@ -40,12 +42,12 @@ class JobModel extends Job {
         category: json["category"],
         deadlineDate: DateTime.parse(json["deadline_date"]),
         nationalities: json["nationalities"],
-        qualifications: json["qualifications"],
+        qualifications: json["qualifications"]!,
         status: json["status"],
         jobDesc: json["job_desc"],
         jobRequirements: json["job_requirements"],
         companyId: json["company_id"],
-        company: json["company"],
+        company:CompanyModel.fromJson(json["company"]),
       );
 
   Map<String, dynamic> toJson() => {

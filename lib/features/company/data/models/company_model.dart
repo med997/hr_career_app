@@ -10,13 +10,13 @@ class CompanyModel extends Company {
   CompanyModel({super.id, required super.city,
     required super.email, required super.major,
     required super.phone, required super.address,
-    required super.nameAr, required super.nameEn, required super.website,
-    required super.aboutUs, required super.locations, required super.createdAt,
-    required super.headOffice, required super.imagesPath, required super.nationality,
-    required super.videoPaths, required super.otherContact, required super.documentPaths});
+    required super.nameAr, required super.nameEn,  super.website,
+     super.aboutUs,  super.locations,  super.createdAt,super.companyLogo,
+     super.headOffice,  super.imagesPath,  super.nationality,
+     super.videoPaths,  super.otherContact,  super.documentPaths});
 
   factory CompanyModel.fromJson(Map<String, dynamic> json) => CompanyModel(
-    id: json["id"],
+    id: json["id"]?? 0,
     city: json["city"],
     email: json["email"],
     major: json["major"],
@@ -26,6 +26,7 @@ class CompanyModel extends Company {
     nameEn: json["name_en"],
     website: json["website"],
     aboutUs: json["about_us"],
+    companyLogo: json["company_logo"],
     locations: json["locations"],
     createdAt: json["created_at"],
     headOffice: json["head_office"],
@@ -47,7 +48,8 @@ class CompanyModel extends Company {
     "name_en": nameEn,
     "website": website,
     "about_us": aboutUs,
-    "locations": List<dynamic>.from(locations.map((x) => x.toJson())),
+    "company_logo": companyLogo,
+    "locations": List<dynamic>.from(locations!.map((x) => x.toJson())),
     "created_at": createdAt,
     "head_office": headOffice,
     "images_path": imagesPath,
