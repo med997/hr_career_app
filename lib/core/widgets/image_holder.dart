@@ -37,7 +37,7 @@ class ImageHolder extends StatelessWidget {
           child: child,
         );
       },
-      fit: BoxFit.fill,
+      fit: BoxFit.cover,
       errorBuilder:
           (BuildContext context, Object exception, StackTrace? stackTrace) {
         return const Text('😢');
