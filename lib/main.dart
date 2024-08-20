@@ -1,21 +1,35 @@
+import 'dart:ui';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/widgets/snackbar_message.dart';
-import 'package:hr_career_platform/injection_container.dart';
+import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
+import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
+import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/widgets/loading_widget.dart';
 import 'features/job/domain/entities/job.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
-
+import 'injection_container.dart' as di;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initDependencies();
 
+  di.initDependencies();
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (context) => sl<JobCubit>(),
+        create: (context) => di.sl<JobCubit>(),
+      ),
+
+      BlocProvider(
+        create: (context) => di.sl<HomeCubit>()..getUserHome(),
+      ),
+
+      BlocProvider(
+        create: (context) => di.sl<TabNavCubit>(),
       ),
 
     ],
@@ -31,11 +45,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const MyHomePage(title: 'hi',),
+        theme: appTheme,
+      routes: {
+        '': (context) => HomePage(),
+        '/myHome': (context) => MyHomePage(title: 'hi',),
+      },
+        scrollBehavior: const MaterialScrollBehavior().copyWith(
+      dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch,
+        PointerDeviceKind.stylus, PointerDeviceKind.unknown},),
+      home: HomePage(),
         );
   }
 }
@@ -43,10 +61,8 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
 
-
-  @override
+    @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -77,6 +93,7 @@ class MyHomePage extends StatelessWidget {
           }else{
             return const Text('error');
           }
+
         },
       ),
       // This trailing comma makes auto-formatting nicer for build methods.

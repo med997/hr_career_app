@@ -22,7 +22,6 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
   Future<List<JobModel>> getAllJobs() async {
     try {
       final data = await supBase.from('jobs').select();
-      print(data.toString());
 
       final List<JobModel> jobList = data.map((json) => JobModel.fromJson(json)).toList();
       return jobList;
