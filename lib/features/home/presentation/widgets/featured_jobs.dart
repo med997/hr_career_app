@@ -67,7 +67,7 @@ class FeaturedJobs extends StatelessWidget {
   }
 
   Widget _desktopFeaturedJob(List<Job> featuredJobs,BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 160,
       width: MediaQuery.of(context).size.width,
       child:  ListView.builder(
@@ -83,7 +83,7 @@ class FeaturedJobs extends StatelessWidget {
         itemBuilder: (context, index) =>  Container(
             width: 400,
             height: 140,
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            margin: const EdgeInsets.symmetric(horizontal: 4.0),
             decoration: BoxDecoration(
                 image: const DecorationImage(
                   opacity: 0.5,

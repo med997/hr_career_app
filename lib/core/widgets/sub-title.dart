@@ -23,7 +23,7 @@ class SubTitle extends StatelessWidget {
           Text(
             title,
             style:
-                const TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
+                const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: primaryColor),
           ),
           if (titleType == SubTitleType.withIcon)
             Container(

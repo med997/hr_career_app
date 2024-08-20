@@ -13,10 +13,11 @@ class TextWithIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: 2,
+      spacing: 1,
       children: [
         icon,
         Text(text,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(color: textColor ?? primaryColor, fontSize: 14)),
 
       ],

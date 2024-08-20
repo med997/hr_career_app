@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/widgets/bloc/image_loader_cubit.dart';
 import 'package:hr_career_platform/core/widgets/snackbar_message.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
@@ -30,6 +31,9 @@ void main() async {
 
       BlocProvider(
         create: (context) => di.sl<TabNavCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<ImageLoaderCubit>(),
       ),
 
     ],

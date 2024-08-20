@@ -10,7 +10,8 @@ final appTheme = ThemeData(
   scaffoldBackgroundColor: bgColor,
   fontFamily: 'almarai',
     appBarTheme: const AppBarTheme(
-      backgroundColor: primaryColor,
+      backgroundColor: bgColor,
+      elevation: 0.0,
       centerTitle: true,
     ),
     useMaterial3: false,
@@ -18,7 +19,6 @@ final appTheme = ThemeData(
     primaryColor: primaryColor,
     navigationRailTheme: const NavigationRailThemeData(
         backgroundColor: bgColor,
-
         useIndicator: false,
         selectedIconTheme: IconThemeData(color: primaryColor)),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(

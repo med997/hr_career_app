@@ -1,4 +1,5 @@
 import 'package:hr_career_platform/core/util/const_val.dart';
+import 'package:hr_career_platform/core/widgets/bloc/image_loader_cubit.dart';
 import 'package:hr_career_platform/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:hr_career_platform/features/home/data/repositories/home_repository_impl.dart';
 import 'package:hr_career_platform/features/home/domain/repositories/home_repository.dart';
@@ -47,6 +48,7 @@ Future<void> initDependencies() async {
 */
   _initJob();
   _initHome();
+  _initCore();
 //! Core
   final supBaseInit = await Supabase.initialize(url: BaseUrl, anonKey:AnonKey);
   sl.registerLazySingleton(() => supBaseInit.client);
@@ -98,32 +100,44 @@ void _initJob() {
 void _initHome() {
   sl
 
-    // datasource
-   ..registerFactory<HomeRemoteDataSource>(
-      () => HomeRemoteDataSourceImpl(
-        supBase: sl(),
-      ),
+  // datasource
+    ..registerFactory<HomeRemoteDataSource>(
+          () =>
+          HomeRemoteDataSourceImpl(
+            supBase: sl(),
+          ),
     )
 
-    // repository
+  // repository
     ..registerFactory<HomeRepository>(
-      () => HomeRepositoryImpl(
-        homeRemoteDataSource: sl(),
-        networkInfo: sl(),
-      ),
+          () =>
+          HomeRepositoryImpl(
+            homeRemoteDataSource: sl(),
+            networkInfo: sl(),
+          ),
     )
-    // usecases
+  // usecases
     ..registerFactory(
-      () => GetHomeUserCase(
-        sl(),
-      ),
+          () =>
+          GetHomeUserCase(
+            sl(),
+          ),
     )
-    // cubit
+  // cubit
     ..registerLazySingleton(
           () => HomeCubit(getHomeUserCase: sl()),
     )
-    // cubit
+  // cubit
     ..registerLazySingleton(
           () => TabNavCubit(),
     );
 }
+  void _initCore() {
+    sl
+    // cubit
+        .registerLazySingleton(
+          () => ImageLoaderCubit(),
+    );
+
+}
+
