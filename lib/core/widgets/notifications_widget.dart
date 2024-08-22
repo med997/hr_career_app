@@ -18,11 +18,11 @@ class NotificationListWidget extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading: CircleAvatar(
+            leading: const CircleAvatar(
               radius: 25.0,
               backgroundColor: Colors.black,
             ),
-            title: Text(
+            title: const Text(
               'Jenny Wilson compelete Create new copmonent',
               style:
               TextStyle(color: Colors.black, fontWeight: FontWeight.bold),

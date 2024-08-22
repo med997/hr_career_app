@@ -1,49 +1,107 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/widgets/bloc/image_loader_cubit.dart';
+import 'package:hr_career_platform/core/widgets/image_holder.dart';
+import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 
 class JobCard extends StatelessWidget {
-  final String jobName;
+  final String jobTitle;
   final String companyName;
+  final String jobLocation;
+  final String jobDeadLine;
+  final String jobNationality;
+  final String companyLogo;
 
   const JobCard({
-    required this.jobName,
+    required this.jobTitle,
     required this.companyName,
+    required this.jobLocation,
+    required this.companyLogo,
+    required this.jobDeadLine,
+    required this.jobNationality,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
+    return Container(
+      height: 120,
+      padding: EdgeInsets.all(8),
+      margin: EdgeInsets.all(4),
+      decoration: BoxDecoration(
+          border:
+              Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10, left: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
             child: Text(
-              jobName,
-              style: TextStyle(
+              jobTitle,
+              style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 17),
+                  fontSize: 16),
             ),
           ),
           ListTile(
-            leading: CircleAvatar(
-              radius: 25.0,
-              backgroundColor: Colors.yellowAccent,
+            contentPadding: EdgeInsets.all(2),
+            leading: BlocBuilder<ImageLoaderCubit, ImageLoaderState>(
+              builder: (context, state) {
+                return CircleAvatar(
+                  backgroundColor: Colors.white,
+
+                  backgroundImage: NetworkImage(companyLogo,scale: 100) ,
+                  onBackgroundImageError: (exception, stackTrace) =>
+                      context.read<ImageLoaderCubit>().imageLoadErr(true),
+                  child: ClipOval(
+                    child: (state is ImageLoaderError)
+                        ? const Icon(
+                            Icons.location_city,
+                            size: 36,
+                            color: primaryColor,
+                          )
+                        : Container(),
+                  ),
+                );
+              },
             ),
             title: Text(
               companyName,
-              style:
-              TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
             ),
-            subtitle: Row(
-              children: <Widget>[
-                Icon(Icons.timelapse_outlined),
-                Text(
-                  '2 hour ago',
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
-                ),
-                const SizedBox(width: 8),
+            subtitle: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 2,
+              direction: Axis.horizontal,
+              children: [
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.timelapse_outlined,
+                      size: 18,
+                      color: Colors.orangeAccent,
+                    ),
+                    text: jobDeadLine),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.location_on_outlined,
+                      size: 18,
+                      color: Colors.orangeAccent,
+                    ),
+                    text: jobLocation),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.people_alt_outlined,
+                      size: 18,
+                      color: Colors.orangeAccent,
+                    ),
+                    text: jobNationality),
               ],
             ),
           ),
