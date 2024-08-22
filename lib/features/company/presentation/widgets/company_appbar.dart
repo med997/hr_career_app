@@ -15,82 +15,79 @@ AppBar jobsAppBarFunction(
   String companyWebsite,
 ) {
   return AppBar(
-    title: Padding(
-      padding: const EdgeInsets.only(bottom: 7.0, right: 7.0, left: 7.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const BackButton(
-            color: Colors.white,
+    title: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const BackButton(
+          color: Colors.white,
+        ),
+        ListTile(
+          leading: CircleAvatar(
+              child: ClipOval(
+            child: ImageHolder(url: companyLogo),
+          )),
+          title: Text(
+            companyName,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 16),
           ),
-          ListTile(
-            leading: CircleAvatar(
-                child: ClipOval(
-              child: ImageHolder(url: companyLogo),
-            )),
-            title: Text(
-              companyName,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 16),
-            ),
-            subtitle: Wrap(
-              spacing: 10,
-              children: [
-                Text(
-                  companyMajor,
-                  style: const TextStyle(color: Colors.white, fontSize: 14),
-                ),
-                TextWithIcon(
-                  icon: const Icon(
-                    Icons.place_outlined,
-                    color: primaryColor,
-                  ),
-                  text: companyLocation,
-                  textColor: Colors.white,
-                )
-              ],
-            ),
-          ),
-          Wrap(
-            alignment: WrapAlignment.start,
-            runAlignment: WrapAlignment.start,
-            spacing: 15,
-            runSpacing: 10,
+          subtitle: Wrap(
+            spacing: 10,
             children: [
-              CircularIconButton(
-                icon: Icons.call_outlined,
-                onPressed: () {
-                  navToCall(companyNumber);
-                },
+              Text(
+                companyMajor,
+                style: const TextStyle(color: Colors.grey, fontSize: 14),
               ),
-              CircularIconButton(
-                icon: Icons.mail_outlined,
-                onPressed: () {
-                  navToEmail(companyEmail);
-                },
-              ),
-              CircularIconButton(
-                icon: Icons.language_outlined,
-                onPressed: () {
-                  navToWebsite(companyWebsite);
-                },
-              ),
-              CircularIconButton(
-                icon: Icons.send_outlined,
-                onPressed: () {
-                  MapUtils.navToMap(-3.823216, -38.481700);
-                },
-              ),
-              CircularIconButton(
-                icon: Icons.more_horiz_rounded,
-                onPressed: () {},
-              ),
+              TextWithIcon(
+                icon: const Icon(
+                  Icons.place_outlined,
+                  color: primaryColor,
+                ),
+                text: companyLocation,
+                textColor: Colors.grey,
+              )
             ],
           ),
-        ],
-      ),
+        ),
+        Wrap(
+          alignment: WrapAlignment.start,
+          runAlignment: WrapAlignment.start,
+          spacing: 15,
+          runSpacing: 10,
+          children: [
+            CircularIconButton(
+              icon: Icons.call_outlined,
+              onPressed: () {
+                navToCall(companyNumber);
+              },
+            ),
+            CircularIconButton(
+              icon: Icons.mail_outlined,
+              onPressed: () {
+                navToEmail(companyEmail);
+              },
+            ),
+            CircularIconButton(
+              icon: Icons.language_outlined,
+              onPressed: () {
+                navToWebsite(companyWebsite);
+              },
+            ),
+            CircularIconButton(
+              icon: Icons.send_outlined,
+              onPressed: () {
+                MapUtils.navToMap(-3.823216, -38.481700);
+              },
+            ),
+            CircularIconButton(
+              icon: Icons.more_horiz_rounded,
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ],
     ),
     flexibleSpace: Container(
       decoration: BoxDecoration(
@@ -99,7 +96,8 @@ AppBar jobsAppBarFunction(
             image: AssetImage(backgroundCompanyImg),
             fit: BoxFit.fitWidth, // Adjust fit as needed
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(40))),
+          borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30))),
     ),
     toolbarHeight: 200,
   );
