@@ -52,20 +52,12 @@ class JobCard extends StatelessWidget {
             leading: BlocBuilder<ImageLoaderCubit, ImageLoaderState>(
               builder: (context, state) {
                 return CircleAvatar(
-                  backgroundColor: Colors.white,
-
-                  backgroundImage: NetworkImage(companyLogo,scale: 100) ,
+                  backgroundColor: Colors.blueGrey,
+                  backgroundImage:   NetworkImage(companyLogo) ,
                   onBackgroundImageError: (exception, stackTrace) =>
-                      context.read<ImageLoaderCubit>().imageLoadErr(true),
-                  child: ClipOval(
-                    child: (state is ImageLoaderError)
-                        ? const Icon(
-                            Icons.location_city,
-                            size: 36,
-                            color: primaryColor,
-                          )
-                        : Container(),
-                  ),
+                  context.read<ImageLoaderCubit>()..imageLoadErr(),
+                  child: (state is ImageLoaderError) ? Text(companyName.substring(0,1)): null,
+
                 );
               },
             ),

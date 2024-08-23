@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/jobCard_widget.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
+import 'package:hr_career_platform/features/job/presentation/ui/job_details_page.dart';
 
 class RecentJobsWidget extends StatelessWidget {
 
@@ -31,12 +33,19 @@ class RecentJobsWidget extends StatelessWidget {
         shrinkWrap: true,
         itemCount: job.length ?? 0 ,
         itemBuilder: (context, i) =>
-    JobCard(jobTitle: job[i].jobTitle,
-        companyName: job[i].company!.nameEn ?? job[i].company!.nameAr,
-        jobLocation: job[i].city,
-        companyLogo: job[i].company!.companyLogo ?? '',
-        jobDeadLine: '${job[i].deadlineDate.hour}h ago',
-        jobNationality: job[i].nationalities?? ''));
+
+    InkWell(
+      onTap: () =>Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => JobDetailsPage(job: job[i])),
+      ),
+      child: JobCard(jobTitle: job[i].jobTitle,
+          companyName: job[i].company!.nameEn ?? job[i].company!.nameAr,
+          jobLocation: job[i].city,
+          companyLogo: job[i].company!.companyLogo ?? '',
+          jobDeadLine: '${job[i].deadlineDate.hour}h ago',
+          jobNationality: job[i].nationalities?? ''),
+    ));
   }
   Widget _buildTabletDesktopLayout(List<Job>  job, int columnCount, BuildContext context ){
     final double itemWidth = MediaQuery.of(context).size.width / columnCount;
