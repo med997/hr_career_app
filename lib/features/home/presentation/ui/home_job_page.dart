@@ -7,7 +7,7 @@ import 'package:hr_career_platform/core/widgets/search_widget.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
 import 'package:hr_career_platform/features/home/presentation/widgets/featured_jobs.dart';
 import 'package:hr_career_platform/features/home/presentation/widgets/recent_jobs.dart';
-import 'package:hr_career_platform/core/widgets/fields_widget.dart';
+import 'package:hr_career_platform/features/job/presentation/ui/all_jobs_page.dart';
 
 class HomeJobPage extends StatelessWidget {
   const HomeJobPage({super.key});
@@ -28,7 +28,10 @@ class HomeJobPage extends StatelessWidget {
         FeaturedJobs(),
         SubTitle(
           onShowMoreClicked: () {
-            if (kDebugMode) print('showMoreClicked');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AllJobsPage()),
+            );
           },
           titleType: SubTitleType.withShowMore,
           title: 'Recent Jobs',

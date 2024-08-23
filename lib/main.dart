@@ -9,6 +9,7 @@ import 'package:hr_career_platform/core/widgets/snackbar_message.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
+import 'package:hr_career_platform/features/job/presentation/ui/job_details_page.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/widgets/loading_widget.dart';
@@ -22,7 +23,7 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (context) => di.sl<JobCubit>(),
+        create: (context) => di.sl<JobCubit>()..getAllJobs(),
       ),
 
       BlocProvider(
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
         theme: appTheme,
       routes: {
         '': (context) => HomePage(),
-        '/myHome': (context) => MyHomePage(title: 'hi',),
+        '/myHome': (context) => const MyHomePage(title: 'hi',),
       },
         scrollBehavior: const MaterialScrollBehavior().copyWith(
       dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch,

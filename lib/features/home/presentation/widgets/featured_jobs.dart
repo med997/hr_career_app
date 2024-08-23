@@ -105,9 +105,9 @@ class FeaturedJobs extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: [
         ListTile(
+
           title: Text(
             job.jobTitle,
             style: const TextStyle(

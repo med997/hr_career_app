@@ -1,17 +1,18 @@
 part of 'image_loader_cubit.dart';
 
- class ImageLoaderState extends Equatable {
-  final bool imageLoadErr ;
-  const ImageLoaderState({required this.imageLoadErr});
-  @override
-  List<Object> get props => [imageLoadErr ];
-}
+sealed class ImageLoaderState extends Equatable {
 
+   @override
+   List<Object> get props => [];
+
+ }
 
 
 final class ImageLoaderError extends ImageLoaderState {
-  const ImageLoaderError({required super.imageLoadErr});
+  @override
+  List<Object> get props => [];
 }
 final class ImageLoaderSuccess extends ImageLoaderState {
-  const ImageLoaderSuccess({required super.imageLoadErr});
+  @override
+  List<Object> get props => [];
 }
