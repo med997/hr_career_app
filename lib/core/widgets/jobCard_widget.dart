@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/widgets/bloc/image_loader_cubit.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
+import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
+import 'package:hr_career_platform/injection_container.dart' as di;
 
 class JobCard extends StatelessWidget {
   final String jobTitle;
@@ -49,17 +51,10 @@ class JobCard extends StatelessWidget {
           ),
           ListTile(
             contentPadding: EdgeInsets.all(2),
-            leading: BlocBuilder<ImageLoaderCubit, ImageLoaderState>(
-              builder: (context, state) {
-                return CircleAvatar(
-                  backgroundColor: Colors.blueGrey,
-                  backgroundImage:   NetworkImage(companyLogo) ,
-                  onBackgroundImageError: (exception, stackTrace) =>
-                  context.read<ImageLoaderCubit>()..imageLoadErr(),
-                  child: (state is ImageLoaderError) ? Text(companyName.substring(0,1)): null,
-
-                );
-              },
+            leading: CircleAvatar(
+              backgroundColor: Colors.blueGrey,
+              backgroundImage: NetworkImage(companyLogo),
+              child: companyLogo.isEmpty? Text(companyName.substring(0, 2)): null,
             ),
             title: Text(
               companyName,

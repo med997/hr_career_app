@@ -2,17 +2,42 @@ part of 'image_loader_cubit.dart';
 
 sealed class ImageLoaderState extends Equatable {
 
-   @override
-   List<Object> get props => [];
 
- }
+  ImageLoaderState();
 
 
-final class ImageLoaderError extends ImageLoaderState {
-  @override
-  List<Object> get props => [];
+
 }
-final class ImageLoaderSuccess extends ImageLoaderState {
+
+final class ImageLoaderInit extends ImageLoaderState {
+
+
+  ImageLoaderInit();
+
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
+}
+
+final class ImageLoadingStatus extends ImageLoaderState{
+
+  ImageLoadingStatus();
+  @override
+  List<Object?> get props => [];
+}
+final class ImageSuccessStatus extends ImageLoaderState{
+  final ImageProvider image ;
+
+  ImageSuccessStatus({required this.image});
+  @override
+  List<Object?> get props => [];
+
+}
+final class ImageErrorStatus extends ImageLoaderState{
+
+  ImageErrorStatus();
+
+  @override
+  List<Object?> get props => [];
+
 }
