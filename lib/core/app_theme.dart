@@ -9,6 +9,21 @@ const bgColor = Color(0xfffafcfd);
 final appTheme = ThemeData(
   scaffoldBackgroundColor: bgColor,
   fontFamily: 'almarai',
+
+    dropdownMenuTheme: DropdownMenuThemeData(
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: primaryTransparent,width: 0.8),),
+        enabledBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: primaryColor,width: 0.8),),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: primaryColor,width: 0.8),),
+          constraints: BoxConstraints(minWidth: 150, maxWidth: 300, maxHeight: 45, minHeight: 30),
+
+      ),
+      textStyle: TextStyle(fontSize: 12),
+
+    ),
     appBarTheme: const AppBarTheme(
       backgroundColor: bgColor,
       elevation: 0.0,
