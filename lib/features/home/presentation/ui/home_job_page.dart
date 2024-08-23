@@ -7,6 +7,7 @@ import 'package:hr_career_platform/core/widgets/search_widget.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
 import 'package:hr_career_platform/features/home/presentation/widgets/featured_jobs.dart';
 import 'package:hr_career_platform/features/home/presentation/widgets/recent_jobs.dart';
+import 'package:hr_career_platform/core/widgets/fields_widget.dart';
 
 class HomeJobPage extends StatelessWidget {
   const HomeJobPage({super.key});
