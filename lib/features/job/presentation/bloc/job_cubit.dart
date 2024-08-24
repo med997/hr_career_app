@@ -1,7 +1,9 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-
+import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
 import '../../domain/entities/job.dart';
@@ -12,7 +14,8 @@ part 'job_state.dart';
 
 class JobCubit extends Cubit<JobState> {
   final GetJobUserCase getJobUserCase;
-  JobCubit({required this.getJobUserCase}) : super(JobInitial());
+  final SearchJobsUserCase searchJobsUserCase;
+  JobCubit({required this.getJobUserCase, required this.searchJobsUserCase}) : super(JobInitial());
 
 
   Future<void> getAllJobs() async {
@@ -29,6 +32,12 @@ class JobCubit extends Cubit<JobState> {
           ),
     );
   }
+  Future<void> searchJob() async {
+    emit(JobLoadingState());
+    final failureOrSuccess = await searchJobsUserCase.repository.call();
+    emit(_mapFailureOrJobsToState(failureOrSuccess));
+  }
+
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {

@@ -11,6 +11,7 @@ import 'package:hr_career_platform/features/job/data/repositories/job_repository
 import 'package:hr_career_platform/features/job/domain/repositories/job_repository.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/add_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_job.dart';
+import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -82,6 +83,13 @@ void _initJob() {
         sl(),
       ),
     )
+
+    ..registerFactory(
+      () => SearchJobsUserCase(
+        repository: sl(),
+      ),
+    )
+
     ..registerFactory(
       () => AddJobUserCase(
         sl(),
@@ -94,7 +102,7 @@ void _initJob() {
     )
     // cubit
     ..registerLazySingleton(
-      () => JobCubit(getJobUserCase: sl()),
+      () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl()),
     );
 }
 void _initHome() {
