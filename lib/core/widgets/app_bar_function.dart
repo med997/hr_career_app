@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 
 
@@ -26,15 +27,8 @@ AppBar buildAppBar({required String userName, required String img, bool fullHead
         ),
         if (fullHeader == true)
           Center(
-              child: CircleAvatar(
-            child: ClipOval(
-              child: img.isEmpty
-                  ? Image.asset('imgs/image10.png')
-                  : ImageHolder(
-                      url: img ?? '',
-                    ),
-            ),
-          ))
+
+              child:AvatarNetwork(imgUrl: '',withBorder: false,))
         else
           SizedBox(),
       ],

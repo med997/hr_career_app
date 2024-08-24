@@ -33,9 +33,7 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<TabNavCubit>(),
       ),
-      BlocProvider(
-        create: (context) => di.sl<ImageLoaderCubit>(),
-      ),
+
 
     ],
     child: const MyApp(),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/bloc/image_loader_cubit.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
+import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
+import 'package:hr_career_platform/injection_container.dart' as di;
 
 class JobCard extends StatelessWidget {
   final String jobTitle;
@@ -12,20 +15,24 @@ class JobCard extends StatelessWidget {
   final String jobDeadLine;
   final String jobNationality;
   final String companyLogo;
+   double?  columnWidth;
 
-  const JobCard({
+   JobCard({
     required this.jobTitle,
     required this.companyName,
     required this.jobLocation,
     required this.companyLogo,
     required this.jobDeadLine,
     required this.jobNationality,
+     this.columnWidth,
   });
 
   @override
   Widget build(BuildContext context) {
+    double width= columnWidth ?? 320;
     return Container(
-      height: 120,
+
+      width: width,
       padding: EdgeInsets.all(8),
       margin: EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -38,7 +45,7 @@ class JobCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 4,),
             child: Text(
               jobTitle,
               style: const TextStyle(
@@ -48,19 +55,8 @@ class JobCard extends StatelessWidget {
             ),
           ),
           ListTile(
-            contentPadding: EdgeInsets.all(2),
-            leading: BlocBuilder<ImageLoaderCubit, ImageLoaderState>(
-              builder: (context, state) {
-                return CircleAvatar(
-                  backgroundColor: Colors.blueGrey,
-                  backgroundImage:   NetworkImage(companyLogo) ,
-                  onBackgroundImageError: (exception, stackTrace) =>
-                  context.read<ImageLoaderCubit>()..imageLoadErr(),
-                  child: (state is ImageLoaderError) ? Text(companyName.substring(0,1)): null,
 
-                );
-              },
-            ),
+            leading:  AvatarNetwork(imgUrl: companyLogo??'', withBorder: true,),
             title: Text(
               companyName,
               style: const TextStyle(
@@ -70,7 +66,7 @@ class JobCard extends StatelessWidget {
             ),
             subtitle: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
-              spacing: 2,
+              spacing: 4,
               direction: Axis.horizontal,
               children: [
                 TextWithIcon(
