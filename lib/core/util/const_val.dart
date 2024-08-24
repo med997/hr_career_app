@@ -36,3 +36,32 @@ const navUserItem = <NavigationDestination>[
     label: 'Profile',
   ),
 ];
+const navRailUserItem = <NavigationRailDestination>[
+  NavigationRailDestination(
+    icon: Icon(Icons.work_outline, color: primaryColor,),
+    selectedIcon: Icon(Icons.work, color: primaryColor),
+    label: Text('Jobs'),
+
+
+  ),
+  NavigationRailDestination(
+    icon: Icon(Icons.bookmark_added_outlined, color: primaryColor,),
+    selectedIcon: Icon(Icons.bookmark_added, color: primaryColor,),
+    label: Text('Tender'),
+  ),
+  NavigationRailDestination(
+    icon: Icon(Icons.search_outlined, color: primaryColor,),
+    selectedIcon: Icon(Icons.search, color: primaryColor,),
+    label: Text('Search'),
+  ),
+  NavigationRailDestination(
+    icon: Icon(Icons.notifications_outlined, color: primaryColor,),
+    selectedIcon: Icon(Icons.notifications, color: primaryColor,),
+    label: Text('Notification'),
+  ),
+  NavigationRailDestination(
+    icon: Icon(Icons.person_2_outlined, color: primaryColor,),
+    selectedIcon: Icon(Icons.person_2, color: primaryColor,),
+    label: Text('Profile'),
+  ),
+];

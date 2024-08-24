@@ -11,16 +11,12 @@ final appTheme = ThemeData(
   fontFamily: 'almarai',
 
     dropdownMenuTheme: DropdownMenuThemeData(
-      inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: primaryTransparent,width: 0.8),),
-        enabledBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: primaryColor,width: 0.8),),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: primaryColor,width: 0.8),),
-          constraints: BoxConstraints(minWidth: 150, maxWidth: 300, maxHeight: 45, minHeight: 30),
 
-      ),
+        inputDecorationTheme:  InputDecorationTheme(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+          constraints: BoxConstraints.tightFor(height: 35),
+        ),
+
       textStyle: TextStyle(fontSize: 12),
 
     ),

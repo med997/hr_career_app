@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
+import 'package:hr_career_platform/core/widgets/custom_drop_down_menu.dart';
 
 class SearchWidget extends StatelessWidget {
+ final double spacer = 4.0;
+  late double  screenWidth;
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
     return Responsive(
         mobile: _mobileWidgetBuilder(),
         tablet: _desktopWidgetBuilder(),
@@ -12,94 +16,114 @@ class SearchWidget extends StatelessWidget {
   }
 
   Widget _mobileWidgetBuilder() {
+
     return ExpansionTile(
-      childrenPadding:  EdgeInsets.all(10),
-      title: SearchBar(
-        elevation: WidgetStatePropertyAll(0.0),
-        hintText: 'Search',
-        constraints: BoxConstraints(
-            minWidth: 150, maxWidth: 300, maxHeight: 70, minHeight: 40),
-        leading: Icon(
-          Icons.search,
-          color: primaryTransparent,
+
+      childrenPadding: EdgeInsets.all(4),
+      title:  SizedBox(
+        width: 200,
+        child: SearchBar(
+          constraints: BoxConstraints.tight(
+              const Size.fromHeight(35)),
+          elevation: const WidgetStatePropertyAll(0.0),
+          hintText: 'Search',
+          leading: Icon(
+            Icons.search,
+            color: primaryTransparent,
+          ),
         ),
       ),
-      children: <Widget>[
-     DropdownMenu(
-         expandedInsets:EdgeInsets.all(30),
-         label: Text('category'), dropdownMenuEntries: [
-       DropdownMenuEntry(
-           value: 1, label: 'mohammed'),
-       DropdownMenuEntry(value: 2, label: 'ibrahem'),
-       DropdownMenuEntry(value: 3, label: 'ahmed'),
-       DropdownMenuEntry(value: 4, label: 'mohammed'),
-     ]),
-     DropdownMenu(
-         expandedInsets:EdgeInsets.all(30),
-         label: Text('company'), dropdownMenuEntries: [
-       DropdownMenuEntry(value: 1, label: 'mohammed'),
-       DropdownMenuEntry(value: 2, label: 'ibrahem'),
-       DropdownMenuEntry(value: 3, label: 'ahmed'),
-       DropdownMenuEntry(value: 4, label: 'mohammed'),
-     ]) ,   // padding: EdgeInsets.all(10),
 
-        DropdownMenu(
-            expandedInsets:EdgeInsets.all(30),
-            label: Text('city'), dropdownMenuEntries: [
-          DropdownMenuEntry(value: 1, label: 'mohammed'),
-          DropdownMenuEntry(value: 2, label: 'ibrahem'),
-          DropdownMenuEntry(value: 3, label: 'ahmed'),
-          DropdownMenuEntry(value: 4, label: 'mohammed'),
-        ]),
-        ElevatedButton(onPressed: () {}, child: Text('search'))
-      ],
-    );
-  }
+      children: [
 
-  Widget _desktopWidgetBuilder() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Wrap(
-        direction: Axis.horizontal,
-        spacing: 8,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: <Widget>[
-          SearchBar(
-            elevation: WidgetStatePropertyAll(0.0),
-            hintText: 'Search',
-            constraints: BoxConstraints(
-                minWidth: 150, maxWidth: 300, maxHeight: 70, minHeight: 40),
-            leading: Icon(
-              Icons.search,
-              color: primaryTransparent,
-            ),
-          ),
-          DropdownMenu(
-              width: 220,
-              label: Text('category'),
-              dropdownMenuEntries: [
-                DropdownMenuEntry(value: 1, label: 'mohammed'),
-                DropdownMenuEntry(value: 2, label: 'ibrahem'),
-                DropdownMenuEntry(value: 3, label: 'ahmed'),
-                DropdownMenuEntry(value: 4, label: 'mohammed'),
-              ]),
-          DropdownMenu(
-              width: 220,
-              label: Text('company'),
-              dropdownMenuEntries: [
-                DropdownMenuEntry(value: 1, label: 'mohammed'),
-                DropdownMenuEntry(value: 2, label: 'ibrahem'),
-                DropdownMenuEntry(value: 3, label: 'ahmed'),
-                DropdownMenuEntry(value: 4, label: 'mohammed'),
-              ]),
-          DropdownMenu(width: 220, label: Text('city'), dropdownMenuEntries: [
+        Padding(
+          padding:  EdgeInsets.all(spacer),
+          child: buildCustomDropDownMenu('Category', [
             DropdownMenuEntry(value: 1, label: 'mohammed'),
             DropdownMenuEntry(value: 2, label: 'ibrahem'),
             DropdownMenuEntry(value: 3, label: 'ahmed'),
             DropdownMenuEntry(value: 4, label: 'mohammed'),
           ]),
-          FittedBox(
-              child: ElevatedButton(onPressed: () {}, child: Text('search')))
+        ),
+        Padding(
+          padding:  EdgeInsets.all(spacer),
+          child: buildCustomDropDownMenu('Category', [
+            DropdownMenuEntry(value: 1, label: 'mohammed'),
+            DropdownMenuEntry(value: 2, label: 'ibrahem'),
+            DropdownMenuEntry(value: 3, label: 'ahmed'),
+            DropdownMenuEntry(value: 4, label: 'mohammed'),
+          ]),
+        ),
+        Padding(
+          padding:  EdgeInsets.all(spacer),
+          child: buildCustomDropDownMenu('Category', [
+            DropdownMenuEntry(value: 1, label: 'mohammed'),
+            DropdownMenuEntry(value: 2, label: 'ibrahem'),
+            DropdownMenuEntry(value: 3, label: 'ahmed'),
+            DropdownMenuEntry(value: 4, label: 'mohammed'),
+          ]),
+        ),
+
+        Padding(
+          padding:  EdgeInsets.all(spacer),
+          child: SizedBox(
+
+              width: 350,
+              height: 35,
+              child: ElevatedButton( onPressed: () {}, child: Text('search'))),
+        )
+      ],
+    );
+  }
+
+  Widget _desktopWidgetBuilder() {
+    double widthItem = (screenWidth/5 - 50);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Wrap(
+        direction: Axis.horizontal,
+        spacing: (spacer*2),
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: <Widget>[
+          SizedBox(
+
+            width: widthItem,
+            child: SearchBar(
+              constraints: BoxConstraints.tight(
+                  const Size.fromHeight(35)),
+              elevation: WidgetStatePropertyAll(0.0),
+              hintText: 'Search',
+              leading: Icon(
+                Icons.search,
+                color: primaryTransparent,
+              ),
+            ),
+          ),
+          buildCustomDropDownMenu('company', [
+            DropdownMenuEntry(value: 1, label: 'mohammed'),
+            DropdownMenuEntry(value: 2, label: 'ibrahem'),
+            DropdownMenuEntry(value: 3, label: 'ahmed'),
+            DropdownMenuEntry(value: 4, label: 'mohammed'),
+          ], width: widthItem),
+          buildCustomDropDownMenu('company', [
+            DropdownMenuEntry(value: 1, label: 'mohammed'),
+            DropdownMenuEntry(value: 2, label: 'ibrahem'),
+            DropdownMenuEntry(value: 3, label: 'ahmed'),
+            DropdownMenuEntry(value: 4, label: 'mohammed'),
+          ], width: widthItem),
+          buildCustomDropDownMenu('company', [
+            DropdownMenuEntry(value: 1, label: 'mohammed'),
+            DropdownMenuEntry(value: 2, label: 'ibrahem'),
+            DropdownMenuEntry(value: 3, label: 'ahmed'),
+            DropdownMenuEntry(value: 4, label: 'mohammed'),
+          ], width: widthItem),
+          Container(
+
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+              width: widthItem,
+              height: 35,
+              child: ElevatedButton( onPressed: () {},
+                  child: Text('search'))),
         ],
       ),
     );
