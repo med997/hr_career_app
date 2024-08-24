@@ -9,70 +9,68 @@ import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/job_details_page.dart';
 
 class RecentJobsWidget extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        if(state is HomeLoading){
+        if (state is HomeLoading) {
           return LoadingWidget();
-        }else if (state is HomeFetchedState){
+        } else if (state is HomeFetchedState) {
           return Responsive(
-              mobile:_buildMobileLayout(state.homes.recentJobs),
-              tablet: _buildTabletDesktopLayout(state.homes.recentJobs,2,context),
-              desktop: _buildTabletDesktopLayout(state.homes.recentJobs,3,context)) ;
+              mobile: _buildMobileLayout(state.homes.recentJobs),
+              tablet:
+                  _buildTabletDesktopLayout(state.homes.recentJobs, 2, context),
+              desktop: _buildTabletDesktopLayout(
+                  state.homes.recentJobs, 3, context));
         }
-       return Placeholder();
+        return Placeholder();
       },
     );
   }
 
-  Widget _buildMobileLayout(List<Job>  job){
+  Widget _buildMobileLayout(List<Job> job) {
     return ListView.builder(
-        scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        itemCount: job.length ?? 0 ,
-        itemBuilder: (context, i) =>
-
-    InkWell(
-      onTap: () =>Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => JobDetailsPage(job: job[i])),
-      ),
-      child: JobCard(jobTitle: job[i].jobTitle,
-          companyName: job[i].company!.nameEn ?? job[i].company!.nameAr,
-          jobLocation: job[i].city,
-          companyLogo: job[i].company!.companyLogo ?? '',
-          jobDeadLine: '${job[i].deadlineDate.hour}h ago',
-          jobNationality: job[i].nationalities?? ''),
-    ));
-  }
-  Widget _buildTabletDesktopLayout(List<Job>  job, int columnCount, BuildContext context ){
-    final double itemWidth = MediaQuery.of(context).size.width / columnCount;
-    return GridView.builder(
-      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: columnCount,
-        mainAxisSpacing: 4,
-        crossAxisSpacing: 4,
-
-        // width / height: fixed for *all* items
-        childAspectRatio:  (itemWidth/160),
-           ),
-
-        addAutomaticKeepAlives: true,
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        itemCount: job.length ?? 0 ,
-        itemBuilder: (context, i) =>
-    JobCard(jobTitle: job[i].jobTitle,
-        companyName: job[i].company!.nameEn ?? job[i].company!.nameAr,
-        jobLocation: job[i].city,
-        companyLogo: job[i].company!.companyLogo ?? '',
-        jobDeadLine: '${job[i].deadlineDate.hour}h ago',
-        jobNationality: job[i].nationalities?? ''));
+        physics: PageScrollPhysics(),
+        itemCount: job.length ?? 0,
+        itemBuilder: (context, i) => InkWell(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => JobDetailsPage(job: job[i])),
+              ),
+              child: JobCard(
+                  jobTitle: job[i].jobTitle,
+                  companyName: job[i].company!.nameEn ?? job[i].company!.nameAr,
+                  jobLocation: job[i].city,
+                  companyLogo: job[i].company!.companyLogo ?? '',
+                  jobDeadLine: '${job[i].deadlineDate.hour}h ago',
+                  jobNationality: job[i].nationalities ?? ''),
+            ));
   }
 
+  Widget _buildTabletDesktopLayout(
+      List<Job> jobs, int columnCount, BuildContext context) {
+    double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
+    if(Responsive.isDesktop(context))
+       itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
+    return Wrap(
 
 
-
+        children: [
+      ...jobs.map(
+        (job) => SizedBox(
+          width: itemWidth,
+          child: JobCard(
+              jobTitle: job.jobTitle,
+              companyName: job.company!.nameEn ?? job.company!.nameAr,
+              jobLocation: job.city,
+              companyLogo: job.company!.companyLogo ?? '',
+              jobDeadLine: '${job.deadlineDate.hour}h ago',
+              jobNationality: job.nationalities ?? '',
+          columnWidth: itemWidth,),
+        ),
+      )
+    ]);
+  }
 }

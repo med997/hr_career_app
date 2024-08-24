@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
+import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/custom_chips.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
@@ -67,7 +68,7 @@ class FeaturedJobs extends StatelessWidget {
   }
 
   Widget _desktopFeaturedJob(List<Job> featuredJobs,BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 160,
       width: MediaQuery.of(context).size.width,
       child:  ListView.builder(
@@ -103,11 +104,10 @@ class FeaturedJobs extends StatelessWidget {
 
   Widget featuredJobCard(Job job) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
-
           title: Text(
             job.jobTitle,
             style: const TextStyle(
@@ -117,16 +117,10 @@ class FeaturedJobs extends StatelessWidget {
             job.company!.nameEn,
             style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
-          leading: CircleAvatar(
-            child: ClipOval(
-              child: ImageHolder(
-                url: job.company!.companyLogo ?? '',
-              ),
-            ),
-          ),
+          leading: AvatarNetwork(imgUrl: job.company!.companyLogo??'',withBorder: false,)
         ),
         Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 6),
           child: CustomChips(
             chipsTitles: [
               job.category,
@@ -138,7 +132,7 @@ class FeaturedJobs extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 6),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
