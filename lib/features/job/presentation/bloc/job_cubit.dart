@@ -1,13 +1,12 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
 import '../../domain/entities/job.dart';
 import '../../domain/usercase/get_job.dart';
+import '../../domain/usercase/search_jobs.dart';
 
 
 part 'job_state.dart';
@@ -32,10 +31,10 @@ class JobCubit extends Cubit<JobState> {
           ),
     );
   }
-  Future<void> searchJob() async {
-    emit(JobLoadingState());
-    final failureOrSuccess = await searchJobsUserCase.repository.call();
-    emit(_mapFailureOrJobsToState(failureOrSuccess));
+ Future<void> searchJob( int companyId, String categoryStr, String nationalitiesStr) async {
+   emit(JobLoadingState());
+   final failureOrSuccess = await searchJobsUserCase.call(companyId, categoryStr, nationalitiesStr);
+   emit(_mapFailureOrJobsToState(failureOrSuccess));
   }
 
 

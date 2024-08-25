@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
@@ -15,7 +14,7 @@ abstract class JobRemoteDataSource {
 
   Future<Unit> addJob(JobModel jobModel);
 
-  Future<List<JobModel>> getSearchJobs( int companyId, String categoryStr, String cityStr);
+  Future<List<JobModel>> getSearchJobs(  companyId,  categoryStr,  cityStr);
 
 
 
@@ -78,8 +77,9 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
   }
 
 
+
   @override
-  Future<List<JobModel>> getSearchJobs(int companyId, String categoryStr, String nationalitiesStr) async {
+  Future<List<JobModel>> getSearchJobs( companyId,  categoryStr,  nationalitiesStr) async {
     try{
       final res = await supBase
           .from('jobs')

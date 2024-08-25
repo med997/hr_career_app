@@ -59,7 +59,7 @@ class JobRepositoryImpl extends JobRepository {
   }
 
   @override
-  Future<Either<Failure, List<Job>>> getSearchJob( int companyId, String categoryStr, String nationalitiesStr ) async{
+  Future<Either<Failure, List<Job>>> getSearchJob(  companyId,  categoryStr,  nationalitiesStr ) async{
     if (await networkInfo.isConnected) {
       try {
         final remoteJob = await jobRemoteDataSource.getSearchJobs(
@@ -68,7 +68,7 @@ class JobRepositoryImpl extends JobRepository {
           nationalitiesStr
         );
         return Right(remoteJob);
-      } on ServerException {
+     } on ServerException {
         return Left(ServerFailure());
       }
     } else {

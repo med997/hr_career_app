@@ -7,5 +7,5 @@ abstract class JobRepository {
   Future<Either<Failure, List<Job>>> getLastTen();
   Future<Either<Failure, Unit>> addJob(Job job);
   Future<Either<Failure, Unit>> updateJob(Job job);
-  Future<Either<Failure, List<Job>>> getSearchJob(int companyId, String categoryStr, String cityStr);
+ Future<Either<Failure, List<Job>>> getSearchJob( companyId, categoryStr, nationalitiesStr);
 }
