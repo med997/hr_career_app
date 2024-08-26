@@ -9,17 +9,34 @@ const bgColor = Color(0xfffafcfd);
 final appTheme = ThemeData(
   scaffoldBackgroundColor: bgColor,
   fontFamily: 'almarai',
+    inputDecorationTheme: InputDecorationTheme(
 
-    dropdownMenuTheme: DropdownMenuThemeData(
+        floatingLabelStyle: TextStyle(color: primaryColor ,fontSize: 14),
+        prefixStyle: TextStyle(fontSize: 12),
+        iconColor: secondaryColor,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+
+        labelStyle: TextStyle(fontSize: 14),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: primaryColor),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: primaryColor),
+          borderRadius: BorderRadius.circular(8),
+        )),
+
+    dropdownMenuTheme: const DropdownMenuThemeData(
 
         inputDecorationTheme:  InputDecorationTheme(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12),
           constraints: BoxConstraints.tightFor(height: 35),
         ),
 
-      textStyle: TextStyle(fontSize: 12),
+      textStyle: TextStyle(fontSize: 14),
 
     ),
+
     appBarTheme: const AppBarTheme(
       backgroundColor: bgColor,
       elevation: 0.0,
@@ -41,7 +58,7 @@ final appTheme = ThemeData(
       selectedLabelStyle: TextStyle(color: primaryColor),
       selectedItemColor: primaryColor,
     ),
-    textSelectionTheme: TextSelectionThemeData(selectionColor: primaryColor),
+    textSelectionTheme: const TextSelectionThemeData(selectionColor: primaryColor),
     navigationBarTheme: const NavigationBarThemeData(
         indicatorColor: primaryTransparent,
         height: 70,
@@ -49,22 +66,12 @@ final appTheme = ThemeData(
 
         shadowColor: bgColor,
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected),
-    colorScheme: ColorScheme.light(
+    colorScheme: const ColorScheme.light(
       primary: primaryColor,
     ),
-    progressIndicatorTheme: ProgressIndicatorThemeData(color: primaryColor),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
+    progressIndicatorTheme: const ProgressIndicatorThemeData(color: primaryColor),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: primaryColor,
       foregroundColor: secondaryColor,
     ),
-    inputDecorationTheme: InputDecorationTheme(
-        floatingLabelStyle: TextStyle(color: primaryColor),
-        iconColor: secondaryColor,
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: secondaryColor),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        border: OutlineInputBorder(
-          borderSide: BorderSide(color: primaryColor),
-          borderRadius: BorderRadius.circular(8),
-        )));
+  );

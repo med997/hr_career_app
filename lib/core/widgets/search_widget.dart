@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/model/dynamic_model.dart';
+import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/custom_drop_down_menu.dart';
 
 class SearchWidget extends StatelessWidget {
- final double spacer = 4.0;
-  late double  screenWidth;
+  final double spacer = 4.0;
+  late double screenWidth;
+  late List<DynamicModel> dynamicFormsList;
+
+
+
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
@@ -16,15 +22,12 @@ class SearchWidget extends StatelessWidget {
   }
 
   Widget _mobileWidgetBuilder() {
-
     return ExpansionTile(
-
       childrenPadding: EdgeInsets.all(4),
-      title:  SizedBox(
+      title: SizedBox(
         width: 200,
         child: SearchBar(
-          constraints: BoxConstraints.tight(
-              const Size.fromHeight(35)),
+          constraints: BoxConstraints.tight(const Size.fromHeight(35)),
           elevation: const WidgetStatePropertyAll(0.0),
           hintText: 'Search',
           leading: Icon(
@@ -33,64 +36,68 @@ class SearchWidget extends StatelessWidget {
           ),
         ),
       ),
-
       children: [
+        Padding(
+          padding: EdgeInsets.all(spacer),
+          child: buildCustomDropDownMenu(  DynamicModel('category', FormType.dropdown, value: null,
+              items: [
+                ItemModel(key: '1', value: 'Mohammed'),
+                ItemModel(key: '2', value: 'Mohammed'),
+                ItemModel(key: '3', value: 'Mohammed'),
+                ItemModel(key: '4', value: 'Mohammed'),
+                ItemModel(key: '5', value: 'Mohammed'),]
+          ) ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(spacer),
+          child: buildCustomDropDownMenu(
+           DynamicModel('category', FormType.dropdown, value: null,
+           items: [
+             ItemModel(key: '1', value: 'Mohammed'),
+             ItemModel(key: '2', value: 'Mohammed'),
+             ItemModel(key: '3', value: 'Mohammed'),
+             ItemModel(key: '4', value: 'Mohammed'),
+             ItemModel(key: '5', value: 'Mohammed'),]
+           )
 
-        Padding(
-          padding:  EdgeInsets.all(spacer),
-          child: buildCustomDropDownMenu('Category', [
-            DropdownMenuEntry(value: 1, label: 'mohammed'),
-            DropdownMenuEntry(value: 2, label: 'ibrahem'),
-            DropdownMenuEntry(value: 3, label: 'ahmed'),
-            DropdownMenuEntry(value: 4, label: 'mohammed'),
-          ]),
+          ),
         ),
         Padding(
-          padding:  EdgeInsets.all(spacer),
-          child: buildCustomDropDownMenu('Category', [
-            DropdownMenuEntry(value: 1, label: 'mohammed'),
-            DropdownMenuEntry(value: 2, label: 'ibrahem'),
-            DropdownMenuEntry(value: 3, label: 'ahmed'),
-            DropdownMenuEntry(value: 4, label: 'mohammed'),
-          ]),
+          padding: EdgeInsets.all(spacer),
+          child: buildCustomDropDownMenu( DynamicModel('category', FormType.dropdown, value: null,
+              items: [
+                ItemModel(key: '1', value: 'Mohammed'),
+                ItemModel(key: '2', value: 'Mohammed'),
+                ItemModel(key: '3', value: 'Mohammed'),
+                ItemModel(key: '4', value: 'Mohammed'),
+                ItemModel(key: '5', value: 'Mohammed'),]
+          )
+              ),
         ),
         Padding(
-          padding:  EdgeInsets.all(spacer),
-          child: buildCustomDropDownMenu('Category', [
-            DropdownMenuEntry(value: 1, label: 'mohammed'),
-            DropdownMenuEntry(value: 2, label: 'ibrahem'),
-            DropdownMenuEntry(value: 3, label: 'ahmed'),
-            DropdownMenuEntry(value: 4, label: 'mohammed'),
-          ]),
-        ),
-
-        Padding(
-          padding:  EdgeInsets.all(spacer),
+          padding: EdgeInsets.all(spacer),
           child: SizedBox(
-
               width: 350,
               height: 35,
-              child: ElevatedButton( onPressed: () {}, child: Text('search'))),
+              child: ElevatedButton(onPressed: () {}, child: Text('search'))),
         )
       ],
     );
   }
 
   Widget _desktopWidgetBuilder() {
-    double widthItem = (screenWidth/5 - 50);
+    double widthItem = (screenWidth / 5 - 50);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Wrap(
         direction: Axis.horizontal,
-        spacing: (spacer*2),
+        spacing: (spacer * 2),
         crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
           SizedBox(
-
             width: widthItem,
             child: SearchBar(
-              constraints: BoxConstraints.tight(
-                  const Size.fromHeight(35)),
+              constraints: BoxConstraints.tight(const Size.fromHeight(35)),
               elevation: WidgetStatePropertyAll(0.0),
               hintText: 'Search',
               leading: Icon(
@@ -99,31 +106,46 @@ class SearchWidget extends StatelessWidget {
               ),
             ),
           ),
-          buildCustomDropDownMenu('company', [
-            DropdownMenuEntry(value: 1, label: 'mohammed'),
-            DropdownMenuEntry(value: 2, label: 'ibrahem'),
-            DropdownMenuEntry(value: 3, label: 'ahmed'),
-            DropdownMenuEntry(value: 4, label: 'mohammed'),
-          ], width: widthItem),
-          buildCustomDropDownMenu('company', [
-            DropdownMenuEntry(value: 1, label: 'mohammed'),
-            DropdownMenuEntry(value: 2, label: 'ibrahem'),
-            DropdownMenuEntry(value: 3, label: 'ahmed'),
-            DropdownMenuEntry(value: 4, label: 'mohammed'),
-          ], width: widthItem),
-          buildCustomDropDownMenu('company', [
-            DropdownMenuEntry(value: 1, label: 'mohammed'),
-            DropdownMenuEntry(value: 2, label: 'ibrahem'),
-            DropdownMenuEntry(value: 3, label: 'ahmed'),
-            DropdownMenuEntry(value: 4, label: 'mohammed'),
-          ], width: widthItem),
-          Container(
+          buildCustomDropDownMenu( DynamicModel('category',
+              width: widthItem,
+              FormType.dropdown,
+              value: null,
+              items: [
+                ItemModel(key: '1', value: 'Mohammed'),
+                ItemModel(key: '2', value: 'Mohammed'),
+                ItemModel(key: '3', value: 'Mohammed'),
+                ItemModel(key: '4', value: 'Mohammed'),
+                ItemModel(key: '5', value: 'Mohammed'),]
+          )),
+          buildCustomDropDownMenu( DynamicModel('category',
+              width: widthItem,
+              FormType.dropdown,
+              value: null,
+              items: [
+                ItemModel(key: '1', value: 'Mohammed'),
+                ItemModel(key: '2', value: 'Mohammed'),
+                ItemModel(key: '3', value: 'Mohammed'),
+                ItemModel(key: '4', value: 'Mohammed'),
+                ItemModel(key: '5', value: 'Mohammed'),]
+          )),
+          buildCustomDropDownMenu( DynamicModel('category',
+              width: widthItem,
+              FormType.dropdown,
+              value: null,
+              items: [
+                ItemModel(key: '1', value: 'Mohammed'),
+                ItemModel(key: '2', value: 'Mohammed'),
+                ItemModel(key: '3', value: 'Mohammed'),
+                ItemModel(key: '4', value: 'Mohammed'),
+                ItemModel(key: '5', value: 'Mohammed'),]
+          )),
 
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+          Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(12)),
               width: widthItem,
               height: 35,
-              child: ElevatedButton( onPressed: () {},
-                  child: Text('search'))),
+              child: ElevatedButton(onPressed: () {}, child: Text('search'))),
         ],
       ),
     );
