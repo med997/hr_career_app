@@ -17,7 +17,7 @@ class JobCard extends StatelessWidget {
   final String companyLogo;
    double?  columnWidth;
 
-   JobCard({
+    JobCard({
     required this.jobTitle,
     required this.companyName,
     required this.jobLocation,
