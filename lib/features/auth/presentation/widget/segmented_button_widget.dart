@@ -62,14 +62,19 @@ class _SegmentedControlRegisterWidgetState
                       builder: (context, state) {
                         return DynamicFormWidget(dynamicFormsList: [
                           DynamicModel('Full Name', FormType.text,
+                              controller: context.read<RegisterCubit>().userNameController,
                               value: '', isRequired: true, disabled: false),
                           DynamicModel('Email', FormType.text,
+                              controller: context.read<RegisterCubit>().userEmailController,
                               value: '', isRequired: true, disabled: false),
                           DynamicModel('phone Number', FormType.text,
+                              controller: context.read<RegisterCubit>().userPhoneController,
                               value: '', isRequired: true, disabled: false),
                           DynamicModel('Password', FormType.text,
+                              controller: context.read<RegisterCubit>().userPasswordController,
                               value: '', isRequired: true, disabled: false),
                           DynamicModel('Confirm Password', FormType.text,
+                              controller: context.read<RegisterCubit>().userConfirmPasswordController,
                               value: '', isRequired: true, disabled: false),
                         ], submitBtnLabel: 'login');
                       },

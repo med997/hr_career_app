@@ -24,7 +24,20 @@ class InsertRegisterCompany extends RegisterState {
       address: '',
       nameAr: '',
       nameEn: '');
+
   InsertRegisterCompany(this.companyRe);
+}
+
+class InsertRegisterUser extends RegisterState {
+  Profile userRe = Profile(
+      username:'',
+      phone: '',
+      currentJob: '',
+      email: '',
+      gender: '',
+  );
+  InsertRegisterUser(this.userRe);
+
 }
 
 final class RegisterErrorState extends RegisterState {
