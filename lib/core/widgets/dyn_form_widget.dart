@@ -39,8 +39,14 @@ class DynamicFormWidget extends StatelessWidget {
         return SizedBox(
             width: dynModel.width,
             child: getTextWidget(dynModel));
+      case FormType.password:
+        return SizedBox(
+            width: dynModel.width,
+            child: getTextWidget(dynModel));
       case FormType.number:
-        return SizedBox();
+        return SizedBox(
+            width: dynModel.width,
+            child: getTextWidget(dynModel));
       case FormType.multiline:
         return SizedBox();
       case FormType.dropdown:

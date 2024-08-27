@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
+import '../widget/login&register_appbar_functhion.dart';
 import '../widget/segmented_button_widget.dart';
-
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -11,37 +11,22 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: loginAndRegisterAppBar(),
       body: ListView(
         children: [
-          Container(
-            alignment: AlignmentDirectional.centerStart,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset('assets/imgs/project_logo.png'),
-                const Text(
-                  'Welcome',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          const Text(
-            "Let's log in. Apply or post to jobs!",
-            style: TextStyle(fontSize: 12, color: Colors.grey),
-          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 25),
               const SegmentedControlRegisterWidget(),
-              SizedBox(
-                width: 300,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 8.0),
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(primaryColor),
+                      MaterialStateProperty.all<Color>(primaryColor),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -64,7 +49,7 @@ class RegisterPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 25.0,
+                    height: 14.0,
                     width: 150,
                     child: Divider(
                       endIndent: 20,
@@ -73,10 +58,13 @@ class RegisterPage extends StatelessWidget {
                   ),
                   Text(
                     'or with',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14),
                   ),
                   SizedBox(
-                    height: 25.0,
+                    height: 14.0,
                     width: 150,
                     child: Divider(
                       indent: 20,
@@ -104,14 +92,16 @@ class RegisterPage extends StatelessWidget {
                   const Text(
                     'Have an account?',
                     style: TextStyle(
-                      color: Colors.grey,
-                    ),
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14),
                   ),
                   TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
                         );
                       },
                       child: const Text(
