@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:hr_career_platform/core/app_theme.dart';
-import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import '../widget/segmented_button_widget.dart';
-import '../widget/text_field_widget.dart';
+
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -35,7 +34,7 @@ class RegisterPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 25),
-              const SegmentedControlWidget(),
+              const SegmentedControlRegisterWidget(),
               SizedBox(
                 width: 300,
                 child: ElevatedButton(

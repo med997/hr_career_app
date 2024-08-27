@@ -5,14 +5,14 @@ import '../../../../core/model/dynamic_model.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/widgets/dyn_form_widget.dart';
 
-class SegmentedControlRegisterWidget extends StatefulWidget {
-  const SegmentedControlRegisterWidget({super.key});
+class SegmentedControlLoginWidget extends StatefulWidget {
+  const SegmentedControlLoginWidget({super.key});
 
   @override
-  _SegmentedControlRegisterWidgetState createState() => _SegmentedControlRegisterWidgetState();
+  _SegmentedControlLoginWidgetState createState() => _SegmentedControlLoginWidgetState();
 }
 
-class _SegmentedControlRegisterWidgetState extends State<SegmentedControlRegisterWidget> {
+class _SegmentedControlLoginWidgetState extends State<SegmentedControlLoginWidget> {
   int _selectedIndex = 0;
   final List<String> _options = ['User', 'Company'];
 
