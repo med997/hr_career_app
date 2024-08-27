@@ -38,6 +38,7 @@ class CompanyProfilePage extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+
             children: [
               ElevatedButton(
                   onPressed: () {},
