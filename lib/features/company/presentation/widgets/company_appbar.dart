@@ -4,16 +4,16 @@ import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import '../../../../core/util/nav_to_sevices.dart';
 import '../../../../core/widgets/text_with_icon.dart';
 
-AppBar jobsAppBarFunction(
-  String companyName,
-  String companyMajor,
-  String companyLocation,
-  String companyLogo,
-  String backgroundCompanyImg,
-  String companyNumber,
-  String companyEmail,
-  String companyWebsite,
-) {
+AppBar jobsAppBarFunction({
+  required String companyName,
+  required String companyMajor,
+  required String companyLocation,
+  required String companyLogo,
+  required String backgroundCompanyImg,
+  required String companyNumber,
+  required String companyEmail,
+  required String companyWebsite,
+}) {
   return AppBar(
     title: Column(
       crossAxisAlignment: CrossAxisAlignment.start,

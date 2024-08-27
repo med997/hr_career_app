@@ -152,21 +152,7 @@ class HomePage extends StatelessWidget {
       case 0:
         return HomeJobPage();
       case 1:
-        return ListView(
-          children: [
-            Text('extraLargeBody2'),
-            SubTitle(
-              onShowMoreClicked: () {
-                if (kDebugMode) print('showMoreClicked');
-              },
-              titleType: SubTitleType.withShowMore,
-              title: 'Featured Jobs',
-              icon: Icon(Icons.edit_note),
-            ),
-            FeaturedJobs(),
-            RecentJobsWidget()
-          ],
-        );
+        return CompanyProfilePage();
       case 4:
         return HomeProfilePage();
       default:
