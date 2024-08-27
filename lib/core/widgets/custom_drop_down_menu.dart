@@ -2,17 +2,25 @@
 
  import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hr_career_platform/core/model/dynamic_model.dart';
 
 
-Widget buildCustomDropDownMenu(String label ,
-    List<DropdownMenuEntry>  dataList, {double? width}){
- return  DropdownMenu(
-    width: width ?? 350,
+Widget buildCustomDropDownMenu( DynamicModel dynModel ,){
+  List<DropdownMenuEntry> dropdownItem =
+  dynModel.items.map((e) =>
+      DropdownMenuEntry(value: e.key, label: e.value),).toList();
+
+  return  DropdownMenu(
+    width: dynModel.width ,
      trailingIcon: Transform.translate(
        offset: const Offset(3, -7),
        child: const Icon(Icons.keyboard_arrow_down),
      ),
-     label: Text(label),
-     dropdownMenuEntries: dataList
+     label: Text(dynModel.controlName),
+     dropdownMenuEntries: dropdownItem,
+     onSelected: (value) {
+       dynModel.value = value;
+       print(dynModel.value);
+     } ,
  );
  }

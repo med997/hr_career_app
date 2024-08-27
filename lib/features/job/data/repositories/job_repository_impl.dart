@@ -2,6 +2,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:hr_career_platform/core/error/failures.dart';
 
+
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/job.dart';
@@ -55,6 +56,24 @@ class JobRepositoryImpl extends JobRepository {
   Future<Either<Failure, Unit>> updateJob(Job job) {
     // TODO: implement updateJob
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<Job>>> getSearchJob(  companyId,  category,  nationalities ) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteJob = await jobRemoteDataSource.getSearchJobs(
+            companyId,
+            category,
+          nationalities
+        );
+        return Right(remoteJob);
+     } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
   }
 
 }

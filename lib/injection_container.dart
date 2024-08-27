@@ -1,16 +1,17 @@
 import 'package:hr_career_platform/core/util/const_val.dart';
-import 'package:hr_career_platform/core/widgets/bloc/image_loader_cubit.dart';
 import 'package:hr_career_platform/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:hr_career_platform/features/home/data/repositories/home_repository_impl.dart';
 import 'package:hr_career_platform/features/home/domain/repositories/home_repository.dart';
 import 'package:hr_career_platform/features/home/domain/usecases/fetch_home.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
+import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/job/data/datasources/network/job_remote_datasource.dart';
 import 'package:hr_career_platform/features/job/data/repositories/job_repository_impl.dart';
 import 'package:hr_career_platform/features/job/domain/repositories/job_repository.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/add_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_job.dart';
+import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -25,30 +26,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
-//! Features - posts
 
-// Bloc
-//   sl.registerLazySingleton(() => JobCubit(getJobUserCase: sl()));
-
-// Usecases
-
-  // sl.registerLazySingleton(() => GetJobUserCase(sl()));
-  // sl.registerLazySingleton(() => AddJobUserCase(sl()));
-  // sl.registerLazySingleton(() => UpdateJob(sl()));
-
-// Repository
-
-  /*sl.registerLazySingleton<JobRepository>(
-      () => JobRepositoryImpl(jobRemoteDataSource: sl(), networkInfo: sl()));
-*/
-// Datasources
-
-  /*sl.registerLazySingleton<JobRemoteDataSource>(
-      () => JobRemoteDataSourceImpl(supBase: sl()));
-*/
   _initJob();
   _initHome();
-  _initCore();
+  // _initCore();
 //! Core
   final supBaseInit = await Supabase.initialize(url: BaseUrl, anonKey:AnonKey);
   sl.registerLazySingleton(() => supBaseInit.client);
@@ -82,6 +63,13 @@ void _initJob() {
         sl(),
       ),
     )
+
+    ..registerFactory(
+      () => SearchJobsUserCase(
+        repository: sl(),
+      ),
+    )
+
     ..registerFactory(
       () => AddJobUserCase(
         sl(),
@@ -94,7 +82,7 @@ void _initJob() {
     )
     // cubit
     ..registerLazySingleton(
-      () => JobCubit(getJobUserCase: sl()),
+      () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl()),
     );
 }
 void _initHome() {
@@ -130,14 +118,13 @@ void _initHome() {
   // cubit
     ..registerLazySingleton(
           () => TabNavCubit(),
+    )
+    ..registerLazySingleton(
+          () => ProfileCubit(),
     );
 }
   void _initCore() {
-    sl
-    // cubit
-        .registerLazySingleton(
-          () => ImageLoaderCubit(),
-    );
+
 
 }
 

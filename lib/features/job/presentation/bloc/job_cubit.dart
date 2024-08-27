@@ -1,18 +1,20 @@
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-
 import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
 import '../../domain/entities/job.dart';
 import '../../domain/usercase/get_job.dart';
+import '../../domain/usercase/search_jobs.dart';
 
 
 part 'job_state.dart';
 
 class JobCubit extends Cubit<JobState> {
   final GetJobUserCase getJobUserCase;
-  JobCubit({required this.getJobUserCase}) : super(JobInitial());
+  final SearchJobsUserCase searchJobsUserCase;
+  JobCubit({required this.getJobUserCase, required this.searchJobsUserCase}) : super(JobInitial());
 
 
   Future<void> getAllJobs() async {
@@ -29,6 +31,12 @@ class JobCubit extends Cubit<JobState> {
           ),
     );
   }
+ Future<void> searchJob( int companyId, String category, String nationalities) async {
+   emit(JobLoadingState());
+   final failureOrSuccess = await searchJobsUserCase.call(companyId, category, nationalities);
+   emit(_mapFailureOrJobsToState(failureOrSuccess));
+  }
+
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {

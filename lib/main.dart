@@ -8,11 +8,9 @@ import 'package:hr_career_platform/core/widgets/bloc/image_loader_cubit.dart';
 import 'package:hr_career_platform/core/widgets/snackbar_message.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
+import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
-import 'package:hr_career_platform/features/job/presentation/ui/job_details_page.dart';
-
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/widgets/loading_widget.dart';
 import 'features/job/domain/entities/job.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
@@ -57,7 +55,7 @@ class MyApp extends StatelessWidget {
         scrollBehavior: const MaterialScrollBehavior().copyWith(
       dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch,
         PointerDeviceKind.stylus, PointerDeviceKind.unknown},),
-      home: LoginPage(),
+      home: HomePage(),
         );
   }
 }
