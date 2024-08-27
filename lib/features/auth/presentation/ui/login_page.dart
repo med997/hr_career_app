@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/register_page.dart';
+import 'package:hr_career_platform/features/auth/presentation/widget/login&register_appbar_functhion.dart';
 import 'package:hr_career_platform/features/auth/presentation/widget/segmented_button_login_widget.dart';
 
 import '../../../../core/app_theme.dart';
@@ -14,26 +15,9 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: loginAndRegisterAppBar(),
       body: ListView(
         children: [
-          Container(
-            alignment: AlignmentDirectional.centerStart,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset('assets/imgs/project_logo.png'),
-                const Text(
-                  'Welcome',
-                  style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          const Text(
-            "Let's log in. Apply or post to jobs!",
-            style: TextStyle(fontSize: 12, color: Colors.grey),
-          ),
           Column(
             children: [
               const SizedBox(height: 20),
