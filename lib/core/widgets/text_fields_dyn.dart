@@ -6,40 +6,18 @@ Widget getTextWidget(DynamicModel dynamicModel) {
   return TextFormField(
     enabled: !dynamicModel.disabled,
     style: TextStyle(fontSize: 14),
+    obscureText: dynamicModel.formType== FormType.password,
     decoration: InputDecoration(
-        helperText: dynamicModel.helperText ?? '',
-        labelText: dynamicModel.controlName,
+      helperText: dynamicModel.helperText ?? '',
+      labelText: dynamicModel.controlName,
       constraints: const BoxConstraints.tightFor(height: 55),
-
     ),
+    controller: dynamicModel.controller,
+    keyboardType: dynamicModel.formType == FormType.number
+        ? TextInputType.number
+        : TextInputType.text,
+    maxLines: 1,
 
-    keyboardType: TextInputType.text,
-    maxLines: null,
-   /* validator: (text) {
-      var selectedField = dynamicModel.validators;
-
-      //To validate non-empty, it returns an error message if the text is empty.
-      if (selectedField.isRequired && selectedField.validators
-              .any((element) => element.type == ValidatorType.notEmpty) &&
-          (text == null || text.isEmpty)) {
-        return selectedField.validators
-            .firstWhere(
-                (element) => element.type == ValidatorType.notEmpty)
-            .errorMessage;
-      }
-
-      //To validate text length, it returns an error message if the text length is greater than the fixed length.
-      if (selectedField.validators
-          .any((element) => element.type == ValidatorType.textLength)) {
-        var validator = selectedField.validators.firstWhere(
-                (element) => element.type == ValidatorType.textLength);
-        int? len = text?.length;
-        if (len != null && len > validator.textLength) {
-          return validator.errorMessage;
-        }
-      }
-      return null;
-    },*/
     onChanged: (text) {
       dynamicModel.value = text;
     },

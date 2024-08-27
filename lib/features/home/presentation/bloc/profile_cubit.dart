@@ -1,16 +1,35 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit() : super(ProfileInitial());
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController currentJobController = TextEditingController();
+  TextEditingController nationalityTextController = TextEditingController();
+  String nationality='';
 
-  Future<void> insertProfile(Profile profile) async {
-    emit(ProfileInsertStatus(profile: profile));
-    print('cubit ${profile.nationality}');
-
+  ProfileCubit() : super(ProfileInitial()) {
+    nationality = '';
+    userNameController = TextEditingController();
+    phoneController = TextEditingController();
+    currentJobController = TextEditingController();
+    nationalityTextController = TextEditingController();
   }
 
+  Future<void> insertProfile() async {
+    Profile profile = Profile(
+        username: userNameController.text,
+        phone: phoneController.text,
+        currentJob: currentJobController.text,
+        email: '',
+        gender: '',
+        nationality: nationality);
+
+    print('cubit ${profile.nationality}');
+    emit(ProfileInsertStatus(profile));
+  }
 }
