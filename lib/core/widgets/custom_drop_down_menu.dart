@@ -18,8 +18,11 @@ Widget buildCustomDropDownMenu( DynamicModel dynModel ,){
      ),
      label: Text(dynModel.controlName),
      dropdownMenuEntries: dropdownItem,
-     onSelected: (value) {
+     controller: dynModel.controller,
+
+    onSelected: (value) {
        dynModel.value = value;
+
        print(dynModel.value);
      } ,
  );

@@ -10,6 +10,7 @@ import 'package:hr_career_platform/core/widgets/custom_chips.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
+import 'package:hr_career_platform/features/home/presentation/ui/esra_testing.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_job_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_profile_page.dart';
 import 'package:hr_career_platform/features/home/presentation/widgets/featured_jobs.dart';
@@ -152,21 +153,8 @@ class HomePage extends StatelessWidget {
       case 0:
         return HomeJobPage();
       case 1:
-        return ListView(
-          children: [
-            Text('extraLargeBody2'),
-            SubTitle(
-              onShowMoreClicked: () {
-                if (kDebugMode) print('showMoreClicked');
-              },
-              titleType: SubTitleType.withShowMore,
-              title: 'Featured Jobs',
-              icon: Icon(Icons.edit_note),
-            ),
-            FeaturedJobs(),
-            RecentJobsWidget()
-          ],
-        );
+        return EsraTesting();
+
       case 4:
         return HomeProfilePage();
       default:

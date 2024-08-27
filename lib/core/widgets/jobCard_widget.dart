@@ -30,7 +30,6 @@ class JobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double width= columnWidth ?? 320;
     return Container(
-
       width: width,
       padding: EdgeInsets.all(8),
       margin: EdgeInsets.all(4),
