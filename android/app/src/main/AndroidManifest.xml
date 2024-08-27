@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+        <uses-permission android:name="android.permission.INTERNET"/> <!-- Add this -->
     <application
         android:label="hr_career_platform"
         android:name="${applicationName}"

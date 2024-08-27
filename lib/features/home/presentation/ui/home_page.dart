@@ -8,6 +8,7 @@ import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
 import 'package:hr_career_platform/core/widgets/custom_chips.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
+import 'package:hr_career_platform/features/company/presentation/ui/company_profile_page.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_job_page.dart';

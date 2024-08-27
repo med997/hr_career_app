@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 
 import '../../../../core/app_theme.dart';
 
-class JobDetailsTabbar extends StatefulWidget {
-  const JobDetailsTabbar({super.key});
+class JobDetailsTabBar extends StatefulWidget {
+  final Job job;
+
+  const JobDetailsTabBar({super.key, required this.job});
 
   @override
-  State<JobDetailsTabbar> createState() => _JobDetailsTabbarState();
+  State<JobDetailsTabBar> createState() => _JobDetailsTabBarState(job: job);
 }
 
-class _JobDetailsTabbarState extends State<JobDetailsTabbar>
+class _JobDetailsTabBarState extends State<JobDetailsTabBar>
     with TickerProviderStateMixin {
+  final Job job;
+
   late final TabController _tabController;
+
+  _JobDetailsTabBarState({required this.job});
 
   @override
   void initState() {
@@ -40,7 +48,34 @@ class _JobDetailsTabbarState extends State<JobDetailsTabbar>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: <Widget>[],
+              children: <Widget>[
+                SingleChildScrollView(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  child: Text(
+                    job.jobDesc,
+                    textAlign: TextAlign.justify,
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  child: Text(
+                    job.jobRequirements,
+                    textAlign: TextAlign.justify,
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
