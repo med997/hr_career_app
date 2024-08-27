@@ -1,5 +1,4 @@
 
-
 import 'package:equatable/equatable.dart';
 
 import '../../../company/domain/entities/company.dart';

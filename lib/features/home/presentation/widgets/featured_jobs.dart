@@ -74,12 +74,10 @@ class FeaturedJobs extends StatelessWidget {
       child:  ListView.builder(
         physics: AlwaysScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
-
         primary: true,
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         shrinkWrap: true,
-
         itemCount: featuredJobs.length,
         itemBuilder: (context, index) =>  Container(
             width: 400,

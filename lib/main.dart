@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/widgets/bloc/image_loader_cubit.dart';
 import 'package:hr_career_platform/core/widgets/snackbar_message.dart';
+import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
@@ -56,7 +57,7 @@ class MyApp extends StatelessWidget {
         scrollBehavior: const MaterialScrollBehavior().copyWith(
       dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch,
         PointerDeviceKind.stylus, PointerDeviceKind.unknown},),
-      home: HomePage(),
+      home: LoginPage(),
         );
   }
 }
