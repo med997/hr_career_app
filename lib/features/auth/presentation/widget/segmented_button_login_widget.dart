@@ -51,7 +51,7 @@ class _SegmentedControlLoginWidgetState extends State<SegmentedControlLoginWidge
             children: [
               DynamicFormWidget(dynamicFormsList: [
                 DynamicModel('email', FormType.text,value: '',isRequired: true, disabled: false),
-                DynamicModel('password', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('password', FormType.password,value: '',isRequired: true, disabled: false),
 
               ], submitBtnLabel: 'login'),
             ],
