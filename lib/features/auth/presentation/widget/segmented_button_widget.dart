@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/features/auth/presentation/widget/text_field_widget.dart';
 import '../../../../core/app_theme.dart';
+import '../../../../core/model/dynamic_model.dart';
+import '../../../../core/util/enums.dart';
+import '../../../../core/widgets/dyn_form_widget.dart';
 
 class SegmentedControlWidget extends StatefulWidget {
   const SegmentedControlWidget({super.key});
@@ -42,60 +45,26 @@ class _SegmentedControlWidgetState extends State<SegmentedControlWidget> {
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: _selectedIndex == 0
-              ? const Column(
+              ?  Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextFieldWidget(
-                label: 'Full Name',
-                icon: Icons.person_outline_rounded,
-              ),
-              TextFieldWidget(
-                label: 'Email',
-                icon: Icons.email_outlined,
-              ),
-              TextFieldWidget(
-                label: '+967',
-                icon: Icons.phone,
-              ),
-              TextFieldWidget(
-                label: 'Password',
-                icon: Icons.key_outlined,
-              ),
-              TextFieldWidget(
-                label: 'Confirm Password',
-                icon: Icons.key_outlined,
-              ),
+              DynamicFormWidget(dynamicFormsList: [
+                DynamicModel('email', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('password', FormType.text,value: '',isRequired: true, disabled: false),
+
+              ], submitBtnLabel: 'login'),
             ],
           )
-              : const Column(
+              :  Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextFieldWidget(
-                label: 'Company Name',
-                icon: Icons.person_outline_rounded,
-              ),
-              TextFieldWidget(
-                label: 'Email',
-                icon: Icons.email_outlined,
-              ),
-              TextFieldWidget(
-                label: 'Address',
-                icon: Icons.place_outlined,
-              ),
-              TextFieldWidget(
-                label: '+967',
-                icon: Icons.phone,
-              ),
-              TextFieldWidget(
-                label: 'Password',
-                icon: Icons.key_outlined,
-              ),
-              TextFieldWidget(
-                label: 'Confirm Password',
-                icon: Icons.key_outlined,
-              ),
+              DynamicFormWidget(dynamicFormsList: [
+                DynamicModel('email', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('password', FormType.text,value: '',isRequired: true, disabled: false),
+
+              ], submitBtnLabel: 'login'),
             ],
           ),
         ),
