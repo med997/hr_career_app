@@ -86,69 +86,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-/*  return (
-  transitionDuration: Duration(milliseconds: 1000),
-  bodyRatio: 0.8,
-  smallBreakpoint: const Breakpoint(endWidth: 700),
-  mediumBreakpoint: const Breakpoint(beginWidth: 700, endWidth: 1000),
-  mediumLargeBreakpoint:
-  const Breakpoint(beginWidth: 1000, endWidth: 1200),
-  largeBreakpoint: const Breakpoint(beginWidth: 1200, endWidth: 1600),
-  extraLargeBreakpoint: const Breakpoint(beginWidth: 1600),
-  useDrawer: false,
-  selectedIndex: (state is TabNavChangedState) ? state.selectedTab : 0,
-  onSelectedIndexChange: (int index) {
-  context.read<TabNavCubit>().changeTab(index);
-  },
-  destinations: navUserItem,
-  bodyOrientation: Axis.vertical,
-  appBar: buildAppBar(userName: 'Mohammed adnan', img: '', fullHeader: true, ),
-  extraLargeBody: (_) {
-  if ((state is TabNavChangedState)) {
-  return _navPageBody(state.selectedTab);
-  }
-  return SizedBox();
-  },
-  appBarBreakpoint: Breakpoints.standard,
-  mediumLargeBody: (_) {
-  if ((state is TabNavChangedState)) {
-  return _navPageBody(state.selectedTab);
-  }
-  return SizedBox();
-  },
-  smallBody: (_) {
-  if ((state is TabNavChangedState)) {
-  return _navPageBody(state.selectedTab);
-  }
-  return SizedBox();
-  },
-  body:(_) {
-  if ((state is TabNavChangedState)) {
-  return _navPageBody(state.selectedTab);
-  }
-  return SizedBox();
-  },
-
-  largeBody: (_) {
-  if ((state is TabNavChangedState)) {
-  return _navPageBody(state.selectedTab);
-  }
-  return SizedBox();
-  },
-  smallSecondaryBody: AdaptiveScaffold.emptyBuilder,
-  secondaryBody: (_) => Container(
-  color: bgColor,
-  ),
-  mediumLargeSecondaryBody: (_) => Container(
-  color: bgColor,
-  ),
-  largeSecondaryBody: (_) => Container(
-  color: bgColor,
-  ),
-  extraLargeSecondaryBody: (_) => Container(
-  color: bgColor,
-  ),
-  );*/
   Widget _navPageBody(int selectedTab) {
     switch (selectedTab) {
       case 0:

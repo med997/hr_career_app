@@ -11,9 +11,10 @@ class DynamicFormWidget extends StatelessWidget {
   final double spacer = 4;
   final List<DynamicModel> dynamicFormsList;
   final String submitBtnLabel;
-
-  const DynamicFormWidget({super.key,
-
+  Function()? onSubmitClicked;
+  final _formKey = GlobalKey<FormState>();
+    DynamicFormWidget({super.key,
+    this.onSubmitClicked,
     required this.dynamicFormsList,
     required this.submitBtnLabel});
 
@@ -53,12 +54,16 @@ class DynamicFormWidget extends StatelessWidget {
   }
 
   Widget _mobileDynamicFormBuilder() {
-    return Column(children: [
-      ...dynamicFormsList.map((e) {
-        return getWidgetBasedFormType(e);
-      },),
+    return Form(
+      key: _formKey,
+      onChanged: () {print(_formKey.toString());},
+      child: Column(children: [
+        ...dynamicFormsList.map((e) {
+          return getWidgetBasedFormType(e);
+        },),
 
-    ],
+      ],
+      ),
     );
   }
 
