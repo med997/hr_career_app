@@ -50,9 +50,11 @@ class _SegmentedControlRegisterWidgetState extends State<SegmentedControlRegiste
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               DynamicFormWidget(dynamicFormsList: [
-                DynamicModel('email', FormType.text,value: '',isRequired: true, disabled: false),
-                DynamicModel('password', FormType.text,value: '',isRequired: true, disabled: false),
-
+                DynamicModel('Full Name', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('Email', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('phone Number', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('Password', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('Confirm Password', FormType.text,value: '',isRequired: true, disabled: false),
               ], submitBtnLabel: 'login'),
             ],
           )
@@ -61,8 +63,12 @@ class _SegmentedControlRegisterWidgetState extends State<SegmentedControlRegiste
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               DynamicFormWidget(dynamicFormsList: [
-                DynamicModel('email', FormType.text,value: '',isRequired: true, disabled: false),
-                DynamicModel('password', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('Company Name', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('Email', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('Address', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('Phone Number', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('Password', FormType.text,value: '',isRequired: true, disabled: false),
+                DynamicModel('Confirm Password', FormType.text,value: '',isRequired: true, disabled: false),
 
               ], submitBtnLabel: 'login'),
             ],
