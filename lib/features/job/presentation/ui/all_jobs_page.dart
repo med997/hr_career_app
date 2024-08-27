@@ -14,21 +14,21 @@ class AllJobsPage extends StatelessWidget {
       appBar: buildAppBar(userName: 'Jobs', img: '', fullHeader: false),
       body: BlocBuilder<JobCubit, JobState>(
         builder: (context, state) {
-          if (state is JobLoadingState) {
-            return const Center(
-              child: LoadingWidget(),
-            );
-          } else if (state is JobFetchedState) {
+                if (state is JobLoadingState) {
+                  return const Center(
+                    child: LoadingWidget(),
+                  );
+                } else if (state is JobFetchedState) {
             print('JobFetchedState');
             return SizedBox(
               height: MediaQuery.of(context).size.height,
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: state.jobs.length ?? 0 ,
+                    itemCount: state.jobs.length ?? 0 ,
               
                   itemBuilder: (context, index) {
-                Job job = state.jobs[index];
+                  Job job = state.jobs[index];
                 return InkWell(
                   onTap: () =>Navigator.push(
                     context,

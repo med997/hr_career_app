@@ -14,7 +14,7 @@ abstract class JobRemoteDataSource {
 
   Future<Unit> addJob(JobModel jobModel);
 
-  Future<List<JobModel>> getSearchJobs(  companyId,  categoryStr,  cityStr);
+  Future<List<JobModel>> getSearchJobs( int companyId, String category,String nationalities);
 
 
 
@@ -79,18 +79,18 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
 
 
   @override
-  Future<List<JobModel>> getSearchJobs( companyId,  categoryStr,  nationalitiesStr) async {
+  Future<List<JobModel>> getSearchJobs( companyId,  category,  nationalities) async {
     try{
       final res = await supBase
           .from('jobs')
           .select('*, company(*)')
           .eq('company.id', companyId)
-          .eq('category', categoryStr)
-          .eq('nationalities', nationalitiesStr);
+          .eq('category', category)
+          .eq('nationalities', nationalities);
 
-      final List<JobModel> jobListSearch =
+      final List<JobModel> jobList =
       res.map((json) => JobModel.fromJson(json)).toList();
-      return jobListSearch;
+      return jobList;
     } on PostgrestException catch (error) {
       print(error); // Contains http status code
     }
