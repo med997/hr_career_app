@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 
 class Company extends Equatable {
   final int? id;
-  final String city;
+  final String? city;
   final String email;
-  final String major;
+  final String?  major;
   final List<dynamic> phone;
   final String address;
   final String nameAr;
@@ -23,9 +23,9 @@ class Company extends Equatable {
 
   Company( {
     this.id,
-    required this.city,
+     this.city,
     required this.email,
-    required this.major,
+     this.major,
     required this.phone,
     required this.address,
     required this.nameAr,

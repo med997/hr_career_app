@@ -1,8 +1,9 @@
 part of 'register_cubit.dart';
 
 
-sealed class RegisterState extends Equatable{
+sealed class RegisterState extends Equatable {
   const RegisterState();
+
   @override
   List<Object> get props => [];
 }
@@ -16,7 +17,18 @@ class RegisterSuccess extends RegisterState {
   // RegisterSuccess(this.auth);
 }
 
+class InsertRegisterCompany extends RegisterState {
+  Company companyRe = Company(
+      email: '',
+      phone: [],
+      address: '',
+      nameAr: '',
+      nameEn: '');
+  InsertRegisterCompany(this.companyRe);
+}
+
 final class RegisterErrorState extends RegisterState {
   final String msg;
+
   const RegisterErrorState({required this.msg});
 }

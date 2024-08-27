@@ -5,6 +5,7 @@ import 'package:hr_career_platform/core/util/enums.dart';
 Widget getTextWidget(DynamicModel dynamicModel) {
   return TextFormField(
     enabled: !dynamicModel.disabled,
+
     style: TextStyle(fontSize: 14),
     decoration: InputDecoration(
         helperText: dynamicModel.helperText ?? '',
