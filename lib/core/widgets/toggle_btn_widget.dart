@@ -15,7 +15,6 @@ class ToggleBtnWidget extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-
             child: ToggleButtons(
               constraints: const BoxConstraints.tightFor(height: 35, width: 120),
               fillColor: primaryColor,

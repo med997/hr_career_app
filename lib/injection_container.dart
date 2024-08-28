@@ -1,6 +1,8 @@
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
+import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
+import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:hr_career_platform/features/home/data/repositories/home_repository_impl.dart';
 import 'package:hr_career_platform/features/home/domain/repositories/home_repository.dart';
@@ -44,89 +46,96 @@ Future<void> initDependencies() async {
 
 void _initJob() {
   sl
-    // datasource
+  // datasource
     ..registerFactory<JobRemoteDataSource>(
-      () => JobRemoteDataSourceImpl(
-        supBase: sl(),
-      ),
+          () =>
+          JobRemoteDataSourceImpl(
+            supBase: sl(),
+          ),
     )
 
-    // repository
+  // repository
     ..registerFactory<JobRepository>(
-      () => JobRepositoryImpl(
-        jobRemoteDataSource: sl(),
-        networkInfo: sl(),
-      ),
+          () =>
+          JobRepositoryImpl(
+            jobRemoteDataSource: sl(),
+            networkInfo: sl(),
+          ),
     )
-    // usecases
+  // usecases
     ..registerFactory(
-      () => GetJobUserCase(
-        sl(),
-      ),
-    )
-    ..registerFactory(
-      () => SearchJobsUserCase(
-        repository: sl(),
-      ),
-    )
-    ..registerFactory(
-      () => AddJobUserCase(
-        sl(),
-      ),
-    )
-    ..registerFactory(
-      () => UpdateJob(
-        sl(),
-      ),
-    )
-    // cubit
+          () =>
+          GetJobUserCase(
+            sl(),
+          ),
+    )..registerFactory(
+        () =>
+        SearchJobsUserCase(
+          repository: sl(),
+        ),
+  )..registerFactory(
+        () =>
+        AddJobUserCase(
+          sl(),
+        ),
+  )..registerFactory(
+        () =>
+        UpdateJob(
+          sl(),
+        ),
+  )
+  // cubit
     ..registerLazySingleton(
-      () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl()),
+          () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl()),
     );
 }
 
 void _initHome() {
   sl
 
-    // datasource
+  // datasource
     ..registerFactory<HomeRemoteDataSource>(
-      () => HomeRemoteDataSourceImpl(
-        supBase: sl(),
-      ),
+          () =>
+          HomeRemoteDataSourceImpl(
+            supBase: sl(),
+          ),
     )
 
-    // repository
+  // repository
     ..registerFactory<HomeRepository>(
-      () => HomeRepositoryImpl(
-        homeRemoteDataSource: sl(),
-        networkInfo: sl(),
-      ),
+          () =>
+          HomeRepositoryImpl(
+            homeRemoteDataSource: sl(),
+            networkInfo: sl(),
+          ),
     )
-    // usecases
+  // usecases
     ..registerFactory(
-      () => GetHomeUserCase(
-        sl(),
-      ),
+          () =>
+          GetHomeUserCase(
+            sl(),
+          ),
     )
-    // cubit
+  // cubit
     ..registerLazySingleton(
-      () => HomeCubit(getHomeUserCase: sl()),
+          () => HomeCubit(getHomeUserCase: sl()),
     )
-    // cubit
+  // cubit
     ..registerLazySingleton(
-      () => TabNavCubit(),
-    )
-    ..registerLazySingleton(
-      () => ProfileCubit(),
-    )
-    ..registerLazySingleton(
-      () => RegisterCubit(),
-    );
+          () => TabNavCubit(),
+    )..registerLazySingleton(
+        () => ProfileCubit(),
+  )..registerLazySingleton(
+        () => RegisterCubit(),
+  )
+  ..registerLazySingleton(
+  () => CompanyProfileCubit(),
+  );
 }
 
 void _initCore() {
   sl
-    .registerLazySingleton(
-      () => ToggleBtnCubit(),
-    );
+      .registerLazySingleton(
+        () => ToggleBtnCubit(),
+  );
 }

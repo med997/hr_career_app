@@ -1,8 +1,7 @@
 part of 'company_profile_cubit.dart';
 
-sealed class CompanyProfileState extends Equatable {
-  const CompanyProfileState();
-}
+sealed class CompanyProfileState extends Equatable {}
+
 
 final class CompanyProfileInitial extends CompanyProfileState {
   @override
@@ -22,8 +21,16 @@ final class CompanyProfile extends CompanyProfileState {
     headOffice: '',
     major: '',
   );
+
   CompanyProfile(this.companyProfile);
 
   @override
   List<Object?> get props => [];
+}
+
+class CompanyChangeState extends CompanyProfileState {
+  final int selectTap;
+  CompanyChangeState({required this.selectTap});
+  @override
+  List<Object?> get props => [selectTap];
 }
