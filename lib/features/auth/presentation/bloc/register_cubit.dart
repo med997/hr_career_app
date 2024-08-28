@@ -18,11 +18,10 @@ class RegisterCubit extends Cubit<RegisterState> {
   TextEditingController companyPhoneController = TextEditingController();
   TextEditingController companyAddressController = TextEditingController();
   TextEditingController companyPasswordController = TextEditingController();
-  TextEditingController companyConfirmPasswordController =
-  TextEditingController();
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController userPhoneController = TextEditingController();
-  TextEditingController userEmailController = TextEditingController();
+  TextEditingController companyConfirmPasswordController = TextEditingController();
+    TextEditingController userNameController = TextEditingController();
+    TextEditingController userPhoneController = TextEditingController();
+    TextEditingController userEmailController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
   TextEditingController userConfirmPasswordController = TextEditingController();
 
@@ -55,7 +54,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         email: companyEmailController.text,
         phone: [companyPhoneController.text],
         address: companyAddressController.text,
-        nameAr: companyNameController.text,
+        nameAr: '',
         nameEn: companyNameController.text);
     emit(InsertRegisterCompany(companyRe));
   }

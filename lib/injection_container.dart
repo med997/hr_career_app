@@ -1,4 +1,5 @@
 import 'package:hr_career_platform/core/util/const_val.dart';
+import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:hr_career_platform/features/home/data/repositories/home_repository_impl.dart';
@@ -125,6 +126,9 @@ void _initHome() {
     )
   ..registerLazySingleton(
           () => RegisterCubit(),
+    )
+  ..registerLazySingleton(
+          () => LoginCubit(),
     );
 }
   void _initCore() {
