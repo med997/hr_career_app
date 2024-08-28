@@ -6,10 +6,12 @@ import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
+import 'package:hr_career_platform/core/widgets/jobCard_widget.dart';
 import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
-import '../widget/login&register_appbar_functhion.dart';
+
+import '../widget/login_ana_register_appbar_functhion.dart';
 
 
 class RegisterPage extends StatelessWidget {
@@ -51,7 +53,7 @@ class RegisterPage extends StatelessWidget {
                           .read<RegisterCubit>()
                           .userConfirmPasswordController,
                       value: '', isRequired: true, disabled: false),
-                ], submitBtnLabel: 'login');
+                ], submitBtnLabel: 'login', useResponsiveUi: false,);
               } else {
                 return DynamicFormWidget(dynamicFormsList: [
                   DynamicModel('Company Name', FormType.text,
@@ -72,7 +74,7 @@ class RegisterPage extends StatelessWidget {
                   DynamicModel('Confirm Password', FormType.text,
                       controller: context.read<RegisterCubit>().companyConfirmPasswordController,
                       value: '', isRequired: true, disabled: false),
-                ], submitBtnLabel: 'login');
+                ], submitBtnLabel: 'login', useResponsiveUi: false,);
               }
 
             },

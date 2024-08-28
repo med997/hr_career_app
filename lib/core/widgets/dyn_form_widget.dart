@@ -9,6 +9,7 @@ import 'package:hr_career_platform/core/widgets/text_fields_dyn.dart';
 import '../model/dynamic_model.dart';
 
 class DynamicFormWidget extends StatelessWidget {
+  final bool useResponsiveUi;
   final double spacer = 4;
   final TextEditingController? controller;
   final List<DynamicModel> dynamicFormsList;
@@ -18,7 +19,7 @@ class DynamicFormWidget extends StatelessWidget {
     DynamicFormWidget({super.key,
     this.onSubmitClicked,
     required this.dynamicFormsList,
-    required this.submitBtnLabel,  this.controller});
+    required this.submitBtnLabel,  this.controller, required this.useResponsiveUi});
 
 
   @override
@@ -26,8 +27,8 @@ class DynamicFormWidget extends StatelessWidget {
     return Responsive(
 
       mobile: _mobileDynamicFormBuilder(),
-      desktop: _desktopWidgetBuilder(context,3),
-      tablet: _desktopWidgetBuilder(context,2),
+      desktop: useResponsiveUi ? _desktopWidgetBuilder(context,3) : _mobileDynamicFormBuilder(),
+      tablet: useResponsiveUi ? _desktopWidgetBuilder(context,2) : _mobileDynamicFormBuilder(),
 
     );
   }

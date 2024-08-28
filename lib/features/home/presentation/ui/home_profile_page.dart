@@ -51,7 +51,7 @@ class HomeProfilePage extends StatelessWidget {
                         value: context.read<ProfileCubit>().nationality,
 
                     ),
-                  ],
+                  ], useResponsiveUi: true,
                 ),
           Padding(
             padding: const EdgeInsets.all(12.0),
