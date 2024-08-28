@@ -1,4 +1,6 @@
+import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
+import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:hr_career_platform/features/home/data/repositories/home_repository_impl.dart';
 import 'package:hr_career_platform/features/home/domain/repositories/home_repository.dart';
@@ -26,12 +28,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
-
   _initJob();
   _initHome();
-  // _initCore();
+  _initCore();
 //! Core
-  final supBaseInit = await Supabase.initialize(url: BaseUrl, anonKey:AnonKey);
+  final supBaseInit = await Supabase.initialize(url: BaseUrl, anonKey: AnonKey);
   sl.registerLazySingleton(() => supBaseInit.client);
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
@@ -63,13 +64,11 @@ void _initJob() {
         sl(),
       ),
     )
-
     ..registerFactory(
       () => SearchJobsUserCase(
         repository: sl(),
       ),
     )
-
     ..registerFactory(
       () => AddJobUserCase(
         sl(),
@@ -85,46 +84,49 @@ void _initJob() {
       () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl()),
     );
 }
+
 void _initHome() {
   sl
 
-  // datasource
+    // datasource
     ..registerFactory<HomeRemoteDataSource>(
-          () =>
-          HomeRemoteDataSourceImpl(
-            supBase: sl(),
-          ),
+      () => HomeRemoteDataSourceImpl(
+        supBase: sl(),
+      ),
     )
 
-  // repository
+    // repository
     ..registerFactory<HomeRepository>(
-          () =>
-          HomeRepositoryImpl(
-            homeRemoteDataSource: sl(),
-            networkInfo: sl(),
-          ),
+      () => HomeRepositoryImpl(
+        homeRemoteDataSource: sl(),
+        networkInfo: sl(),
+      ),
     )
-  // usecases
+    // usecases
     ..registerFactory(
-          () =>
-          GetHomeUserCase(
-            sl(),
-          ),
+      () => GetHomeUserCase(
+        sl(),
+      ),
     )
-  // cubit
+    // cubit
     ..registerLazySingleton(
-          () => HomeCubit(getHomeUserCase: sl()),
+      () => HomeCubit(getHomeUserCase: sl()),
     )
-  // cubit
+    // cubit
     ..registerLazySingleton(
-          () => TabNavCubit(),
+      () => TabNavCubit(),
     )
     ..registerLazySingleton(
-          () => ProfileCubit(),
+      () => ProfileCubit(),
+    )
+    ..registerLazySingleton(
+      () => RegisterCubit(),
     );
 }
-  void _initCore() {
 
-
+void _initCore() {
+  sl
+    .registerLazySingleton(
+      () => ToggleBtnCubit(),
+    );
 }
-

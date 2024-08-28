@@ -13,12 +13,12 @@ class ProfileModel extends Profile {
       super.documentsUrl,
       super.major,
       super.skils,
-      required super.username,
+      super.username,
       required super.phone,
       required super.currentJob,
        super.dob,
       required super.email,
-      required super.gender});
+      super.gender});
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
       id: json["id"],

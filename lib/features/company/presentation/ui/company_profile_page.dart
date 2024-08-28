@@ -38,6 +38,7 @@ class CompanyProfilePage extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+
             children: [
               ElevatedButton(
                   onPressed: () {},
@@ -143,7 +144,7 @@ class CompanyProfilePage extends StatelessWidget {
                 'About Us',
                 FormType.text,
                 value: companyProfile.aboutUs),
-          ], submitBtnLabel: "edit"),
+          ], submitBtnLabel: "edit", useResponsiveUi: true,),
 
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,

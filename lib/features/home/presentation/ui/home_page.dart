@@ -18,6 +18,7 @@ import 'package:hr_career_platform/features/home/presentation/widgets/recent_job
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 
 import '../../../../core/util/const_val.dart';
+import '../../../company/presentation/ui/company_profile_page.dart';
 
 class HomePage extends StatelessWidget {
   @override

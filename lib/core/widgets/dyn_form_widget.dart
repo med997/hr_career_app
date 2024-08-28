@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/custom_drop_down_menu.dart';
+import 'package:hr_career_platform/core/widgets/phone_fields_dyn.dart';
 import 'package:hr_career_platform/core/widgets/text_fields_dyn.dart';
 
 import '../model/dynamic_model.dart';
 
 class DynamicFormWidget extends StatelessWidget {
+  final bool useResponsiveUi;
   final double spacer = 4;
+  final TextEditingController? controller;
   final List<DynamicModel> dynamicFormsList;
   final String submitBtnLabel;
   Function()? onSubmitClicked;
@@ -16,7 +19,7 @@ class DynamicFormWidget extends StatelessWidget {
     DynamicFormWidget({super.key,
     this.onSubmitClicked,
     required this.dynamicFormsList,
-    required this.submitBtnLabel});
+    required this.submitBtnLabel,  this.controller, required this.useResponsiveUi});
 
 
   @override
@@ -24,8 +27,8 @@ class DynamicFormWidget extends StatelessWidget {
     return Responsive(
 
       mobile: _mobileDynamicFormBuilder(),
-      desktop: _desktopWidgetBuilder(context,3),
-      tablet: _desktopWidgetBuilder(context,2),
+      desktop: useResponsiveUi ? _desktopWidgetBuilder(context,3) : _mobileDynamicFormBuilder(),
+      tablet: useResponsiveUi ? _desktopWidgetBuilder(context,2) : _mobileDynamicFormBuilder(),
 
     );
   }
@@ -38,6 +41,10 @@ class DynamicFormWidget extends StatelessWidget {
         return SizedBox(
             width: dynModel.width,
             child: getTextWidget(dynModel));
+        case FormType.phone:
+        return SizedBox(
+            width: dynModel.width,
+            child: getPhoneWidget(dynModel));
       case FormType.password:
         return SizedBox(
             width: dynModel.width,
