@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hr_career_platform/core/util/enums.dart';
+import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
 import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 import 'package:meta/meta.dart';
@@ -18,14 +20,12 @@ class RegisterCubit extends Cubit<RegisterState> {
   TextEditingController companyPhoneController = TextEditingController();
   TextEditingController companyAddressController = TextEditingController();
   TextEditingController companyPasswordController = TextEditingController();
-  TextEditingController companyConfirmPasswordController =
-  TextEditingController();
+  TextEditingController companyConfirmPasswordController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
   TextEditingController userPhoneController = TextEditingController();
   TextEditingController userEmailController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
   TextEditingController userConfirmPasswordController = TextEditingController();
-
   RegisterCubit() : super(RegisterInitial()) {
     companyNameController = TextEditingController();
     companyEmailController = TextEditingController();
@@ -40,14 +40,29 @@ class RegisterCubit extends Cubit<RegisterState> {
     userConfirmPasswordController = TextEditingController();
   }
 
-  Future<void> insertRegisterUser() async {
-    Profile userRe = Profile(
-        username: userNameController.text,
-        phone: userPhoneController.text,
-        currentJob: '',
-        email: userEmailController.text,
-        gender: '');
-    emit(InsertRegisterUser(userRe));
+  Future<void> insertRegisterUser(int selectedIndex) async {
+    UsrType usrType = selectedIndex == 0 ? UsrType.user : UsrType.company;
+
+    if(usrType == UsrType.user){
+      Auth auth = Auth(
+          email: userEmailController.text,
+          password: userPasswordController.text,
+          profile: Profile(
+              fullName: userNameController.text,
+              phone: userPhoneController.text,
+              email: userEmailController.text));
+    }else {
+      Auth auth = Auth(
+          email: companyEmailController.text,
+          password: userPasswordController.text,
+          profile: Profile(
+              fullName: userNameController.text,
+              phone: companyPhoneController.text,
+              email: userEmailController.text));
+    }
+
+
+    emit(InsertRegisterUser());
   }
 
   Future<void> insertRegisterCompany() async {
@@ -57,7 +72,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         address: companyAddressController.text,
         nameAr: companyNameController.text,
         nameEn: companyNameController.text);
-    emit(InsertRegisterCompany(companyRe));
+    emit(InsertRegisterUser());
   }
 
   Future<void> register(String name, String email, String password) async {
@@ -68,8 +83,8 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   RegisterState _mapFailureOrRegisterToState(Either<Failure, Unit> either) {
     return either.fold(
-          (failure) => RegisterErrorState(msg: _mapFailureToMessage(failure)),
-          (unit) => RegisterSuccess(),
+      (failure) => RegisterErrorState(msg: _mapFailureToMessage(failure)),
+      (unit) => RegisterSuccess(),
     );
   }
 

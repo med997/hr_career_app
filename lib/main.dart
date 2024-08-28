@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/widgets/snackbar_message.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
@@ -34,6 +35,10 @@ void main() async {
 
       BlocProvider(
         create: (context) => di.sl<TabNavCubit>(),
+      ),
+
+      BlocProvider(
+        create: (context) => di.sl<ToggleBtnCubit>(),
       ),
 
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/custom_drop_down_menu.dart';
+import 'package:hr_career_platform/core/widgets/phone_fields_dyn.dart';
 import 'package:hr_career_platform/core/widgets/text_fields_dyn.dart';
 
 import '../model/dynamic_model.dart';
@@ -39,6 +40,10 @@ class DynamicFormWidget extends StatelessWidget {
         return SizedBox(
             width: dynModel.width,
             child: getTextWidget(dynModel));
+        case FormType.phone:
+        return SizedBox(
+            width: dynModel.width,
+            child: getPhoneWidget(dynModel));
       case FormType.password:
         return SizedBox(
             width: dynModel.width,

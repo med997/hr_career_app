@@ -29,14 +29,7 @@ class InsertRegisterCompany extends RegisterState {
 }
 
 class InsertRegisterUser extends RegisterState {
-  Profile userRe = Profile(
-      username:'',
-      phone: '',
-      currentJob: '',
-      email: '',
-      gender: '',
-  );
-  InsertRegisterUser(this.userRe);
+  InsertRegisterUser();
 
 }
 

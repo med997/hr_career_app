@@ -42,32 +42,7 @@ class _SegmentedControlLoginWidgetState extends State<SegmentedControlLoginWidge
           },
           children: _options.map((String label) => Text(label)).toList(),
         ),
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: _selectedIndex == 0
-              ?  Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              DynamicFormWidget(dynamicFormsList: [
-                DynamicModel('email', FormType.text,value: '',isRequired: true, disabled: false),
-                DynamicModel('password', FormType.password,value: '',isRequired: true, disabled: false),
 
-              ], submitBtnLabel: 'login'),
-            ],
-          )
-              :  Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              DynamicFormWidget(dynamicFormsList: [
-                DynamicModel('email', FormType.text,value: '',isRequired: true, disabled: false),
-                DynamicModel('password', FormType.text,value: '',isRequired: true, disabled: false),
-
-              ], submitBtnLabel: 'login'),
-            ],
-          ),
-        ),
       ],
     );
   }
