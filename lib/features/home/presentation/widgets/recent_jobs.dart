@@ -55,8 +55,6 @@ class RecentJobsWidget extends StatelessWidget {
     if(Responsive.isDesktop(context))
        itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
     return Wrap(
-
-
         children: [
       ...jobs.map(
         (job) => SizedBox(
