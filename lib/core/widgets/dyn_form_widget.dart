@@ -9,6 +9,7 @@ import '../model/dynamic_model.dart';
 
 class DynamicFormWidget extends StatelessWidget {
   final double spacer = 4;
+  final TextEditingController? controller;
   final List<DynamicModel> dynamicFormsList;
   final String submitBtnLabel;
   Function()? onSubmitClicked;
@@ -16,7 +17,7 @@ class DynamicFormWidget extends StatelessWidget {
     DynamicFormWidget({super.key,
     this.onSubmitClicked,
     required this.dynamicFormsList,
-    required this.submitBtnLabel});
+    required this.submitBtnLabel,  this.controller});
 
 
   @override
