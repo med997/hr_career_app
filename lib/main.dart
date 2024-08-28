@@ -29,9 +29,6 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<HomeCubit>()..getUserHome(),
       ),
-      BlocProvider(
-        create: (context) => di.sl<RegisterCubit>(),
-      ),
 
       BlocProvider(
         create: (context) => di.sl<TabNavCubit>(),
@@ -41,6 +38,9 @@ void main() async {
         create: (context) => di.sl<ToggleBtnCubit>(),
       ),
 
+      BlocProvider(
+        create: (context) => di.sl<RegisterCubit>(),
+      ),
 
     ],
     child: const MyApp(),

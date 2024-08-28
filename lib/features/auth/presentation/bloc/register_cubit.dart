@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
+import 'package:hr_career_platform/features/auth/domain/usecases/signup_use_case.dart';
 import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 import 'package:meta/meta.dart';
@@ -15,18 +16,21 @@ import '../../../../core/strings/failures.dart';
 part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
+  final SignupUseCase signupUseCase;
   TextEditingController companyNameController = TextEditingController();
   TextEditingController companyEmailController = TextEditingController();
   TextEditingController companyPhoneController = TextEditingController();
   TextEditingController companyAddressController = TextEditingController();
   TextEditingController companyPasswordController = TextEditingController();
-  TextEditingController companyConfirmPasswordController = TextEditingController();
+  TextEditingController companyConfirmPasswordController =
+      TextEditingController();
   TextEditingController userNameController = TextEditingController();
   TextEditingController userPhoneController = TextEditingController();
   TextEditingController userEmailController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
   TextEditingController userConfirmPasswordController = TextEditingController();
-  RegisterCubit() : super(RegisterInitial()) {
+
+  RegisterCubit({required this.signupUseCase}) : super(RegisterInitial()) {
     companyNameController = TextEditingController();
     companyEmailController = TextEditingController();
     companyPhoneController = TextEditingController();
@@ -40,19 +44,19 @@ class RegisterCubit extends Cubit<RegisterState> {
     userConfirmPasswordController = TextEditingController();
   }
 
-  Future<void> insertRegisterUser(int selectedIndex) async {
+  Future<void> registerUser(int selectedIndex) async {
     UsrType usrType = selectedIndex == 0 ? UsrType.user : UsrType.company;
-
-    if(usrType == UsrType.user){
-      Auth auth = Auth(
+    Auth auth;
+    if (usrType == UsrType.user) {
+      auth = Auth(
           email: userEmailController.text,
           password: userPasswordController.text,
           profile: Profile(
               fullName: userNameController.text,
               phone: userPhoneController.text,
               email: userEmailController.text));
-    }else {
-      Auth auth = Auth(
+    } else {
+      auth = Auth(
           email: companyEmailController.text,
           password: userPasswordController.text,
           profile: Profile(
@@ -61,11 +65,19 @@ class RegisterCubit extends Cubit<RegisterState> {
               email: userEmailController.text));
     }
 
+    final failureOrSuccess = await signupUseCase.call(auth);
 
-    emit(InsertRegisterUser());
+    emit(_mapFailureOrAuthToState(failureOrSuccess));
   }
-
-  Future<void> insertRegisterCompany() async {
+  RegisterState _mapFailureOrAuthToState(Either<Failure,Auth> either) {
+    return either.fold(
+          (failure) => ErrRegisterUser(msg: _mapFailureToMessage(failure)),
+          (auth) => SuccessRegisterUser(
+          auth  : auth
+      ),
+    );
+  }
+/*  Future<void> insertRegisterCompany() async {
     Company companyRe = Company(
         email: companyEmailController.text,
         phone: [companyPhoneController.text],
@@ -73,7 +85,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         nameAr: companyNameController.text,
         nameEn: companyNameController.text);
     emit(InsertRegisterUser());
-  }
+  }*/
 
   Future<void> register(String name, String email, String password) async {
     emit(RegisterLoading());

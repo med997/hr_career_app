@@ -1,5 +1,9 @@
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
+import 'package:hr_career_platform/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:hr_career_platform/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:hr_career_platform/features/auth/domain/repositories/auth_repository.dart';
+import 'package:hr_career_platform/features/auth/domain/usecases/signup_use_case.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:hr_career_platform/features/home/data/repositories/home_repository_impl.dart';
@@ -31,6 +35,8 @@ Future<void> initDependencies() async {
   _initJob();
   _initHome();
   _initCore();
+
+  _initAuth();
 //! Core
   final supBaseInit = await Supabase.initialize(url: BaseUrl, anonKey: AnonKey);
   sl.registerLazySingleton(() => supBaseInit.client);
@@ -118,9 +124,36 @@ void _initHome() {
     )
     ..registerLazySingleton(
       () => ProfileCubit(),
+    );
+}
+
+void _initAuth() {
+  sl
+
+    // datasource
+    ..registerFactory<AuthRemoteDatasource>(
+      () => AuthRemoteDatasourceImpl(
+        supBase: sl(),
+      ),
     )
+
+    // repository
+    ..registerFactory<AuthRepository>(
+      () => AuthRepositoryImpl(
+        authRemoteDatasource: sl(),
+        networkInfo: sl(),
+      ),
+    )
+    // usecases
+    ..registerFactory(
+      () => SignupUseCase(
+        sl(),
+      ),
+    )
+    // cubit
+
     ..registerLazySingleton(
-      () => RegisterCubit(),
+      () => RegisterCubit(signupUseCase: sl()),
     );
 }
 

@@ -28,8 +28,14 @@ class InsertRegisterCompany extends RegisterState {
   InsertRegisterCompany(this.companyRe);
 }
 
-class InsertRegisterUser extends RegisterState {
-  InsertRegisterUser();
+class SuccessRegisterUser extends RegisterState {
+  final Auth auth;
+  SuccessRegisterUser({required this.auth});
+
+}
+class ErrRegisterUser extends RegisterState {
+  final String msg;
+  ErrRegisterUser({required this.msg});
 
 }
 

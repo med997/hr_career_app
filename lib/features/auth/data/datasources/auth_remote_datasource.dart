@@ -9,27 +9,22 @@ final User? user = res.user;*/
 import 'package:flutter/foundation.dart';
 import 'package:hr_career_platform/core/error/exceptions.dart';
 import 'package:hr_career_platform/features/auth/data/models/auth_model.dart';
+import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
 import 'package:hr_career_platform/features/profile/data/models/profile_model.dart';
+import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AuthRemoteDatasource {
-  Future<AuthModel> signup(AuthModel authModel);
+  Future<AuthModel> signup(Auth authModel);
 
   Future<AuthModel> login(AuthModel authModel);
-/*
-  Future<List<JobModel>> getLastJobs();
 
-  Future<Unit> updateJob(JobModel jobModel);
-
-  Future<Unit> addJob(JobModel jobModel);
-
-  Future<List<JobModel>> getSearchJobs( int companyId, String category,String nationalities);*/
 }
 
-class _AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
+class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
   final SupabaseClient supBase;
 
-  _AuthRemoteDatasourceImpl({required this.supBase});
+  AuthRemoteDatasourceImpl({required this.supBase});
 
   @override
   Future<AuthModel> login(AuthModel authModel) {
@@ -38,12 +33,13 @@ class _AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
   }
 
   @override
-  Future<AuthModel> signup(AuthModel authModel) async {
+  Future<AuthModel> signup(Auth authModel) async {
     try {
+      ProfileModel model = ProfileModel.fromProfile(authModel.profile);
       final data = await supBase.auth.signUp(
         email: authModel.email,
         password: authModel.password,
-        data: {'profile': authModel.profile},
+        data: model.toJson(),
       );
       final Session? session = data.session;
       final User? user = data.user;
@@ -54,9 +50,14 @@ class _AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
           userAuth: user,
           profile: ProfileModel.fromJson(user!.appMetadata));
       return authModelData;
-    } on PostgrestException catch (error) {
+    } on AuthException catch (error) {
       if (kDebugMode) {
         print(error);
+      }
+      throw ServerException();
+    }catch(e)  {
+      if (kDebugMode) {
+        print(e);
       }
       throw ServerException();
     }
