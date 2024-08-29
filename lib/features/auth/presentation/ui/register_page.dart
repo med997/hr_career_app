@@ -95,7 +95,7 @@ class RegisterPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   )),
-              child:  Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
