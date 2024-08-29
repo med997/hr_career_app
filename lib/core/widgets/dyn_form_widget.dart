@@ -32,8 +32,6 @@ class DynamicFormWidget extends StatelessWidget {
 
     );
   }
-
-
   Widget getWidgetBasedFormType(DynamicModel dynModel) {
     FormType type = dynModel.formType;
     switch (type) {

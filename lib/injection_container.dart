@@ -1,5 +1,6 @@
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
+import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:hr_career_platform/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:hr_career_platform/features/auth/domain/repositories/auth_repository.dart';
@@ -28,6 +29,9 @@ import 'core/network/network_info.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'features/company/presentation/bloc/company_profile_cubit.dart';
+import 'features/company/presentation/bloc/selecte_button_cubit.dart';
 
 final sl = GetIt.instance;
 

@@ -6,13 +6,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/widgets/snackbar_message.dart';
+import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
+import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
+import 'package:hr_career_platform/features/company/presentation/ui/company_profile_page.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
 import 'core/widgets/loading_widget.dart';
+import 'features/company/presentation/bloc/selecte_button_cubit.dart';
 import 'features/job/domain/entities/job.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
 import 'injection_container.dart' as di;
@@ -29,13 +33,25 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<HomeCubit>()..getUserHome(),
       ),
+      BlocProvider(
+        create: (context) => di.sl<RegisterCubit>(),
+      ),
 
       BlocProvider(
         create: (context) => di.sl<TabNavCubit>(),
       ),
+      BlocProvider(
+        create: (context) => di.sl<LoginCubit>(),
+      ),
 
       BlocProvider(
         create: (context) => di.sl<ToggleBtnCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<CompanyProfileCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<SelectButtonCubit>(),
       ),
 
       BlocProvider(
@@ -63,6 +79,7 @@ class MyApp extends StatelessWidget {
         scrollBehavior: const MaterialScrollBehavior().copyWith(
       dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch,
         PointerDeviceKind.stylus, PointerDeviceKind.unknown},),
+
       home: HomePage(),
         );
   }
