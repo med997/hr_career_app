@@ -8,5 +8,5 @@ enum FormType { text, number, password, phone,
   multiline, dropdown, autoComplete, rTE, datePicker }
 
 enum UsrType { user,company }
-
+enum JobCardType { user,company, tender }
 enum ValidatorType { notEmpty, textLength, phoneNumber, age, email }

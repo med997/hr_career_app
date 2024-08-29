@@ -4,9 +4,9 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 
 class ToggleBtnWidget extends StatelessWidget {
-  ToggleBtnWidget({super.key});
+  ToggleBtnWidget({super.key, this.options = const ['User', 'Company']});
 
-  final List<String> _options = ['User', 'Company'];
+  final List<String> options;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +25,11 @@ class ToggleBtnWidget extends StatelessWidget {
               borderColor: primaryColor,
               color: primaryColor,
               isSelected: List.generate(
-                  _options.length, (index) => index == state.selectedTab),
+                  options.length, (index) => index == state.selectedTab),
               onPressed: (int index) {
                 context.read<ToggleBtnCubit>().changeTab(index);
               },
-              children: _options.map((String label) => Text(label)).toList(),
+              children: options.map((String label) => Text(label)).toList(),
             ),
           ),
         );
