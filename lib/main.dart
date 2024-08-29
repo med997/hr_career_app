@@ -48,6 +48,9 @@ void main() async {
         create: (context) => di.sl<ToggleBtnCubit>(),
       ),
       BlocProvider(
+        create: (context) => di.sl<ProfileCubit>(),
+      ),
+      BlocProvider(
         create: (context) => di.sl<CompanyProfileCubit>(),
       ),
       BlocProvider(
@@ -76,7 +79,7 @@ class MyApp extends StatelessWidget {
         scrollBehavior: const MaterialScrollBehavior().copyWith(
       dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch,
         PointerDeviceKind.stylus, PointerDeviceKind.unknown},),
-      home: CompanyProfilePage(),
+      home: HomePage(),
         );
   }
 }
