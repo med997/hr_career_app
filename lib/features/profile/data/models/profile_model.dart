@@ -15,7 +15,7 @@ class ProfileModel extends Profile {
       super.skils,
       super.username,
       required super.phone,
-      required super.currentJob,
+      super.currentJob,
        super.dob,
       required super.email,
       super.gender});
@@ -39,6 +39,27 @@ class ProfileModel extends Profile {
       major: json["major"],
       skils: List<String>.from(json["skils"].map((x) => x)),
   );
+  factory ProfileModel.fromProfile(Profile? profile) {
+      return ProfileModel(
+          id: profile!.id ?? '', // Handle potential nulls
+          updatedAt: profile.updatedAt,
+          fullName: profile.fullName ?? '',
+          avatarUrl: profile.avatarUrl ?? '',
+          fullNameAr: profile.fullNameAr ?? '',
+          nationality: profile.nationality ?? '',
+          secondaryPhone: profile.secondaryPhone ?? '',
+          resumeUrl: profile.resumeUrl ?? '',
+          documentsUrl: profile.documentsUrl ?? '',
+          major: profile.major ?? '',
+          skils: profile.skils ?? const [], // Provide default empty list
+          username: profile.username,
+          phone: profile.phone,
+          currentJob: profile.currentJob??'',
+          dob: profile.dob,
+          email: profile.email,
+          gender: profile.gender,
+      );
+  }
 
   Map<String, dynamic> toJson() => {
       "id": id,
@@ -50,7 +71,7 @@ class ProfileModel extends Profile {
       "full_name_ar": fullNameAr,
       "current_job": currentJob,
       "nationality": nationality,
-      "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+      "dob": dob.toString(),
       "secondary_phone": secondaryPhone,
       "email": email,
       "gender": gender,

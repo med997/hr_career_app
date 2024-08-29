@@ -24,7 +24,7 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, Auth>> signup(Auth auth) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteJob = await authRemoteDatasource.signup(auth as AuthModel);
+        final remoteJob = await authRemoteDatasource.signup(auth);
         return Right(remoteJob);
       } on ServerException {
         return Left(ServerFailure());

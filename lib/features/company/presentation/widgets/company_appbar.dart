@@ -29,9 +29,7 @@ AppBar jobsAppBarFunction({
           title: Text(
             companyName,
             style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 16),
+                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
           ),
           subtitle: Wrap(
             spacing: 10,
@@ -96,7 +94,8 @@ AppBar jobsAppBarFunction({
             image: AssetImage(backgroundCompanyImg),
             fit: BoxFit.fitWidth, // Adjust fit as needed
           ),
-          borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30),
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(30),
               bottomRight: Radius.circular(30))),
     ),
     toolbarHeight: 200,

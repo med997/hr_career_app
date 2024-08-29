@@ -12,8 +12,10 @@ import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart
 
 import '../widget/login_ana_register_appbar_functhion.dart';
 
+
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
