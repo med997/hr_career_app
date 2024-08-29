@@ -36,6 +36,7 @@ final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
   _initJob();
+  _initProfile();
   _initHome();
   _initCore();
 
@@ -165,4 +166,9 @@ void _initCore() {
     .registerLazySingleton(
       () => ToggleBtnCubit(),
     );
+}
+void _initProfile() {
+  sl.registerLazySingleton(
+    () => ProfileCubit(),
+  );
 }

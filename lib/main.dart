@@ -47,6 +47,9 @@ void main() async {
         create: (context) => di.sl<ToggleBtnCubit>(),
       ),
       BlocProvider(
+        create: (context) => di.sl<ProfileCubit>(),
+      ),
+      BlocProvider(
         create: (context) => di.sl<CompanyProfileCubit>(),
       ),
       BlocProvider(
