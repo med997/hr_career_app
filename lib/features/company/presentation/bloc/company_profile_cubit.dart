@@ -54,8 +54,4 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
         website: companyWebsiteProfileProController.text);
     emit(CompanyProfile(companyProfile));
   }
-
-    Future<void> changTap(int tapIndex) async{
-    emit(CompanyChangeState(selectTap: tapIndex));
-  }
 }

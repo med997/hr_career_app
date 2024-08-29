@@ -27,10 +27,3 @@ final class CompanyProfile extends CompanyProfileState {
   @override
   List<Object?> get props => [];
 }
-
-class CompanyChangeState extends CompanyProfileState {
-  final int selectTap;
-  CompanyChangeState({required this.selectTap});
-  @override
-  List<Object?> get props => [selectTap];
-}

@@ -16,6 +16,7 @@ import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
 import 'core/widgets/loading_widget.dart';
+import 'features/company/presentation/bloc/selecte_button_cubit.dart';
 import 'features/job/domain/entities/job.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
 import 'injection_container.dart' as di;
@@ -49,6 +50,9 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<CompanyProfileCubit>(),
       ),
+      BlocProvider(
+        create: (context) => di.sl<SelectButtonCubit>(),
+      ),
 
 
     ],
@@ -72,7 +76,7 @@ class MyApp extends StatelessWidget {
         scrollBehavior: const MaterialScrollBehavior().copyWith(
       dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch,
         PointerDeviceKind.stylus, PointerDeviceKind.unknown},),
-      home: LoginPage(),
+      home: CompanyProfilePage(),
         );
   }
 }
