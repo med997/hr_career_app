@@ -29,160 +29,139 @@ class LoginPage extends StatelessWidget {
 
   Widget _desktopAndTabletLoginPage(BuildContext context) {
     return Scaffold(
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/imgs/project_logo.png',
-              ),
-              const Text(
-                'Sign in to',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold),
-              ),
-              const Text(
-                'Lorem Ipsum is simply ',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 80,
-              ),
-              Row(
-                children: [
-                  const Text(
-                    'If you don’t have an account register You can',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  TextButton(onPressed: () {}, child: const Text('Register here !')),
-                ],
-              ),
-            ],
+      body: Padding(
+        padding: const EdgeInsets.all(120.0),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset(
+                  'assets/imgs/project_logo.png',
+                ),
+                const Text(
+                  'Sign in to',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+                const Text(
+                  'Lorem Ipsum is simply ',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    const Text(
+                      'If you don’t have an account register You can',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    TextButton(
+                        onPressed: () {}, child: const Text('Register here !')),
+                  ],
+                ),
+              ],
+            ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Sign in',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-              ToggleBtnWidget(),
-              BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                builder: (context, state) {
-                  if (state.selectedTab == 0) {
-                    return DynamicFormWidget(
-                      dynamicFormsList: [
-                        DynamicModel('Email', FormType.text,
-                            controller: context
-                                .read<RegisterCubit>()
-                                .companyEmailController,
-                            value: '',
-                            isRequired: true,
-                            disabled: false),
-                        DynamicModel('Password', FormType.password,
-                            controller: context
-                                .read<RegisterCubit>()
-                                .companyPasswordController,
-                            value: '',
-                            isRequired: true,
-                            disabled: false),
-                      ],
-                      submitBtnLabel: 'login',
-                      useResponsiveUi: false,
-                    );
-                  } else {
-                    return DynamicFormWidget(
-                      dynamicFormsList: [
-                        DynamicModel('Email', FormType.text,
-                            controller: context
-                                .read<RegisterCubit>()
-                                .companyEmailController,
-                            value: '',
-                            isRequired: true,
-                            disabled: false),
-                        DynamicModel('Password', FormType.password,
-                            controller: context
-                                .read<RegisterCubit>()
-                                .companyPasswordController,
-                            value: '',
-                            isRequired: true,
-                            disabled: false),
-                      ],
-                      submitBtnLabel: 'login',
-                      useResponsiveUi: false,
-                    );
-                  }
-                },
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextButton(
-                      onPressed: () {},
-                      child: const Text('Forget Password?',
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14))),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(primaryColor),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      )),
-                  child: const Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Colors.white,
+          Container(
+            decoration: BoxDecoration(
+                image: const DecorationImage(
+                  opacity: 0.2,
+                  image: AssetImage('imgs/image10.png'),
+                  fit: BoxFit.fitWidth, // Adjust fit as needed
+                ),
+                border: Border.all(
+                  color: Colors.transparent,
+                  width: 0.5,
+                ),
+                borderRadius: BorderRadius.circular(12)),
+            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: ToggleBtnWidget(),
+                ),
+                BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                  builder: (context, state) {
+                    if (state.selectedTab == 0) {
+                      return DynamicFormWidget(
+                        dynamicFormsList: [
+                          DynamicModel('Email', FormType.text,
+                              controller: context
+                                  .read<RegisterCubit>()
+                                  .companyEmailController,
+                              value: '',
+                              isRequired: true,
+                              disabled: false),
+                          DynamicModel('Password', FormType.password,
+                              controller: context
+                                  .read<RegisterCubit>()
+                                  .companyPasswordController,
+                              value: '',
+                              isRequired: true,
+                              disabled: false),
+                        ],
+                        submitBtnLabel: 'login',
+                        useResponsiveUi: false,
+                      );
+                    } else {
+                      return DynamicFormWidget(
+                        dynamicFormsList: [
+                          DynamicModel('Email', FormType.text,
+                              controller: context
+                                  .read<RegisterCubit>()
+                                  .companyEmailController,
+                              value: '',
+                              isRequired: true,
+                              disabled: false),
+                          DynamicModel('Password', FormType.password,
+                              controller: context
+                                  .read<RegisterCubit>()
+                                  .companyPasswordController,
+                              value: '',
+                              isRequired: true,
+                              disabled: false),
+                        ],
+                        submitBtnLabel: 'login',
+                        useResponsiveUi: false,
+                      );
+                    }
+                  },
+                ),
+                SizedBox(
+                  width: 350,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const Text('or Continue with',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14)),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircleAvatar(),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircleAvatar(),
-                  ),  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircleAvatar(),
-                  ),
-                ],
-              )
-            ],
+                TextButton(
+                    onPressed: () {},
+                    child: const Text('Forget Password?',
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14))),
+              ],
+            ),
           )
-        ],
+        ]),
       ),
     );
   }
@@ -194,8 +173,10 @@ class LoginPage extends StatelessWidget {
         children: [
           Column(
             children: [
-              const SizedBox(height: 20),
-              ToggleBtnWidget(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 18.0),
+                child: ToggleBtnWidget(),
+              ),
               BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
                 builder: (context, state) {
                   if (state.selectedTab == 0) {
@@ -244,59 +225,7 @@ class LoginPage extends StatelessWidget {
                 },
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(primaryColor),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      )),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.yellow.shade700),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      )),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Continue as Gust',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                padding: const EdgeInsets.only(bottom: 18.0),
                 child: TextButton(
                     onPressed: () {},
                     child: const Text(
@@ -304,49 +233,39 @@ class LoginPage extends StatelessWidget {
                       style: TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14),
+                          fontSize: 12),
                     )),
               ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 14.0,
-                    width: 150,
-                    child: Divider(
-                      endIndent: 20,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Text(
-                    'or with',
+              SizedBox(
+                width: 350,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Login',
                     style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14),
-                  ),
-                  SizedBox(
-                    height: 14.0,
-                    width: 150,
-                    child: Divider(
-                      indent: 20,
-                      color: Colors.grey,
+                      color: Colors.white,
                     ),
                   ),
-                ],
+                ),
               ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircleAvatar(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 18.0),
+                child: SizedBox(
+                  width: 350,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.yellow.shade700),
+                    ),
+                    child: const Text(
+                      'Continue as Gust',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircleAvatar(),
-                  ),
-                ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
