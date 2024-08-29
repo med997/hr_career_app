@@ -16,7 +16,6 @@ import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
 import 'core/widgets/loading_widget.dart';
-import 'features/company/presentation/bloc/selecte_button_cubit.dart';
 import 'features/job/domain/entities/job.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
 import 'injection_container.dart' as di;
