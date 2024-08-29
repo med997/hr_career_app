@@ -10,6 +10,7 @@ import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.d
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
+import 'package:hr_career_platform/features/company/presentation/bloc/selecte_button_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/ui/company_profile_page.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';

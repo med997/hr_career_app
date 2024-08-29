@@ -16,7 +16,7 @@ class CompanyModel extends Company {
      super.videoPaths,  super.otherContact,  super.documentPaths});
 
   factory CompanyModel.fromJson(Map<String, dynamic> json) => CompanyModel(
-    id: json["id"]?? 0,
+    id: json["id"]?? '0',
     city: json["city"],
     email: json["email"],
     major: json["major"],
@@ -35,6 +35,27 @@ class CompanyModel extends Company {
     videoPaths: json["video_paths"],
     otherContact: json["other_contact"],
     documentPaths: json["document_paths"],
+  );
+  factory CompanyModel.fromCompany(Company? company) => CompanyModel(
+    id: company!.id,
+    city: company.city,
+    email: company.email,
+    major: company.major,
+    phone: company.phone,
+    address: company.address,
+    nameAr: company.nameAr,
+    nameEn: company.nameEn,
+    website: company.website,
+    aboutUs: company.aboutUs,
+    companyLogo: company.companyLogo,
+    locations: company.locations,
+    createdAt: company.createdAt,
+    headOffice: company.headOffice,
+    imagesPath: company.imagesPath,
+    nationality: company.nationality,
+    videoPaths: company.videoPaths,
+    otherContact: company.otherContact,
+    documentPaths: company.documentPaths,
   );
 
   Map<String, dynamic> toJson() => {
