@@ -21,7 +21,7 @@ class Job extends Equatable{
   final String? status;
   final String jobDesc;
   final String jobRequirements;
-  final int? companyId;
+  final String? companyId;
   final Company? company;
 
    Job({

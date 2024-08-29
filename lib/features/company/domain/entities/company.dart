@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Company extends Equatable {
-  final int? id;
+  final String? id;
   final String? city;
   final String email;
   final String?  major;

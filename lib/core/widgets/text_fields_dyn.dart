@@ -19,6 +19,7 @@ Widget getTextWidget(DynamicModel dynamicModel) {
         : TextInputType.text,
     maxLines: 1,
 
+
     onChanged: (text) {
       dynamicModel.value = text;
     },
