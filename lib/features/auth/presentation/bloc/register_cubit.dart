@@ -17,6 +17,7 @@ part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   final SignupUseCase signupUseCase;
+  bool isLoading =false;
   TextEditingController companyNameController = TextEditingController();
   TextEditingController companyEmailController = TextEditingController();
   TextEditingController companyPhoneController = TextEditingController();
@@ -45,10 +46,12 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   Future<void> registerUser(int selectedIndex) async {
+    isLoading=true;
     UsrType usrType = selectedIndex == 0 ? UsrType.user : UsrType.company;
     Auth auth;
     if (usrType == UsrType.user) {
       auth = Auth(
+          userType:UsrType.user ,
           email: userEmailController.text,
           password: userPasswordController.text,
           profile: Profile(
@@ -57,6 +60,7 @@ class RegisterCubit extends Cubit<RegisterState> {
               email: userEmailController.text));
     } else {
       auth = Auth(
+        userType:UsrType.company ,
           email: companyEmailController.text,
           password: userPasswordController.text,
           profile: Profile(
@@ -68,6 +72,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     final failureOrSuccess = await signupUseCase.call(auth);
 
     emit(_mapFailureOrAuthToState(failureOrSuccess));
+    isLoading=false;
   }
   RegisterState _mapFailureOrAuthToState(Either<Failure,Auth> either) {
     return either.fold(

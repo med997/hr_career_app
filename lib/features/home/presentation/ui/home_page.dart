@@ -1,25 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
-import 'package:hr_career_platform/core/widgets/custom_chips.dart';
-import 'package:hr_career_platform/core/widgets/sub-title.dart';
-import 'package:hr_career_platform/features/company/presentation/ui/company_profile_page.dart';
-import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_job_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_profile_page.dart';
-import 'package:hr_career_platform/features/home/presentation/widgets/featured_jobs.dart';
-import 'package:hr_career_platform/features/home/presentation/widgets/recent_jobs.dart';
-import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 
 import '../../../../core/util/const_val.dart';
 import '../../../company/presentation/ui/company_profile_page.dart';
-import 'company_jop_page.dart';
+import 'company_job_page.dart';
 
 class HomePage extends StatelessWidget {
   @override

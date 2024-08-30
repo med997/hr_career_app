@@ -129,6 +129,7 @@ void _initHome() {
     ..registerLazySingleton(
       () => ProfileCubit(),
     );
+
 }
 
 void _initAuth() {
