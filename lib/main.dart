@@ -58,10 +58,6 @@ void main() async {
         create: (context) => di.sl<CompanyProfileCubit>(),
       ),
       BlocProvider(
-        create: (context) => di.sl<SelectButtonCubit>(),
-      ),
-
-      BlocProvider(
         create: (context) => di.sl<RegisterCubit>(),
       ),
 

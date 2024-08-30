@@ -11,6 +11,7 @@ import 'package:hr_career_platform/features/home/presentation/ui/home_profile_pa
 import '../../../../core/util/const_val.dart';
 import '../../../company/presentation/ui/company_profile_page.dart';
 import 'company_job_page.dart';
+import 'company_tenders_page.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -85,7 +86,7 @@ class HomePage extends StatelessWidget {
       case 1:
         return CompanyJopPage();
       case 4:
-        return HomeProfilePage();
+        return CompanyTendersPage();
       default:
         return Placeholder();
     }

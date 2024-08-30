@@ -9,6 +9,7 @@ import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
+import 'package:hr_career_platform/core/widgets/success_dialog.dart';
 import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/register_page.dart';
@@ -18,6 +19,7 @@ import '../../../../core/app_theme.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Responsive(
@@ -238,7 +240,10 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 width: 350,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) => SuccessDialog(),
+                  ),
                   child: const Text(
                     'Login',
                     style: TextStyle(

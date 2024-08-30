@@ -25,6 +25,7 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/app_localizations.dart';
+import 'core/cubit/locale_cubit.dart';
 import 'core/network/network_info.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -125,9 +126,6 @@ void _initHome() {
     // cubit
     ..registerLazySingleton(
       () => TabNavCubit(),
-    )
-    ..registerLazySingleton(
-      () => ProfileCubit(),
     );
 
 }
@@ -164,8 +162,11 @@ void _initAuth() {
 
 void _initCore() {
   sl
-    .registerLazySingleton(
+    ..registerLazySingleton(
       () => ToggleBtnCubit(),
+    )
+    ..registerLazySingleton(
+      () => LocaleCubit(),
     );
 }
 void _initProfile() {
