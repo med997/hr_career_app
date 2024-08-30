@@ -6,8 +6,6 @@ import 'package:hr_career_platform/features/auth/data/repositories/auth_reposito
 import 'package:hr_career_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/signup_use_case.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
-import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
-import 'package:hr_career_platform/features/company/presentation/bloc/selecte_button_cubit.dart';
 import 'package:hr_career_platform/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:hr_career_platform/features/home/data/repositories/home_repository_impl.dart';
 import 'package:hr_career_platform/features/home/domain/repositories/home_repository.dart';
@@ -41,7 +39,6 @@ Future<void> initDependencies() async {
   _initProfile();
   _initHome();
   _initCore();
-  _initCompany();
 
   _initAuth();
 //! Core
@@ -128,6 +125,9 @@ void _initHome() {
     // cubit
     ..registerLazySingleton(
       () => TabNavCubit(),
+    )
+    ..registerLazySingleton(
+      () => ProfileCubit(),
     );
 }
 
@@ -163,20 +163,12 @@ void _initAuth() {
 
 void _initCore() {
   sl
-    ..registerLazySingleton(
+    .registerLazySingleton(
       () => ToggleBtnCubit(),
-    )
-    ..registerLazySingleton(
-      () => SelectButtonCubit(),
     );
 }
 void _initProfile() {
   sl.registerLazySingleton(
     () => ProfileCubit(),
-  );
-}
-void _initCompany() {
-  sl.registerLazySingleton(
-    () => CompanyProfileCubit(),
   );
 }
