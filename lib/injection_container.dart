@@ -164,9 +164,9 @@ void _initCore() {
   sl
     ..registerLazySingleton(
       () => ToggleBtnCubit(),
-    )..registerLazySingleton(
-
-      ()=>SelectButtonCubit());
+    )
+    ..registerLazySingleton(() => SelectButtonCubit())
+    ..registerLazySingleton(() => LocaleCubit());
 }
 void _initProfile() {
   sl.registerLazySingleton(

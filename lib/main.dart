@@ -3,7 +3,10 @@ import 'dart:ui';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/widgets/snackbar_message.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
@@ -61,6 +64,10 @@ void main() async {
         create: (context) => di.sl<RegisterCubit>(),
       ),
 
+      BlocProvider(
+        create: (context) => di.sl<LocaleCubit>()..getSavedLanguage(),
+      ),
+
     ],
     child: const MyApp(),
   ));
@@ -72,7 +79,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<LocaleCubit, ChangeLocaleState>(
+  builder: (context, state) {
     return MaterialApp(
+        locale: state.locale,
+        supportedLocales: const [Locale('en'), Locale('ar'),],
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
         title: 'Flutter Demo',
         theme: appTheme,
       routes: {
@@ -85,6 +102,8 @@ class MyApp extends StatelessWidget {
 
       home: LoginPage(),
         );
+  },
+);
   }
 }
 
