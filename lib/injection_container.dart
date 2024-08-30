@@ -1,3 +1,4 @@
+import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
@@ -6,6 +7,7 @@ import 'package:hr_career_platform/features/auth/data/repositories/auth_reposito
 import 'package:hr_career_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/signup_use_case.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
+import 'package:hr_career_platform/features/company/presentation/bloc/selecte_button_cubit.dart';
 import 'package:hr_career_platform/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:hr_career_platform/features/home/data/repositories/home_repository_impl.dart';
 import 'package:hr_career_platform/features/home/domain/repositories/home_repository.dart';
@@ -45,6 +47,7 @@ Future<void> initDependencies() async {
   final supBaseInit = await Supabase.initialize(url: BaseUrl, anonKey: AnonKey);
   sl.registerLazySingleton(() => supBaseInit.client);
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+
 
 //! External
 
@@ -124,10 +127,11 @@ void _initHome() {
     )
     // cubit
     ..registerLazySingleton(
-      () => TabNavCubit(),
+      () => CompanyProfileCubit(),
     )
+    // cubit
     ..registerLazySingleton(
-      () => ProfileCubit(),
+      () => TabNavCubit(),
     );
 }
 
@@ -155,7 +159,6 @@ void _initAuth() {
       ),
     )
     // cubit
-
     ..registerLazySingleton(
       () => RegisterCubit(signupUseCase: sl()),
     );
@@ -163,9 +166,11 @@ void _initAuth() {
 
 void _initCore() {
   sl
-    .registerLazySingleton(
+    ..registerLazySingleton(
       () => ToggleBtnCubit(),
-    );
+    )
+    ..registerLazySingleton(() => SelectButtonCubit())
+    ..registerLazySingleton(() => LocaleCubit());
 }
 void _initProfile() {
   sl.registerLazySingleton(
