@@ -1,3 +1,4 @@
+import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
