@@ -19,6 +19,7 @@ import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart
 
 import '../../../../core/util/const_val.dart';
 import '../../../company/presentation/ui/company_profile_page.dart';
+import 'company_jop_page.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -91,7 +92,7 @@ class HomePage extends StatelessWidget {
       case 0:
         return HomeJobPage();
       case 1:
-        return CompanyProfilePage();
+        return CompanyJopPage();
       case 4:
         return HomeProfilePage();
       default:
