@@ -76,12 +76,12 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
       if (kDebugMode) {
         print(error);
       }
-      throw ServerException(error.message);
+      throw ServerException(message:  error.message);
     }catch(e)  {
       if (kDebugMode) {
         print(e);
       }
-      throw ServerException('Something Wrong');
+      throw ServerException(message: 'Something Wrong');
     }
   }
 
@@ -98,9 +98,9 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
       }
       return null;
     } on AuthException catch (e) {
-      throw ServerException(e.message);
+      throw ServerException(message: e.message);
     } catch (e) {
-      throw ServerException(e.toString());
+      throw ServerException(message: e.toString());
     }
   }
 }

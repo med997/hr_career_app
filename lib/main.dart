@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
       dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch,
         PointerDeviceKind.stylus, PointerDeviceKind.unknown},),
 
-      home: HomePage(),
+      home: LoginPage(),
         );
   }
 }

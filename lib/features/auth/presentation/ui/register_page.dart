@@ -7,6 +7,7 @@ import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 import 'package:hr_career_platform/core/widgets/jobCard_widget.dart';
+import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
@@ -21,7 +22,10 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: loginAndRegisterAppBar(),
+
       body: ListView(
+        shrinkWrap: true,
+    padding:EdgeInsets.symmetric(vertical: 30, horizontal: 50),
         children: [
           ToggleBtnWidget(),
           BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
@@ -79,35 +83,21 @@ class RegisterPage extends StatelessWidget {
 
             },
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 20.0, vertical: 8.0),
-            child: ElevatedButton(
-              onPressed: () {
+          ElevatedButton(
 
-                context.read<RegisterCubit>().registerUser(0);
-              },
-              style: ButtonStyle(
-                  backgroundColor:
-                  MaterialStateProperty.all<Color>(primaryColor),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+            onPressed: () {},
+            child:
+                    Text(
+                      'Register',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
-                  )),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Register',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+
+           /* if(context.read<RegisterCubit>().isLoading)
+                LoadingWidget()*/
+
+                ),
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
