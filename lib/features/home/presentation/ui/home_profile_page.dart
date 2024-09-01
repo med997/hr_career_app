@@ -26,6 +26,7 @@ class HomeProfilePage extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 8),
         children: [
                  DynamicFormWidget(
+                   formKey: _formKey,
                   submitBtnLabel: "save",
                   dynamicFormsList: [
                     DynamicModel('name', FormType.text,

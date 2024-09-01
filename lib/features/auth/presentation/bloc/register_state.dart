@@ -12,35 +12,15 @@ final class RegisterInitial extends RegisterState {}
 
 final class RegisterLoading extends RegisterState {}
 
-class RegisterSuccess extends RegisterState {
-  // final AuthEntity user;
-  // RegisterSuccess(this.auth);
-}
 
-class InsertRegisterCompany extends RegisterState {
-  Company companyRe = Company(
-      email: '',
-      phone: [],
-      address: '',
-      nameAr: '',
-      nameEn: '');
-
-  InsertRegisterCompany(this.companyRe);
-}
 
 class SuccessRegisterUser extends RegisterState {
   final Auth auth;
-  SuccessRegisterUser({required this.auth});
+  const SuccessRegisterUser({required this.auth});
 
 }
 class ErrRegisterUser extends RegisterState {
   final String msg;
-  ErrRegisterUser({required this.msg});
+  const ErrRegisterUser({required this.msg});
 
-}
-
-final class RegisterErrorState extends RegisterState {
-  final String msg;
-
-  const RegisterErrorState({required this.msg});
 }

@@ -52,8 +52,7 @@ class CompanyTendersPage extends StatelessWidget {
                             jobCardType: JobCardType.tender,
                             createdAt: job[i].createdAt,
                             jobTitle: job[i].jobTitle,
-                            companyName: job[i].company!.nameEn ??
-                                job[i].company!.nameAr,
+                            companyName: job[i].company!.nameEn ,
                             companyLogo: job[i].company!.companyLogo ?? '',
                             jobDeadLine: '${job[i].deadlineDate.hour}h ago',
                             jobNationality: job[i].nationalities ?? '',
@@ -64,8 +63,7 @@ class CompanyTendersPage extends StatelessWidget {
                                 jobCardType: JobCardType.tender,
                                 jobTitle: job[i].jobTitle,
                                 createdAt: job[i].createdAt,
-                                companyName: job[i].company!.nameEn ??
-                                    job[i].company!.nameAr,
+                                companyName: job[i].company!.nameEn ,
                                 jobLocation: '',
                                 companyLogo: job[i].company!.companyLogo ?? '',
                                 jobDeadLine: '${job[i].deadlineDate.hour}h ago',
@@ -74,8 +72,7 @@ class CompanyTendersPage extends StatelessWidget {
                                 jobCardType: JobCardType.tender,
                                 jobTitle: job[i].jobTitle,
                                 createdAt: job[i].createdAt,
-                                companyName: job[i].company!.nameEn ??
-                                    job[i].company!.nameAr,
+                                companyName: job[i].company!.nameEn,
                                 jobLocation: job[i].city,
                                 companyLogo: job[i].company!.companyLogo ?? '',
                                 jobDeadLine: '${job[i].deadlineDate.hour}h ago',
@@ -105,7 +102,7 @@ class CompanyTendersPage extends StatelessWidget {
                         jobCardType: JobCardType.tender,
                         jobTitle: job.jobTitle,
                         createdAt: job.createdAt,
-                        companyName: job.company!.nameEn ?? job.company!.nameAr,
+                        companyName: job.company!.nameEn ,
                         jobLocation: '',
                         companyLogo: job.company!.companyLogo ?? '',
                         jobDeadLine: '${job.deadlineDate.hour}h ago',
@@ -118,7 +115,7 @@ class CompanyTendersPage extends StatelessWidget {
                             jobTitle: job.jobTitle,
                             createdAt: job.createdAt,
                             companyName:
-                                job.company!.nameEn ?? job.company!.nameAr,
+                                job.company!.nameEn ,
                             jobLocation: '',
                             companyLogo: job.company!.companyLogo ?? '',
                             jobDeadLine: '${job.deadlineDate.hour}h ago',
@@ -130,7 +127,7 @@ class CompanyTendersPage extends StatelessWidget {
                             jobTitle: job.jobTitle,
                             createdAt: job.createdAt,
                             companyName:
-                                job.company!.nameEn ?? job.company!.nameAr,
+                                job.company!.nameEn ,
                             jobLocation: '',
                             companyLogo: job.company!.companyLogo ?? '',
                             jobDeadLine: '${job.deadlineDate.hour}h ago',

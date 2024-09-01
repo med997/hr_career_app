@@ -7,7 +7,7 @@ class Company extends Equatable {
   final String?  major;
   final List<dynamic> phone;
   final String address;
-  final String nameAr;
+  final String? nameAr;
   final String nameEn;
   final String? website;
   final dynamic aboutUs;
@@ -23,13 +23,13 @@ class Company extends Equatable {
 
   Company( {
     this.id,
-     this.city,
+    this.city,
+    this.major,
     required this.email,
-     this.major,
     required this.phone,
     required this.address,
-    required this.nameAr,
     required this.nameEn,
+     this.nameAr,
     this.companyLogo,
      this.website,
      this.aboutUs,

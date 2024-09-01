@@ -41,7 +41,7 @@ class RecentJobsWidget extends StatelessWidget {
               ),
               child: JobCard(
                   jobTitle: job[i].jobTitle,
-                  companyName: job[i].company!.nameEn ?? job[i].company!.nameAr,
+                  companyName: job[i].company!.nameEn ,
                   jobLocation: job[i].city,
                   companyLogo: job[i].company!.companyLogo ?? '',
                   jobDeadLine: '${job[i].deadlineDate.hour}h ago',
@@ -61,7 +61,7 @@ class RecentJobsWidget extends StatelessWidget {
           width: itemWidth,
           child: JobCard(
               jobTitle: job.jobTitle,
-              companyName: job.company!.nameEn ?? job.company!.nameAr,
+              companyName: job.company!.nameEn,
               jobLocation: job.city,
               companyLogo: job.company!.companyLogo ?? '',
               jobDeadLine: '${job.deadlineDate.hour}h ago',

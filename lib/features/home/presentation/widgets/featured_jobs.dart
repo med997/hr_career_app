@@ -24,7 +24,7 @@ class FeaturedJobs extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         if (state is HomeLoading) {
-          return const LoadingWidget();
+          return  LoadingWidget();
         } else if (state is HomeFetchedState) {
           return Responsive(
               mobile: _mobileFeaturedJob(state.homes.featuredJobs),
