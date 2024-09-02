@@ -21,12 +21,14 @@ class CompanyFeilds extends StatelessWidget {
     aboutUs: '',
     website: '',
   );
-
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<CompanyProfileCubit, CompanyProfileState>(
       builder: (context, state) {
         return DynamicFormWidget(
+          formKey: _formKey,
           dynamicFormsList: [
             DynamicModel(
                 disabled: true,

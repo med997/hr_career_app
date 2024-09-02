@@ -52,7 +52,7 @@ class CompanyJopPage extends StatelessWidget {
                           jobCardType: JobCardType.company,
                           jobTitle: job[i].jobTitle,
                           companyName:
-                              job[i].company!.nameEn ?? job[i].company!.nameAr,
+                              job[i].company!.nameEn ,
                           jobLocation: job[i].city,
                           companyLogo: job[i].company!.companyLogo ?? '',
                           jobDeadLine: '${job[i].deadlineDate.hour}h ago',
@@ -61,7 +61,7 @@ class CompanyJopPage extends StatelessWidget {
                           jobCardType: JobCardType.company,
                           jobTitle: job[i].jobTitle,
                           companyName:
-                          job[i].company!.nameEn ?? job[i].company!.nameAr,
+                          job[i].company!.nameEn,
                           jobLocation: job[i].city,
                           companyLogo: job[i].company!.companyLogo ?? '',
                           jobDeadLine: '${job[i].deadlineDate.hour}h ago',
@@ -70,7 +70,7 @@ class CompanyJopPage extends StatelessWidget {
                           jobCardType: JobCardType.company,
                           jobTitle: job[i].jobTitle,
                           companyName:
-                          job[i].company!.nameEn ?? job[i].company!.nameAr,
+                          job[i].company!.nameEn ,
                           jobLocation: job[i].city,
                           companyLogo: job[i].company!.companyLogo ?? '',
                           jobDeadLine: '${job[i].deadlineDate.hour}h ago',
@@ -99,7 +99,7 @@ class CompanyJopPage extends StatelessWidget {
           child: state.selectedTab == 0 ? JobCard(
             jobCardType: JobCardType.company,
             jobTitle: job.jobTitle,
-            companyName: job.company!.nameEn ?? job.company!.nameAr,
+            companyName: job.company!.nameEn,
             jobLocation: job.city,
             companyLogo: job.company!.companyLogo ?? '',
             jobDeadLine: '${job.deadlineDate.hour}h ago',
@@ -108,7 +108,7 @@ class CompanyJopPage extends StatelessWidget {
           ) : state.selectedTab == 1 ? JobCard(
             jobCardType: JobCardType.company,
             jobTitle: job.jobTitle,
-            companyName: job.company!.nameEn ?? job.company!.nameAr,
+            companyName: job.company!.nameEn ,
             jobLocation: job.city,
             companyLogo: job.company!.companyLogo ?? '',
             jobDeadLine: '${job.deadlineDate.hour}h ago',
@@ -117,7 +117,7 @@ class CompanyJopPage extends StatelessWidget {
           ) : JobCard(
             jobCardType: JobCardType.company,
             jobTitle: job.jobTitle,
-            companyName: job.company!.nameEn ?? job.company!.nameAr,
+            companyName: job.company!.nameEn ,
             jobLocation: job.city,
             companyLogo: job.company!.companyLogo ?? '',
             jobDeadLine: '${job.deadlineDate.hour}h ago',

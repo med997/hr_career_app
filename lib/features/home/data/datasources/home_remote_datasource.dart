@@ -29,15 +29,10 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
           print(error.message);
         }
 
-      throw ServerException();
-    }on Exception catch (_){
-      print(_.toString());
-
-      rethrow;
+        throw ServerException(message: error.message);
     }catch(e){
+      throw ServerException(message: 'something wrong  !!!');
 
-      print(e);
-      rethrow;
     }
   }
 }

@@ -15,7 +15,7 @@ class AllJobsPage extends StatelessWidget {
       body: BlocBuilder<JobCubit, JobState>(
         builder: (context, state) {
                 if (state is JobLoadingState) {
-                  return const Center(
+                  return  Center(
                     child: LoadingWidget(),
                   );
                 } else if (state is JobFetchedState) {

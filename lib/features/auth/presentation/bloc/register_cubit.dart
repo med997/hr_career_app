@@ -17,88 +17,47 @@ part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   final SignupUseCase signupUseCase;
-  TextEditingController companyNameController = TextEditingController();
-  TextEditingController companyEmailController = TextEditingController();
-  TextEditingController companyPhoneController = TextEditingController();
-  TextEditingController companyAddressController = TextEditingController();
-  TextEditingController companyPasswordController = TextEditingController();
-  TextEditingController companyConfirmPasswordController =
-      TextEditingController();
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController userPhoneController = TextEditingController();
-  TextEditingController userEmailController = TextEditingController();
-  TextEditingController userPasswordController = TextEditingController();
-  TextEditingController userConfirmPasswordController = TextEditingController();
 
-  RegisterCubit({required this.signupUseCase}) : super(RegisterInitial()) {
-    companyNameController = TextEditingController();
-    companyEmailController = TextEditingController();
-    companyPhoneController = TextEditingController();
-    companyAddressController = TextEditingController();
-    companyPasswordController = TextEditingController();
-    companyConfirmPasswordController = TextEditingController();
-    userNameController = TextEditingController();
-    userPhoneController = TextEditingController();
-    userEmailController = TextEditingController();
-    userPasswordController = TextEditingController();
-    userConfirmPasswordController = TextEditingController();
-  }
+  RegisterCubit({required this.signupUseCase}) : super(RegisterInitial()) ;
 
-  Future<void> registerUser(int selectedIndex) async {
+  Future<void> registerUser(int selectedIndex, Map<String,dynamic>? value) async {
+    emit(RegisterLoading());
+
     UsrType usrType = selectedIndex == 0 ? UsrType.user : UsrType.company;
     Auth auth;
     if (usrType == UsrType.user) {
       auth = Auth(
-          email: userEmailController.text,
-          password: userPasswordController.text,
+          userType:UsrType.user ,
+          email: value!['email'],
+          password: value['password'],
           profile: Profile(
-              fullName: userNameController.text,
-              phone: userPhoneController.text,
-              email: userEmailController.text));
+              fullName: value['fullName'],
+              phone: value['phone'],
+              email: value['email']));
     } else {
       auth = Auth(
-          email: companyEmailController.text,
-          password: userPasswordController.text,
-          profile: Profile(
-              fullName: userNameController.text,
-              phone: companyPhoneController.text,
-              email: userEmailController.text));
+        userType:UsrType.company ,
+          email: value!['email'],
+          password: value['password'],
+          company: Company(
+              nameEn:value['companyName'],
+              phone: [value['phone']],
+              email: value['email'],
+              address: value['address']));
     }
 
     final failureOrSuccess = await signupUseCase.call(auth);
 
     emit(_mapFailureOrAuthToState(failureOrSuccess));
-  }
-  RegisterState _mapFailureOrAuthToState(Either<Failure,Auth> either) {
-    return either.fold(
-          (failure) => ErrRegisterUser(msg: _mapFailureToMessage(failure)),
-          (auth) => SuccessRegisterUser(
-          auth  : auth
-      ),
-    );
-  }
-/*  Future<void> insertRegisterCompany() async {
-    Company companyRe = Company(
-        email: companyEmailController.text,
-        phone: [companyPhoneController.text],
-        address: companyAddressController.text,
-        nameAr: companyNameController.text,
-        nameEn: companyNameController.text);
-    emit(InsertRegisterUser());
-  }*/
 
-  Future<void> register(String name, String email, String password) async {
-    emit(RegisterLoading());
-    // final failureOrSuccess = await addAuth;
-    // emit(_mapFailureOrRegisterToState(failureOrSuccess));
   }
+    RegisterState _mapFailureOrAuthToState(Either<Failure,Auth> either) {
+      return either.fold(
+            (failure) => ErrRegisterUser(msg: _mapFailureToMessage(failure)),
+            (auth) => SuccessRegisterUser(auth  : auth),
+      );
+    }
 
-  RegisterState _mapFailureOrRegisterToState(Either<Failure, Unit> either) {
-    return either.fold(
-      (failure) => RegisterErrorState(msg: _mapFailureToMessage(failure)),
-      (unit) => RegisterSuccess(),
-    );
-  }
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {

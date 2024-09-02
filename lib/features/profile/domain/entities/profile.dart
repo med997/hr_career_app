@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class Profile extends Equatable {
   final String? id;
-  final dynamic updatedAt;
+  final String? updatedAt;
   final String? username;
   final String? fullName;
   final String? avatarUrl;

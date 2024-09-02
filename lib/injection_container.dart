@@ -1,6 +1,9 @@
+import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
+import 'package:hr_career_platform/features/auth/domain/usecases/fetch_auth.dart';
+import 'package:hr_career_platform/features/auth/domain/usecases/login_use_case.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:hr_career_platform/features/auth/data/repositories/auth_repository_impl.dart';
@@ -47,7 +50,6 @@ Future<void> initDependencies() async {
   final supBaseInit = await Supabase.initialize(url: BaseUrl, anonKey: AnonKey);
   sl.registerLazySingleton(() => supBaseInit.client);
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-
 
 //! External
 
@@ -127,12 +129,9 @@ void _initHome() {
     )
     // cubit
     ..registerLazySingleton(
-      () => CompanyProfileCubit(),
-    )
-    // cubit
-    ..registerLazySingleton(
       () => TabNavCubit(),
     );
+
 }
 
 void _initAuth() {
@@ -158,9 +157,23 @@ void _initAuth() {
         sl(),
       ),
     )
+    ..registerFactory(
+      () => LoginUseCase(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => FetchAuthUseCase(
+        sl(),
+      ),
+    )
     // cubit
+
     ..registerLazySingleton(
       () => RegisterCubit(signupUseCase: sl()),
+    )
+    ..registerLazySingleton(
+      () => LoginCubit(loginUseCase: sl(), fetchAuthUseCase: sl()),
     );
 }
 
@@ -170,7 +183,8 @@ void _initCore() {
       () => ToggleBtnCubit(),
     )
     ..registerLazySingleton(() => SelectButtonCubit())
-    ..registerLazySingleton(() => LocaleCubit());
+    ..registerLazySingleton(() => LocaleCubit())
+    ..registerLazySingleton(() => DynamicFormCubit());
 }
 void _initProfile() {
   sl.registerLazySingleton(

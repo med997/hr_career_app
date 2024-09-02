@@ -10,21 +10,25 @@ class DynamicModel {
   List<ItemModel> items;
   ItemModel? selectedItem;
   bool isRequired;
+  String? compareText;
   bool disabled;
+  String? error;
   TextEditingController? controller;
   double width;
-  List<DynamicFormValidator> validators;
+  List<DynamicFormValidator>? validators;
 
   DynamicModel(this.controlName, this.formType,
       { this.value,
       this.items = const [],
       this.disabled = false,
       this.selectedItem,
+        this.error,
         this.controller,
+        this.compareText,
       this.width = 350,
       this.helperText,
       this.isRequired = false,
-      this.validators = const []});
+      this.validators });
 }
 
 class ItemModel {

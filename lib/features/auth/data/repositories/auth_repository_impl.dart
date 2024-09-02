@@ -15,17 +15,44 @@ class AuthRepositoryImpl extends AuthRepository {
       {required this.authRemoteDatasource, required this.networkInfo});
 
   @override
-  Future<Either<Failure, Auth>> login(Auth auth) {
-    // TODO: implement login
-    throw UnimplementedError();
+  Future<Either<Failure, Auth>> login(Auth auth)async {
+    if (await networkInfo.isConnected) {
+      try {
+        final response = await authRemoteDatasource.login(auth);
+        return Right(response);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+
   }
 
   @override
   Future<Either<Failure, Auth>> signup(Auth auth) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteJob = await authRemoteDatasource.signup(auth);
-        return Right(remoteJob);
+        final response = await authRemoteDatasource.signup(auth);
+        return Right(response);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Auth>> getCurrentUser() async{
+    if (await networkInfo.isConnected) {
+      try {
+        final response = await authRemoteDatasource.getCurrentUserData();
+        if(response!=null) {
+          return Right(response);
+        } else {
+          return left(AuthFailure());
+        }
       } on ServerException {
         return Left(ServerFailure());
       }

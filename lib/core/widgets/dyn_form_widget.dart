@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/custom_drop_down_menu.dart';
@@ -15,42 +17,54 @@ class DynamicFormWidget extends StatelessWidget {
   final List<DynamicModel> dynamicFormsList;
   final String submitBtnLabel;
   Function()? onSubmitClicked;
-  final _formKey = GlobalKey<FormState>();
-    DynamicFormWidget({super.key,
-    this.onSubmitClicked,
-    required this.dynamicFormsList,
-    required this.submitBtnLabel,  this.controller, required this.useResponsiveUi});
+  final formKey;
 
+  DynamicFormWidget(
+      {super.key,
+      this.onSubmitClicked,
+      required this.dynamicFormsList,
+      required this.formKey,
+      this.submitBtnLabel = 'go',
+      this.controller,
+      required this.useResponsiveUi});
 
   @override
   Widget build(BuildContext context) {
+    context.read<DynamicFormCubit>().replaceAll(dynamicFormsList);
+
+    return BlocBuilder<DynamicFormCubit,List<DynamicModel>>(
+  builder: (context, state) {
     return Responsive(
-
-      mobile: _mobileDynamicFormBuilder(),
-      desktop: useResponsiveUi ? _desktopWidgetBuilder(context,3) : _mobileDynamicFormBuilder(),
-      tablet: useResponsiveUi ? _desktopWidgetBuilder(context,2) : _mobileDynamicFormBuilder(),
-
+      mobile: _mobileDynamicFormBuilder(context, state),
+      desktop: useResponsiveUi
+          ? _desktopWidgetBuilder(context, 3)
+          : _mobileDynamicFormBuilder(context, state),
+      tablet: useResponsiveUi
+          ? _desktopWidgetBuilder(context, 2)
+          : _mobileDynamicFormBuilder(context, state),
     );
+  },
+);
   }
-  Widget getWidgetBasedFormType(DynamicModel dynModel) {
+
+  Widget getWidgetBasedFormType(DynamicModel dynModel, BuildContext context) {
     FormType type = dynModel.formType;
     switch (type) {
       case FormType.text:
         return SizedBox(
-            width: dynModel.width,
-            child: getTextWidget(dynModel));
-        case FormType.phone:
+            width: dynModel.width, child: getTextWidget(dynModel, context));
+      case FormType.email:
         return SizedBox(
-            width: dynModel.width,
-            child: getPhoneWidget(dynModel));
+            width: dynModel.width, child: getTextWidget(dynModel, context));
+      case FormType.phone:
+        return SizedBox(
+            width: dynModel.width, child: getPhoneWidget(dynModel, context));
       case FormType.password:
         return SizedBox(
-            width: dynModel.width,
-            child: getTextWidget(dynModel));
+            width: dynModel.width, child: getTextWidget(dynModel, context));
       case FormType.number:
         return SizedBox(
-            width: dynModel.width,
-            child: getTextWidget(dynModel));
+            width: dynModel.width, child: getTextWidget(dynModel, context));
       case FormType.multiline:
         return SizedBox();
       case FormType.dropdown:
@@ -64,55 +78,47 @@ class DynamicFormWidget extends StatelessWidget {
     }
   }
 
-  Widget _mobileDynamicFormBuilder() {
-    return Form(
-      key: _formKey,
-      onChanged: () {print(_formKey.toString());},
-      child: Column(children: [
-        ...dynamicFormsList.map((e) {
-          return getWidgetBasedFormType(e);
-        },),
+  Widget _mobileDynamicFormBuilder(BuildContext context,List<DynamicModel> dynamicModelList) {
+ 
+        return Form(
+          key: formKey,
+          child: Column(
+            children: [
+              ...dynamicModelList.map(
+                (e) {
+                  return getWidgetBasedFormType(e, context);
+                },
+              ),
+            ],
+          ),
+        );
 
-      ],
-      ),
-    );
   }
 
-
   Widget _desktopWidgetBuilder(BuildContext context, int columnCount) {
-    double itemWidth = MediaQuery
-        .of(context)
-        .size
-        .width / columnCount - 50;
+    double itemWidth = MediaQuery.of(context).size.width / columnCount - 50;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Wrap(
-
         direction: Axis.horizontal,
         spacing: (spacer * 2),
         children: <Widget>[
-          ...dynamicFormsList.map((e) {
-            return SizedBox(
-              width: e.width,
-              child: getWidgetBasedFormType(e),
-            );
-          },),
-
+          ...dynamicFormsList!.map(
+            (e) {
+              return SizedBox(
+                width: e.width,
+                child: getWidgetBasedFormType(e, context),
+              );
+            },
+          ),
           Container(
               decoration:
-              BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                  BoxDecoration(borderRadius: BorderRadius.circular(18)),
               width: itemWidth,
               height: 35,
               child: ElevatedButton(onPressed: () {}, child: Text('search'))),
         ],
       ),
-    );
-  }
-
-  Widget _tabletDynamicFormBuilder() {
-    return Column(children: [
-      ...dynamicFormsList.map((e) => getWidgetBasedFormType(e),)
-    ],
     );
   }
 

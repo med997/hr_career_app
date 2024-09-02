@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
+import 'package:hr_career_platform/core/util/validator.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
+import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
+import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/register_page.dart';
 import 'package:hr_career_platform/features/auth/presentation/widget/login_ana_register_appbar_functhion.dart';
@@ -17,14 +21,36 @@ import 'package:hr_career_platform/features/auth/presentation/widget/login_ana_r
 import '../../../../core/app_theme.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  final   loginFormKey = GlobalKey<FormState>();
+
+  List<DynamicModel> loginDynForm = [
+    DynamicModel('email', FormType.text,
+        value: '',
+        isRequired: true,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        disabled: false),
+    DynamicModel('password', FormType.password,
+        value: '',
+        isRequired: true,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        disabled: false),
+  ];
+
+  LoginPage({super.key});
   @override
   Widget build(BuildContext context) {
+
+
     return Responsive(
         mobile: _buildMobileLoginPage(context),
         tablet: _desktopAndTabletLoginPage(context),
         desktop: _desktopAndTabletLoginPage(context));
   }
+
 
   Widget _desktopAndTabletLoginPage(BuildContext context) {
     return Scaffold(
@@ -94,62 +120,22 @@ class LoginPage extends StatelessWidget {
                 BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
                   builder: (context, state) {
                     if (state.selectedTab == 0) {
+
                       return DynamicFormWidget(
-                        dynamicFormsList: [
-                          DynamicModel('Email', FormType.text,
-                              controller: context
-                                  .read<RegisterCubit>()
-                                  .companyEmailController,
-                              value: '',
-                              isRequired: true,
-                              disabled: false),
-                          DynamicModel('Password', FormType.password,
-                              controller: context
-                                  .read<RegisterCubit>()
-                                  .companyPasswordController,
-                              value: '',
-                              isRequired: true,
-                              disabled: false),
-                        ],
-                        submitBtnLabel: 'login',
-                        useResponsiveUi: false,
-                      );
+                        formKey: loginFormKey,
+                        dynamicFormsList: loginDynForm,
+                        submitBtnLabel: 'login', useResponsiveUi: false,);
                     } else {
+
+
                       return DynamicFormWidget(
-                        dynamicFormsList: [
-                          DynamicModel('Email', FormType.text,
-                              controller: context
-                                  .read<RegisterCubit>()
-                                  .companyEmailController,
-                              value: '',
-                              isRequired: true,
-                              disabled: false),
-                          DynamicModel('Password', FormType.password,
-                              controller: context
-                                  .read<RegisterCubit>()
-                                  .companyPasswordController,
-                              value: '',
-                              isRequired: true,
-                              disabled: false),
-                        ],
-                        submitBtnLabel: 'login',
-                        useResponsiveUi: false,
-                      );
+                        formKey: loginFormKey,
+                        dynamicFormsList: loginDynForm,
+                        submitBtnLabel: 'login', useResponsiveUi: false,);
                     }
                   },
                 ),
-                SizedBox(
-                  width: 350,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+               _loginBtn(),
                 TextButton(
                     onPressed: () {},
                     child: const Text('Forget Password?',
@@ -170,7 +156,10 @@ class LoginPage extends StatelessWidget {
       appBar: loginAndRegisterAppBar(),
       body: ListView(
         children: [
+
           Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -180,43 +169,14 @@ class LoginPage extends StatelessWidget {
                 builder: (context, state) {
                   if (state.selectedTab == 0) {
                     return DynamicFormWidget(
-                      dynamicFormsList: [
-                        DynamicModel('Email', FormType.text,
-                            controller: context
-                                .read<RegisterCubit>()
-                                .companyEmailController,
-                            value: '',
-                            isRequired: true,
-                            disabled: false),
-                        DynamicModel('Password', FormType.text,
-                            controller: context
-                                .read<RegisterCubit>()
-                                .companyPasswordController,
-                            value: '',
-                            isRequired: true,
-                            disabled: false),
-                      ],
-                      submitBtnLabel: 'login',
-                      useResponsiveUi: false,
-                    );
+                      formKey: loginFormKey,
+                      dynamicFormsList: loginDynForm,
+                      submitBtnLabel: 'login', useResponsiveUi: false,);
                   } else {
+
                     return DynamicFormWidget(
-                      dynamicFormsList: [
-                        DynamicModel('Email', FormType.text,
-                            controller: context
-                                .read<RegisterCubit>()
-                                .companyEmailController,
-                            value: '',
-                            isRequired: true,
-                            disabled: false),
-                        DynamicModel('Password', FormType.text,
-                            controller: context
-                                .read<RegisterCubit>()
-                                .companyPasswordController,
-                            value: '',
-                            isRequired: true,
-                            disabled: false),
-                      ],
+                      formKey: loginFormKey,
+                      dynamicFormsList: loginDynForm,
                       submitBtnLabel: 'login',
                       useResponsiveUi: false,
                     );
@@ -235,18 +195,7 @@ class LoginPage extends StatelessWidget {
                           fontSize: 12),
                     )),
               ),
-              SizedBox(
-                width: 350,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+           _loginBtn(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
                 child: SizedBox(
@@ -278,7 +227,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => RegisterPage()),
@@ -291,6 +240,56 @@ class LoginPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+
+  _loginBtn() {
+    return BlocBuilder<LoginCubit, LoginState>(
+      builder: (context, state) {
+        return Center(
+          child: SizedBox(
+            width: 350,
+            height: 35,
+            child: MaterialButton(
+              color: primaryColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              onPressed: () {
+                final value = context.read<DynamicFormCubit>().getCurrentValue();
+                print(value);
+                if (loginFormKey.currentState!.validate()) {
+                  context.read<LoginCubit>().loginUser(
+                      context.read<ToggleBtnCubit>().state.selectedTab,
+                      value);
+                }
+              },
+              enableFeedback: false,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Login',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  if (state is LoginLoading)
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: FittedBox(
+                          child: LoadingWidget(
+                            progressColor: Colors.white,
+                          )),
+                    )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

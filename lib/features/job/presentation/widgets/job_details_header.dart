@@ -37,7 +37,7 @@ class JobDetailsHeader extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 12),
             child: ListTile(
               title: Text(
-                job.company!.nameAr,
+                job.company!.nameAr??'',
                 style: const TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
               ),
