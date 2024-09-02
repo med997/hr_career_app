@@ -89,7 +89,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ToggleBtnWidget(),
+                  child: ToggleBtnWidget(options: [],),
                 ),
                 BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
                   builder: (context, state) {
@@ -174,7 +174,7 @@ class LoginPage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
-                child: ToggleBtnWidget(),
+                child: ToggleBtnWidget(options: [],),
               ),
               BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
                 builder: (context, state) {
