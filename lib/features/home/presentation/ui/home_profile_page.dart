@@ -11,7 +11,6 @@ import 'package:hr_career_platform/injection_container.dart' as di;
 class HomeProfilePage extends StatelessWidget {
   HomeProfilePage({super.key});
 
-
   final _formKey = GlobalKey<FormState>();
 
   _submitClicked(BuildContext context) {
@@ -21,58 +20,48 @@ class HomeProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
-  builder: (context, state) {
-    return ListView(
-        padding: EdgeInsets.symmetric(vertical: 8),
-        children: [
-                 DynamicFormWidget(
-                   formKey: _formKey,
-                  submitBtnLabel: "save",
-                  dynamicFormsList: [
-                    DynamicModel('name', FormType.text,
-                      controller:  context.read<ProfileCubit>().userNameController),
-                    DynamicModel(
-                      'nameAr',
-                      FormType.text,
-                        controller:  context.read<ProfileCubit>().phoneController
-                    ),
-                    DynamicModel(
-                      'currentJob',
-                      FormType.text,
-                        controller:  context.read<ProfileCubit>().currentJobController
-                    ),
-                    DynamicModel(
-                      'nationality',
-                      FormType.dropdown,
-                      items: [
-                        ItemModel(key: 'saudi', value: 'saoudi'),
-                        ItemModel(key: 'yemeni', value: 'yemeni'),
-                        ItemModel(key: 'egyption', value: 'egyption')
-                      ],
-                        value: context.read<ProfileCubit>().nationality,
-
-                    ),
-                  ], useResponsiveUi: true,
-                ),
+      builder: (context, state) {
+        return ListView(padding: EdgeInsets.symmetric(vertical: 8), children: [
+          DynamicFormWidget(
+            formKey: _formKey,
+            submitBtnLabel: "save",
+            dynamicFormsList: [
+              DynamicModel('name', FormType.text,
+                  controller: context.read<ProfileCubit>().userNameController),
+              DynamicModel('nameAr', FormType.text,
+                  controller: context.read<ProfileCubit>().phoneController),
+              DynamicModel('currentJob', FormType.text,
+                  controller:
+                      context.read<ProfileCubit>().currentJobController),
+              DynamicModel(
+                'nationality',
+                FormType.dropdown,
+                items: [
+                  ItemModel(key: 'saudi', value: 'saoudi'),
+                  ItemModel(key: 'yemeni', value: 'yemeni'),
+                  ItemModel(key: 'egyption', value: 'egyption')
+                ],
+                value: context.read<ProfileCubit>().nationality,
+              ),
+            ],
+            useResponsiveUi: true,
+          ),
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Container(
-
                 decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                    BoxDecoration(borderRadius: BorderRadius.circular(12)),
                 width: 350,
                 height: 35,
-                child: ElevatedButton(onPressed: () {
-                 _submitClicked(context);
-                  // onSubmitClicked!();
-                }, child: Text('gooo'))),
+                child: ElevatedButton(
+                    onPressed: () {
+                      _submitClicked(context);
+                      // onSubmitClicked!();
+                    },
+                    child: Text('gooo'))),
           ),
-
-
-
-     ]);
-  },
+        ]);
+      },
     );
+  }
 }
-}
-
