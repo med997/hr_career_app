@@ -1,7 +1,18 @@
 part of 'profile_cubit.dart';
 
-sealed class ProfileState extends Equatable {
-  ProfileState();
+class ProfileState extends Equatable {
+  final bool isDisabled ;
+  ProfileState({required this.isDisabled});
+
+  ProfileState copyWith({bool? isDisabled}){
+    return ProfileState(isDisabled: isDisabled ?? this.isDisabled);
+  }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [isDisabled];
+
+
 }
 
 final class ProfileInitial extends ProfileState {
@@ -12,11 +23,12 @@ final class ProfileInitial extends ProfileState {
       email: '',
       gender: '',
       nationality: '');
-  ProfileInitial();
+  ProfileInitial() : super(isDisabled: false);
 
   @override
   List<Object> get props => [preProfile];
 }
+
 final class ProfileInsertStatus extends ProfileState {
   Profile preProfile = Profile(
       username: '',
@@ -25,7 +37,7 @@ final class ProfileInsertStatus extends ProfileState {
       email: '',
       gender: '',
       nationality: '');
-  ProfileInsertStatus(this.preProfile);
+  ProfileInsertStatus(this.preProfile) : super(isDisabled: false);
 
   @override
   List<Object> get props => [preProfile];
