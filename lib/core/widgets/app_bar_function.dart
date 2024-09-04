@@ -37,7 +37,7 @@ AppBar buildAppBar(
                   child: Text(items),);
               }).toList(),
               onChanged: (String? newValue) {
-                if (newValue != null) {
+                if (newValue != null ) {
                   context.read<LocaleCubit>().changeLanguage(newValue);
                 }
               },

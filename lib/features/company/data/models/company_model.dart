@@ -70,7 +70,7 @@ class CompanyModel extends Company {
     "website": website,
     "about_us": aboutUs,
     "company_logo": companyLogo,
-    "locations": List<dynamic>.from(locations!.map((x) => x.toJson())),
+    "locations": locations??[],
     "created_at": createdAt,
     "head_office": headOffice,
     "images_path": imagesPath,

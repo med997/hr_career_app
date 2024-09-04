@@ -17,6 +17,7 @@ import 'package:hr_career_platform/features/company/presentation/bloc/selecte_bu
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
+import 'package:hr_career_platform/features/home/presentation/ui/home_company_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
 
 import 'features/job/presentation/bloc/job_cubit.dart';
@@ -96,9 +97,6 @@ class _MyAppState extends State<MyApp> {
           ],
           title: 'Flutter Demo',
           theme: appTheme,
-          routes: {
-            '': (context) => HomePage(),
-          },
           scrollBehavior: const MaterialScrollBehavior().copyWith(
             dragDevices: {
               PointerDeviceKind.mouse,
@@ -110,19 +108,33 @@ class _MyAppState extends State<MyApp> {
           home: BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
               if (state is CurrentUserStatus) {
+                if (state.auth.userType == UsrType.user) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                      (route) => false);
+                }
+              }else{
                 Navigator.pushAndRemoveUntil(
-                    context, MaterialPageRoute(builder: (context) => HomePage(),), (route) => false);
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  LoginPage(),
+                    ),
+                        (route) => false);
               }
             },
             builder: (context, state) {
-
-               if (state is CurrentUserStatus) {
-                 return HomePage();
-                  } else {
-                    return LoginPage();
-                  }
-
-
+              if (state is CurrentUserStatus) {
+                if (state.auth.userType == UsrType.user) {
+                  return HomePage();
+                } else {
+                  return HomeCompanyPage();
+                }
+              } else {
+                return LoginPage();
+              }
             },
           ),
         );

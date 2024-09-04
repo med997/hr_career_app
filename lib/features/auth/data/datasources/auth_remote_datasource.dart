@@ -78,6 +78,7 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
 
   @override
   Future<AuthModel> signup(Auth authModel) async {
+
     try {
       final AuthResponse data;
       final AuthModel authModelData;
@@ -98,20 +99,27 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
             userAuth: user,
             profile: ProfileModel.fromJson(user.userMetadata ?? {}));
       } else {
-        Map<String, String> userTypeMap = {'userType': UsrType.company.name};
+        Map<String, dynamic> userTypeMap = {'userType': UsrType.company.name};
+
         CompanyModel model = CompanyModel.fromCompany(authModel.company);
+        print(model.phone);
+
         data = await supBase.auth.signUp(
           email: authModel.email,
           password: authModel.password,
           data: {...userTypeMap, ...model.toJson()},
         );
         user = data.user!;
+        print(model.toJson());
+        print( CompanyModel.fromJson(user.userMetadata ?? {}));
+
         authModelData = AuthModel(
             userType:UsrType.company,
             email: user.email ?? '',
             password: '',
             userAuth: user,
             company: CompanyModel.fromJson(user.userMetadata ?? {}));
+        print(authModel.company!.phone);
       }
 
       print(user.toString());

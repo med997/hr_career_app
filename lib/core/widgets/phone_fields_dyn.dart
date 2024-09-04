@@ -11,7 +11,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 Widget getPhoneWidget(DynamicModel dynamicModel,[BuildContext? context]) {
 return
   IntlPhoneField(
-
+      initialValue: dynamicModel.value,
     showCountryFlag: false,
     decoration: InputDecoration(
       counterText: '',

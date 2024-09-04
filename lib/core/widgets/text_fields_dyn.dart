@@ -27,7 +27,8 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
             ? TextInputType.emailAddress
             : TextInputType.text,
         maxLines: 1,
-        autovalidateMode: AutovalidateMode.onUnfocus,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        initialValue: dynamicModel.value,
         validator: (text) {
           //To validate non-empty, it returns an error message if the text is empty.
           if (dynamicModel.isRequired &&

@@ -4,7 +4,6 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 
 class ToggleBtnWidget extends StatelessWidget {
-  ToggleBtnWidget({super.key, required List<String> options});
 
   ToggleBtnWidget({super.key, this.options = const ['User', 'Company']});
 
