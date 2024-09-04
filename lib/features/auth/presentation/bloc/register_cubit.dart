@@ -35,7 +35,7 @@ class RegisterCubit extends Cubit<RegisterState> {
               phone: value['phone'],
               email: value['email']));
     } else {
-     try {
+
        auth = Auth(
            userType: UsrType.company,
            email: value!['email'],
@@ -45,12 +45,8 @@ class RegisterCubit extends Cubit<RegisterState> {
                phone: value['phone'],
                email: value['email'],
                address: value['address']));
-       print(auth.toString());
-     }catch (e) {
-       print(e);
-       rethrow;
      }
-    }
+
 
     final failureOrSuccess = await signupUseCase.call(auth);
 

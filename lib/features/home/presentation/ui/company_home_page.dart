@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/features/company/presentation/ui/company_profile_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/company_job_page.dart';
+import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
 import '../../../../core/util/const_val.dart';
 import '../../../../core/widgets/app_bar_function.dart';
 import '../bloc/tab_nav_cubit.dart';
@@ -79,7 +80,7 @@ class HomeCompanyPage extends StatelessWidget {
   Widget _navPageBody(int selectedTab) {
     switch (selectedTab) {
       case 0:
-        return CompanyJopPage();
+        return AddJobPage();
       case 1:
         return CompanyTendersPage();
       case 2:
