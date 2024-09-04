@@ -116,22 +116,23 @@ class _MyAppState extends State<MyApp> {
                         builder: (context) => HomePage(),
                       ),
                       (route) => false);
+                }else{
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>  HomeCompanyPage(),
+                      ),
+                          (route) => false);
                 }
-              }else{
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>  LoginPage(),
-                    ),
-                        (route) => false);
               }
             },
             builder: (context, state) {
               if (state is CurrentUserStatus) {
+                print(state.toString());
                 if (state.auth.userType == UsrType.user) {
                   return HomePage();
                 } else {
-                  return HomeCompanyPage();
+                  return  HomeCompanyPage();
                 }
               } else {
                 return LoginPage();

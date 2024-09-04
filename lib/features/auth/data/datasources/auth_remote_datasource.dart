@@ -40,13 +40,13 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
     try {
       final AuthModel authModelData;
       final res = await supBase.auth.signInWithPassword(
-        email: authModel.email,
+        email: authModel.email.trim(),
         password: authModel.password,
       );
 
       final User? user = res.user;
       print(user.toString());
-      UsrType usrType = user!.userMetadata!['userType'];
+      UsrType usrType = user!.userMetadata!['userType']=="user"?UsrType.user:UsrType.company;
       if (usrType == UsrType.company) {
         authModelData = AuthModel(
             userType: usrType,
@@ -87,7 +87,7 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         ProfileModel model = ProfileModel.fromProfile(authModel.profile);
         Map<String, String> userTypeMap = {'userType': UsrType.user.name};
         data = await supBase.auth.signUp(
-          email: authModel.email,
+          email: authModel.email.trim(),
           password: authModel.password,
           data: {...userTypeMap, ...model.toJson()},
         );
@@ -105,14 +105,13 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         print(model.phone);
 
         data = await supBase.auth.signUp(
-          email: authModel.email,
+          email: authModel.email.trim(),
           password: authModel.password,
           data: {...userTypeMap, ...model.toJson()},
         );
         user = data.user!;
         print(model.toJson());
         print( CompanyModel.fromJson(user.userMetadata ?? {}));
-
         authModelData = AuthModel(
             userType:UsrType.company,
             email: user.email ?? '',
