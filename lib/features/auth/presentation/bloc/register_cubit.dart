@@ -18,7 +18,6 @@ part 'register_state.dart';
 class RegisterCubit extends Cubit<RegisterState> {
   final SignupUseCase signupUseCase;
 
-
   RegisterCubit({required this.signupUseCase}) : super(RegisterInitial()) ;
 
   Future<void> registerUser(int selectedIndex, Map<String,dynamic>? value) async {
@@ -35,7 +34,6 @@ class RegisterCubit extends Cubit<RegisterState> {
               fullName: value['fullName'],
               phone: value['phone'],
               email: value['email']));
-      print(auth.toString());
     } else {
      try {
        auth = Auth(
@@ -53,7 +51,6 @@ class RegisterCubit extends Cubit<RegisterState> {
        rethrow;
      }
     }
-
 
     final failureOrSuccess = await signupUseCase.call(auth);
 

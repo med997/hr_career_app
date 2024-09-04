@@ -9,4 +9,7 @@ enum FormType { text, number, password, phone ,email,
 
 enum UsrType { user,company }
 enum JobCardType { user,company, tender }
+enum PkgType { tender,job }
+
+enum StepEnabling { sequential, individual }
 enum ValidatorType {equalTo, notEmpty, textLength, phoneNumber, age, email }
