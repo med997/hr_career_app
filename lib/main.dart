@@ -18,6 +18,8 @@ import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.da
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
+import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
+import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
 
 import 'features/job/presentation/bloc/job_cubit.dart';
 import 'injection_container.dart' as di;
@@ -64,6 +66,9 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<DynamicFormCubit>(),
       ),
+      BlocProvider(
+        create: (context) => di.sl<StepperCubit>(),
+      ),
     ],
     child: const MyApp(),
   ));
@@ -84,6 +89,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, state) {
         return MaterialApp(
           locale: state.locale,
+          debugShowCheckedModeBanner: false,
           supportedLocales: const [
             Locale('en'),
             Locale('ar'),
@@ -111,13 +117,16 @@ class _MyAppState extends State<MyApp> {
             listener: (context, state) {
               if (state is CurrentUserStatus) {
                 Navigator.pushAndRemoveUntil(
-                    context, MaterialPageRoute(builder: (context) => HomePage(),), (route) => false);
+                    context, MaterialPageRoute(builder: (context) => AddJobPage(),), (route) => false);
               }
             },
             builder: (context, state) {
 
                if (state is CurrentUserStatus) {
-                 return HomePage();
+                 
+                 return AddJobPage();
+
+
                   } else {
                     return LoginPage();
                   }
