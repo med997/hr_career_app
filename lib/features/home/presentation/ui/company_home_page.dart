@@ -1,27 +1,24 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
-import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
-import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
-import 'package:hr_career_platform/features/home/presentation/ui/home_job_page.dart';
-import 'package:hr_career_platform/features/home/presentation/ui/home_profile_page.dart';
-
+import 'package:hr_career_platform/features/company/presentation/ui/company_profile_page.dart';
+import 'package:hr_career_platform/features/home/presentation/ui/company_job_page.dart';
 import '../../../../core/util/const_val.dart';
-import '../../../company/presentation/ui/company_profile_page.dart';
-import 'company_job_page.dart';
+import '../../../../core/widgets/app_bar_function.dart';
+import '../bloc/tab_nav_cubit.dart';
 import 'company_tenders_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomeCompanyPage extends StatelessWidget {
+  const HomeCompanyPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Responsive(
         mobile: mobileHomeBuilder(),
         tablet: desktopHomeBuilder(context),
-        desktop: desktopHomeBuilder(context));
+        desktop: desktopHomeBuilder(context)
+    );
   }
-
   Widget mobileHomeBuilder() {
     return BlocBuilder<TabNavCubit, TabNavState>(
       builder: (context, state) {
@@ -35,7 +32,7 @@ class HomePage extends StatelessWidget {
               ? _navPageBody(state.selectedTab)
               : SizedBox(),
           bottomNavigationBar: NavigationBar(
-            destinations: navUserItem,
+            destinations: navUserCompanyItem,
             selectedIndex: state.selectedTab,
             onDestinationSelected: (value) =>
                 context.read<TabNavCubit>().changeTab(value),
@@ -65,7 +62,7 @@ class HomePage extends StatelessWidget {
                   minExtendedWidth: 192,
                   onDestinationSelected: (value) =>
                       context.read<TabNavCubit>().changeTab(value),
-                  destinations: navRailUserItem,
+                  destinations: navRailUserCompanyItem,
                   selectedIndex: state.selectedTab),
               Expanded(
                 child: (state is TabNavChangedState)
@@ -82,11 +79,11 @@ class HomePage extends StatelessWidget {
   Widget _navPageBody(int selectedTab) {
     switch (selectedTab) {
       case 0:
-        return HomeJobPage();
+        return CompanyJopPage();
       case 1:
         return CompanyTendersPage();
-      case 4:
-        return HomeProfilePage();
+      case 2:
+        return CompanyProfilePage();
       default:
         return Placeholder();
     }
