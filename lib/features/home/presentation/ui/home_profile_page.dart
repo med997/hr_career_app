@@ -90,7 +90,6 @@ class HomeProfilePage extends StatelessWidget {
                 validators: [
                   DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                 ]),
-            DynamicModel('controlName', FormType.datePicker)
           ];
         }
 
@@ -191,7 +190,7 @@ class HomeProfilePage extends StatelessWidget {
                     titleType: SubTitleType.withIcon,
                     iconButton: IconButton(
                         onPressed: () {
-                          context.read<ProfileCubit>().isDisabled()!;
+                          context.read<ProfileCubit>().isDisabled();
                         },
                         icon: const Icon(
                           Icons.edit_road,
@@ -204,18 +203,9 @@ class HomeProfilePage extends StatelessWidget {
                 useResponsiveUi: true,
               ),
               Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                    width: 350,
-                    height: 35,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          _submitClicked(context);
-                          // onSubmitClicked!();
-                        },
-                        child: const Text('gooo'))),
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: SubTitle(
+                    title: 'Experience', titleType: SubTitleType.textOnly),
               ),
             ]);
       },
