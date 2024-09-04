@@ -26,6 +26,12 @@ import 'package:hr_career_platform/features/job/domain/usercase/get_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
+import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
+import 'package:hr_career_platform/features/payment/data/datasources/payment_remote_datasource.dart';
+import 'package:hr_career_platform/features/payment/data/repositories/payment_repository_impl.dart';
+import 'package:hr_career_platform/features/payment/domain/repositories/payment_repository.dart';
+import 'package:hr_career_platform/features/payment/domain/usecases/get_package.dart';
+import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -44,7 +50,7 @@ Future<void> initDependencies() async {
   _initProfile();
   _initHome();
   _initCore();
-
+  _initPayment();
   _initAuth();
 //! Core
   final supBaseInit = await Supabase.initialize(url: BaseUrl, anonKey: AnonKey);
@@ -97,6 +103,34 @@ void _initJob() {
     // cubit
     ..registerLazySingleton(
       () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl()),
+    )
+    ..registerLazySingleton(
+      () => StepperCubit(),
+    );
+}
+void _initPayment() {
+  sl
+    // datasource
+    ..registerFactory<PaymentRemoteDataSource>(
+      () => PaymentsRemoteDataSourceImpl(
+        supBase: sl(),
+      ),
+    )
+
+    // repository
+    ..registerFactory<PaymentRepository>(
+      () => PaymentRepositoryImpl(
+        paymentRemoteDataSource: sl(),
+        networkInfo: sl(),
+      ),
+    )
+    // usecases
+    ..registerFactory(
+      () => GetPackageUseCase(repository: sl()),
+    )
+    // cubit
+    ..registerLazySingleton(
+      () => PackageCubit(getPackageUseCase: sl()),
     );
 }
 

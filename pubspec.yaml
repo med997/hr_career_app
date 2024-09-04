@@ -49,6 +49,9 @@ dependencies:
   carousel_slider: ^5.0.0
   flutter_svg: ^2.0.10+1
   lottie: ^3.1.2
+  moyasar: ^2.0.13
+  easy_stepper: ^0.8.5+1
+  flutter_inappwebview: ^6.0.0
 
 dev_dependencies:
   flutter_test:

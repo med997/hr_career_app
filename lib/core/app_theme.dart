@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const primaryColor = Color(0xff356899);
 const primaryTransparent = Color(0x33356899);
+const successColor = Color(0xFF3DD26D);
 const secondaryColor = Color(0xff51eec2);
 const bgColor = Color(0xfffafcfd);
 
