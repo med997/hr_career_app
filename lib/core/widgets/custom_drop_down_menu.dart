@@ -11,6 +11,7 @@ Widget buildCustomDropDownMenu( DynamicModel dynModel ,){
       DropdownMenuEntry(value: e.key, label: e.value),).toList();
 
   return  DropdownMenu(
+    enabled: !dynModel.disabled,
     width: dynModel.width ,
      trailingIcon: Transform.translate(
        offset: const Offset(3, -7),

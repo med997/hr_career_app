@@ -18,6 +18,11 @@ class ProfileCubit extends Cubit<ProfileState> {
     phoneController = TextEditingController();
     currentJobController = TextEditingController();
     nationalityTextController = TextEditingController();
+
+
+  }
+  Future<void> isDisabled ()async{
+    emit( state.copyWith(isDisabled: !state.isDisabled));
   }
 
   Future<void> insertProfile() async {
@@ -25,7 +30,9 @@ class ProfileCubit extends Cubit<ProfileState> {
         username: userNameController.text,
         phone: phoneController.text,
         currentJob: currentJobController.text,
+        secondaryPhone: '',
         email: '',
+        fullName: '',
         gender: '',
         nationality: nationality);
 

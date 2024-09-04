@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 
 enum SubTitleType { textOnly, withIcon, withShowMore }
@@ -7,10 +8,11 @@ enum SubTitleType { textOnly, withIcon, withShowMore }
 class SubTitle extends StatelessWidget {
   String title;
   Icon? icon;
+  IconButton? iconButton;
   SubTitleType titleType = SubTitleType.textOnly;
   Function? onShowMoreClicked;
 
-  SubTitle({required this.title, this.icon, required this.titleType, this.onShowMoreClicked });
+  SubTitle({required this.title, this.icon,this.iconButton, required this.titleType, this.onShowMoreClicked });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class SubTitle extends StatelessWidget {
             Container(
               height: 24,
               width: 24,
-              child: icon,
+              child: icon ?? iconButton,
             )
           else if (titleType == SubTitleType.withShowMore)
             Container(
