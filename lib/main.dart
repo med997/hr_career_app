@@ -20,6 +20,7 @@ import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
+import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 
 import 'features/job/presentation/bloc/job_cubit.dart';
 import 'injection_container.dart' as di;
@@ -68,6 +69,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<StepperCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<PackageCubit>(),
       ),
     ],
     child: const MyApp(),

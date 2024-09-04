@@ -27,7 +27,7 @@ class CompanyJopPage extends StatelessWidget {
               desktop: _buildTabletDesktopLayout(
                   state.homes.recentJobs, 3, context));
         }
-        return Placeholder();
+        return SizedBox();
       },
     );
   }
