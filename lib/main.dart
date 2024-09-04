@@ -17,9 +17,10 @@ import 'package:hr_career_platform/features/company/presentation/bloc/selecte_bu
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
-import 'package:hr_career_platform/features/home/presentation/ui/home_company_page.dart';
+
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
 
+import 'features/home/presentation/ui/company_home_page.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
 import 'injection_container.dart' as di;
 
