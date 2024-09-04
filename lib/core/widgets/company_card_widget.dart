@@ -17,7 +17,6 @@ class CompanyCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return companyCardWidget();
   }
-
   Widget companyCardWidget() {
     return Center(
       child: Container(
