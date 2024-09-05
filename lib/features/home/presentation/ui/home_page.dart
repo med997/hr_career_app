@@ -30,6 +30,7 @@ class HomePage extends StatelessWidget {
             userName: 'Mohammed adnan',
             img: '',
             fullHeader: true,
+            selectedTab: state.selectedTab,
           ),
           body: (state is TabNavChangedState)
               ? _navPageBody(state.selectedTab)
@@ -53,6 +54,7 @@ class HomePage extends StatelessWidget {
             userName: 'Mohammed adnan',
             img: '',
             fullHeader: true,
+            selectedTab: state.selectedTab,
           ),
           body: Row(
             children: [
