@@ -14,6 +14,7 @@ import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubi
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/selecte_button_cubit.dart';
+import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
@@ -72,6 +73,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<PackageCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<GeneralCubit>()..getGeneral(),
       ),
     ],
     child: const MyApp(),

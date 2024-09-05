@@ -66,7 +66,8 @@ class DynamicFormWidget extends StatelessWidget {
         return SizedBox(
             width: dynModel.width, child: getTextWidget(dynModel, context));
       case FormType.multiline:
-        return SizedBox();
+        return SizedBox(
+            width: dynModel.width, child: getTextWidget(dynModel, context));
       case FormType.dropdown:
         return buildCustomDropDownMenu(dynModel);
       case FormType.autoComplete:
@@ -74,7 +75,8 @@ class DynamicFormWidget extends StatelessWidget {
       case FormType.rTE:
         return SizedBox();
       case FormType.datePicker:
-        return SizedBox();
+        return SizedBox(
+            width: dynModel.width, child: getTextWidget(dynModel, context));
     }
   }
 

@@ -102,7 +102,7 @@ class RegisterPage extends StatelessWidget {
         ],
         disabled: false),
   ];
-final   regFormKey = GlobalKey<FormState>();
+final regFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
