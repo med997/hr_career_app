@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,25 +6,17 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
-import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
-import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 import 'package:hr_career_platform/injection_container.dart' as di;
 
 import '../../../../core/cubit/toggle_btn_cubit.dart';
 
 class HomeProfilePage extends StatelessWidget {
-  HomeProfilePage({
-    super.key,
-  });
-
+  HomeProfilePage({super.key});
+  
   final profileFormKey = GlobalKey<FormState>();
-
-  _submitClicked(BuildContext context) {
-    context.read<ProfileCubit>().insertProfile();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +85,6 @@ class HomeProfilePage extends StatelessWidget {
                 ]),
           ];
         }
-
         return ListView(
             padding: const EdgeInsets.symmetric(vertical: 8),
             children: [
@@ -203,12 +195,94 @@ class HomeProfilePage extends StatelessWidget {
                 useResponsiveUi: true,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25),
-                child: SubTitle(
-                    title: 'Experience', titleType: SubTitleType.textOnly),
-              ),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: SubTitle(
+                    title: 'Resume',
+                    titleType: SubTitleType.textOnly,
+                  )),
+              Flex(
+                  direction: Axis.horizontal,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: SizedBox(
+                        width: 280,
+                        height: 40,
+                        child: TextFormField(
+                          enabled: false,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelText: state is FileUploadSuccess ? state.fileName : 'Title',
+                            errorStyle: const TextStyle(
+                              fontSize: 10.0,
+                            ),
+                            constraints: const BoxConstraints.tightFor(height: 55),
+                          ),
+                        ),
+
+                      ),
+                    ),
+                    Container(
+                        width: 65,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child:  Flex(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          direction: Axis.vertical,
+                          children: [
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: IconButton(
+                                padding: EdgeInsets.symmetric(vertical: 1),
+                                onPressed: () async {
+                                  FilePickerResult? result = await FilePicker.platform.pickFiles();
+                                  if (result != null && result.files.isNotEmpty) {
+                                    String fileName = result.files.first.name;
+                                    context.read<ProfileCubit>().uploadFile(fileName);
+                                  }
+                                },
+                                icon: const Icon(
+                                  Icons.cloud_upload_outlined,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+
+                              child: const Text(
+                                'Upload',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),),
+                  ])
             ]);
       },
     );
   }
 }
+
+/*
+ String? fileName;
+
+  Future<void> _pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      setState(() {
+        fileName  
+ = result.files.single.name;
+      });
+    } else {
+      // المستخدم ألغى العملية
+    }
+  }
+ */

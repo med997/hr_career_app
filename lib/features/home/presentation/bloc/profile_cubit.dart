@@ -1,3 +1,4 @@
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,11 @@ class ProfileCubit extends Cubit<ProfileState> {
 
 
   }
+
+  void uploadFile(String fileName) {
+    emit(FileUploadSuccess(fileName));
+  }
+
   Future<void> isDisabled ()async{
     emit( state.copyWith(isDisabled: !state.isDisabled));
   }

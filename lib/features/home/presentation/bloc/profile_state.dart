@@ -15,6 +15,13 @@ class ProfileState extends Equatable {
 
 }
 
+class FileUploadSuccess extends ProfileState {
+  final String fileName;
+   FileUploadSuccess(this.fileName) : super(isDisabled: false);
+  @override
+  List<Object> get props => [fileName];
+}
+
 final class ProfileInitial extends ProfileState {
   Profile preProfile = Profile(
       username: '',
