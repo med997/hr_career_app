@@ -11,11 +11,18 @@ import 'package:hr_career_platform/core/widgets/sub-title.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/injection_container.dart' as di;
 
-import '../../../../core/cubit/toggle_btn_cubit.dart';
-
 class HomeProfilePage extends StatelessWidget {
   HomeProfilePage({super.key});
-  
+
+  String? selectedQualification;
+
+  final List<String> qualifications = [
+    'High School',
+    'Associate ',
+    'Bachelor',
+    'Master',
+  ];
+
   final profileFormKey = GlobalKey<FormState>();
 
   @override
@@ -80,6 +87,15 @@ class HomeProfilePage extends StatelessWidget {
                 ]),
             DynamicModel('address', FormType.text,
                 disabled: !state.isDisabled,
+                validators: [
+                  DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                ]),
+            DynamicModel('gender', FormType.dropdown,
+                disabled: !state.isDisabled,
+                items: [
+                  ItemModel(key: 'male', value: 'male'),
+                  ItemModel(key: 'female', value: 'female'),
+                ],
                 validators: [
                   DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                 ]),
@@ -195,54 +211,324 @@ class HomeProfilePage extends StatelessWidget {
                 useResponsiveUi: true,
               ),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.only(left: 25, top: 5),
+                  child: SubTitle(
+                    title: 'Experience',
+                    titleType: SubTitleType.textOnly,
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.center,
+                  spacing: 4,
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      width: 140,
+                      height: 30,
+                      child: TextFormField(
+                        enabled: state.isDisabled,
+                        decoration: const InputDecoration(
+                          suffixIcon: Icon(
+                            Icons.date_range_outlined,
+                            color: primaryColor,
+                          ),
+                          errorMaxLines: 1,
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                              borderSide:
+                                  BorderSide(color: primaryTransparent)),
+                          label: Text('From'),
+                          errorStyle: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 10.0,
+                          ),
+                          constraints: BoxConstraints.tightFor(height: 55),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 140,
+                      height: 30,
+                      child: TextFormField(
+                        enabled: state.isDisabled,
+                        decoration: const InputDecoration(
+                          suffixIcon: Icon(
+                            Icons.date_range_outlined,
+                            color: primaryColor,
+                          ),
+                          errorMaxLines: 1,
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                              borderSide:
+                                  BorderSide(color: primaryTransparent)),
+                          label: Text('To'),
+                          errorStyle: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 10.0,
+                          ),
+                          constraints: BoxConstraints.tightFor(height: 55),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 140,
+                      height: 30,
+                      child: TextFormField(
+                        enabled: state.isDisabled,
+                        decoration: const InputDecoration(
+                          suffixIcon: Icon(
+                            Icons.location_on_outlined,
+                            color: primaryColor,
+                          ),
+                          errorMaxLines: 1,
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                              borderSide:
+                                  BorderSide(color: primaryTransparent)),
+                          label: Text('Where'),
+                          errorStyle: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 10.0,
+                          ),
+                          constraints: BoxConstraints.tightFor(height: 55),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: SizedBox(
+                        width: 430,
+                        height: 30,
+                        child: TextFormField(
+                          enabled: state.isDisabled,
+                          decoration: const InputDecoration(
+                            suffixIcon: Icon(
+                              Icons.info_outline_rounded,
+                              color: primaryColor,
+                            ),
+                            errorMaxLines: 1,
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                borderSide:
+                                    BorderSide(color: primaryTransparent)),
+                            label: Text('Jop Title'),
+                            errorStyle: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 10.0,
+                            ),
+                            constraints: BoxConstraints.tightFor(height: 55),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 25, top: 5,right: 25),
+                  child: SubTitle(
+                    title: 'Education',
+                    titleType: SubTitleType.withShowMore,
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.center,
+                  spacing: 4,
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      width: 140,
+                      height: 30,
+                      child: TextFormField(
+                        enabled: state.isDisabled,
+                        decoration: const InputDecoration(
+                          suffixIcon: Icon(
+                            Icons.date_range_outlined,
+                            color: primaryColor,
+                          ),
+                          errorMaxLines: 1,
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                              borderSide:
+                                  BorderSide(color: primaryTransparent)),
+                          label: Text('From'),
+                          errorStyle: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 10.0,
+                          ),
+                          constraints: BoxConstraints.tightFor(height: 55),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 140,
+                      height: 30,
+                      child: TextFormField(
+                        enabled: state.isDisabled,
+                        decoration: const InputDecoration(
+                          suffixIcon: Icon(
+                            Icons.date_range_outlined,
+                            color: primaryColor,
+                          ),
+                          errorMaxLines: 1,
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                              borderSide:
+                                  BorderSide(color: primaryTransparent)),
+                          label: Text('To'),
+                          errorStyle: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 10.0,
+                          ),
+                          constraints: BoxConstraints.tightFor(height: 55),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 140,
+                      height: 30,
+                      child: TextFormField(
+                        enabled: state.isDisabled,
+                        decoration: const InputDecoration(
+                          suffixIcon: Icon(
+                            Icons.location_on_outlined,
+                            color: primaryColor,
+                          ),
+                          errorMaxLines: 1,
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                              borderSide:
+                                  BorderSide(color: primaryTransparent)),
+                          label: Text('Where'),
+                          errorStyle: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 10.0,
+                          ),
+                          constraints: BoxConstraints.tightFor(height: 55),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: SizedBox(
+                        width: 200,
+                        height: 30,
+                        child: DropdownButtonFormField<String>(
+                          value: selectedQualification,
+                          onChanged: (newValue) {},
+                          items: qualifications.map((qualification) {
+                            return DropdownMenuItem(
+                              enabled: state.isDisabled,
+                              value: qualification,
+                              child: Text(qualification),
+                            );
+                          }).toList(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                            ),
+                            label: Text('Qualification',style: TextStyle(color: Colors.grey),),
+
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: SizedBox(
+                        width: 225,
+                        height: 30,
+                        child: TextFormField(
+                          enabled: state.isDisabled,
+                          decoration: const InputDecoration(
+                            suffixIcon: Icon(
+                              Icons.info_outline_rounded,
+                              color: primaryColor,
+                            ),
+                            errorMaxLines: 1,
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                borderSide:
+                                    BorderSide(color: primaryTransparent)),
+                            label: Text('Study Grade'),
+                            errorStyle: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 10.0,
+                            ),
+                            constraints: BoxConstraints.tightFor(height: 55),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 25, top: 5),
                   child: SubTitle(
                     title: 'Resume',
                     titleType: SubTitleType.textOnly,
                   )),
-              Flex(
-                  direction: Axis.horizontal,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: SizedBox(
-                        width: 280,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Flex(
+                    direction: Axis.horizontal,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 250,
                         height: 40,
                         child: TextFormField(
                           enabled: false,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            labelText: state is FileUploadSuccess ? state.fileName : 'Title',
+                            labelText: state is FileUploadSuccess
+                                ? state.fileName
+                                : 'Title',
                             errorStyle: const TextStyle(
                               fontSize: 10.0,
                             ),
-                            constraints: const BoxConstraints.tightFor(height: 55),
                           ),
                         ),
-
                       ),
-                    ),
-                    Container(
+                      Container(
                         width: 65,
                         height: 45,
                         decoration: BoxDecoration(
                           color: primaryColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child:  Flex(
+                        child: Flex(
                           mainAxisAlignment: MainAxisAlignment.center,
                           direction: Axis.vertical,
                           children: [
                             Flexible(
                               fit: FlexFit.loose,
                               child: IconButton(
-                                padding: EdgeInsets.symmetric(vertical: 1),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 1),
                                 onPressed: () async {
-                                  FilePickerResult? result = await FilePicker.platform.pickFiles();
-                                  if (result != null && result.files.isNotEmpty) {
+                                  FilePickerResult? result =
+                                      await FilePicker.platform.pickFiles();
+                                  if (result != null &&
+                                      result.files.isNotEmpty) {
                                     String fileName = result.files.first.name;
-                                    context.read<ProfileCubit>().uploadFile(fileName);
+                                    context
+                                        .read<ProfileCubit>()
+                                        .uploadFile(fileName);
                                   }
                                 },
                                 icon: const Icon(
@@ -251,9 +537,8 @@ class HomeProfilePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Flexible(
-
-                              child: const Text(
+                            const Flexible(
+                              child: Text(
                                 'Upload',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -262,8 +547,10 @@ class HomeProfilePage extends StatelessWidget {
                               ),
                             ),
                           ],
-                        ),),
-                  ])
+                        ),
+                      ),
+                    ]),
+              )
             ]);
       },
     );
@@ -271,18 +558,41 @@ class HomeProfilePage extends StatelessWidget {
 }
 
 /*
- String? fileName;
-
-  Future<void> _pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      setState(() {
-        fileName  
- = result.files.single.name;
-      });
-    } else {
-      // المستخدم ألغى العملية
-    }
-  }
+  Container(
+                      width: 70,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Flex(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        direction: Axis.horizontal,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: IconButton(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 2),
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.save_outlined,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          const Flexible(
+                            fit: FlexFit.tight,
+                            child: Text(
+                              'Save',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
  */
