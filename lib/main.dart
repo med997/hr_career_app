@@ -121,14 +121,14 @@ class _MyAppState extends State<MyApp> {
             listener: (context, state) {
               if (state is CurrentUserStatus) {
                 Navigator.pushAndRemoveUntil(
-                    context, MaterialPageRoute(builder: (context) => AddJobPage(),), (route) => false);
+                    context, MaterialPageRoute(builder: (context) => HomePage(),), (route) => false);
               }
             },
             builder: (context, state) {
 
                if (state is CurrentUserStatus) {
                  
-                 return AddJobPage();
+                 return HomePage();
 
 
                   } else {
