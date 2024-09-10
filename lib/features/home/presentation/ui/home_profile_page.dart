@@ -12,6 +12,8 @@ import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/injection_container.dart' as di;
 
+import '../../../profile/presentation/widgets/experience_widget.dart';
+
 class HomeProfilePage extends StatelessWidget {
   HomeProfilePage({super.key});
 
