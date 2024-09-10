@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
   final loginFormKey = GlobalKey<FormState>();
 
   List<DynamicModel> loginDynForm = [
-    DynamicModel('email', FormType.text,
+    DynamicModel('email', FormType.email,
         value: '',
         isRequired: true,
         validators: [
@@ -46,10 +46,13 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Responsive(
-        mobile: _buildMobileLoginPage(context),
-        tablet: _desktopAndTabletLoginPage(context),
-        desktop: _desktopAndTabletLoginPage(context));
+    return BlocProvider(
+      create: (context) => DynamicFormCubit()..addAllFields(loginDynForm),
+      child: Responsive(
+          mobile: _buildMobileLoginPage(context),
+          tablet: _desktopAndTabletLoginPage(context),
+          desktop: _desktopAndTabletLoginPage(context)),
+    );
   }
 
 
@@ -119,19 +122,15 @@ class LoginPage extends StatelessWidget {
                   child: ToggleBtnWidget(options: [],),
                 ),
                 BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                  builder: (context, state) {
-                    if (state.selectedTab == 0) {
+                    builder: (context, state) {
                       return DynamicFormWidget(
+                        key: Key('LoginKey'),
                         formKey: loginFormKey,
                         dynamicFormsList: loginDynForm,
-                        submitBtnLabel: 'login', useResponsiveUi: false,);
-                    } else {
-                      return DynamicFormWidget(
-                        formKey: loginFormKey,
-                        dynamicFormsList: loginDynForm,
-                        submitBtnLabel: 'login', useResponsiveUi: false,);
+                        submitBtnLabel: 'login',
+                        useResponsiveUi: false,);
                     }
-                  },
+
                 ),
                 _loginBtn(),
                 TextButton(
@@ -149,7 +148,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMobileLoginPage(BuildContext context) {
+  Widget _buildMobileLoginPage(BuildContext _) {
     return Scaffold(
       appBar: loginAndRegisterAppBar(),
       body: ListView(
@@ -163,23 +162,14 @@ class LoginPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
                 child: ToggleBtnWidget(options: [],),
               ),
-              BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                builder: (context, state) {
-                  if (state.selectedTab == 0) {
-                    return DynamicFormWidget(
-                      formKey: loginFormKey,
-                      dynamicFormsList: loginDynForm,
-                      submitBtnLabel: 'login', useResponsiveUi: false,);
-                  } else {
-                    return DynamicFormWidget(
-                      formKey: loginFormKey,
-                      dynamicFormsList: loginDynForm,
-                      submitBtnLabel: 'login',
-                      useResponsiveUi: false,
-                    );
-                  }
-                },
-              ),
+
+              DynamicFormWidget(
+                key: Key('loginForm'),
+                formKey: loginFormKey,
+                dynamicFormsList: loginDynForm,
+                submitBtnLabel: 'login',
+                useResponsiveUi: false,),
+
               Padding(
                 padding: const EdgeInsets.only(bottom: 18.0),
                 child: TextButton(
@@ -225,7 +215,7 @@ class LoginPage extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         Navigator.pushReplacement(
-                          context,
+                          _,
                           MaterialPageRoute(
                               builder: (context) => RegisterPage()),
                         );
@@ -252,11 +242,11 @@ class LoginPage extends StatelessWidget {
                   builder: (context) => HomePage(),
                 ),
                     (route) => false);
-          }else{
+          } else {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  HomeCompanyPage(),
+                  builder: (context) => HomeCompanyPage(),
                 ),
                     (route) => false);
           }
