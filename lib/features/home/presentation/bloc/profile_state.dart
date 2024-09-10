@@ -9,10 +9,17 @@ class ProfileState extends Equatable {
   }
 
   @override
-  // TODO: implement props
+
   List<Object?> get props => [isDisabled];
 
 
+}
+
+class FileUploadSuccess extends ProfileState {
+  final String fileName;
+   FileUploadSuccess(this.fileName) : super(isDisabled: false);
+  @override
+  List<Object> get props => [fileName];
 }
 
 final class ProfileInitial extends ProfileState {

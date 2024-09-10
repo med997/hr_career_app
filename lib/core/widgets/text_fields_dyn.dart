@@ -85,6 +85,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
         style: const TextStyle(fontSize: 14),
         obscureText: dynamicModel.formType == FormType.password,
         decoration: InputDecoration(
+          suffixIcon: dynamicModel.icons ,
           helperText: dynamicModel.helperText ?? '',
           labelText: dynamicModel.controlName,
           errorMaxLines: 1,
