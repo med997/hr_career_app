@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
 
@@ -16,6 +18,8 @@ class DynamicModel {
   TextEditingController? controller;
   double width;
   List<DynamicFormValidator>? validators;
+  Widget? action;
+
 
   DynamicModel(this.controlName, this.formType,
       { this.value,
@@ -28,7 +32,8 @@ class DynamicModel {
       this.width = 350,
       this.helperText,
       this.isRequired = false,
-      this.validators });
+      this.validators,
+      this.action});
 }
 
 class ItemModel {

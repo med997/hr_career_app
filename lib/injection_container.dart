@@ -1,5 +1,6 @@
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
+import 'package:hr_career_platform/core/cubit/location_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/fetch_auth.dart';
@@ -69,6 +70,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => InternetConnection());
 }
+
 
 void _initJob() {
   sl
@@ -225,7 +227,8 @@ void _initCore() {
     )
     ..registerLazySingleton(() => SelectButtonCubit())
     ..registerLazySingleton(() => LocaleCubit())
-    ..registerLazySingleton(() => DynamicFormCubit());
+    ..registerLazySingleton(() => DynamicFormCubit())
+    ..registerLazySingleton(() => LocationCubit());
 }
 
 void _initProfile() {
@@ -264,4 +267,5 @@ void _initGeneral() {
         getGeneralUseCase: sl(),
       ),
     );
+
 }
