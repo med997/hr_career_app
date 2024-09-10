@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
@@ -9,6 +10,7 @@ import 'package:hr_career_platform/core/widgets/phone_fields_dyn.dart';
 import 'package:hr_career_platform/core/widgets/text_fields_dyn.dart';
 
 import '../model/dynamic_model.dart';
+import 'map_icon_button.dart';
 
 class DynamicFormWidget extends StatelessWidget {
   final bool useResponsiveUi;
@@ -18,7 +20,6 @@ class DynamicFormWidget extends StatelessWidget {
   final String submitBtnLabel;
   Function()? onSubmitClicked;
   final formKey;
-
   DynamicFormWidget(
       {super.key,
       this.onSubmitClicked,
@@ -51,8 +52,8 @@ class DynamicFormWidget extends StatelessWidget {
     FormType type = dynModel.formType;
     switch (type) {
       case FormType.text:
-        return SizedBox(
-            width: dynModel.width, child: getTextWidget(dynModel, context));
+          return SizedBox(
+              width: dynModel.width, child: getTextWidget(dynModel, context));
       case FormType.email:
         return SizedBox(
             width: dynModel.width, child: getTextWidget(dynModel, context));

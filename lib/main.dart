@@ -7,6 +7,7 @@ import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
+import 'package:hr_career_platform/core/cubit/location_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
@@ -76,6 +77,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<GeneralCubit>()..getGeneral(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<LocationCubit>(),
       ),
     ],
     child: const MyApp(),
