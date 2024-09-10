@@ -11,6 +11,7 @@ class DynamicModel {
   ItemModel? selectedItem;
   bool isRequired;
   String? compareText;
+  Icon? icons;
   bool disabled;
   String? error;
   TextEditingController? controller;
@@ -24,6 +25,7 @@ class DynamicModel {
       this.items = const [],
       this.disabled = false,
       this.selectedItem,
+       this.icons,
         this.error,
         this.controller,
         this.compareText,
