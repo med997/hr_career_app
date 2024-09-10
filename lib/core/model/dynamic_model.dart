@@ -31,6 +31,7 @@ class DynamicModel {
         this.controller,
         this.compareText,
       this.width = 350,
+        this.icons,
       this.helperText,
       this.isRequired = false,
       this.validators,
