@@ -311,248 +311,142 @@ class HomeProfilePage extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: SubTitle(
-                title: 'Main Information',
-                titleType: SubTitleType.withIcon,
-                iconButton: IconButton(
-                    onPressed: () {
-                      context.read<ProfileCubit>().isDisabled();
-                    },
-                    icon: const Icon(
-                      Icons.edit_road,
-                      color: primaryColor,
-                    )),
-              )),
-          Center(child: minInfForm()),
-          Padding(
-              padding: const EdgeInsets.only(left: 25, top: 5),
-              child: SubTitle(
-                title: 'Experience',
-                titleType: SubTitleType.textOnly,
-              )),
-          Wrap(
-            spacing: 8.0,
-            runSpacing: 4.0,
-            alignment: WrapAlignment.start,
-            children: [
-              TextWithIcon(
+          SubTitle(
+            title: 'Main Information',
+            titleType: SubTitleType.withIcon,
+            iconButton: IconButton(
+                onPressed: () {
+                  context.read<ProfileCubit>().isDisabled();
+                },
                 icon: const Icon(
-                  Icons.date_range_outlined,
+                  Icons.edit_road,
                   color: primaryColor,
+                )),
+          ),
+          minInfForm(),
+          SubTitle(
+            title: 'Experience',
+            titleType: SubTitleType.textOnly,
+          ),
+          experienceWidget(
+              dateText: '22/11/2021-02/11/2023',
+              locationText: 'Riyadh Bank -KSA,Jeddah',
+              infoText: ' Senior Android Developer'),
+          experienceWidget(
+              dateText: '22/11/2021-02/11/2023',
+              locationText: 'Riyadh Bank -KSA,Jeddah',
+              infoText: ' Senior Android Developer'),
+          expFrom(),
+          Flex(
+            direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                width: 80,
+                height: 30,
+                child: MaterialButton(
+                  color: primaryColor,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                  onPressed: () {},
+                  child: const Flex(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    direction: Axis.horizontal,
+                    children: [
+                      Icon(Icons.save_outlined,color: Colors.white,),
+                      Text(
+                        'Save',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  )
                 ),
-                text: ' 22/11/2021-02/11/2023',
-                textColor: primaryTransparent.withOpacity(0.6),
               ),
-              TextWithIcon(
-                  icon: const Icon(
-                    Icons.location_on_outlined,
-                    color: primaryColor,
-                  ),
-                  text: ' Riyadh Bank -KSA,Jeddah',
-                  textColor: primaryTransparent.withOpacity(0.6)),
-              TextWithIcon(
-                  icon: const Icon(
-                    Icons.info_outline_rounded,
-                    color: primaryColor,
-                  ),
-                  text: ' Senior Android Developer',
-                  textColor: primaryTransparent.withOpacity(0.6))
             ],
           ),
-          Divider(
-            color: Colors.transparent.withOpacity(0.1),
-            thickness: 0.5,indent: 30,endIndent: 30,
+          SubTitle(
+            title: 'Education',
+            titleType: SubTitleType.withShowMore,
           ),
-          Center(
-            child: Wrap(
-              spacing: 8.0,
-              runSpacing: 4.0,
-              alignment: WrapAlignment.start,
+          educationWidget(
+              dateText: '25/8/2017-07/9/2021',
+              locationText: 'King Fahd University-KSA,Jeddah',
+              infoText: 'Information Technology'),
+          educationWidget(
+              dateText: '25/8/2017-07/9/2021',
+              locationText: 'King Fahd University-KSA,Jeddah',
+              infoText: 'Information Technology'),
+          edcFrom(),
+          SubTitle(
+            title: 'Resume',
+            titleType: SubTitleType.textOnly,
+          ),
+          Flex(
+              direction: Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextWithIcon(
-                  icon: const Icon(
-                    Icons.date_range_outlined,
-                    color: primaryColor,
-                  ),
-                  text: ' 22/11/2021-02/11/2023',
-                  textColor: primaryTransparent.withOpacity(0.6),
-                ),
-                TextWithIcon(
-                    icon: const Icon(
-                      Icons.location_on_outlined,
-                      color: primaryColor,
-                    ),
-                    text: ' Riyadh Bank -KSA,Jeddah',
-                    textColor: primaryTransparent.withOpacity(0.6)),
-                TextWithIcon(
-                    icon: const Icon(
-                      Icons.info_outline_rounded,
-                      color: primaryColor,
-                    ),
-                    text: ' Senior Android Developer',
-                    textColor: primaryTransparent.withOpacity(0.6))
-              ],
-            ),
-          ),
-          Divider(
-            color: Colors.transparent.withOpacity(0.1),
-            thickness: 0.5,indent: 30,endIndent: 30,
-          ),
-          Center(child: expFrom(),),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: SubTitle(
-                title: 'Education',
-                titleType: SubTitleType.withShowMore,
-              )),
-          Center(
-            child: Wrap(
-              spacing: 8.0,
-              runSpacing: 4.0,
-              alignment: WrapAlignment.start,
-              children: [
-                TextWithIcon(
-                  icon: const Icon(
-                    Icons.date_range_outlined,
-                    color: primaryColor,
-                  ),
-                  text: ' 22/11/2021-02/11/2023',
-                  textColor: primaryTransparent.withOpacity(0.6),
-                ),
-                TextWithIcon(
-                    icon: const Icon(
-                      Icons.location_on_outlined,
-                      color: primaryColor,
-                    ),
-                    text: ' Riyadh Bank -KSA,Jeddah',
-                    textColor: primaryTransparent.withOpacity(0.6)),
-                TextWithIcon(
-                    icon: const Icon(
-                      Icons.info_outline_rounded,
-                      color: primaryColor,
-                    ),
-                    text: ' Senior Android Developer',
-                    textColor: primaryTransparent.withOpacity(0.6))
-              ],
-            ),
-          ),
-          Divider(
-            color: Colors.transparent.withOpacity(0.1),
-            thickness: 0.5,indent: 30,endIndent: 30,
-          ),
-          Center(
-            child: Wrap(
-              spacing: 8.0,
-              runSpacing: 4.0,
-              alignment: WrapAlignment.start,
-              children: [
-                TextWithIcon(
-                  icon: const Icon(
-                    Icons.date_range_outlined,
-                    color: primaryColor,
-                  ),
-                  text: ' 22/11/2021-02/11/2023',
-                  textColor: primaryTransparent.withOpacity(0.6),
-                ),
-                TextWithIcon(
-                    icon: const Icon(
-                      Icons.location_on_outlined,
-                      color: primaryColor,
-                    ),
-                    text: ' Riyadh Bank -KSA,Jeddah',
-                    textColor: primaryTransparent.withOpacity(0.6)),
-                TextWithIcon(
-                    icon: const Icon(
-                      Icons.info_outline_rounded,
-                      color: primaryColor,
-                    ),
-                    text: ' Senior Android Developer',
-                    textColor: primaryTransparent.withOpacity(0.6))
-              ],
-            ),
-          ),
-          Divider(
-            color: Colors.transparent.withOpacity(0.1),
-            thickness: 0.5,indent: 30,endIndent: 30,
-          ),
-          Center(child: edcFrom()),
-          Padding(
-              padding: const EdgeInsets.only(left: 25, top: 5),
-              child: SubTitle(
-                title: 'Resume',
-                titleType: SubTitleType.textOnly,
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Flex(
-                direction: Axis.horizontal,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 250,
-                    height: 40,
-                    child: TextFormField(
-                      enabled: false,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText: context.read<ProfileCubit>().state
-                                is FileUploadSuccess
-                            ? 'context.read<ProfileCubit>().state.fileName'
-                            : 'Title',
-                        errorStyle: const TextStyle(
-                          fontSize: 10.0,
-                        ),
+                SizedBox(
+                  width: 250,
+                  height: 40,
+                  child: TextFormField(
+                    enabled: false,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      labelText: context.read<ProfileCubit>().state
+                              is FileUploadSuccess
+                          ? 'context.read<ProfileCubit>().state.fileName'
+                          : 'Title',
+                      errorStyle: const TextStyle(
+                        fontSize: 10.0,
                       ),
                     ),
                   ),
-                  Container(
-                    width: 65,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Flex(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      direction: Axis.vertical,
-                      children: [
-                        Flexible(
-                          fit: FlexFit.loose,
-                          child: IconButton(
-                            padding: const EdgeInsets.symmetric(vertical: 1),
-                            onPressed: () async {
-                              FilePickerResult? result =
-                                  await FilePicker.platform.pickFiles();
-                              if (result != null && result.files.isNotEmpty) {
-                                String fileName = result.files.first.name;
-                                context
-                                    .read<ProfileCubit>()
-                                    .uploadFile(fileName);
-                              }
-                            },
-                            icon: const Icon(
-                              Icons.cloud_upload_outlined,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        const Flexible(
-                          child: Text(
-                            'Upload',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                ),
+                Container(
+                  width: 65,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                ]),
-          )
+                  child: Flex(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    direction: Axis.vertical,
+                    children: [
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: IconButton(
+                          padding: const EdgeInsets.symmetric(vertical: 1),
+                          onPressed: () async {
+                            FilePickerResult? result =
+                                await FilePicker.platform.pickFiles();
+                            if (result != null && result.files.isNotEmpty) {
+                              String fileName = result.files.first.name;
+                              context
+                                  .read<ProfileCubit>()
+                                  .uploadFile(fileName);
+                            }
+                          },
+                          icon: const Icon(
+                            Icons.cloud_upload_outlined,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Flexible(
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ])
         ]);
   }
 }
