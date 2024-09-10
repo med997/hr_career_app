@@ -8,137 +8,217 @@ import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
+import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/injection_container.dart' as di;
 
 class HomeProfilePage extends StatelessWidget {
   HomeProfilePage({super.key});
 
-  final   mainInfoFormKey = GlobalKey<FormState>();
-  final   expFormKey = GlobalKey<FormState>();
+  final mainInfoFormKey = GlobalKey<FormState>();
+  final expFormKey = GlobalKey<FormState>();
+  final edcFormKey = GlobalKey<FormState>();
+  final List<DynamicModel> profileInf = [
+    DynamicModel('fullName', FormType.text, value: 'fullName', validators: [
+      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+    ]),
+    DynamicModel('fullNameAr', FormType.text, value: 'fullNameAr', validators: [
+      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+    ]),
+    DynamicModel('currentJob', FormType.text, value: 'currentJob', validators: [
+      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+    ]),
+    DynamicModel('date', FormType.text, value: 'date', validators: [
+      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+    ]),
+    DynamicModel('nationality', FormType.dropdown,
+        value: 'nationality',
+        // disabled: !state.isDisabled,
+        items: [
+          ItemModel(key: 'saudi', value: 'saudi'),
+          ItemModel(key: 'yemeni', value: 'yemeni'),
+          ItemModel(key: 'egyptian', value: 'egyptian'),
+        ],
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('status', FormType.dropdown,
+        value: 'status',
+        // disabled: !state.isDisabled,
+        items: [
+          ItemModel(key: 'married', value: 'married'),
+          ItemModel(key: 'single', value: 'single'),
+        ],
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('phone', FormType.phone,
+        value: 'phone',
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('secondaryPhone', FormType.phone,
+        value: 'secondaryPhone',
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('email', FormType.email,
+        value: 'email',
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('address', FormType.text,
+        value: 'address',
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('gender', FormType.dropdown,
+        value: 'gender',
+        // disabled: !state.isDisabled,
+        items: [
+          ItemModel(key: 'male', value: 'male'),
+          ItemModel(key: 'female', value: 'female'),
+        ],
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+  ];
 
-  final List<DynamicModel> profileInf =
-     [
-      DynamicModel('fullName', FormType.text, value: 'fullName',
+  final List<DynamicModel> profileExp = [
+    DynamicModel('from', FormType.text,
+        value: 'from',
+        icons: const Icon(
+          Icons.date_range_outlined,
+          color: primaryColor,
+        ),
+        width: 140,
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('to', FormType.text,
+        value: 'to',
+        icons: const Icon(
+          Icons.date_range_outlined,
+          color: primaryColor,
+        ),
+        width: 140,
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('where', FormType.text,
+        value: 'where',
+        icons: const Icon(
+          Icons.location_on_outlined,
+          color: primaryColor,
+        ),
+        width: 140,
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('jobTitle', FormType.text,
+        value: 'jobTitle',
+        icons: const Icon(
+          Icons.info_outline_rounded,
+          color: primaryColor,
+        ),
+        width: 420,
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+  ];
 
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('fullNameAr', FormType.text, value: 'fullNameAr',
+  final List<DynamicModel> profileEdc = [
+    DynamicModel('from', FormType.text,
+        value: 'from',
+        icons: const Icon(
+          Icons.date_range_outlined,
+          color: primaryColor,
+        ),
+        width: 140,
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('to', FormType.text,
+        value: 'to',
+        icons: const Icon(
+          Icons.date_range_outlined,
+          color: primaryColor,
+        ),
+        width: 140,
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('where', FormType.text,
+        value: 'where',
+        icons: const Icon(
+          Icons.location_on_outlined,
+          color: primaryColor,
+        ),
+        width: 140,
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('qualification ', FormType.dropdown,
+        value: 'qualification ',
+        items: [
+          ItemModel(key: 'High School', value: 'High School'),
+          ItemModel(key: 'Associate', value: 'Associate'),
+          ItemModel(key: 'Bachelor', value: 'Bachelor'),
+          ItemModel(key: 'Master', value: 'Master'),
+        ],
+        width: 200,
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+    DynamicModel('studyGrade', FormType.text,
+        value: 'studyGrade',
+        icons: const Icon(
+          Icons.info_outline_rounded,
+          color: primaryColor,
+        ),
+        width: 225,
+        // disabled: !state.isDisabled,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ]),
+  ];
 
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('currentJob', FormType.text, value: 'currentJob',
-
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('date', FormType.text, value: 'date',
-
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('nationality', FormType.dropdown, value: 'nationality',
-          // disabled: !state.isDisabled,
-          items: [
-            ItemModel(key: 'saudi', value: 'saudi'),
-            ItemModel(key: 'yemeni', value: 'yemeni'),
-            ItemModel(key: 'egyptian', value: 'egyptian'),
-          ],
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('status', FormType.dropdown, value: 'status',
-          // disabled: !state.isDisabled,
-          items: [
-            ItemModel(key: 'married', value: 'married'),
-            ItemModel(key: 'single', value: 'single'),
-          ],
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('phone', FormType.phone, value: 'phone',
-          // disabled: !state.isDisabled,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('secondaryPhone', FormType.phone, value: 'secondaryPhone',
-          // disabled: !state.isDisabled,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('email', FormType.email, value: 'email',
-          // disabled: !state.isDisabled,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('address', FormType.text, value: 'address',
-          // disabled: !state.isDisabled,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('gender', FormType.dropdown, value: 'gender',
-          // disabled: !state.isDisabled,
-          items: [
-            ItemModel(key: 'male', value: 'male'),
-            ItemModel(key: 'female', value: 'female'),
-          ],
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-    ];
-  final List<DynamicModel> profileExp =
-     [
-      DynamicModel('from', FormType.text, value: 'from',
-
-          icons: Icon(
-            Icons.date_range_outlined,
-            color: primaryColor,
-          ),
-          // disabled: !state.isDisabled,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('to', FormType.text, value: 'to',
-
-          icons: Icon(
-            Icons.date_range_outlined,
-            color: primaryColor,
-          ),
-          // disabled: !state.isDisabled,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-      DynamicModel('where', FormType.text, value: 'where',
-          width: 140,
-          icons: Icon(
-            Icons.date_range_outlined,
-            color: primaryColor,
-          ),
-          // disabled: !state.isDisabled,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
-    ];
-
-    Widget  minInfForm(){
-      return DynamicFormWidget(
-        key: const Key('minInfForm'),
+  Widget minInfForm() {
+    return DynamicFormWidget(
+      key: const Key('minInfForm'),
       dynamicFormsList: profileInf,
       formKey: mainInfoFormKey,
-      useResponsiveUi: false,
-    );}
-
-    Widget expFrom (){
-      return DynamicFormWidget(
-
-          key: const Key('expFroms'),
-          dynamicFormsList: profileExp,
-          formKey: expFormKey,
-          useResponsiveUi: false);
+      useResponsiveUi: true,
+    );
   }
 
+  Widget expFrom() {
+    return DynamicFormWidget(
+        key: const Key('expFrom'),
+        dynamicFormsList: profileExp,
+        formKey: expFormKey,
+        useResponsiveUi: true);
+  }
+
+  Widget edcFrom() {
+    return DynamicFormWidget(
+        key: const Key('edcFrom'),
+        dynamicFormsList: profileEdc,
+        formKey: edcFormKey,
+        useResponsiveUi: true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,8 +252,7 @@ class HomeProfilePage extends StatelessWidget {
           ),
           Container(
             height: 60,
-            margin:
-            const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+            margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
             decoration: BoxDecoration(
                 border: Border.all(
                     color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
@@ -246,14 +325,165 @@ class HomeProfilePage extends StatelessWidget {
                       color: primaryColor,
                     )),
               )),
-          minInfForm(),
+          Center(child: minInfForm()),
           Padding(
               padding: const EdgeInsets.only(left: 25, top: 5),
               child: SubTitle(
                 title: 'Experience',
                 titleType: SubTitleType.textOnly,
               )),
-          expFrom(),
+          Wrap(
+            spacing: 8.0,
+            runSpacing: 4.0,
+            alignment: WrapAlignment.start,
+            children: [
+              TextWithIcon(
+                icon: const Icon(
+                  Icons.date_range_outlined,
+                  color: primaryColor,
+                ),
+                text: ' 22/11/2021-02/11/2023',
+                textColor: primaryTransparent.withOpacity(0.6),
+              ),
+              TextWithIcon(
+                  icon: const Icon(
+                    Icons.location_on_outlined,
+                    color: primaryColor,
+                  ),
+                  text: ' Riyadh Bank -KSA,Jeddah',
+                  textColor: primaryTransparent.withOpacity(0.6)),
+              TextWithIcon(
+                  icon: const Icon(
+                    Icons.info_outline_rounded,
+                    color: primaryColor,
+                  ),
+                  text: ' Senior Android Developer',
+                  textColor: primaryTransparent.withOpacity(0.6))
+            ],
+          ),
+          Divider(
+            color: Colors.transparent.withOpacity(0.1),
+            thickness: 0.5,indent: 30,endIndent: 30,
+          ),
+          Center(
+            child: Wrap(
+              spacing: 8.0,
+              runSpacing: 4.0,
+              alignment: WrapAlignment.start,
+              children: [
+                TextWithIcon(
+                  icon: const Icon(
+                    Icons.date_range_outlined,
+                    color: primaryColor,
+                  ),
+                  text: ' 22/11/2021-02/11/2023',
+                  textColor: primaryTransparent.withOpacity(0.6),
+                ),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.location_on_outlined,
+                      color: primaryColor,
+                    ),
+                    text: ' Riyadh Bank -KSA,Jeddah',
+                    textColor: primaryTransparent.withOpacity(0.6)),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.info_outline_rounded,
+                      color: primaryColor,
+                    ),
+                    text: ' Senior Android Developer',
+                    textColor: primaryTransparent.withOpacity(0.6))
+              ],
+            ),
+          ),
+          Divider(
+            color: Colors.transparent.withOpacity(0.1),
+            thickness: 0.5,indent: 30,endIndent: 30,
+          ),
+          Center(child: expFrom(),),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: SubTitle(
+                title: 'Education',
+                titleType: SubTitleType.withShowMore,
+              )),
+          Center(
+            child: Wrap(
+              spacing: 8.0,
+              runSpacing: 4.0,
+              alignment: WrapAlignment.start,
+              children: [
+                TextWithIcon(
+                  icon: const Icon(
+                    Icons.date_range_outlined,
+                    color: primaryColor,
+                  ),
+                  text: ' 22/11/2021-02/11/2023',
+                  textColor: primaryTransparent.withOpacity(0.6),
+                ),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.location_on_outlined,
+                      color: primaryColor,
+                    ),
+                    text: ' Riyadh Bank -KSA,Jeddah',
+                    textColor: primaryTransparent.withOpacity(0.6)),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.info_outline_rounded,
+                      color: primaryColor,
+                    ),
+                    text: ' Senior Android Developer',
+                    textColor: primaryTransparent.withOpacity(0.6))
+              ],
+            ),
+          ),
+          Divider(
+            color: Colors.transparent.withOpacity(0.1),
+            thickness: 0.5,indent: 30,endIndent: 30,
+          ),
+          Center(
+            child: Wrap(
+              spacing: 8.0,
+              runSpacing: 4.0,
+              alignment: WrapAlignment.start,
+              children: [
+                TextWithIcon(
+                  icon: const Icon(
+                    Icons.date_range_outlined,
+                    color: primaryColor,
+                  ),
+                  text: ' 22/11/2021-02/11/2023',
+                  textColor: primaryTransparent.withOpacity(0.6),
+                ),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.location_on_outlined,
+                      color: primaryColor,
+                    ),
+                    text: ' Riyadh Bank -KSA,Jeddah',
+                    textColor: primaryTransparent.withOpacity(0.6)),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.info_outline_rounded,
+                      color: primaryColor,
+                    ),
+                    text: ' Senior Android Developer',
+                    textColor: primaryTransparent.withOpacity(0.6))
+              ],
+            ),
+          ),
+          Divider(
+            color: Colors.transparent.withOpacity(0.1),
+            thickness: 0.5,indent: 30,endIndent: 30,
+          ),
+          Center(child: edcFrom()),
+          Padding(
+              padding: const EdgeInsets.only(left: 25, top: 5),
+              child: SubTitle(
+                title: 'Resume',
+                titleType: SubTitleType.textOnly,
+              )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Flex(
@@ -268,7 +498,8 @@ class HomeProfilePage extends StatelessWidget {
                       enabled: false,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        labelText: context.read<ProfileCubit>().state is FileUploadSuccess
+                        labelText: context.read<ProfileCubit>().state
+                                is FileUploadSuccess
                             ? 'context.read<ProfileCubit>().state.fileName'
                             : 'Title',
                         errorStyle: const TextStyle(
@@ -291,13 +522,11 @@ class HomeProfilePage extends StatelessWidget {
                         Flexible(
                           fit: FlexFit.loose,
                           child: IconButton(
-                            padding:
-                            const EdgeInsets.symmetric(vertical: 1),
+                            padding: const EdgeInsets.symmetric(vertical: 1),
                             onPressed: () async {
                               FilePickerResult? result =
-                              await FilePicker.platform.pickFiles();
-                              if (result != null &&
-                                  result.files.isNotEmpty) {
+                                  await FilePicker.platform.pickFiles();
+                              if (result != null && result.files.isNotEmpty) {
                                 String fileName = result.files.first.name;
                                 context
                                     .read<ProfileCubit>()

@@ -17,7 +17,7 @@ class TextWithIcon extends StatelessWidget {
       children: [
         icon,
         Text(text,
-            overflow: TextOverflow.ellipsis,
+            overflow: TextOverflow.visible,
             style: TextStyle(color: textColor ?? primaryColor, fontSize: 14)),
 
       ],
