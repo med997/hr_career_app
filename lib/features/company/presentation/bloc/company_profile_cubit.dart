@@ -43,7 +43,7 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
   Future<void> editProfileCompany() async {
     Company companyProfile = Company(
         email: companyEmailProfileProController.text,
-        phone: [companyPhoneNumberProfileProController.text],
+        phone: companyPhoneNumberProfileProController.text,
         address: companyAddressProfileProController.text,
         nameAr: companyNameArProfileController.text,
         nameEn: companyNameEnProfileController.text,

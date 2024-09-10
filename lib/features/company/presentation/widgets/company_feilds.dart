@@ -12,7 +12,7 @@ class CompanyFeilds extends StatelessWidget {
     city: '',
     email: '',
     major: '',
-    phone: [],
+    phone: '',
     address: '',
     nameAr: '',
     nameEn: '',

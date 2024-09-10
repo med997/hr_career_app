@@ -11,7 +11,7 @@ final class CompanyProfileInitial extends CompanyProfileState {
 final class CompanyProfile extends CompanyProfileState {
   Company companyProfile = Company(
     email: '',
-    phone: [],
+    phone: '',
     address: '',
     nameAr: '',
     nameEn: '',

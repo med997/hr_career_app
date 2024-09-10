@@ -13,6 +13,7 @@ return
   IntlPhoneField(
     enabled: !dynamicModel.disabled,
 
+      initialValue: dynamicModel.value,
     showCountryFlag: false,
     decoration: InputDecoration(
       counterText: '',

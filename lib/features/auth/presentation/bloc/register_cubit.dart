@@ -35,16 +35,18 @@ class RegisterCubit extends Cubit<RegisterState> {
               phone: value['phone'],
               email: value['email']));
     } else {
-      auth = Auth(
-        userType:UsrType.company ,
-          email: value!['email'],
-          password: value['password'],
-          company: Company(
-              nameEn:value['companyName'],
-              phone: value['phone'],
-              email: value['email'],
-              address: value['address']));
-    }
+
+       auth = Auth(
+           userType: UsrType.company,
+           email: value!['email'],
+           password: value['password'],
+           company: Company(
+               nameEn: value['companyName'],
+               phone: value['phone'],
+               email: value['email'],
+               address: value['address']));
+     }
+
 
     final failureOrSuccess = await signupUseCase.call(auth);
 

@@ -1,1 +1,7 @@
-{}
+{
+  "welcome_msg_login" : "مرحبا",
+  "under_welcome_msg" : "قم بتسجيل الدخول, و الوظائف ",
+  "hello_msg" : "مرحبا مجددا!",
+  "featured_job_msg" : "الوظائف المميزة",
+  "recent_job_msg" : "أحدث الوظائف"
+}

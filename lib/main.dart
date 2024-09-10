@@ -73,6 +73,9 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<PackageCubit>(),
       ),
+      BlocProvider(
+        create: (context) => di.sl<GeneralCubit>()..getGeneral(),
+      ),
     ],
     child: const MyApp(),
   ));
@@ -120,22 +123,34 @@ class _MyAppState extends State<MyApp> {
           home: BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
               if (state is CurrentUserStatus) {
-                Navigator.pushAndRemoveUntil(
-                    context, MaterialPageRoute(builder: (context) => HomePage(),), (route) => false);
+                if (state.auth.userType == UsrType.user) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                      (route) => false);
+                }else{
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>  HomeCompanyPage(),
+                      ),
+                          (route) => false);
+                }
               }
             },
             builder: (context, state) {
-
-               if (state is CurrentUserStatus) {
-                 
-                 return const AddJobPage();
-
-
-                  } else {
-                    return LoginPage();
-                  }
-
-
+              if (state is CurrentUserStatus) {
+                print(state.toString());
+                if (state.auth.userType == UsrType.user) {
+                  return HomePage();
+                } else {
+                  return  HomeCompanyPage();
+                }
+              } else {
+                return LoginPage();
+              }
             },
           ),
         );
