@@ -1,5 +1,4 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
@@ -8,11 +7,9 @@ import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
-import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/widgets/education_widget.dart';
 import 'package:hr_career_platform/injection_container.dart' as di;
-
 import '../../../profile/presentation/widgets/experience_widget.dart';
 
 class HomeProfilePage extends StatelessWidget {
@@ -21,6 +18,7 @@ class HomeProfilePage extends StatelessWidget {
   final mainInfoFormKey = GlobalKey<FormState>();
   final expFormKey = GlobalKey<FormState>();
   final edcFormKey = GlobalKey<FormState>();
+
   final List<DynamicModel> profileInf = [
     DynamicModel('fullName', FormType.text, value: 'fullName', validators: [
       DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
