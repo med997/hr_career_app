@@ -4,6 +4,7 @@ import 'package:hr_career_platform/core/util/validator.dart';
 
 class DynamicModel {
   String controlName;
+  Icon? icons;
   FormType formType;
   String? value;
   String? helperText;
@@ -30,6 +31,7 @@ class DynamicModel {
         this.controller,
         this.compareText,
       this.width = 350,
+        this.icons,
       this.helperText,
       this.isRequired = false,
       this.validators,
