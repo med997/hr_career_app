@@ -59,42 +59,42 @@ class RegisterPage extends StatelessWidget {
   ];
   List<DynamicModel> regFormCompany = [
     DynamicModel('companyName', FormType.text,
-        value: '',
+        value: 'ahmedBro',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
         disabled: false),
-    DynamicModel('email', FormType.text,
-        value: '',
+    DynamicModel('email', FormType.email,
+        value: 'ahmedafeef1999@gmail.com',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
         disabled: false),
     DynamicModel('address', FormType.text,
-        value: '',
+        value: 'yemen',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
         disabled: false),
-    DynamicModel('phone', FormType.phone,
-        value: '',
+    DynamicModel('phone', FormType.phone ,
+        value: '779377119',
         isRequired: true,
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         disabled: false),
     DynamicModel('password', FormType.password,
-        value: '',
+        value: '123456',
         isRequired: true,
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         disabled: false),
     DynamicModel('confirmPassword', FormType.password,
-        value: '',
+        value: '123456',
         isRequired: true,
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
@@ -102,7 +102,7 @@ class RegisterPage extends StatelessWidget {
         ],
         disabled: false),
   ];
-final   regFormKey = GlobalKey<FormState>();
+final regFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

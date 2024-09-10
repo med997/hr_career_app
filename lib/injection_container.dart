@@ -11,6 +11,11 @@ import 'package:hr_career_platform/features/auth/domain/repositories/auth_reposi
 import 'package:hr_career_platform/features/auth/domain/usecases/signup_use_case.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/selecte_button_cubit.dart';
+import 'package:hr_career_platform/features/general/data/datasources/general_remote_datasource.dart';
+import 'package:hr_career_platform/features/general/data/repositories/general_repository_impl.dart';
+import 'package:hr_career_platform/features/general/domain/repositories/general_repository.dart';
+import 'package:hr_career_platform/features/general/domain/usecases/fetch_general.dart';
+import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 import 'package:hr_career_platform/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:hr_career_platform/features/home/data/repositories/home_repository_impl.dart';
 import 'package:hr_career_platform/features/home/domain/repositories/home_repository.dart';
@@ -52,6 +57,8 @@ Future<void> initDependencies() async {
   _initCore();
   _initPayment();
   _initAuth();
+  _initGeneral();
+
 //! Core
   final supBaseInit = await Supabase.initialize(url: BaseUrl, anonKey: AnonKey);
   sl.registerLazySingleton(() => supBaseInit.client);
@@ -108,6 +115,7 @@ void _initJob() {
       () => StepperCubit(),
     );
 }
+
 void _initPayment() {
   sl
     // datasource
@@ -165,7 +173,6 @@ void _initHome() {
     ..registerLazySingleton(
       () => TabNavCubit(),
     );
-
 }
 
 void _initAuth() {
@@ -220,8 +227,41 @@ void _initCore() {
     ..registerLazySingleton(() => LocaleCubit())
     ..registerLazySingleton(() => DynamicFormCubit());
 }
+
 void _initProfile() {
   sl.registerLazySingleton(
     () => ProfileCubit(),
   );
+}
+
+void _initGeneral() {
+  sl
+
+    // datasource
+    ..registerFactory<GeneralRemoteDataSource>(
+      () => GeneralRemoteDataSourceImpl(
+        supBase: sl(),
+      ),
+    )
+
+    // repository
+    ..registerFactory<GeneralRepository>(
+      () => GeneralRepositoryImpl(
+        generalRemoteDataSource: sl(),
+        networkInfo: sl(),
+      ),
+    )
+    // usecases
+    ..registerFactory(
+      () => GetGeneralUseCase(
+        sl(),
+      ),
+    )
+
+    // cubit
+    ..registerLazySingleton(
+      () => GeneralCubit(
+        getGeneralUseCase: sl(),
+      ),
+    );
 }

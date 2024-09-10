@@ -14,15 +14,16 @@ import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubi
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/selecte_button_cubit.dart';
+import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
-import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
-import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
-import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 
+import 'features/home/presentation/ui/company_home_page.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
+import 'features/job/presentation/bloc/stepper_cubit.dart';
+import 'features/payment/presentation/bloc/package_cubit.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -73,6 +74,9 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<PackageCubit>(),
       ),
+      BlocProvider(
+        create: (context) => di.sl<GeneralCubit>()..getGeneral(),
+      ),
     ],
     child: const MyApp(),
   ));
@@ -120,22 +124,34 @@ class _MyAppState extends State<MyApp> {
           home: BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
               if (state is CurrentUserStatus) {
-                Navigator.pushAndRemoveUntil(
-                    context, MaterialPageRoute(builder: (context) => HomePage(),), (route) => false);
+                if (state.auth.userType == UsrType.user) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                      (route) => false);
+                }else{
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>  HomeCompanyPage(),
+                      ),
+                          (route) => false);
+                }
               }
             },
             builder: (context, state) {
-
-               if (state is CurrentUserStatus) {
-                 
-                 return HomePage();
-
-
-                  } else {
-                    return LoginPage();
-                  }
-
-
+              if (state is CurrentUserStatus) {
+                print(state.toString());
+                if (state.auth.userType == UsrType.user) {
+                  return HomePage();
+                } else {
+                  return  HomeCompanyPage();
+                }
+              } else {
+                return LoginPage();
+              }
             },
           ),
         );

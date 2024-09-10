@@ -1,1 +1,7 @@
-{}
+{
+  "welcome_msg_login" : "Welcome",
+  "under_welcome_msg" : "Let's log in. Apply or post to jobs!",
+  "hello_msg" : "Welcome Back!",
+  "featured_job_msg" : "Featured Jobs",
+  "recent_job_msg" : "Recent Jobs"
+}

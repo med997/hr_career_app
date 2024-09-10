@@ -40,13 +40,13 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
     try {
       final AuthModel authModelData;
       final res = await supBase.auth.signInWithPassword(
-        email: authModel.email,
+        email: authModel.email.trim(),
         password: authModel.password,
       );
 
       final User? user = res.user;
       print(user.toString());
-      UsrType usrType = user!.userMetadata!['userType'];
+      UsrType usrType = user!.userMetadata!['userType']=="user"?UsrType.user:UsrType.company;
       if (usrType == UsrType.company) {
         authModelData = AuthModel(
             userType: usrType,
@@ -78,6 +78,7 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
 
   @override
   Future<AuthModel> signup(Auth authModel) async {
+
     try {
       final AuthResponse data;
       final AuthModel authModelData;
@@ -86,7 +87,7 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         ProfileModel model = ProfileModel.fromProfile(authModel.profile);
         Map<String, String> userTypeMap = {'userType': UsrType.user.name};
         data = await supBase.auth.signUp(
-          email: authModel.email,
+          email: authModel.email.trim(),
           password: authModel.password,
           data: {...userTypeMap, ...model.toJson()},
         );
@@ -98,20 +99,26 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
             userAuth: user,
             profile: ProfileModel.fromJson(user.userMetadata ?? {}));
       } else {
-        Map<String, String> userTypeMap = {'userType': UsrType.company.name};
+        Map<String, dynamic> userTypeMap = {'userType': UsrType.company.name};
+
         CompanyModel model = CompanyModel.fromCompany(authModel.company);
+        print(model.phone);
+
         data = await supBase.auth.signUp(
-          email: authModel.email,
+          email: authModel.email.trim(),
           password: authModel.password,
           data: {...userTypeMap, ...model.toJson()},
         );
         user = data.user!;
+        print(model.toJson());
+        print( CompanyModel.fromJson(user.userMetadata ?? {}));
         authModelData = AuthModel(
             userType:UsrType.company,
             email: user.email ?? '',
             password: '',
             userAuth: user,
             company: CompanyModel.fromJson(user.userMetadata ?? {}));
+        print(authModel.company!.phone);
       }
 
       print(user.toString());

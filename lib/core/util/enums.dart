@@ -4,7 +4,7 @@ enum NavItem { homePage, postPage, settingPage }
 
 enum Lang { ar, en }
 
-enum FormType { text, number, password, phone,email,
+enum FormType { text, number, password, phone ,email,
   multiline, dropdown, autoComplete, rTE, datePicker }
 
 enum UsrType { user,company }

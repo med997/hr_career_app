@@ -19,9 +19,11 @@ import 'package:hr_career_platform/features/auth/presentation/ui/register_page.d
 import 'package:hr_career_platform/features/auth/presentation/widget/login_ana_register_appbar_functhion.dart';
 
 import '../../../../core/app_theme.dart';
+import '../../../home/presentation/ui/company_home_page.dart';
+import '../../../home/presentation/ui/home_page.dart';
 
 class LoginPage extends StatelessWidget {
-  final   loginFormKey = GlobalKey<FormState>();
+  final loginFormKey = GlobalKey<FormState>();
 
   List<DynamicModel> loginDynForm = [
     DynamicModel('email', FormType.text,
@@ -41,10 +43,9 @@ class LoginPage extends StatelessWidget {
   ];
 
   LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-
-
     return Responsive(
         mobile: _buildMobileLoginPage(context),
         tablet: _desktopAndTabletLoginPage(context),
@@ -115,19 +116,16 @@ class LoginPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ToggleBtnWidget(),
+                  child: ToggleBtnWidget(options: [],),
                 ),
                 BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
                   builder: (context, state) {
                     if (state.selectedTab == 0) {
-
                       return DynamicFormWidget(
                         formKey: loginFormKey,
                         dynamicFormsList: loginDynForm,
                         submitBtnLabel: 'login', useResponsiveUi: false,);
                     } else {
-
-
                       return DynamicFormWidget(
                         formKey: loginFormKey,
                         dynamicFormsList: loginDynForm,
@@ -135,7 +133,7 @@ class LoginPage extends StatelessWidget {
                     }
                   },
                 ),
-               _loginBtn(),
+                _loginBtn(),
                 TextButton(
                     onPressed: () {},
                     child: const Text('Forget Password?',
@@ -163,7 +161,7 @@ class LoginPage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
-                child: ToggleBtnWidget(),
+                child: ToggleBtnWidget(options: [],),
               ),
               BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
                 builder: (context, state) {
@@ -173,7 +171,6 @@ class LoginPage extends StatelessWidget {
                       dynamicFormsList: loginDynForm,
                       submitBtnLabel: 'login', useResponsiveUi: false,);
                   } else {
-
                     return DynamicFormWidget(
                       formKey: loginFormKey,
                       dynamicFormsList: loginDynForm,
@@ -195,7 +192,7 @@ class LoginPage extends StatelessWidget {
                           fontSize: 12),
                     )),
               ),
-           _loginBtn(),
+              _loginBtn(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
                 child: SizedBox(
@@ -245,49 +242,76 @@ class LoginPage extends StatelessWidget {
 
 
   _loginBtn() {
-    return BlocBuilder<LoginCubit, LoginState>(
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is SuccessLoginUser) {
+          if (state.auth.userType == UsrType.user) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(),
+                ),
+                    (route) => false);
+          }else{
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>  HomeCompanyPage(),
+                ),
+                    (route) => false);
+          }
+        }
+      },
       builder: (context, state) {
-        return Center(
-          child: SizedBox(
-            width: 350,
-            height: 35,
-            child: MaterialButton(
-              color: primaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              onPressed: () {
-                final value = context.read<DynamicFormCubit>().getCurrentValue();
-                print(value);
-                if (loginFormKey.currentState!.validate()) {
-                  context.read<LoginCubit>().loginUser(
-                      context.read<ToggleBtnCubit>().state.selectedTab,
-                      value);
-                }
-              },
-              enableFeedback: false,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+        return BlocBuilder<LoginCubit, LoginState>(
+          builder: (context, state) {
+            return Center(
+              child: SizedBox(
+                width: 350,
+                height: 35,
+                child: MaterialButton(
+                  color: primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  onPressed: () {
+                    final value = context.read<DynamicFormCubit>()
+                        .getCurrentValue();
+                    print(value);
+                    if (loginFormKey.currentState!.validate()) {
+                      context.read<LoginCubit>().loginUser(
+                          context
+                              .read<ToggleBtnCubit>()
+                              .state
+                              .selectedTab,
+                          value);
+                    }
+                  },
+                  enableFeedback: false,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Login',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      if (state is LoginLoading)
+                        Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: FittedBox(
+                              child: LoadingWidget(
+                                progressColor: Colors.white,
+                              )),
+                        )
+                    ],
                   ),
-                  if (state is LoginLoading)
-                    Padding(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: FittedBox(
-                          child: LoadingWidget(
-                            progressColor: Colors.white,
-                          )),
-                    )
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
     );
