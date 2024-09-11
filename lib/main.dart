@@ -15,16 +15,17 @@ import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubi
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/selecte_button_cubit.dart';
-import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
+import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
+import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
+import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 
+import 'features/general/presentation/bloc/general_cubit.dart';
 import 'features/home/presentation/ui/company_home_page.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
-import 'features/job/presentation/bloc/stepper_cubit.dart';
-import 'features/payment/presentation/bloc/package_cubit.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -66,9 +67,7 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<LocaleCubit>()..getSavedLanguage(),
       ),
-      BlocProvider(
-        create: (context) => di.sl<DynamicFormCubit>(),
-      ),
+
       BlocProvider(
         create: (context) => di.sl<StepperCubit>(),
       ),

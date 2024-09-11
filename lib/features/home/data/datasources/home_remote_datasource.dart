@@ -28,6 +28,10 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
         throw ServerException(message: error.message);
     }catch(e){
+      if (kDebugMode) {
+        print(e.toString());
+      }
+
       throw ServerException(message: 'something wrong  !!!');
 
     }

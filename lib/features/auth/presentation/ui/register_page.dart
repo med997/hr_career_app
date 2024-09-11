@@ -102,13 +102,15 @@ class RegisterPage extends StatelessWidget {
         ],
         disabled: false),
   ];
-final regFormKey = GlobalKey<FormState>();
+  final regFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: loginAndRegisterAppBar(),
-      body: ListView(
+      body: BlocProvider(
+  create: (context) => DynamicFormCubit()..addAllFields(regFormUsers),
+  child: ListView(
           shrinkWrap: true,
         children: [
           Padding(
@@ -118,13 +120,17 @@ final regFormKey = GlobalKey<FormState>();
           BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
             builder: (context, state) {
               if (state.selectedTab == 0) {
-
+                context.read<DynamicFormCubit>().replaceAll(regFormUsers);
                 return DynamicFormWidget(
+                  key: Key('regFormUsers'),
                   formKey:regFormKey ,
                   dynamicFormsList: regFormUsers,
                     submitBtnLabel: 'login', useResponsiveUi: false);
               } else {
+                context.read<DynamicFormCubit>().replaceAll(regFormCompany);
                 return DynamicFormWidget(
+
+                  key: Key('regFormCompany'),
                   formKey:regFormKey ,
                   dynamicFormsList: regFormCompany,
                   submitBtnLabel: 'login',
@@ -160,6 +166,7 @@ final regFormKey = GlobalKey<FormState>();
           ),
         ],
       ),
+),
     );
   }
 

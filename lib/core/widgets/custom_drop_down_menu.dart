@@ -10,7 +10,7 @@ Widget buildCustomDropDownMenu( DynamicModel dynModel ,){
   dynModel.items.map((e) =>
       DropdownMenuEntry(value: e.key, label: e.value),).toList();
   return  Padding(
-    padding: const EdgeInsets.symmetric(vertical: 16.0),
+    padding:  EdgeInsets.only(bottom: 28.0),
     child: DropdownMenu(
       enabled: !dynModel.disabled,
       width: dynModel.width ,
