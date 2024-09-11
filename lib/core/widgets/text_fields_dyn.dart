@@ -82,9 +82,11 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
       ],
     ) : TextFormField(
         enabled: !dynamicModel.disabled,
+        controller:dynamicModel.controller,
         style: const TextStyle(fontSize: 14),
         obscureText: dynamicModel.formType == FormType.password,
         decoration: InputDecoration(
+          border: dynamicModel.inputBorder,
           suffixIcon: dynamicModel.icons ,
           helperText: dynamicModel.helperText ?? '',
           labelText: dynamicModel.controlName,

@@ -7,12 +7,8 @@ class ProfileState extends Equatable {
   ProfileState copyWith({bool? isDisabled}){
     return ProfileState(isDisabled: isDisabled ?? this.isDisabled);
   }
-
   @override
-
   List<Object?> get props => [isDisabled];
-
-
 }
 
 class FileUploadSuccess extends ProfileState {
@@ -23,29 +19,8 @@ class FileUploadSuccess extends ProfileState {
 }
 
 final class ProfileInitial extends ProfileState {
-  Profile preProfile = Profile(
-      username: '',
-      phone: '',
-      currentJob: '',
-      email: '',
-      gender: '',
-      nationality: '');
   ProfileInitial() : super(isDisabled: false);
-
   @override
-  List<Object> get props => [preProfile];
+  List<Object> get props => [];
 }
 
-final class ProfileInsertStatus extends ProfileState {
-  Profile preProfile = Profile(
-      username: '',
-      phone: '',
-      currentJob: '',
-      email: '',
-      gender: '',
-      nationality: '');
-  ProfileInsertStatus(this.preProfile) : super(isDisabled: false);
-
-  @override
-  List<Object> get props => [preProfile];
-}
