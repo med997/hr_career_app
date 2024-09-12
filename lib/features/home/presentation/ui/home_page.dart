@@ -87,7 +87,7 @@ class HomePage extends StatelessWidget {
         return HomeJobPage();
       case 1:
         return CompanyTendersPage();
-      case 4:
+      case 3:
         return HomeProfilePage();
       default:
         return Placeholder();
