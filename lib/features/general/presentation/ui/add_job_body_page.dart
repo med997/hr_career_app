@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
@@ -13,6 +14,7 @@ import 'package:hr_career_platform/features/job/presentation/widgets/strepper_pa
 import 'package:hr_career_platform/core/widgets/map_icon_button.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
+import '../../../../core/cubit/location_cubit.dart';
 import '../../../payment/presentation/ui/pkg_Page.dart';
 
 class AddJobBodyPage extends StatelessWidget {
@@ -28,12 +30,13 @@ class AddJobBodyPage extends StatelessWidget {
       shrinkWrap: true,
       children: [
         BlocBuilder<GeneralCubit, GeneralState>(
-          builder: (context, state) {
-            if (state is GeneralLoading) {
+            builder: (context, state) {
+             if (state is GeneralLoading) {
               return Center(
                 child: LoadingWidget(),
               );
-            } else if (state is GeneralFetchedState) {
+            } else if (state is GeneralFetchedState)
+          {
               return Column(
                 children: [
                   Center(
@@ -62,7 +65,7 @@ class AddJobBodyPage extends StatelessWidget {
                                     ValidatorType.notEmpty, 'isRequired')
                               ],
                               value: '',
-                              items: state.generals.qualifications
+                              items: []
                                   .map(
                                     (e) => ItemModel(key: e, value: e),
                                   )
@@ -75,7 +78,7 @@ class AddJobBodyPage extends StatelessWidget {
                                     ValidatorType.notEmpty, 'isRequired')
                               ],
                               value: '',
-                              items: state.generals.nationality
+                              items: []
                                   .map(
                                     (e) => ItemModel(key: e, value: e),
                                   )
@@ -131,9 +134,41 @@ class AddJobBodyPage extends StatelessWidget {
                               DynamicFormValidator(
                                   ValidatorType.notEmpty, 'isRequired')
                             ],
-                            value: '',
+                            value: context.read<LocationCubit>().state.address,
                             isRequired: true,
                             disabled: false,
+                            action: IconButton(
+                              onPressed: () async {
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => LocationWidget()),
+                                );
+                                 final formattedAddress =
+                                  context.read<LocationCubit>().state.address;
+
+                                if (formattedAddress!.isNotEmpty) {
+                                  print('Mimati $formattedAddress');
+
+                                }
+
+                              },
+                              icon: const Icon(
+                                Icons.location_on,
+                                color: primaryColor,
+                              ),
+
+                            ),
+                          ),
+                          DynamicModel(
+                            'Location',
+                            FormType.text,
+
+                            validators: [
+                              DynamicFormValidator(
+                                  ValidatorType.notEmpty, 'isRequired')
+                            ],
+                            value: '',
+                            isRequired: true,
+                            disabled: true,
                             action: IconButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(builder:(context) => LocationWidget(),));
@@ -175,6 +210,7 @@ class AddJobBodyPage extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => stepperPageBody(1)));
                       }),
+
                 ],
               );
             } else if (state is GeneralErrorState) {
@@ -197,7 +233,7 @@ class AddJobBodyPage extends StatelessWidget {
       hasLocationPermission: true,
       popOnNextButtonTaped: true,
       hideMapTypeButton: true,
-      currentLatLng: const LatLng(22.968509, 44.917676),
+      currentLatLng: LatLng(22.968509, 44.917676),
       onNext: (GeocodingResult? result) {
         if (result != null) {
 
@@ -210,4 +246,6 @@ class AddJobBodyPage extends StatelessWidget {
 
     );
   }
+
+
 }
