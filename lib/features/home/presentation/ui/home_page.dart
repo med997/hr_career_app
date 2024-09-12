@@ -7,6 +7,8 @@ import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_job_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_profile_page.dart';
+import 'package:hr_career_platform/features/home/presentation/ui/home_tender_page.dart';
+import 'package:hr_career_platform/features/job/presentation/ui/all_jobs_page.dart';
 
 import '../../../../core/util/const_val.dart';
 import '../../../company/presentation/ui/company_profile_page.dart';
@@ -86,7 +88,7 @@ class HomePage extends StatelessWidget {
       case 0:
         return HomeJobPage();
       case 1:
-        return CompanyTendersPage();
+        return HomeTenderPage();
       case 4:
         return HomeProfilePage();
       default:

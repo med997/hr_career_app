@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
@@ -36,11 +37,15 @@ class JobCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (jobCardType == JobCardType.user)
+    if (jobCardType == JobCardType.user) {
       return _jobCardUser();
-    else if(jobCardType == JobCardType.company)
+    } else if (jobCardType == JobCardType.company) {
       return _jobCardCompany();
-    else return _jobCardCompanyTender();
+    } else if (jobCardType == JobCardType.userTender) { // إضافة الشرط الجديد هنا
+      return _jobCardUserTender();
+    } else if(jobCardType == JobCardType.companyTender) {
+      return _jobCardCompanyTender();
+    } else return SizedBox();
   }
 
   Widget _jobCardUser() {
@@ -108,6 +113,74 @@ class JobCard extends StatelessWidget {
                       color: Colors.orangeAccent,
                     ),
                     text: jobNationality),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _jobCardUserTender() {
+    double width = columnWidth ?? 320;
+    return Container(
+      width: width,
+      padding: EdgeInsets.all(8),
+      margin: EdgeInsets.all(4),
+      decoration: BoxDecoration(
+          border:
+          Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 4,
+            ),
+            child: Text(
+              jobTitle,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+            ),
+          ),
+          ListTile(
+            leading: AvatarNetwork(
+              imgUrl: companyLogo ?? '',
+              withBorder: true,
+            ),
+            title: Text(
+              companyName,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
+            ),
+            subtitle: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 4,
+              direction: Axis.horizontal,
+              children: [
+                CustomChips(chipsTitles: ['Tender'] ,bgColor: Colors.blue.shade200,),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.timelapse_outlined,
+                      size: 18,
+                      color: Colors.orangeAccent,
+                    ),
+                    text: jobDeadLine),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.location_on_outlined,
+                      size: 18,
+                      color: Colors.orangeAccent,
+                    ),
+                    text: jobLocation),
+
               ],
             ),
           ),
