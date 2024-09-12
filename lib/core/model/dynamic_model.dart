@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
 
 class DynamicModel {
   String controlName;
-
+  InputBorder? inputBorder;
   FormType formType;
   String? value;
   String? helperText;
@@ -23,6 +24,7 @@ class DynamicModel {
 
   DynamicModel(this.controlName, this.formType,
       { this.value,
+        this.inputBorder,
       this.items = const [],
       this.disabled = false,
       this.selectedItem,

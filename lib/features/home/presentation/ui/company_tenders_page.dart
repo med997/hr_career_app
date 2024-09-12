@@ -51,7 +51,7 @@ class CompanyTendersPage extends StatelessWidget {
                 itemBuilder: (context, i) => InkWell(
                     child: state.selectedTab == 0
                         ? JobCard(
-                            jobCardType: JobCardType.tender,
+                            jobCardType: JobCardType.companyTender,
                             createdAt: job[i].createdAt,
                             jobTitle: job[i].jobTitle,
                             companyName: job[i].company!.nameEn ,
@@ -62,7 +62,7 @@ class CompanyTendersPage extends StatelessWidget {
                           )
                         : state.selectedTab == 1
                             ? JobCard(
-                                jobCardType: JobCardType.tender,
+                                jobCardType: JobCardType.companyTender,
                                 jobTitle: job[i].jobTitle,
                                 createdAt: job[i].createdAt,
                                 companyName: job[i].company!.nameEn ,
@@ -71,7 +71,7 @@ class CompanyTendersPage extends StatelessWidget {
                                 jobDeadLine: '${job[i].deadlineDate.hour}h ago',
                                 jobNationality: '')
                             : JobCard(
-                                jobCardType: JobCardType.tender,
+                                jobCardType: JobCardType.companyTender,
                                 jobTitle: job[i].jobTitle,
                                 createdAt: job[i].createdAt,
                                 companyName: job[i].company!.nameEn,
@@ -102,7 +102,7 @@ class CompanyTendersPage extends StatelessWidget {
                 width: itemWidth,
                 child: state.selectedTab == 0
                     ? JobCard(
-                        jobCardType: JobCardType.tender,
+                        jobCardType: JobCardType.companyTender,
                         jobTitle: job.jobTitle,
                         createdAt: job.createdAt,
                         companyName: job.company!.nameEn ,
@@ -114,7 +114,7 @@ class CompanyTendersPage extends StatelessWidget {
                       )
                     : state.selectedTab == 1
                         ? JobCard(
-                            jobCardType: JobCardType.tender,
+                            jobCardType: JobCardType.companyTender,
                             jobTitle: job.jobTitle,
                             createdAt: job.createdAt,
                             companyName:
@@ -126,7 +126,7 @@ class CompanyTendersPage extends StatelessWidget {
                             columnWidth: itemWidth,
                           )
                         : JobCard(
-                            jobCardType: JobCardType.tender,
+                            jobCardType: JobCardType.companyTender,
                             jobTitle: job.jobTitle,
                             createdAt: job.createdAt,
                             companyName:

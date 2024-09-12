@@ -1,51 +1,25 @@
 part of 'profile_cubit.dart';
 
 class ProfileState extends Equatable {
-  final bool isDisabled ;
-  ProfileState({required this.isDisabled});
-
-  ProfileState copyWith({bool? isDisabled}){
-    return ProfileState(isDisabled: isDisabled ?? this.isDisabled);
-  }
-
+  final bool isEditing ;
+  ProfileState({this.isEditing = false});
   @override
-
-  List<Object?> get props => [isDisabled];
-
-
+  List<Object> get props => [isEditing];
 }
 
 class FileUploadSuccess extends ProfileState {
   final String fileName;
-   FileUploadSuccess(this.fileName) : super(isDisabled: false);
+   FileUploadSuccess(this.fileName) : super(isEditing: false);
   @override
-  List<Object> get props => [fileName];
+  List<Object> get props => [fileName,isEditing];
 }
 
 final class ProfileInitial extends ProfileState {
-  Profile preProfile = Profile(
-      username: '',
-      phone: '',
-      currentJob: '',
-      email: '',
-      gender: '',
-      nationality: '');
-  ProfileInitial() : super(isDisabled: false);
-
+  ProfileInitial() : super(isEditing: false);
   @override
-  List<Object> get props => [preProfile];
+  List<Object> get props => [isEditing];
 }
 
-final class ProfileInsertStatus extends ProfileState {
-  Profile preProfile = Profile(
-      username: '',
-      phone: '',
-      currentJob: '',
-      email: '',
-      gender: '',
-      nationality: '');
-  ProfileInsertStatus(this.preProfile) : super(isDisabled: false);
-
-  @override
-  List<Object> get props => [preProfile];
+class ProfileEditing extends ProfileState {
+   ProfileEditing() : super(isEditing: true);
 }
