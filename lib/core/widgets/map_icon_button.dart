@@ -15,23 +15,21 @@ class LocationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocationCubit, LocationState>(
-      builder: (context, state) {
-        return MapLocationPicker(
+      return MapLocationPicker(
           apiKey: "AIzaSyB3WewDbc4RDT5KQDeZQ1wRncc9Xp0IPAI",
           hasLocationPermission: true,
-          popOnNextButtonTaped: true,
+          popOnNextButtonTaped: false,
           hideMapTypeButton: true,
+          fabIcon: Icons.location_on,
 
-          currentLatLng: const LatLng(15.3318817,43.0049128),
+          currentLatLng: const LatLng(15.3318817, 43.0049128),
           onNext: (GeocodingResult? result) {
-            if (result != null) {
-              print(result.formattedAddress);
-              context.read<LocationCubit>()..updateResult(result.formattedAddress ?? "");
+            if ( result != null) {
+              final formattedAddress = result.formattedAddress ?? "";
+              Navigator.pop(context,[formattedAddress,result.geometry.location.toString()]);
+
             }
           },
         );
-      },
-    );
+      }
   }
-}

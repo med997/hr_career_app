@@ -4,10 +4,10 @@ import 'package:equatable/equatable.dart';
 part 'location_state.dart';
 
 class LocationCubit extends Cubit<LocationState> {
-  LocationCubit() : super(LocationInitial());
+  LocationCubit() : super(ChangeState(address: 'null'));
 
 
   Future<void> updateResult(String newAddress) async {
-     emit(await ChangeState(address: newAddress));
+     emit(ChangeState(address: newAddress));
   }
 }
