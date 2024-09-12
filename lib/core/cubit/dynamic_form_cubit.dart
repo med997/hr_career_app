@@ -34,6 +34,18 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     }).toList();
     emit(currentFields);
   }
+  void updateValueOnly(String key, String value) {
+    final currentFields = state.map((field) {
+      if (field.controlName == key) {
+        field.controller!.text = value;
+        field.value = value;
+        print('${field.controlName} ${field.value}');
+        return field;
+      }
+      return field;
+    }).toList();
+    emit(currentFields);
+  }
 
   Map<String, dynamic> getCurrentValue(){
     final formData = <String, dynamic>{};

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/widgets/square_button_function.dart';
 import '../../../../core/cubit/toggle_btn_cubit.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
@@ -26,7 +28,7 @@ class CompanyTendersPage extends StatelessWidget {
               desktop: _buildTabletDesktopLayout(
                   state.homes.recentJobs, 3, context));
         }
-        return Placeholder();
+        return const SizedBox();
       },
     );
   }
@@ -37,14 +39,14 @@ class CompanyTendersPage extends StatelessWidget {
         ToggleBtnWidget(
           options: ['active', 'hidden', 'complete'],
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
           builder: (context, state) {
             return ListView.builder(
                 shrinkWrap: true,
-                physics: PageScrollPhysics(),
+                physics: const PageScrollPhysics(),
                 itemCount: job.length ?? 0,
                 itemBuilder: (context, i) => InkWell(
                     child: state.selectedTab == 0
@@ -78,10 +80,11 @@ class CompanyTendersPage extends StatelessWidget {
                                 jobDeadLine: '${job[i].deadlineDate.hour}h ago',
                                 jobNationality: job[i].nationalities ?? '')));
           },
-        ),
-      ],
+        ),],
     );
   }
+
+
 
   Widget _buildTabletDesktopLayout(
       List<Job> jobs, int columnCount, BuildContext context) {

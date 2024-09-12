@@ -15,14 +15,10 @@ class LocationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LocationCubit, LocationState>(
-        listener: (context, state) {
-          state.address;
-        },builder:  (context, state){
       return MapLocationPicker(
           apiKey: "AIzaSyB3WewDbc4RDT5KQDeZQ1wRncc9Xp0IPAI",
           hasLocationPermission: true,
-          popOnNextButtonTaped: true,
+          popOnNextButtonTaped: false,
           hideMapTypeButton: true,
           fabIcon: Icons.location_on,
 
@@ -30,12 +26,10 @@ class LocationWidget extends StatelessWidget {
           onNext: (GeocodingResult? result) {
             if ( result != null) {
               final formattedAddress = result.formattedAddress ?? "";
-              context.read<LocationCubit>().updateResult(formattedAddress);
-            } else
-              SizedBox();
+              Navigator.pop(context,[formattedAddress,result.geometry.location.toString()]);
+
+            }
           },
         );
-      },
-    );
+      }
   }
-}
