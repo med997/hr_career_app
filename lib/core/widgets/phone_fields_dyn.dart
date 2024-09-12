@@ -10,35 +10,37 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 Widget getPhoneWidget(DynamicModel dynamicModel,[BuildContext? context]) {
 return
-  IntlPhoneField(
-    enabled: !dynamicModel.disabled,
+  Padding(
+    padding: const EdgeInsets.only(bottom: 8.0),
+    child: IntlPhoneField(
+      enabled: !dynamicModel.disabled,
+        initialValue: dynamicModel.value,
+      showCountryFlag: false,
+      decoration: InputDecoration(
+        counterText: '',
+        helperText: dynamicModel.helperText ?? '',
+        labelText: dynamicModel.controlName,
+        constraints:   const BoxConstraints.tightFor(height: 55),
+      ),
+        validator: (text) {
+          //To validate non-empty, it returns an error message if the text is empty.
+          if (dynamicModel.isRequired &&
+              dynamicModel.validators!
+                  .any((element) => element.type == ValidatorType.notEmpty) &&
+              (text == null || text.number.isEmpty)) {
+            return dynamicModel.validators!
+                .firstWhere((element) => element.type == ValidatorType.notEmpty)
+                .errorMessage;
+          }
 
-      initialValue: dynamicModel.value,
-    showCountryFlag: false,
-    decoration: InputDecoration(
-      counterText: '',
-      helperText: dynamicModel.helperText ?? '',
-      labelText: dynamicModel.controlName,
-      constraints:   const BoxConstraints.tightFor(height: 55),
-    ),
-      validator: (text) {
-        //To validate non-empty, it returns an error message if the text is empty.
-        if (dynamicModel.isRequired &&
-            dynamicModel.validators!
-                .any((element) => element.type == ValidatorType.notEmpty) &&
-            (text == null || text.number.isEmpty)) {
-          return dynamicModel.validators!
-              .firstWhere((element) => element.type == ValidatorType.notEmpty)
-              .errorMessage;
+          return null;
+        },
+      style: TextStyle(fontSize: 14),
+      initialCountryCode: 'SA',
+        onChanged: (value) {
+          dynamicModel.value = value.completeNumber;
+          context!.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
         }
-        
-        return null;
-      },
-    style: TextStyle(fontSize: 14),
-    initialCountryCode: 'SA',
-      onChanged: (value) {
-        dynamicModel.value = value.completeNumber;
-        context!.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
-      }
+    ),
   );
 }

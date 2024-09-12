@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
@@ -18,7 +19,7 @@ class HomeProfilePage extends StatelessWidget {
   final mainInfoFormKey = GlobalKey<FormState>();
   final expFormKey = GlobalKey<FormState>();
   final edcFormKey = GlobalKey<FormState>();
-  final List<DynamicModel> profileInf = [
+  List<DynamicModel> profileInf = [
     DynamicModel('fullName', FormType.text, value: 'fullName', validators: [
       DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
     ]),
@@ -87,8 +88,7 @@ class HomeProfilePage extends StatelessWidget {
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ]),
   ];
-
-  final List<DynamicModel> profileExp = [
+  List<DynamicModel> profileExp = [
     DynamicModel('from', FormType.text,
         value: 'from',
         icons: const Icon(
@@ -134,8 +134,7 @@ class HomeProfilePage extends StatelessWidget {
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ]),
   ];
-
-  final List<DynamicModel> profileEdc = [
+  List<DynamicModel> profileEdc = [
     DynamicModel('from', FormType.text,
         value: 'from',
         icons: const Icon(
@@ -195,29 +194,42 @@ class HomeProfilePage extends StatelessWidget {
         ]),
   ];
 
-  Widget minInfForm() {
-    return DynamicFormWidget(
-      key: const Key('minInfForm'),
-      dynamicFormsList: profileInf,
-      formKey: mainInfoFormKey,
-      useResponsiveUi: true,
+  Widget minInfForm(BuildContext context) {
+    return BlocProvider(
+      create: (context) => DynamicFormCubit()..addAllFields(profileInf),
+      child: DynamicFormWidget(
+        key: const Key('minInfForm'),
+        dynamicFormsList: profileInf,
+        formKey: mainInfoFormKey,
+        useResponsiveUi: true,
+      ),
     );
   }
 
-  Widget expFrom() {
-    return DynamicFormWidget(
-        key: const Key('expFrom'),
-        dynamicFormsList: profileExp,
-        formKey: expFormKey,
-        useResponsiveUi: true);
+  Widget expFrom(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+      DynamicFormCubit()
+        ..addAllFields(profileExp),
+      child: DynamicFormWidget(
+          key: const Key('expFrom'),
+          dynamicFormsList: profileExp,
+          formKey: expFormKey,
+          useResponsiveUi: true),
+    );
   }
 
-  Widget edcFrom() {
-    return DynamicFormWidget(
-        key: const Key('edcFrom'),
-        dynamicFormsList: profileEdc,
-        formKey: edcFormKey,
-        useResponsiveUi: true);
+  Widget edcFrom(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+      DynamicFormCubit()
+        ..addAllFields(profileEdc),
+      child: DynamicFormWidget(
+          key: const Key('edcFrom'),
+          dynamicFormsList: profileEdc,
+          formKey: edcFormKey,
+          useResponsiveUi: true),
+    );
   }
 
   @override
@@ -325,7 +337,7 @@ class HomeProfilePage extends StatelessWidget {
                       color: primaryColor,
                     )),
               )),
-          Center(child: minInfForm()),
+          Center(child: minInfForm(context)),
           Padding(
               padding: const EdgeInsets.only(left: 25, top: 5),
               child: SubTitle(
@@ -363,7 +375,7 @@ class HomeProfilePage extends StatelessWidget {
           ),
           Divider(
             color: Colors.transparent.withOpacity(0.1),
-            thickness: 0.5,indent: 30,endIndent: 30,
+            thickness: 0.5, indent: 30, endIndent: 30,
           ),
           Center(
             child: Wrap(
@@ -398,9 +410,9 @@ class HomeProfilePage extends StatelessWidget {
           ),
           Divider(
             color: Colors.transparent.withOpacity(0.1),
-            thickness: 0.5,indent: 30,endIndent: 30,
+            thickness: 0.5, indent: 30, endIndent: 30,
           ),
-          Center(child: expFrom(),),
+          Center(child: expFrom(context),),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: SubTitle(
@@ -440,7 +452,7 @@ class HomeProfilePage extends StatelessWidget {
           ),
           Divider(
             color: Colors.transparent.withOpacity(0.1),
-            thickness: 0.5,indent: 30,endIndent: 30,
+            thickness: 0.5, indent: 30, endIndent: 30,
           ),
           Center(
             child: Wrap(
@@ -475,9 +487,9 @@ class HomeProfilePage extends StatelessWidget {
           ),
           Divider(
             color: Colors.transparent.withOpacity(0.1),
-            thickness: 0.5,indent: 30,endIndent: 30,
+            thickness: 0.5, indent: 30, endIndent: 30,
           ),
-          Center(child: edcFrom()),
+          Center(child: edcFrom(context )),
           Padding(
               padding: const EdgeInsets.only(left: 25, top: 5),
               child: SubTitle(
@@ -498,8 +510,10 @@ class HomeProfilePage extends StatelessWidget {
                       enabled: false,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        labelText: context.read<ProfileCubit>().state
-                                is FileUploadSuccess
+                        labelText: context
+                            .read<ProfileCubit>()
+                            .state
+                        is FileUploadSuccess
                             ? 'context.read<ProfileCubit>().state.fileName'
                             : 'Title',
                         errorStyle: const TextStyle(
@@ -525,7 +539,7 @@ class HomeProfilePage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 1),
                             onPressed: () async {
                               FilePickerResult? result =
-                                  await FilePicker.platform.pickFiles();
+                              await FilePicker.platform.pickFiles();
                               if (result != null && result.files.isNotEmpty) {
                                 String fileName = result.files.first.name;
                                 context
