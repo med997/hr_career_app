@@ -1,4 +1,3 @@
-import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
@@ -13,11 +12,6 @@ import 'package:hr_career_platform/core/widgets/map_icon_button.dart';
 import 'package:hr_career_platform/features/general/domain/entities/general.dart';
 import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
-import 'package:hr_career_platform/features/job/presentation/widgets/strepper_page_body_widget.dart';
-import 'package:hr_career_platform/core/widgets/map_icon_button.dart';
-import 'package:map_location_picker/map_location_picker.dart';
-
-import '../../../payment/presentation/ui/pkg_Page.dart';
 
 class AddJobBodyPage extends StatelessWidget {
   AddJobBodyPage({super.key, this.generals});
@@ -25,12 +19,12 @@ class AddJobBodyPage extends StatelessWidget {
   final General? generals;
 
   final addJobFormKey = GlobalKey<FormState>();
+
   List<DynamicModel> addJobForm(context) {
     return [
       DynamicModel('Job Title', FormType.text,
           validators: [
-            DynamicFormValidator(
-                ValidatorType.notEmpty, 'isRequired')
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           value: '',
           isRequired: true,
@@ -39,46 +33,40 @@ class AddJobBodyPage extends StatelessWidget {
           value: '',
           isRequired: true,
           validators: [
-            DynamicFormValidator(
-                ValidatorType.notEmpty, 'isRequired')
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           disabled: false),
-
       DynamicModel('Time parts', FormType.dropdown,
           validators: [
-            DynamicFormValidator(
-                ValidatorType.notEmpty, 'isRequired')
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           value: '',
           isRequired: true,
           disabled: false),
       DynamicModel('Other apply links', FormType.text,
           validators: [
-            DynamicFormValidator(
-                ValidatorType.notEmpty, 'isRequired')
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           value: '',
           isRequired: true,
           disabled: false),
-
       DynamicModel('Job Description', FormType.multiline,
           validators: [
-            DynamicFormValidator(
-                ValidatorType.notEmpty, 'isRequired')
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           value: '',
           isRequired: true,
           disabled: false),
       DynamicModel('Job requirement', FormType.multiline,
           validators: [
-            DynamicFormValidator(
-                ValidatorType.notEmpty, 'isRequired')
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           value: '',
           isRequired: true,
           disabled: false),
     ];
   }
+
 /*  Widget addJobDynamicForm(BuildContext context) {
     return BlocProvider(
 
@@ -90,50 +78,54 @@ class AddJobBodyPage extends StatelessWidget {
       ),
     );
   }*/
-    @override
-    Widget build(BuildContext context) {
-      return BlocProvider(
-        create: (_) => DynamicFormCubit()..addAllFields(addJobForm(context)),
-  child: ListView(
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => DynamicFormCubit()..addAllFields(addJobForm(context)),
+      child: ListView(
         shrinkWrap: true,
         children: [
           BlocBuilder<GeneralCubit, GeneralState>(
-
             builder: (context, state) {
               if (state is GeneralLoading) {
                 return Center(
                   child: LoadingWidget(),
                 );
               } else if (state is GeneralFetchedState) {
-
                 List<DynamicModel> externalModel = [
                   DynamicModel(
                     'Address',
                     FormType.text,
                     controller: TextEditingController(),
                     validators: [
-                      DynamicFormValidator(
-                          ValidatorType.notEmpty, 'isRequired')
+                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                     ],
-                    value:  context.read<DynamicFormCubit>().getCurrentValue()['Address'],
+                    value: context
+                        .read<DynamicFormCubit>()
+                        .getCurrentValue()['Address'],
                     isRequired: true,
                     disabled: false,
-                    action: IconButton(
-                      onPressed: () async {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => LocationWidget(),)).then((value) {
-                          context.read<DynamicFormCubit>().updateValueOnly(
-                              'Address', value[0].toString());
-                          print(value[0]);
-                          print(value[1]);
-                        },);
-                      },
-                      icon: const Icon(
-                        Icons.location_on,
-                        color: primaryColor,
-                      ),
-
-                    ),
+                    action: ElevatedButton(
+                        onPressed: () async {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                            builder: (context) => LocationWidget(),
+                          ))
+                              .then(
+                            (value) {
+                              context.read<DynamicFormCubit>().updateValueOnly(
+                                  'Address', value[0].toString());
+                              print(value[0]);
+                              print(value[1]);
+                            },
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: const CircleBorder(),
+                          backgroundColor: primaryColor,
+                        ),
+                        child: const Icon(Icons.location_on_outlined,
+                            color: Colors.white)),
                   ),
                   DynamicModel('Office Type', FormType.dropdown,
                       validators: [
@@ -144,7 +136,7 @@ class AddJobBodyPage extends StatelessWidget {
                       items: state.generals.officeType
                           .map(
                             (e) => ItemModel(key: e, value: e),
-                      )
+                          )
                           .toList(),
                       isRequired: true,
                       disabled: false),
@@ -157,7 +149,7 @@ class AddJobBodyPage extends StatelessWidget {
                       items: state.generals.qualifications
                           .map(
                             (e) => ItemModel(key: e, value: e),
-                      )
+                          )
                           .toList(),
                       isRequired: true,
                       disabled: false),
@@ -170,7 +162,7 @@ class AddJobBodyPage extends StatelessWidget {
                       items: state.generals.nationality
                           .map(
                             (e) => ItemModel(key: e, value: e),
-                      )
+                          )
                           .toList(),
                       isRequired: true,
                       disabled: false),
@@ -183,7 +175,7 @@ class AddJobBodyPage extends StatelessWidget {
                       items: state.generals.gender
                           .map(
                             (e) => ItemModel(key: e, value: e),
-                      )
+                          )
                           .toList(),
                       isRequired: true,
                       disabled: false),
@@ -192,11 +184,13 @@ class AddJobBodyPage extends StatelessWidget {
                   context.read<DynamicFormCubit>().addField(element);
                 }
 
-
                 return Column(
                   children: [
                     DynamicFormWidget(
-                      dynamicFormsList: [...addJobForm(addJobFormKey),...externalModel],
+                      dynamicFormsList: [
+                        ...addJobForm(addJobFormKey),
+                        ...externalModel
+                      ],
                       formKey: addJobFormKey,
                       useResponsiveUi: true,
                     ),
@@ -206,7 +200,7 @@ class AddJobBodyPage extends StatelessWidget {
                           color: Colors.white,
                         ),
                         onPressed: () {
-                         context.read<StepperCubit>().changeStep(1);
+                          context.read<StepperCubit>().changeStep(1);
                         }),
                   ],
                 );
@@ -222,7 +216,6 @@ class AddJobBodyPage extends StatelessWidget {
           ),
         ],
       ),
-);
-    }
-
+    );
+  }
 }

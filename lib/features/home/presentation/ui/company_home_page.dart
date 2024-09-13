@@ -18,9 +18,9 @@ class HomeCompanyPage extends StatelessWidget {
     return Responsive(
         mobile: mobileHomeBuilder(),
         tablet: desktopHomeBuilder(context),
-        desktop: desktopHomeBuilder(context)
-    );
+        desktop: desktopHomeBuilder(context));
   }
+
   Widget mobileHomeBuilder() {
     return BlocBuilder<TabNavCubit, TabNavState>(
       builder: (context, state) {
@@ -85,8 +85,10 @@ class HomeCompanyPage extends StatelessWidget {
       case 0:
         return CompanyMainHomePage();
       case 1:
-        return CompanyTendersPage();
+        return CompanyJopPage();
       case 2:
+        return CompanyTendersPage();
+      case 3:
         return CompanyProfilePage();
       default:
         return Placeholder();

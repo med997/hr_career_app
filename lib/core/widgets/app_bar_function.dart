@@ -6,8 +6,12 @@ import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/language_button_widget.dart';
 
-AppBar buildAppBar(
-    {required String userName, required String img, bool fullHeader = false,int? selectedTab, }) {
+AppBar buildAppBar({
+  required String userName,
+  required String img,
+  bool fullHeader = false,
+  int? selectedTab,
+}) {
   return AppBar(
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,19 +33,19 @@ AppBar buildAppBar(
             ),
           ],
         ),
-
-        if (fullHeader == true)
-          Center(
-              child: AvatarNetwork(
+        Wrap(
+          alignment: WrapAlignment.center,
+          children: [
+            if (selectedTab == 3) const LanguageButton(),
+            if (fullHeader == true)
+              Center(
+                  child: AvatarNetwork(
                 imgUrl: '',
                 withBorder: false,
               ))
-        else
-          const SizedBox(),
+          ],
+        )
       ],
     ),
-    actions: [
-      if (selectedTab == 3) const LanguageButton(),
-    ],
   );
 }

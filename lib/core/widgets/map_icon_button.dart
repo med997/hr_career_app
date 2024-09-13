@@ -20,7 +20,6 @@ class LocationWidget extends StatelessWidget {
           hasLocationPermission: true,
           popOnNextButtonTaped: false,
           hideMapTypeButton: true,
-          fabIcon: Icons.location_on,
 
           currentLatLng: const LatLng(15.3318817, 43.0049128),
           onNext: (GeocodingResult? result) {

@@ -9,6 +9,7 @@ import 'package:hr_career_platform/features/home/presentation/ui/home_job_page.d
 import 'package:hr_career_platform/features/home/presentation/ui/home_profile_page.dart';
 
 import '../../../../core/util/const_val.dart';
+import '../../../../core/widgets/notification_page.dart';
 import '../../../company/presentation/ui/company_profile_page.dart';
 import 'company_job_page.dart';
 import 'company_tenders_page.dart';
@@ -26,7 +27,12 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<TabNavCubit, TabNavState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: buildAppBar(
+          appBar: (state is TabNavChangedState) ? buildAppBar(
+            userName: state.selectedTab == 4 ? 'Notifications' : 'Mohammed adnan',
+            img: '',
+            fullHeader: state.selectedTab == 4 ? false : true,
+            selectedTab: state.selectedTab,
+          ) : buildAppBar(
             userName: 'Mohammed adnan',
             img: '',
             fullHeader: true,
@@ -89,6 +95,8 @@ class HomePage extends StatelessWidget {
         return CompanyTendersPage();
       case 3:
         return HomeProfilePage();
+        case 4:
+        return NotificationPage();
       default:
         return Placeholder();
     }

@@ -8,6 +8,8 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 8.0),
     child: Flex(
+   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       direction: Axis.horizontal,
       children: [
         Flexible(
@@ -80,7 +82,9 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
               context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
             }),
         ),
-        if(dynamicModel.action != null)  dynamicModel.action!,
+        if(dynamicModel.action != null)  SizedBox(
+          height: 35 ,
+            child: dynamicModel.action!),
       ],
     ),
   );

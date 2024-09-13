@@ -45,15 +45,15 @@ class JobCard extends StatelessWidget {
       return _jobCardUserTender();
     } else if(jobCardType == JobCardType.companyTender) {
       return _jobCardCompanyTender();
-    } else return SizedBox();
+    } else return const SizedBox();
   }
 
   Widget _jobCardUser() {
     double width = columnWidth ?? 320;
     return Container(
       width: width,
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
           border:
               Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
@@ -125,8 +125,8 @@ class JobCard extends StatelessWidget {
     double width = columnWidth ?? 320;
     return Container(
       width: width,
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
           border:
           Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
@@ -193,8 +193,8 @@ class JobCard extends StatelessWidget {
     double width = columnWidth ?? 320;
     return Container(
       width: width,
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
           border:
               Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
@@ -219,7 +219,7 @@ class JobCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 12,
                 ),
                 BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
@@ -293,8 +293,8 @@ class JobCard extends StatelessWidget {
     double width = columnWidth ?? 320;
     return Container(
       width: width,
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
           border:
               Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
@@ -319,7 +319,7 @@ class JobCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 12,
                 ),
                 BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
@@ -359,7 +359,7 @@ class JobCard extends StatelessWidget {
               spacing: 4,
               direction: Axis.horizontal,
               children: [
-                CustomChips(chipsTitles: ['Tender'],bgColor: Colors.blue.shade200,),
+                CustomChips(chipsTitles: const ['Tender'],bgColor: Colors.blue.shade200,),
                 TextWithIcon(
                     icon: const Icon(
                       Icons.remove_red_eye_outlined,
