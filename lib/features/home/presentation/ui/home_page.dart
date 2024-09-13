@@ -57,6 +57,7 @@ class HomePage extends StatelessWidget {
             img: '',
             fullHeader: true,
             selectedTab: state.selectedTab,
+
           ),
           body: Row(
             children: [

@@ -11,7 +11,6 @@ import 'package:hr_career_platform/features/auth/data/repositories/auth_reposito
 import 'package:hr_career_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/signup_use_case.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
-import 'package:hr_career_platform/features/company/presentation/bloc/selecte_button_cubit.dart';
 import 'package:hr_career_platform/features/general/data/datasources/general_remote_datasource.dart';
 import 'package:hr_career_platform/features/general/data/repositories/general_repository_impl.dart';
 import 'package:hr_career_platform/features/general/domain/repositories/general_repository.dart';
@@ -225,7 +224,6 @@ void _initCore() {
     ..registerLazySingleton(
       () => ToggleBtnCubit(),
     )
-    ..registerLazySingleton(() => SelectButtonCubit())
     ..registerLazySingleton(() => LocaleCubit())
     ..registerLazySingleton(() => DynamicFormCubit())
     ..registerLazySingleton(() => LocationCubit());

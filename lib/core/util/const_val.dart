@@ -67,20 +67,19 @@ const navRailUserItem = <NavigationRailDestination>[
 ];
 const navUserCompanyItem = <NavigationDestination>[
   NavigationDestination(
+    icon: Icon(Icons.home_outlined, color: primaryColor,),
+    selectedIcon: Icon(Icons.home, color: primaryColor,),
+    label: 'Home',
+  ),
+  NavigationDestination(
     icon: Icon(Icons.work_outline, color: primaryColor,),
     selectedIcon: Icon(Icons.work, color: primaryColor),
     label: 'Jobs',
-
   ),
   NavigationDestination(
     icon: Icon(Icons.bookmark_added_outlined, color: primaryColor,),
     selectedIcon: Icon(Icons.bookmark_added, color: primaryColor,),
     label: 'Tender',
-  ),
-  NavigationDestination(
-    icon: Icon(Icons.notifications_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.notifications, color: primaryColor,),
-    label: 'Notification',
   ),
   NavigationDestination(
     icon: Icon(Icons.person_2_outlined, color: primaryColor,),

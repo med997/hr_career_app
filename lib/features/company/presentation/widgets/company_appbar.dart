@@ -90,7 +90,7 @@ AppBar jobsAppBarFunction({
     flexibleSpace: Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-            opacity: 0.5,
+            opacity: 0.8,
             image: AssetImage(backgroundCompanyImg),
             fit: BoxFit.fitWidth, // Adjust fit as needed
           ),

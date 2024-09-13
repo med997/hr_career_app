@@ -17,10 +17,12 @@ class SubTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
+      padding: const EdgeInsets.all(4.0),
+      child: Flex(
+        direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+
         children: [
           Text(
             title,
@@ -28,11 +30,7 @@ class SubTitle extends StatelessWidget {
                 const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: primaryColor),
           ),
           if (titleType == SubTitleType.withIcon)
-            Container(
-              height: 24,
-              width: 24,
-              child: icon ?? iconButton,
-            )
+            Center(child: icon ?? iconButton)
           else if (titleType == SubTitleType.withShowMore)
             Container(
               child: InkWell(

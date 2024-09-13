@@ -9,7 +9,6 @@ import '../widgets/recent_jobs.dart';
 
 class HomeTenderPage extends StatelessWidget {
   const HomeTenderPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return ListView(

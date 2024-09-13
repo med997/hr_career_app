@@ -15,6 +15,8 @@ import 'package:hr_career_platform/injection_container.dart' as di;
 
 class JobCard extends StatelessWidget {
   final JobCardType jobCardType;
+  final Color? chipBgColor;
+  final String? chipText;
   final String jobTitle;
   final String? createdAt;
   final String companyName;
@@ -27,6 +29,8 @@ class JobCard extends StatelessWidget {
   JobCard({
     this.jobCardType = JobCardType.user,
     required this.jobTitle,
+    this.chipBgColor,
+    this.chipText,
     required this.companyName,
     required this.jobLocation,
     required this.companyLogo,
@@ -41,7 +45,7 @@ class JobCard extends StatelessWidget {
       return _jobCardUser();
     } else if (jobCardType == JobCardType.company) {
       return _jobCardCompany();
-    } else if (jobCardType == JobCardType.userTender) { // إضافة الشرط الجديد هنا
+    } else if (jobCardType == JobCardType.userTender) {
       return _jobCardUserTender();
     } else if(jobCardType == JobCardType.companyTender) {
       return _jobCardCompanyTender();
@@ -222,23 +226,10 @@ class JobCard extends StatelessWidget {
                 SizedBox(
                   width: 12,
                 ),
-                BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                  builder: (context, state) {
-                    return CustomChips(
-                        bgColor: state.selectedTab == 0
-                            ? primaryColor
-                            : state.selectedTab == 1
-                                ? Colors.blueAccent
-                                : Colors.grey.shade700,
-                        chipsTitles: [
-                          state.selectedTab == 0
-                              ? 'active'
-                              : state.selectedTab == 1
-                                  ? 'hidden'
-                                  : 'complete'
-                        ]);
-                  },
-                )
+                     CustomChips(
+                        bgColor: chipBgColor,
+                        chipsTitles: [chipText!])
+
               ],
             ),
           ),
@@ -322,23 +313,10 @@ class JobCard extends StatelessWidget {
                 SizedBox(
                   width: 12,
                 ),
-                BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                  builder: (context, state) {
-                    return CustomChips(
-                        bgColor: state.selectedTab == 0
-                            ? primaryColor
-                            : state.selectedTab == 1
-                                ? Colors.blueAccent
-                                : Colors.grey.shade700,
-                        chipsTitles: [
-                          state.selectedTab == 0
-                              ? 'active'
-                              : state.selectedTab == 1
-                                  ? 'hidden'
-                                  : 'complete'
-                        ]);
-                  },
-                )
+                CustomChips(
+                    bgColor: chipBgColor,
+                    chipsTitles: [chipText!])
+
               ],
             ),
           ),

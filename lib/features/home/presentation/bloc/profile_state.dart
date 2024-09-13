@@ -1,7 +1,7 @@
 part of 'profile_cubit.dart';
 
 class ProfileState extends Equatable {
-  final bool isEditing ;
+    final bool isEditing ;
   ProfileState({this.isEditing = false});
   @override
   List<Object> get props => [isEditing];
