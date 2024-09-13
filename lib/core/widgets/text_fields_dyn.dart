@@ -20,6 +20,8 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
             controller: dynamicModel.controller,
             obscureText: dynamicModel.formType == FormType.password,
             decoration: InputDecoration(
+              border: dynamicModel.inputBorder,
+              suffixIcon: dynamicModel.icons,
               helperText: dynamicModel.helperText ?? '',
               labelText: dynamicModel.controlName,
               errorMaxLines: 1,

@@ -13,8 +13,6 @@ import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
-import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
-import 'package:hr_career_platform/features/company/presentation/bloc/selecte_button_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
@@ -55,12 +53,7 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<ProfileCubit>(),
       ),
-      BlocProvider(
-        create: (context) => di.sl<CompanyProfileCubit>(),
-      ),
-      BlocProvider(
-        create: (context) => di.sl<SelectButtonCubit>(),
-      ),
+
       BlocProvider(
         create: (context) => di.sl<RegisterCubit>(),
       ),

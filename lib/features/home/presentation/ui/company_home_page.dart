@@ -18,9 +18,9 @@ class HomeCompanyPage extends StatelessWidget {
     return Responsive(
         mobile: mobileHomeBuilder(),
         tablet: desktopHomeBuilder(context),
-        desktop: desktopHomeBuilder(context));
+        desktop: desktopHomeBuilder(context)
+    );
   }
-
   Widget mobileHomeBuilder() {
     return BlocBuilder<TabNavCubit, TabNavState>(
       builder: (context, state) {

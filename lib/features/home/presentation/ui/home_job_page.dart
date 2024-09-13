@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/widgets/search_widget.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
 import 'package:hr_career_platform/features/home/presentation/widgets/featured_jobs.dart';
@@ -17,7 +18,6 @@ class HomeJobPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-
       children: [
         SearchWidget(),
         SubTitle(
@@ -40,7 +40,7 @@ class HomeJobPage extends StatelessWidget {
           title: AppLocalizations.of(context)!.translate("recent_job_msg"),
           icon: Icon(Icons.edit_note),
         ),
-        RecentJobsWidget()
+        RecentJobsWidget(jobCardType: JobCardType.user,)
       ],
     );
   }

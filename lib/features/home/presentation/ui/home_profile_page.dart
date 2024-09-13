@@ -412,9 +412,10 @@ class HomeProfilePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SizedBox(
-                    width: 80,
+                    width: 75,
                     height: 30,
                     child: MaterialButton(
+                      padding: EdgeInsets.all(10),
                         color: primaryColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6)),

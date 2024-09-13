@@ -29,7 +29,6 @@ class DynamicFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Responsive(
       mobile: _mobileDynamicFormBuilder(context),
       desktop: useResponsiveUi
@@ -82,7 +81,8 @@ class DynamicFormWidget extends StatelessWidget {
       child: BlocBuilder<DynamicFormCubit, List<DynamicModel>>(
         builder: (context, state) {
           return Wrap(
-spacing: 4,
+            alignment: WrapAlignment.center,
+            spacing: 4,
             children: [
               ...state.map(
                     (e) {
@@ -97,38 +97,43 @@ spacing: 4,
   }
 
 
-Widget _desktopWidgetBuilder(BuildContext context, int columnCount) {
-  double itemWidth = MediaQuery
-      .of(context)
-      .size
-      .width / columnCount - 50;
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Form(
-      key: formKey,
-      child:
-      Wrap(
-        direction: Axis.horizontal,
-        spacing: (spacer * 2),
-        children: <Widget>[
-          ...dynamicFormsList!.map(
-                (e) {
-              return SizedBox(
-                width: e.width,
-                child: getWidgetBasedFormType(e, context),
-              );
-            },
-          ),
-          // Container(
-          //     decoration:
-          //         BoxDecoration(borderRadius: BorderRadius.circular(18)),
-          //     width: itemWidth,
-          //     height: 35,
-          //     child: ElevatedButton(onPressed: () {}, child: Text('search'))),
-        ],
-      ),
+  Widget _desktopWidgetBuilder(BuildContext context, int columnCount) {
+    double itemWidth = MediaQuery
+        .of(context)
+        .size
+        .width / columnCount - 50;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Form(
+        key: formKey,
+        child:
+        BlocBuilder<DynamicFormCubit, List<DynamicModel>>(
+          builder: (context, state) {
+            return Wrap(
+              alignment: WrapAlignment.center,
+              direction: Axis.horizontal,
+              spacing: (spacer * 2),
+              children: <Widget>[
+                ...state.map(
+                      (e) {
+                    return SizedBox(
+                      width: e.width,
+                      child: getWidgetBasedFormType(e, context),
+                    );
+                  },
+                ),
+                // Container(
+                //     decoration:
+                //         BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                //     width: itemWidth,
+                //     height: 35,
+                //     child: ElevatedButton(onPressed: () {}, child: Text('search'))),
+              ],
+            );
+          },
+        ),
 
-    ),
-  );
+      ),
+    );
+  }
 }
- }
