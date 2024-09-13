@@ -15,7 +15,7 @@ final appTheme = ThemeData(
         floatingLabelStyle: TextStyle(color: primaryColor ,fontSize: 14),
         prefixStyle: TextStyle(fontSize: 12),
         iconColor: secondaryColor,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
 
         labelStyle: TextStyle(fontSize: 14),
         focusedBorder: OutlineInputBorder(

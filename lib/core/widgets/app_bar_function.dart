@@ -13,13 +13,16 @@ AppBar buildAppBar({
   int? selectedTab,
 }) {
   return AppBar(
+    centerTitle: true,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Column(
+        Flex(
           crossAxisAlignment: CrossAxisAlignment.start,
+          direction: Axis.vertical,
           children: [
+            if(fullHeader== true)
             Text(
               fullHeader ? 'Welcome Back!' : ' ',
               style: const TextStyle(color: Colors.grey, fontSize: 14),
@@ -35,14 +38,15 @@ AppBar buildAppBar({
         ),
         Wrap(
           alignment: WrapAlignment.center,
+
+          direction: Axis.horizontal,
           children: [
-            if (selectedTab == 3) const LanguageButton(),
+            if (selectedTab == 3) SizedBox(child: const LanguageButton()),
             if (fullHeader == true)
-              Center(
-                  child: AvatarNetwork(
-                imgUrl: '',
-                withBorder: false,
-              ))
+              AvatarNetwork(
+                              imgUrl: '',
+                              withBorder: false,
+                            )
           ],
         )
       ],

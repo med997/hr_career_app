@@ -34,7 +34,7 @@ class AvatarNetwork extends StatelessWidget {
             imgUrl,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) {
-              return const Icon(Icons.location_city);
+              return const Icon(Icons.person);
             },
           ),
         ),

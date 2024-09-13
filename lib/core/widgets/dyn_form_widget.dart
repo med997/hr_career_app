@@ -81,7 +81,8 @@ class DynamicFormWidget extends StatelessWidget {
       child: BlocBuilder<DynamicFormCubit, List<DynamicModel>>(
         builder: (context, state) {
           return Wrap(
-            alignment: WrapAlignment.center,
+            // direction: Axis.vertical,
+            // alignment: WrapAlignment.center,
             spacing: 4,
             children: [
               ...state.map(

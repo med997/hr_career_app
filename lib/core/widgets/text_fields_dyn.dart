@@ -16,12 +16,14 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
           child: TextFormField(
             key: Key(dynamicModel.controlName),
             enabled: !dynamicModel.disabled,
+            initialValue: dynamicModel.value,
             style: const TextStyle(fontSize: 14),
             controller: dynamicModel.controller,
             obscureText: dynamicModel.formType == FormType.password,
             decoration: InputDecoration(
               border: dynamicModel.inputBorder,
               suffixIcon: dynamicModel.icons,
+              suffixIconConstraints: BoxConstraints.tightFor(height: 20,width: 40),
               helperText: dynamicModel.helperText ?? '',
               labelText: dynamicModel.controlName,
               errorMaxLines: 1,

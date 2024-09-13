@@ -17,7 +17,7 @@ class SubTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.symmetric(horizontal: 2 ,vertical: 8),
       child: Flex(
         direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -27,7 +27,7 @@ class SubTitle extends StatelessWidget {
           Text(
             title,
             style:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: primaryColor),
+                const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: primaryColor),
           ),
           if (titleType == SubTitleType.withIcon)
             Center(child: icon ?? iconButton)

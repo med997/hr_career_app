@@ -40,13 +40,13 @@ class FeaturedJobs extends StatelessWidget {
 
   Widget _mobileFeaturedJob(List<Job> featuredJobs) {
     return CarouselSlider(
-      options: CarouselOptions(height: 160.0),
+      options: CarouselOptions(height: 180.0),
       items: featuredJobs.map((i) {
         return Builder(
           builder: (BuildContext context) {
             return Container(
                 width: MediaQuery.of(context).size.width,
-                height: 140,
+
                 margin: const EdgeInsets.symmetric(horizontal: 8.0),
                 decoration: BoxDecoration(
                     image: const DecorationImage(
@@ -101,38 +101,46 @@ class FeaturedJobs extends StatelessWidget {
   }
 
   Widget featuredJobCard(Job job) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          title: Text(
-            job.jobTitle,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Flex(
+        direction: Axis.vertical,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
+            title: Text(
+              job.jobTitle,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.white, fontSize: 14),
+            ),
+            subtitle: Text(
+              job.company!.nameEn,
+              style: const TextStyle(color: Colors.white, fontSize: 12),
+            ),
+            leading: AvatarNetwork(imgUrl: job.company!.companyLogo??'',withBorder: true,)
           ),
-          subtitle: Text(
-            job.company!.nameEn,
-            style: const TextStyle(color: Colors.white, fontSize: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: CustomChips(
+              chipsTitles: [
+                job.category,
+                job.office,
+                job.timeParts,
+                job.nationalities ?? ''
+              ],
+              txtSize: 11,
+              bgColor: Colors.white10,
+            ),
           ),
-          leading: AvatarNetwork(imgUrl: job.company!.companyLogo??'',withBorder: false,)
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 6),
-          child: CustomChips(
-            chipsTitles: [
-              job.category,
-              job.office,
-              job.timeParts,
-              job.nationalities ?? ''
-            ],
-            bgColor: Colors.white10,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 6),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          SizedBox(height: 5,),
+          Wrap(
+            direction: Axis.horizontal,
+            spacing: 4,
+
+            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.spaceBetween,
             children: [
               TextWithIcon(
                 icon: const Icon(
@@ -154,9 +162,9 @@ class FeaturedJobs extends StatelessWidget {
                 textColor: Colors.white,
               ),
             ],
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

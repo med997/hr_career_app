@@ -12,7 +12,6 @@ import '../../../../core/util/responsive.dart';
 import '../../../../core/util/validator.dart';
 import '../../../../core/widgets/dyn_form_widget.dart';
 import '../../../../core/widgets/sub-title.dart';
-import '../../../home/presentation/bloc/profile_cubit.dart';
 import '../widgets/company_appbar.dart';
 
 class CompanyProfilePage extends StatelessWidget {

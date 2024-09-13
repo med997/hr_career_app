@@ -10,13 +10,14 @@ import '../models/profile_model.dart';
 
 abstract class ProfileRemoteDatasource {
   Future<ProfileModel> getUser();
+  Future<ProfileModel> getUserByUuid(String uuid);
 }
 
 class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
   final SupabaseClient client;
-  final NetworkInfo networkInfo;
 
-  ProfileRemoteDatasourceImp({required this.networkInfo, required this.client});
+
+  ProfileRemoteDatasourceImp({ required this.client});
 
   @override
   Future<ProfileModel> getUser() async {
@@ -33,6 +34,26 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
         print(error);
       }
       throw ServerException();
+    }
+  }
+
+  @override
+  Future<ProfileModel> getUserByUuid(String uuid)async {
+
+    try {
+      final data = await client.from('profiles').select('*').eq('id', uuid).limit(1);
+
+      print(data[0].toString());
+      if (data.isNotEmpty) {
+        return ProfileModel.fromJson(data[0]);
+      } else {
+        throw const ServerException();
+      }
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: error.message);
     }
   }
 }

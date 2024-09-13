@@ -18,6 +18,8 @@ class Profile extends Equatable {
   final String? documentsUrl;
   final String? major;
   final List<String>? skils;
+  final List<dynamic> experience;
+  final List<dynamic> education;
 
   Profile({
     this.id,
@@ -29,6 +31,8 @@ class Profile extends Equatable {
     this.nationality,
     this.dob,
     this.secondaryPhone,
+    this.education= const[],
+    this.experience= const[],
 
 
      this.currentJob,

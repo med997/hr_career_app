@@ -4,6 +4,7 @@ import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
 
 class DynamicModel {
+  Map<String,List<DynamicModel>>? subDynModel;
   String controlName;
   InputBorder? inputBorder;
   FormType formType;
@@ -24,6 +25,7 @@ class DynamicModel {
 
   DynamicModel(this.controlName, this.formType,
       { this.value,
+        this.subDynModel,
         this.inputBorder,
       this.items = const [],
       this.disabled = false,

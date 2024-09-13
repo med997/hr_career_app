@@ -12,6 +12,7 @@ import '../../../../core/widgets/text_with_icon.dart';
           icon: const Icon(
             Icons.date_range_outlined,
             color: primaryColor,
+            size: 16,
           ),
           text: dateText,
           textColor: primaryTransparent.withOpacity(0.6),
@@ -20,15 +21,17 @@ import '../../../../core/widgets/text_with_icon.dart';
             icon: const Icon(
               Icons.location_on_outlined,
               color: primaryColor,
+              size: 16,
             ),
-            text: ' Riyadh Bank -KSA,Jeddah',
+            text: locationText,
             textColor: primaryTransparent.withOpacity(0.6)),
         TextWithIcon(
             icon: const Icon(
               Icons.info_outline_rounded,
+              size: 16,
               color: primaryColor,
             ),
-            text: ' Senior Android Developer',
+            text:infoText,
             textColor: primaryTransparent.withOpacity(0.6)),
         Divider(
           color: Colors.transparent.withOpacity(0.1),

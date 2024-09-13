@@ -18,6 +18,7 @@ class HomeJobPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      padding: EdgeInsets.symmetric(horizontal: 12),
       children: [
         SearchWidget(),
         SubTitle(

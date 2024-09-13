@@ -63,23 +63,24 @@ class JobCard extends StatelessWidget {
               Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
           borderRadius: BorderRadius.circular(12),
           color: Colors.white),
-      child: Column(
+      child: Flex(
+        direction: Axis.vertical,
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 4,
+              horizontal: 2,
             ),
             child: Text(
               jobTitle,
               style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16),
+                  fontSize: 14),
             ),
           ),
           ListTile(
+            contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
             leading: AvatarNetwork(
               imgUrl: companyLogo ?? '',
               withBorder: true,
@@ -88,7 +89,7 @@ class JobCard extends StatelessWidget {
               companyName,
               style: const TextStyle(
                   color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                   fontSize: 14),
             ),
             subtitle: Wrap(

@@ -21,7 +21,6 @@ import 'package:hr_career_platform/features/home/data/repositories/home_reposito
 import 'package:hr_career_platform/features/home/domain/repositories/home_repository.dart';
 import 'package:hr_career_platform/features/home/domain/usecases/fetch_home.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
-import 'package:hr_career_platform/features/home/presentation/bloc/profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/job/data/datasources/network/job_remote_datasource.dart';
 import 'package:hr_career_platform/features/job/data/repositories/job_repository_impl.dart';
@@ -37,6 +36,11 @@ import 'package:hr_career_platform/features/payment/data/repositories/payment_re
 import 'package:hr_career_platform/features/payment/domain/repositories/payment_repository.dart';
 import 'package:hr_career_platform/features/payment/domain/usecases/get_package.dart';
 import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
+import 'package:hr_career_platform/features/profile/data/datasources/profile_remote_datasource.dart';
+import 'package:hr_career_platform/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:hr_career_platform/features/profile/domain/repositories/profile_repository.dart';
+import 'package:hr_career_platform/features/profile/domain/usecases/fetch_profile.dart';
+import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -230,8 +234,26 @@ void _initCore() {
 }
 
 void _initProfile() {
-  sl.registerLazySingleton(
-    () => ProfileCubit(),
+ sl ..registerFactory<ProfileRemoteDatasource>(
+  () => ProfileRemoteDatasourceImp(
+  client: sl(),
+  ),
+  )
+
+  // repository
+  ..registerFactory<ProfileRepository>(
+  () => ProfileRepositoryImpl(
+  profileRemoteDatasource: sl(),
+  networkInfo: sl(),
+  ),
+  )
+
+  ..registerFactory(
+  () => FetchProfileUserCase(
+  sl(),
+  ),
+  )..registerLazySingleton(
+    () => ProfileCubit(fetchProfileUserCase: sl()),
   );
 }
 
