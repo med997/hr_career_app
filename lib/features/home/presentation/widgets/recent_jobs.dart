@@ -52,7 +52,7 @@ class RecentJobsWidget extends StatelessWidget {
                   companyLogo: job[i].company!.companyLogo ?? '',
                   jobDeadLine: '${job[i].deadlineDate.hour}h ago',
                   jobNationality: job[i].nationalities ?? '') :
-              jobCardType == JobCardType.company ?JobCard(
+              JobCard(
                 jobCardType: JobCardType.company,
                   chipBgColor:primaryColor,
                   chipText: 'Active',
@@ -62,16 +62,7 @@ class RecentJobsWidget extends StatelessWidget {
                   companyLogo: job[i].company!.companyLogo ?? '',
                   jobDeadLine: '${job[i].deadlineDate.hour}h ago',
                   jobNationality: job[i].nationalities ?? '')
-                :JobCard(
-                  jobCardType: JobCardType.companyTender,
-                  chipBgColor:Colors.orange,
-                  chipText: 'Active',
-                  jobTitle: job[i].jobTitle,
-                  companyName: job[i].company!.nameEn ,
-                  jobLocation: job[i].city,
-                  companyLogo: job[i].company!.companyLogo ?? '',
-                  jobDeadLine: '${job[i].deadlineDate.hour}h ago',
-                  jobNationality: job[i].nationalities ?? '') ));
+                 ));
   }
 
   Widget _buildTabletDesktopLayout(
@@ -91,23 +82,11 @@ class RecentJobsWidget extends StatelessWidget {
               companyLogo: job.company!.companyLogo ?? '',
               jobDeadLine: '${job.deadlineDate.hour}h ago',
               jobNationality: job.nationalities ?? '',
-             columnWidth: itemWidth,) : jobCardType == JobCardType.company ?JobCard(
+             columnWidth: itemWidth,) : JobCard(
             jobCardType: JobCardType.company,
             jobTitle: job.jobTitle,
             chipText: 'Active',
             chipBgColor: primaryColor,
-            companyName: job.company!.nameEn,
-            jobLocation: job.city,
-            companyLogo: job.company!.companyLogo ?? '',
-            jobDeadLine: '${job.deadlineDate.hour}h ago',
-            jobNationality: job.nationalities ?? '',
-            columnWidth: itemWidth,
-          ):
-          JobCard(
-            jobCardType: JobCardType.companyTender,
-            jobTitle: job.jobTitle,
-            chipText: 'Active',
-            chipBgColor: Colors.orange,
             companyName: job.company!.nameEn,
             jobLocation: job.city,
             companyLogo: job.company!.companyLogo ?? '',

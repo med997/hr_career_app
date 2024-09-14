@@ -123,12 +123,15 @@ class LoginPage extends StatelessWidget {
                 ),
                 BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
                     builder: (context, state) {
-                      return DynamicFormWidget(
-                        key: Key('LoginKey'),
-                        formKey: loginFormKey,
-                        dynamicFormsList: loginDynForm,
-                        submitBtnLabel: 'login',
-                        useResponsiveUi: false,);
+                      return SizedBox(
+                        width: 350,
+                        child: DynamicFormWidget(
+                          key: Key('LoginKey'),
+                          formKey: loginFormKey,
+                          dynamicFormsList: loginDynForm,
+                          submitBtnLabel: 'login',
+                          useResponsiveUi: false,),
+                      );
                     }
 
                 ),

@@ -23,6 +23,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+
   @override
   Widget build(BuildContext context) {
     return Responsive(
@@ -84,6 +86,7 @@ class _HomePageState extends State<HomePage> {
             img: '',
             fullHeader: true,
             selectedTab: state.selectedTab,
+
           ),
           body: Row(
             children: [
@@ -115,17 +118,16 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return HomeJobPage();
       case 1:
-        return Placeholder();
-      case 2:
-        return Placeholder();
+        return CompanyTendersPage();
+        case 2:
+
+        return SearchPage();
       case 3:
         context.read<LoginCubit>().checkLoginStatus();
-        return BlocBuilder<LoginCubit, LoginState>(
+        return BlocBuilder<LoginCubit ,LoginState>(
           builder: (context, state) {
             if (state is CurrentUserStatus) {
-              context
-                  .read<ProfileCubit>()
-                  .getUserByUuid(state.auth.userAuth!.id);
+              context.read<ProfileCubit>().getUserByUuid(state.auth.userAuth!.id);
               return HomeProfilePage();
             }
             return SizedBox();
@@ -139,5 +141,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void initState() {}
+  void initState() {
+
+  }
 }
