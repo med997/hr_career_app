@@ -9,6 +9,7 @@ import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.d
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_job_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_profile_page.dart';
+import 'package:hr_career_platform/features/home/presentation/ui/search_page.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 
 import '../../../../core/util/const_val.dart';
@@ -118,10 +119,10 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return HomeJobPage();
       case 1:
-        return CompanyTendersPage();
+        return SizedBox();
         case 2:
 
-        return SearchPage();
+        return const SearchPage();
       case 3:
         context.read<LoginCubit>().checkLoginStatus();
         return BlocBuilder<LoginCubit ,LoginState>(
