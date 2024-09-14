@@ -7,12 +7,12 @@ SizedBox squareButton(
     height: 75,
     width: 105,
     child: Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: primaryColor
+        color: clr,
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(onPressed: onTap, icon: Icon(icn,color: Colors.white,),),
           Text(iconLabel,style: TextStyle(color: Colors.white),)

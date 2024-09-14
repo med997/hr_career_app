@@ -17,7 +17,18 @@ class CompanyTendersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox();
+    return Column(
+        children: [
+          const SizedBox(
+            height: 5,
+          ),
+          Center(
+            child: ToggleBtnWidget(
+              options: const ['Archive', 'Hidden', 'Complete'],
+            ),
+          ),
+
+        ]);
     // return ListView(
     //   children: const [
     //

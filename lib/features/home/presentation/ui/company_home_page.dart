@@ -25,12 +25,18 @@ class HomeCompanyPage extends StatelessWidget {
     return BlocBuilder<TabNavCubit, TabNavState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: buildAppBar(
-            userName: 'Mohammed adnan',
+          appBar: state.selectedTab !=3 ? buildAppBar(
+            userOrCompany: 'Company',
+            userName: state
+                .selectedTab == 3 ? 'Profile' : state
+                .selectedTab == 1 ? 'Jobs' : state
+                .selectedTab == 2 ? 'Tender' : 'Ahmed Afeef',
             img: '',
-            fullHeader: true,
+            fullHeader: (state.selectedTab != 0)
+                ? false
+                : true,
             selectedTab: state.selectedTab,
-          ),
+          ): null,
           body: (state is TabNavChangedState)
               ? _navPageBody(state.selectedTab)
               : SizedBox(),
@@ -50,6 +56,7 @@ class HomeCompanyPage extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: buildAppBar(
+            userOrCompany: 'Company',
             userName: 'Mohammed adnan',
             img: '',
             fullHeader: true,

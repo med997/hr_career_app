@@ -128,12 +128,12 @@ class CompanyProfilePage extends StatelessWidget {
     }
     return Scaffold(
       appBar: jobsAppBarFunction(
-          backgroundCompanyImg: 'imgs/google_background.png',
+          backgroundCompanyImg: 'assets/imgs/google_background.png',
           companyEmail: '',
-          companyLocation: '',
-          companyLogo: 'assets/imgs/google_logo.png',
-          companyMajor: '',
-          companyName: '',
+          companyLocation: 'US, California',
+        companyLogo:'assets/imgs/google_logo.png',
+          companyMajor: 'Software Engineering',
+          companyName: 'Google',
           companyNumber: '',
           companyWebsite: ''),
       body: BlocProvider(
@@ -145,7 +145,7 @@ class CompanyProfilePage extends StatelessWidget {
               case 0:
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: ListView(
+                child: ListView(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     shrinkWrap: true,
                     children: [
@@ -181,13 +181,13 @@ class CompanyProfilePage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: MaterialButton(
-                                color: primaryColor,
+                                color:  Colors.yellow.shade700,
                                 minWidth: 12,
                                 height: 40,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16)),
                                 onPressed: () {},
-                                child: Icon(
+                                child: const Icon(
                                   Icons.save_outlined,
                                   color: Colors.white,
                                   size: 19,
@@ -206,7 +206,7 @@ class CompanyProfilePage extends StatelessWidget {
                   ],
                 );
               default:
-                return SizedBox();
+                return const SizedBox();
             }
           },
         ),

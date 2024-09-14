@@ -10,9 +10,13 @@ AppBar buildAppBar({
   required String userName,
   required String img,
   bool fullHeader = false,
+  bool withBackBtn = false,
+  required String userOrCompany,
   int? selectedTab,
+
 }) {
   return AppBar(
+    iconTheme: IconThemeData(color: primaryColor),
     centerTitle: true,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,11 +26,11 @@ AppBar buildAppBar({
           crossAxisAlignment: CrossAxisAlignment.start,
           direction: Axis.vertical,
           children: [
-            if(fullHeader== true)
-            Text(
-              fullHeader ? 'Welcome Back!' : ' ',
-              style: const TextStyle(color: Colors.grey, fontSize: 14),
-            ),
+            if (fullHeader == true)
+              Text(
+                fullHeader ? 'Welcome Back!' : ' ',
+                style: const TextStyle(color: Colors.grey, fontSize: 14),
+              ),
             Text(
               fullHeader ? "$userName 👋🏻" : userName,
               style: const TextStyle(
@@ -38,18 +42,34 @@ AppBar buildAppBar({
         ),
         Wrap(
           alignment: WrapAlignment.center,
-
           direction: Axis.horizontal,
           children: [
-            if (selectedTab == 3) SizedBox(child: const LanguageButton()),
+            if (selectedTab == 2 && userOrCompany == 'Company')
+              appBarButton(
+                Colors.yellow.shade700,
+              )
+            else if (selectedTab == 1 && userOrCompany == 'Company')
+              appBarButton(primaryColor)
+            else if (selectedTab == 3)
+              const LanguageButton(),
             if (fullHeader == true)
               AvatarNetwork(
-                              imgUrl: '',
-                              withBorder: false,
-                            )
+                imgUrl: '',
+                withBorder: false,
+              )
           ],
         )
       ],
     ),
   );
+}
+
+ElevatedButton appBarButton(Color clr) {
+  return ElevatedButton(
+      onPressed: () async {},
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(),
+        backgroundColor: clr,
+      ),
+      child: Icon(Icons.add, color: Colors.white));
 }

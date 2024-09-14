@@ -51,7 +51,7 @@ class FeaturedJobs extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: const DecorationImage(
                       opacity: 0.5,
-                      image: AssetImage('imgs/image10.png'),
+                      image: AssetImage('assets/imgs/image10.png'),
                       fit: BoxFit.fitWidth, // Adjust fit as needed
                     ),
                     color: primaryColor,
@@ -86,7 +86,7 @@ class FeaturedJobs extends StatelessWidget {
             decoration: BoxDecoration(
                 image: const DecorationImage(
                   opacity: 0.5,
-                  image: AssetImage('imgs/image10.png'),
+                  image: AssetImage('assets/imgs/image10.png'),
                   fit: BoxFit.fitWidth, // Adjust fit as needed
                 ),
                 color: primaryColor,

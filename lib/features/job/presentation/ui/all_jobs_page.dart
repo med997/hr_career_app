@@ -11,7 +11,7 @@ class AllJobsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(userName: 'Jobs', img: '', fullHeader: false),
+      appBar: buildAppBar(userName: 'Jobs', img: '', fullHeader: false, userOrCompany: 'User'),
       body: BlocBuilder<JobCubit, JobState>(
         builder: (context, state) {
                 if (state is JobLoadingState) {

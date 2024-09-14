@@ -42,7 +42,7 @@ class RecentJobsWidget extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => JobDetailsPage(job: job[i])),
+                    builder: (context) => JobDetailsPage(job: job[i]) ),
               ),
               child: jobCardType == JobCardType.user ?JobCard(
                 jobCardType: JobCardType.user,

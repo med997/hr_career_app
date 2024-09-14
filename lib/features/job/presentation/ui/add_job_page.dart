@@ -14,10 +14,12 @@ class AddJobPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(userName: 'Job', img: '', fullHeader: false,),
+
+      appBar: buildAppBar(userName: 'Jobs', img: '', fullHeader: false, userOrCompany: 'User',),
       body: Flex(
         direction: Axis.vertical,
         children: [
+
           AddJobStepper(),
           Flexible(
             fit: FlexFit.tight,

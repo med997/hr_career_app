@@ -1,23 +1,40 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
+import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_header.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_tabbar.dart';
 
 class JobDetailsPage extends StatelessWidget {
   final Job job;
+
   const JobDetailsPage({super.key, required this.job});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Flex(
+mainAxisAlignment: MainAxisAlignment.start,
         direction: Axis.vertical,
         children: [
-          Flexible(child: JobDetailsHeader(job: job)),
-          Flexible(child: JobDetailsTabBar(job: job))
+          Flexible(flex: 1, child: JobDetailsHeader(job: job)),
+          Expanded(/*fit: FlexFit.tight,flex: 1,*/
+            flex: 2,
+          child: JobDetailsTabBar(job: job)),
+          SizedBox(height: 20,),
+          Center(
+            child: SizedBox(
+              width: 260,
+              height: 35,
+              child: MaterialButton(
+                  color: primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  onPressed: () {},
+              child: Text('Apply now',style: TextStyle(color: Colors.white),),),
+            ),
+          )
         ],
       ),
     );

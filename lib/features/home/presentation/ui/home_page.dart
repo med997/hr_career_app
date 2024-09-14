@@ -23,8 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Responsive(
@@ -37,20 +35,31 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<TabNavCubit, TabNavState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: (state is TabNavChangedState) ? buildAppBar(
-            userName: state.selectedTab == 4 ? 'Notifications' : state
-                .selectedTab == 3 ? 'Profile' : 'Mohammed adnan',
-            img: '',
-            fullHeader: (state.selectedTab == 4 || state.selectedTab == 3)
-                ? false
-                : true,
-            selectedTab: state.selectedTab,
-          ) : buildAppBar(
-            userName: 'Mohammed adnan',
-            img: '',
-            fullHeader: true,
-            selectedTab: state.selectedTab,
-          ),
+          appBar: (state is TabNavChangedState)
+              ? buildAppBar(
+                  userName: state.selectedTab == 4
+                      ? 'Notifications'
+                      : state.selectedTab == 2
+                          ? 'Search'
+                          : state.selectedTab == 3
+                              ? 'Profile'
+                              : 'Mohammed adnan',
+                  img: '',
+                  userOrCompany: 'User',
+                  fullHeader: (state.selectedTab == 4 ||
+                          state.selectedTab == 3 ||
+                          state.selectedTab == 2)
+                      ? false
+                      : true,
+                  selectedTab: state.selectedTab,
+                )
+              : buildAppBar(
+                  userName: 'Mohammed adnan',
+                  img: '',
+                  userOrCompany: 'User',
+                  fullHeader: true,
+                  selectedTab: state.selectedTab,
+                ),
           body: (state is TabNavChangedState)
               ? _navPageBody(state.selectedTab)
               : SizedBox(),
@@ -70,11 +79,11 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         return Scaffold(
           appBar: buildAppBar(
+            userOrCompany: 'User',
             userName: 'Mohammed adnan',
             img: '',
             fullHeader: true,
             selectedTab: state.selectedTab,
-
           ),
           body: Row(
             children: [
@@ -106,13 +115,17 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return HomeJobPage();
       case 1:
-        return CompanyTendersPage();
+        return Placeholder();
+      case 2:
+        return Placeholder();
       case 3:
         context.read<LoginCubit>().checkLoginStatus();
-        return BlocBuilder<LoginCubit ,LoginState>(
+        return BlocBuilder<LoginCubit, LoginState>(
           builder: (context, state) {
             if (state is CurrentUserStatus) {
-              context.read<ProfileCubit>().getUserByUuid(state.auth.userAuth!.id);
+              context
+                  .read<ProfileCubit>()
+                  .getUserByUuid(state.auth.userAuth!.id);
               return HomeProfilePage();
             }
             return SizedBox();
@@ -126,7 +139,5 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void initState() {
-
-  }
+  void initState() {}
 }

@@ -17,12 +17,20 @@ class CompanyJopPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return ListView(
-       children: const [
-
-         RecentJobsWidget(jobCardType: JobCardType.company,)
-       ],
-     );
-
+    return ListView(
+      children: [
+        const SizedBox(
+          height: 5,
+        ),
+        Center(
+          child: ToggleBtnWidget(
+            options: const ['Archive', 'Hidden', 'Complete'],
+          ),
+        ),
+        const RecentJobsWidget(
+          jobCardType: JobCardType.company,
+        )
+      ],
+    );
   }
-  }
+}

@@ -37,12 +37,13 @@ class _JobDetailsTabBarState extends State<JobDetailsTabBar>
             unselectedLabelStyle: const TextStyle(color: Colors.grey),
             labelColor: primaryColor,
             indicatorColor: primaryColor,
+            unselectedLabelColor: Colors.grey,
             indicatorSize: TabBarIndicatorSize.label,
             controller: _tabController,
             tabs: const <Widget>[
               Tab(text: 'Description'),
               Tab(text: 'Requirement'),
-              Tab(text: 'How to apply ?'),
+              Tab(text: 'How to apply?'),
             ],
           ),
           Expanded(
@@ -54,6 +55,20 @@ class _JobDetailsTabBarState extends State<JobDetailsTabBar>
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                   child: Text(
                     job.jobDesc,
+                    textAlign: TextAlign.justify,
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
+
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  child: Text(
+                    job.jobRequirements,
                     textAlign: TextAlign.justify,
                     softWrap: true,
                     overflow: TextOverflow.visible,

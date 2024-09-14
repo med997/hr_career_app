@@ -110,8 +110,9 @@ class RegisterPage extends StatelessWidget {
       appBar: loginAndRegisterAppBar(),
       body: BlocProvider(
   create: (context) => DynamicFormCubit()..addAllFields(regFormUsers),
-  child: ListView(
-          shrinkWrap: true,
+  child: Flex(
+    direction: Axis.vertical,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
