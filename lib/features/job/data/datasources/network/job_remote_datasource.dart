@@ -33,7 +33,7 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
     company (
       *
     )
-  ''');
+  ''').order('created_at').limit(100);
 
       final List<JobModel> jobList =
           data.map((json) => JobModel.fromJson(json)).toList();
