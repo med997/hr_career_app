@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_career_platform/features/company/presentation/bloc/selecte_button_cubit.dart';
-
+import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 class CompanyButton extends StatelessWidget {
   CompanyButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SelectButtonCubit, SelectButtonState>(
-      builder: (context, state) {
         return Wrap(
           alignment: WrapAlignment.center,
           //mainAxisAlignment: MainAxisAlignment.center,
@@ -17,7 +14,7 @@ class CompanyButton extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: ElevatedButton(
                   onPressed: ([int value = 0]) {
-                    context.read<SelectButtonCubit>().selectedIndex(value);
+                    context.read<ToggleBtnCubit>().changeTab(value);
                   },
                   statesController: WidgetStatesController(),
                   style: ButtonStyle(
@@ -35,7 +32,7 @@ class CompanyButton extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: OutlinedButton(
                   onPressed: ([int value = 1]) {
-                    context.read<SelectButtonCubit>().selectedIndex(value);
+                    context.read<ToggleBtnCubit>().changeTab(value);
                   },
                   style: ButtonStyle(
                       padding:
@@ -67,8 +64,6 @@ class CompanyButton extends StatelessWidget {
             //
           ],
         );
-      },
-    );
   }
 }
 

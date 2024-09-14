@@ -15,7 +15,7 @@ final appTheme = ThemeData(
         floatingLabelStyle: TextStyle(color: primaryColor ,fontSize: 14),
         prefixStyle: TextStyle(fontSize: 12),
         iconColor: secondaryColor,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
 
         labelStyle: TextStyle(fontSize: 14),
         focusedBorder: OutlineInputBorder(
@@ -27,11 +27,15 @@ final appTheme = ThemeData(
           borderRadius: BorderRadius.circular(8),
         )),
 
-    dropdownMenuTheme: const DropdownMenuThemeData(
-
+    dropdownMenuTheme:  DropdownMenuThemeData(
         inputDecorationTheme:  InputDecorationTheme(
-          contentPadding: EdgeInsets.symmetric(horizontal: 12),
+
+         contentPadding: EdgeInsets.symmetric(horizontal: 8),
           constraints: BoxConstraints.tightFor(height: 35),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(color: primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
         ),
 
       textStyle: TextStyle(fontSize: 14),

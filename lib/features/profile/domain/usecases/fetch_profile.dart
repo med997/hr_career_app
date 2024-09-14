@@ -12,4 +12,7 @@ class FetchProfileUserCase {
   Future<Either<Failure, Profile>> getUserProfile() async {
     return await profileRepository.getUserProfile();
   }
+  Future<Either<Failure, Profile>> getUserByUuid(String uuid) async {
+    return await profileRepository.getUserByUuid(uuid );
+  }
 }

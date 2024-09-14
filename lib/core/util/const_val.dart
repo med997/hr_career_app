@@ -11,8 +11,6 @@ const navUserItem = <NavigationDestination>[
     icon: Icon(Icons.work_outline, color: primaryColor,),
     selectedIcon: Icon(Icons.work, color: primaryColor),
     label: 'Jobs',
-
-
   ),
   NavigationDestination(
     icon: Icon(Icons.bookmark_added_outlined, color: primaryColor,),
@@ -25,15 +23,14 @@ const navUserItem = <NavigationDestination>[
     label: 'Search',
   ),
   NavigationDestination(
-    icon: Icon(Icons.notifications_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.notifications, color: primaryColor,),
-
-    label: 'Notification',
-  ),
-  NavigationDestination(
     icon: Icon(Icons.person_2_outlined, color: primaryColor,),
     selectedIcon: Icon(Icons.person_2, color: primaryColor,),
     label: 'Profile',
+  ),
+  NavigationDestination(
+    icon: Icon(Icons.notifications_outlined, color: primaryColor,),
+    selectedIcon: Icon(Icons.notifications, color: primaryColor,),
+    label: 'Notification',
   ),
 ];
 const navRailUserItem = <NavigationRailDestination>[
@@ -41,8 +38,6 @@ const navRailUserItem = <NavigationRailDestination>[
     icon: Icon(Icons.work_outline, color: primaryColor,),
     selectedIcon: Icon(Icons.work, color: primaryColor),
     label: Text('Jobs'),
-
-
   ),
   NavigationRailDestination(
     icon: Icon(Icons.bookmark_added_outlined, color: primaryColor,),
@@ -55,32 +50,31 @@ const navRailUserItem = <NavigationRailDestination>[
     label: Text('Search'),
   ),
   NavigationRailDestination(
-    icon: Icon(Icons.notifications_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.notifications, color: primaryColor,),
-    label: Text('Notification'),
-  ),
-  NavigationRailDestination(
     icon: Icon(Icons.person_2_outlined, color: primaryColor,),
     selectedIcon: Icon(Icons.person_2, color: primaryColor,),
     label: Text('Profile'),
   ),
+  NavigationRailDestination(
+    icon: Icon(Icons.notifications_outlined, color: primaryColor,),
+    selectedIcon: Icon(Icons.notifications, color: primaryColor,),
+    label: Text('Notification'),
+  ),
 ];
 const navUserCompanyItem = <NavigationDestination>[
+  NavigationDestination(
+    icon: Icon(Icons.home_outlined, color: primaryColor,),
+    selectedIcon: Icon(Icons.home, color: primaryColor,),
+    label: 'Home',
+  ),
   NavigationDestination(
     icon: Icon(Icons.work_outline, color: primaryColor,),
     selectedIcon: Icon(Icons.work, color: primaryColor),
     label: 'Jobs',
-
   ),
   NavigationDestination(
     icon: Icon(Icons.bookmark_added_outlined, color: primaryColor,),
     selectedIcon: Icon(Icons.bookmark_added, color: primaryColor,),
     label: 'Tender',
-  ),
-  NavigationDestination(
-    icon: Icon(Icons.notifications_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.notifications, color: primaryColor,),
-    label: 'Notification',
   ),
   NavigationDestination(
     icon: Icon(Icons.person_2_outlined, color: primaryColor,),
@@ -89,6 +83,11 @@ const navUserCompanyItem = <NavigationDestination>[
   ),
 ];
 const navRailUserCompanyItem = <NavigationRailDestination>[
+  NavigationRailDestination(
+    icon: Icon(Icons.home_outlined, color: primaryColor,),
+    selectedIcon: Icon(Icons.home, color: primaryColor,),
+    label: Text('Home'),
+  ),
   NavigationRailDestination(
     icon: Icon(Icons.work_outline, color: primaryColor,),
     selectedIcon: Icon(Icons.work, color: primaryColor),
@@ -100,13 +99,9 @@ const navRailUserCompanyItem = <NavigationRailDestination>[
     label: Text('Tender'),
   ),
   NavigationRailDestination(
-    icon: Icon(Icons.notifications_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.notifications, color: primaryColor,),
-    label: Text('Notification'),
-  ),
-  NavigationRailDestination(
     icon: Icon(Icons.person_2_outlined, color: primaryColor,),
     selectedIcon: Icon(Icons.person_2, color: primaryColor,),
     label: Text('Profile'),
   ),
+
 ];

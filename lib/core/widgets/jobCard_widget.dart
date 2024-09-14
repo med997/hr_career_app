@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
@@ -14,6 +15,8 @@ import 'package:hr_career_platform/injection_container.dart' as di;
 
 class JobCard extends StatelessWidget {
   final JobCardType jobCardType;
+  final Color? chipBgColor;
+  final String? chipText;
   final String jobTitle;
   final String? createdAt;
   final String companyName;
@@ -26,6 +29,8 @@ class JobCard extends StatelessWidget {
   JobCard({
     this.jobCardType = JobCardType.user,
     required this.jobTitle,
+    this.chipBgColor,
+    this.chipText,
     required this.companyName,
     required this.jobLocation,
     required this.companyLogo,
@@ -36,22 +41,100 @@ class JobCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (jobCardType == JobCardType.user)
+    if (jobCardType == JobCardType.user) {
       return _jobCardUser();
-    else if(jobCardType == JobCardType.company)
+    } else if (jobCardType == JobCardType.company) {
       return _jobCardCompany();
-    else return _jobCardCompanyTender();
+    } else if (jobCardType == JobCardType.userTender) {
+      return _jobCardUserTender();
+    } else if(jobCardType == JobCardType.companyTender) {
+      return _jobCardCompanyTender();
+    } else return const SizedBox();
   }
 
   Widget _jobCardUser() {
     double width = columnWidth ?? 320;
     return Container(
       width: width,
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
           border:
               Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white),
+      child: Flex(
+        direction: Axis.vertical,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 2,
+            ),
+            child: Text(
+              jobTitle,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
+            ),
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+            leading: AvatarNetwork(
+              imgUrl: companyLogo ?? '',
+              withBorder: true,
+            ),
+            title: Text(
+              companyName,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14),
+            ),
+            subtitle: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 4,
+              direction: Axis.horizontal,
+              children: [
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.timelapse_outlined,
+                      size: 18,
+                      color: Colors.orangeAccent,
+                    ),
+                    text: jobDeadLine),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.location_on_outlined,
+                      size: 18,
+                      color: Colors.orangeAccent,
+                    ),
+                    text: jobLocation),
+                TextWithIcon(
+                    icon: const Icon(
+                      Icons.people_alt_outlined,
+                      size: 18,
+                      color: Colors.orangeAccent,
+                    ),
+                    text: jobNationality),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _jobCardUserTender() {
+    double width = columnWidth ?? 320;
+    return Container(
+      width: width,
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+          border:
+          Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
           borderRadius: BorderRadius.circular(12),
           color: Colors.white),
       child: Column(
@@ -87,6 +170,7 @@ class JobCard extends StatelessWidget {
               spacing: 4,
               direction: Axis.horizontal,
               children: [
+                CustomChips(chipsTitles: ['Tender'] ,bgColor: Colors.blue.shade200,),
                 TextWithIcon(
                     icon: const Icon(
                       Icons.timelapse_outlined,
@@ -101,13 +185,7 @@ class JobCard extends StatelessWidget {
                       color: Colors.orangeAccent,
                     ),
                     text: jobLocation),
-                TextWithIcon(
-                    icon: const Icon(
-                      Icons.people_alt_outlined,
-                      size: 18,
-                      color: Colors.orangeAccent,
-                    ),
-                    text: jobNationality),
+
               ],
             ),
           ),
@@ -120,8 +198,8 @@ class JobCard extends StatelessWidget {
     double width = columnWidth ?? 320;
     return Container(
       width: width,
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
           border:
               Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
@@ -146,26 +224,13 @@ class JobCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 12,
                 ),
-                BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                  builder: (context, state) {
-                    return CustomChips(
-                        bgColor: state.selectedTab == 0
-                            ? primaryColor
-                            : state.selectedTab == 1
-                                ? Colors.blueAccent
-                                : Colors.grey.shade700,
-                        chipsTitles: [
-                          state.selectedTab == 0
-                              ? 'active'
-                              : state.selectedTab == 1
-                                  ? 'hidden'
-                                  : 'complete'
-                        ]);
-                  },
-                )
+                     CustomChips(
+                        bgColor: chipBgColor,
+                        chipsTitles: [chipText!])
+
               ],
             ),
           ),
@@ -196,7 +261,7 @@ class JobCard extends StatelessWidget {
                     text: jobDeadLine),
                 TextWithIcon(
                     icon: const Icon(
-                      Icons.location_on_outlined,
+                      Icons.date_range_outlined,
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
@@ -220,8 +285,8 @@ class JobCard extends StatelessWidget {
     double width = columnWidth ?? 320;
     return Container(
       width: width,
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
           border:
               Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
@@ -246,26 +311,13 @@ class JobCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 12,
                 ),
-                BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                  builder: (context, state) {
-                    return CustomChips(
-                        bgColor: state.selectedTab == 0
-                            ? primaryColor
-                            : state.selectedTab == 1
-                                ? Colors.blueAccent
-                                : Colors.grey.shade700,
-                        chipsTitles: [
-                          state.selectedTab == 0
-                              ? 'active'
-                              : state.selectedTab == 1
-                                  ? 'hidden'
-                                  : 'complete'
-                        ]);
-                  },
-                )
+                CustomChips(
+                    bgColor: chipBgColor,
+                    chipsTitles: [chipText!])
+
               ],
             ),
           ),
@@ -286,7 +338,7 @@ class JobCard extends StatelessWidget {
               spacing: 4,
               direction: Axis.horizontal,
               children: [
-                CustomChips(chipsTitles: ['Tender'],bgColor: Colors.blue.shade200,),
+                CustomChips(chipsTitles: const ['Tender'],bgColor: Colors.blue.shade200,),
                 TextWithIcon(
                     icon: const Icon(
                       Icons.remove_red_eye_outlined,

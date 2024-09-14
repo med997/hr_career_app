@@ -17,6 +17,8 @@ class ProfileModel extends Profile {
       required super.phone,
       super.currentJob,
        super.dob,
+      super.education,
+      super.experience,
       required super.email,
       super.gender});
 
@@ -37,7 +39,10 @@ class ProfileModel extends Profile {
       resumeUrl: json["resume_url"],
       documentsUrl: json["documents_url"],
       major: json["major"],
-      skils: List<String>.from(json["skils"].map((x) => x)),
+      skils: List<String>.from(json["skils"]!.map((x) => x)),
+
+      education: List<dynamic>.from(json["education"]!=null? json["education"].map((x) => x):[]),
+      experience: List<dynamic>.from(json["experience"]!=null? json["experience"].map((x) => x):[]),
   );
   factory ProfileModel.fromProfile(Profile? profile) {
       return ProfileModel(

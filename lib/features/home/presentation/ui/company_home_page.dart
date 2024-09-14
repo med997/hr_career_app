@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/features/company/presentation/ui/company_profile_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/company_job_page.dart';
+import 'package:hr_career_platform/features/home/presentation/ui/company_main_home_page.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
 import '../../../../core/util/const_val.dart';
 import '../../../../core/widgets/app_bar_function.dart';
@@ -24,12 +25,18 @@ class HomeCompanyPage extends StatelessWidget {
     return BlocBuilder<TabNavCubit, TabNavState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: buildAppBar(
-            userName: 'Mohammed adnan',
+          appBar: state.selectedTab !=3 ? buildAppBar(
+            userOrCompany: 'Company',
+            userName: state
+                .selectedTab == 3 ? 'Profile' : state
+                .selectedTab == 1 ? 'Jobs' : state
+                .selectedTab == 2 ? 'Tender' : 'Ahmed Afeef',
             img: '',
-            fullHeader: true,
+            fullHeader: (state.selectedTab != 0)
+                ? false
+                : true,
             selectedTab: state.selectedTab,
-          ),
+          ): null,
           body: (state is TabNavChangedState)
               ? _navPageBody(state.selectedTab)
               : SizedBox(),
@@ -49,6 +56,7 @@ class HomeCompanyPage extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: buildAppBar(
+            userOrCompany: 'Company',
             userName: 'Mohammed adnan',
             img: '',
             fullHeader: true,
@@ -82,10 +90,12 @@ class HomeCompanyPage extends StatelessWidget {
   Widget _navPageBody(int selectedTab) {
     switch (selectedTab) {
       case 0:
-        return AddJobPage();
+        return CompanyMainHomePage();
       case 1:
-        return CompanyTendersPage();
+        return CompanyJopPage();
       case 2:
+        return CompanyTendersPage();
+      case 3:
         return CompanyProfilePage();
       default:
         return Placeholder();

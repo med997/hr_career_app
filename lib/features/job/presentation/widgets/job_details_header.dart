@@ -17,7 +17,7 @@ class JobDetailsHeader extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         image: const DecorationImage(
-          image: AssetImage('imgs/jobDtlHdr.png'),
+          image: AssetImage('assets/imgs/jobDtlHdr.png'),
           fit: BoxFit.fill, // Adjust fit as needed
         ),
       ),

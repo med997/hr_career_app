@@ -28,4 +28,18 @@ class ProfileRepositoryImpl extends ProfileRepository {
       return Left(OfflineFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Profile>> getUserByUuid(String uuid)  async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteProfile = await profileRemoteDatasource.getUserByUuid(uuid);
+        return Right(remoteProfile);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
 }

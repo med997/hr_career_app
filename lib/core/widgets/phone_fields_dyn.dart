@@ -5,6 +5,8 @@ import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../app_theme.dart';
+
 
 
 
@@ -14,13 +16,21 @@ return
     padding: const EdgeInsets.only(bottom: 8.0),
     child: IntlPhoneField(
       enabled: !dynamicModel.disabled,
+flagsButtonMargin: EdgeInsets.symmetric(vertical: 4),
+        flagsButtonPadding: EdgeInsets.symmetric(vertical: 4),
         initialValue: dynamicModel.value,
       showCountryFlag: false,
       decoration: InputDecoration(
         counterText: '',
         helperText: dynamicModel.helperText ?? '',
+        alignLabelWithHint: false,
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: primaryColor),
+            borderRadius: BorderRadius.circular(8),
+          ),
         labelText: dynamicModel.controlName,
-        constraints:   const BoxConstraints.tightFor(height: 55),
+        contentPadding: EdgeInsets.symmetric(vertical: 12),
+        constraints:   const BoxConstraints.tightFor(height: 60),
       ),
         validator: (text) {
           //To validate non-empty, it returns an error message if the text is empty.
@@ -36,6 +46,7 @@ return
           return null;
         },
       style: TextStyle(fontSize: 14),
+
       initialCountryCode: 'SA',
         onChanged: (value) {
           dynamicModel.value = value.completeNumber;

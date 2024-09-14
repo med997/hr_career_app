@@ -30,15 +30,30 @@ class AvatarNetwork extends StatelessWidget {
       child: ClipOval(
         child: SizedBox.fromSize(
           size: Size.fromRadius(redius ?? 48), // Image radius
-          child: Image.network(
-            imgUrl,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return const Icon(Icons.location_city);
-            },
-          ),
+          child: buildImage(),
         ),
       ),
     );
   }
-}
+
+  Image buildImage() {
+    if (imgUrl.startsWith('http://') || imgUrl.startsWith('https://')) {
+      return Image.network(
+        imgUrl,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          print(error);
+          return const Icon(Icons.person);
+        },
+      );
+    } else {
+      return Image.asset(
+        imgUrl,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          print(error);
+          return const Icon(Icons.person);
+        },
+      );
+  }
+}}

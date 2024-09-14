@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import '../../../../core/util/nav_to_sevices.dart';
 import '../../../../core/widgets/text_with_icon.dart';
@@ -13,26 +14,27 @@ AppBar jobsAppBarFunction({
   required String companyNumber,
   required String companyEmail,
   required String companyWebsite,
+  bool withBackBtn =false
 }) {
   return AppBar(
     title: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const BackButton(
-          color: Colors.white,
-        ),
+        withBackBtn == true ? const BackButton(
+              color: Colors.white,
+            ) : const SizedBox()
+        ,
         ListTile(
-          leading: CircleAvatar(
-              child: ClipOval(
-            child: ImageHolder(url: companyLogo),
-          )),
+          leading: AvatarNetwork(
+            imgUrl: companyLogo, withBorder: false,
+          ),
           title: Text(
             companyName,
             style: const TextStyle(
                 fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
           ),
           subtitle: Wrap(
-            spacing: 10,
+            spacing: 2,
             children: [
               Text(
                 companyMajor,
@@ -42,6 +44,7 @@ AppBar jobsAppBarFunction({
                 icon: const Icon(
                   Icons.place_outlined,
                   color: primaryColor,
+                  size: 18,
                 ),
                 text: companyLocation,
                 textColor: Colors.grey,
@@ -49,48 +52,12 @@ AppBar jobsAppBarFunction({
             ],
           ),
         ),
-        Wrap(
-          alignment: WrapAlignment.start,
-          runAlignment: WrapAlignment.start,
-          spacing: 15,
-          runSpacing: 10,
-          children: [
-            CircularIconButton(
-              icon: Icons.call_outlined,
-              onPressed: () {
-                navToCall(companyNumber);
-              },
-            ),
-            CircularIconButton(
-              icon: Icons.mail_outlined,
-              onPressed: () {
-                navToEmail(companyEmail);
-              },
-            ),
-            CircularIconButton(
-              icon: Icons.language_outlined,
-              onPressed: () {
-                navToWebsite(companyWebsite);
-              },
-            ),
-            CircularIconButton(
-              icon: Icons.send_outlined,
-              onPressed: () {
-                MapUtils.navToMap(-3.823216, -38.481700);
-              },
-            ),
-            CircularIconButton(
-              icon: Icons.more_horiz_rounded,
-              onPressed: () {},
-            ),
-          ],
-        ),
       ],
     ),
     flexibleSpace: Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-            opacity: 0.5,
+            opacity: 0.8,
             image: AssetImage(backgroundCompanyImg),
             fit: BoxFit.fitWidth, // Adjust fit as needed
           ),
@@ -98,7 +65,7 @@ AppBar jobsAppBarFunction({
               bottomLeft: Radius.circular(30),
               bottomRight: Radius.circular(30))),
     ),
-    toolbarHeight: 200,
+    toolbarHeight: 180,
   );
 }
 
