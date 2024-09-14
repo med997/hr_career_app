@@ -261,7 +261,7 @@ class JobCard extends StatelessWidget {
                     text: jobDeadLine),
                 TextWithIcon(
                     icon: const Icon(
-                      Icons.location_on_outlined,
+                      Icons.date_range_outlined,
                       size: 18,
                       color: Colors.orangeAccent,
                     ),

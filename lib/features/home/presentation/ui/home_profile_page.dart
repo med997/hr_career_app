@@ -23,7 +23,6 @@ import '../../../profile/presentation/widgets/education_widget.dart';
 import '../../../profile/presentation/widgets/experience_widget.dart';
 
 class HomeProfilePage extends StatelessWidget {
-
   HomeProfilePage({super.key});
 
   final mainInfoFormKey = GlobalKey<FormState>();
@@ -37,12 +36,10 @@ class HomeProfilePage extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double defaultWidth = 300;
 
-
     List<DynamicModel> profileExp() {
       return [
         DynamicModel('from', FormType.text,
             disabled: isEditing,
-
             icons: Icon(
               Icons.date_range_outlined,
               color: primaryColor.withOpacity(0.7),
@@ -56,7 +53,6 @@ class HomeProfilePage extends StatelessWidget {
             ]),
         DynamicModel('to', FormType.text,
             disabled: isEditing,
-
             icons: Icon(
               Icons.date_range_outlined,
               color: primaryColor.withOpacity(0.7),
@@ -70,7 +66,6 @@ class HomeProfilePage extends StatelessWidget {
             ]),
         DynamicModel('where', FormType.text,
             disabled: isEditing,
-
             icons: Icon(
               Icons.location_on_outlined,
               color: primaryColor.withOpacity(0.7),
@@ -83,7 +78,6 @@ class HomeProfilePage extends StatelessWidget {
             ]),
         DynamicModel('jobTitle', FormType.text,
             disabled: isEditing,
-
             icons: Icon(
               Icons.info_outline_rounded,
               color: primaryColor.withOpacity(0.7),
@@ -101,7 +95,7 @@ class HomeProfilePage extends StatelessWidget {
       return [
         DynamicModel('from', FormType.text,
             disabled: isEditing,
-            value: 'from',
+            value: '',
             icons: Icon(
               Icons.date_range_outlined,
               color: primaryColor.withOpacity(0.7),
@@ -115,7 +109,7 @@ class HomeProfilePage extends StatelessWidget {
             ]),
         DynamicModel('to', FormType.text,
             disabled: isEditing,
-            value: 'to',
+            value: '',
             icons: Icon(
               Icons.date_range_outlined,
               color: primaryColor.withOpacity(0.7),
@@ -129,7 +123,7 @@ class HomeProfilePage extends StatelessWidget {
             ]),
         DynamicModel('studyGrade', FormType.text,
             disabled: isEditing,
-            value: 'studyGrade',
+            value: '',
             icons: Icon(
               Icons.info_outline_rounded,
               color: primaryColor.withOpacity(0.7),
@@ -142,7 +136,7 @@ class HomeProfilePage extends StatelessWidget {
             ]),
         DynamicModel('qualification ', FormType.dropdown,
             disabled: isEditing,
-            value: 'qualification ',
+            value: ' ',
             items: [
               ItemModel(key: 'High School', value: 'High School'),
               ItemModel(key: 'Associate', value: 'Associate'),
@@ -157,7 +151,7 @@ class HomeProfilePage extends StatelessWidget {
             ]),
         DynamicModel('where', FormType.text,
             disabled: isEditing,
-            value: 'where',
+            value: '',
             icons: Icon(
               Icons.location_on_outlined,
               color: primaryColor.withOpacity(0.7),
@@ -172,16 +166,7 @@ class HomeProfilePage extends StatelessWidget {
     }
 
     List<DynamicModel> profileUpl() {
-      return [
-        DynamicModel('Title', FormType.text,
-            disabled: false,
-            width: 320,
-            inputBorder: InputBorder.none,
-            value: '',
-            validators: [
-              DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-            ]),
-      ];
+      return [];
     }
 
     return BlocBuilder<ProfileCubit, ProfileState>(
@@ -189,7 +174,7 @@ class HomeProfilePage extends StatelessWidget {
         if (state is ProfileLoading) {
           return LoadingWidget();
         } else if (state is ProfileFetchedState) {
-          List<DynamicModel> profileInf= [
+          List<DynamicModel> profileInf = [
             DynamicModel('fullName', FormType.text,
                 disabled: isEditing,
                 value: state.profile.fullName,
@@ -206,14 +191,12 @@ class HomeProfilePage extends StatelessWidget {
                 ]),
             DynamicModel('currentJob', FormType.text,
                 disabled: isEditing,
-
                 value: state.profile.currentJob,
                 width: Responsive.isMobile(context) ? width : defaultWidth,
                 validators: [
                   DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                 ]),
             DynamicModel('dob', FormType.text,
-
                 value: state.profile.dob.toString(),
                 width: Responsive.isMobile(context) ? width : defaultWidth,
                 disabled: isEditing,
@@ -259,7 +242,6 @@ class HomeProfilePage extends StatelessWidget {
                 ]),
             DynamicModel('email', FormType.email,
                 disabled: isEditing,
-
                 value: state.profile.email,
                 width: Responsive.isMobile(context) ? width : defaultWidth,
                 validators: [
@@ -289,21 +271,23 @@ class HomeProfilePage extends StatelessWidget {
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               children: [
-                 Column(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    AvatarNetwork(imgUrl: state.profile.avatarUrl??'', withBorder: false),
-                    SizedBox(
+                    AvatarNetwork(
+                        imgUrl: state.profile.avatarUrl ?? '',
+                        withBorder: false),
+                    const SizedBox(
                       height: 2,
                     ),
                     Text(
-                      state.profile.fullName??'',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      state.profile.fullName ?? '',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
-                    Text(
+                    const Text(
                       'Description',
                       style: TextStyle(color: Colors.grey),
                     ),
@@ -311,8 +295,9 @@ class HomeProfilePage extends StatelessWidget {
                 ),
                 Container(
                   height: 60,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+                  margin: EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: Responsive.isMobile(context) ? 32 : 65),
                   decoration: BoxDecoration(
                       border: Border.all(
                           color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
@@ -377,20 +362,18 @@ class HomeProfilePage extends StatelessWidget {
                   iconButton: IconButton(
                       onPressed: () {
                         isEditing = !isEditing;
-                        context
-                            .read<DynamicFormCubit>()
-                            .replaceAll(profileInf);
+                        context.read<DynamicFormCubit>().replaceAll(profileInf);
                       },
                       icon: const Icon(
                         Icons.edit_road,
                         color: primaryColor,
                       )),
                 ),
-
-                 BlocProvider(
-                  create: (context) => DynamicFormCubit()..addAllFields(profileInf),
+                BlocProvider(
+                  create: (context) =>
+                      DynamicFormCubit()..addAllFields(profileInf),
                   child: DynamicFormWidget(
-                    key: Key('profileInf'),
+                    key: const Key('profileInf'),
                     dynamicFormsList: profileInf,
                     formKey: mainInfoFormKey,
                     useResponsiveUi: true,
@@ -400,11 +383,11 @@ class HomeProfilePage extends StatelessWidget {
                   title: 'Experience',
                   titleType: SubTitleType.textOnly,
                 ),
-                ...state.profile.experience.map((e) =>
-                    experienceWidget(
-                        dateText: '${e['from_date']}-${e['to_date']}',
-                        locationText: e['where'].toString(),
-                        infoText: e['title'].toString()),
+                ...state.profile.experience.map(
+                  (e) => experienceWidget(
+                      dateText: '${e['from_date']}-${e['to_date']}',
+                      locationText: e['where'].toString(),
+                      infoText: e['title'].toString()),
                 ),
                 BlocProvider(
                   create: (context) =>
@@ -423,8 +406,8 @@ class HomeProfilePage extends StatelessWidget {
                   children: [
                     MaterialButton(
                         minWidth: 75,
-
-                        padding: EdgeInsets.symmetric(vertical: 2, horizontal:14),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2, horizontal: 14),
                         color: primaryColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
@@ -454,14 +437,12 @@ class HomeProfilePage extends StatelessWidget {
                   title: 'Education',
                   titleType: SubTitleType.withShowMore,
                 ),
-                educationWidget(
-                    dateText: '25/8/2017-07/9/2021',
-                    locationText: 'King Fahd University-KSA,Jeddah',
-                    infoText: 'Information Technology'),
-                educationWidget(
-                    dateText: '25/8/2017-07/9/2021',
-                    locationText: 'King Fahd University-KSA,Jeddah',
-                    infoText: 'Information Technology'),
+                ...state.profile.education.map(
+                  (e) => educationWidget(
+                      dateText: '${e['from_date']}-${e['to_date']}',
+                      locationText: e['where'].toString(),
+                      infoText: e['title'].toString()),
+                ),
                 BlocProvider(
                   create: (context) =>
                       DynamicFormCubit()..addAllFields(profileEdc()),
@@ -475,63 +456,42 @@ class HomeProfilePage extends StatelessWidget {
                   title: 'Resume',
                   titleType: SubTitleType.textOnly,
                 ),
-                Wrap(
-                    direction: Axis.horizontal,
-                    alignment: WrapAlignment.spaceBetween,
-                    children: [
-                      BlocProvider(
-                        create: (context) =>
-                            DynamicFormCubit()..addAllFields(profileUpl()),
-                        child: DynamicFormWidget(
-                            key: const Key('profileUpl'),
-                            dynamicFormsList: profileUpl(),
-                            formKey: uplFormKey,
-                            useResponsiveUi: true),
-                      ),
-                      Container(
-                        width: 65,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Flex(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          direction: Axis.vertical,
-                          children: [
-                            Flexible(
-                              fit: FlexFit.loose,
-                              child: IconButton(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 1),
-                                onPressed: () async {
-                                  FilePickerResult? result =
-                                      await FilePicker.platform.pickFiles();
-                                  if (result != null &&
-                                      result.files.isNotEmpty) {
-                                    String fileName = result.files.first.name;
-                                    // context.read<ProfileCubit>().uploadFile(fileName);
-                                  }
-                                },
-                                icon: const Icon(
-                                  Icons.cloud_upload_outlined,
-                                  color: Colors.white,
-                                ),
+                BlocProvider(
+                  create: (_)  => DynamicFormCubit()
+                    ..addAllFields([
+                      DynamicModel('pdfName', FormType.text,
+                          disabled: true,
+                          action: ElevatedButton(
+                              onPressed: () async {
+                                FilePickerResult? result =
+                                await FilePicker.platform.pickFiles();
+                                if (result != null &&
+                                    result.files.isNotEmpty) {
+                                  String fileName = result.files.first.name;
+                                  // context.read<ProfileCubit>().uploadFile(fileName);
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor: primaryColor,
                               ),
-                            ),
-                            const Flexible(
-                              child: Text(
-                                'Upload',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ])
+                              child: const Icon(Icons.cloud_upload_outlined,
+                                  color: Colors.white)),
+                          inputBorder: InputBorder.none,
+                          value: '',
+                          validators: [
+                            DynamicFormValidator(
+                                ValidatorType.notEmpty, 'isRequired')
+                          ])
+                    ]),
+
+                  child: DynamicFormWidget(
+                      key: const Key('profileUpl'),
+                      dynamicFormsList: [],
+
+                      formKey: uplFormKey,
+                      useResponsiveUi: true),
+                )
               ]);
         } else {
           return const SizedBox();

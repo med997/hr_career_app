@@ -31,17 +31,20 @@ AppBar jobsAppBarFunction({
             style: const TextStyle(
                 fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
           ),
-          subtitle: Wrap(
-            spacing: 10,
+          subtitle: Flex(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            direction: Axis.horizontal,
             children: [
               Text(
                 companyMajor,
-                style: const TextStyle(color: Colors.grey, fontSize: 14),
+                style: const TextStyle(color: Colors.grey, fontSize: 14,fontWeight: FontWeight.w600),
               ),
+              SizedBox(width: 5,),
               TextWithIcon(
                 icon: const Icon(
                   Icons.place_outlined,
                   color: primaryColor,
+                  size: 18,
                 ),
                 text: companyLocation,
                 textColor: Colors.grey,
@@ -49,48 +52,12 @@ AppBar jobsAppBarFunction({
             ],
           ),
         ),
-        Wrap(
-          alignment: WrapAlignment.start,
-          runAlignment: WrapAlignment.start,
-          spacing: 15,
-          runSpacing: 10,
-          children: [
-            CircularIconButton(
-              icon: Icons.call_outlined,
-              onPressed: () {
-                navToCall(companyNumber);
-              },
-            ),
-            CircularIconButton(
-              icon: Icons.mail_outlined,
-              onPressed: () {
-                navToEmail(companyEmail);
-              },
-            ),
-            CircularIconButton(
-              icon: Icons.language_outlined,
-              onPressed: () {
-                navToWebsite(companyWebsite);
-              },
-            ),
-            CircularIconButton(
-              icon: Icons.send_outlined,
-              onPressed: () {
-                MapUtils.navToMap(-3.823216, -38.481700);
-              },
-            ),
-            CircularIconButton(
-              icon: Icons.more_horiz_rounded,
-              onPressed: () {},
-            ),
-          ],
-        ),
       ],
     ),
     flexibleSpace: Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-            opacity: 0.8,
+            opacity: 1.0,
             image: AssetImage(backgroundCompanyImg),
             fit: BoxFit.fitWidth, // Adjust fit as needed
           ),

@@ -25,7 +25,7 @@ class CompanyProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isEditing = false;
+    bool isEditing = true;
     double width = MediaQuery.of(context).size.width;
     List<DynamicModel> companyProfile() {
       return [
@@ -128,12 +128,12 @@ class CompanyProfilePage extends StatelessWidget {
     }
     return Scaffold(
       appBar: jobsAppBarFunction(
-          backgroundCompanyImg: 'imgs/google_background.png',
+          backgroundCompanyImg: 'imgs/google_company.png',
           companyEmail: '',
-          companyLocation: '',
+          companyLocation: 'Riyadh,SA',
           companyLogo: 'assets/imgs/google_logo.png',
-          companyMajor: '',
-          companyName: '',
+          companyMajor: 'Software Development',
+          companyName: 'Google',
           companyNumber: '',
           companyWebsite: ''),
       body: BlocProvider(
