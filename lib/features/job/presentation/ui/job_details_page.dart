@@ -19,14 +19,14 @@ class JobDetailsPage extends StatelessWidget {
         direction: Axis.vertical,
         children: [
           Flexible(
-              flex: 1,
+              flex: 2,
               child: JobDetailsHeader(
                 job: job,
                 profileFilledText: FilledButton(
-                  style: const ButtonStyle(
+                  style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.black12)),
                   onPressed: () {},
-                  child: const Text(
+                  child: Text(
                     'profile',
                     style: TextStyle(
                       fontSize: 14,
@@ -36,8 +36,8 @@ class JobDetailsPage extends StatelessWidget {
                 ),
                 profileIcoButton: IconButton(
                   onPressed: () => {},
-                  icon: const Icon(Icons.visibility_off_outlined, size: 18),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  icon: Icon(Icons.visibility_off_outlined, size: 18),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   color: Colors.orangeAccent.shade400,
                   hoverColor: Colors.orangeAccent,
                   iconSize: 18,
@@ -46,9 +46,9 @@ class JobDetailsPage extends StatelessWidget {
               )),
           Expanded(
               /*fit: FlexFit.tight,flex: 1,*/
-              flex: 2,
+              flex: 3,
               child: JobDetailsTabBar(job: job)),
-          const SizedBox(
+          SizedBox(
             height: 20,
           ),
           Center(
@@ -60,7 +60,7 @@ class JobDetailsPage extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16)),
                 onPressed: () {},
-                child: const Text(
+                child: Text(
                   'Apply now',
                   style: TextStyle(color: Colors.white),
                 ),
