@@ -6,8 +6,8 @@ import 'package:hr_career_platform/core/util/enums.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';
 import '../widgets/recent_jobs.dart';
 
-class CompanyJopPage extends StatelessWidget {
-  const CompanyJopPage({super.key});
+class CompanyJobPage extends StatelessWidget {
+  const CompanyJobPage({super.key});
 
   @override
   Widget build(BuildContext context) {

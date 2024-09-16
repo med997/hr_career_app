@@ -92,7 +92,7 @@ class HomeCompanyPage extends StatelessWidget {
       case 0:
         return CompanyMainHomePage();
       case 1:
-        return CompanyJopPage();
+        return CompanyJobPage();
       case 2:
         return CompanyTendersPage();
       case 3:
