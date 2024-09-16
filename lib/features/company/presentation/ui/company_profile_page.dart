@@ -131,7 +131,7 @@ class CompanyProfilePage extends StatelessWidget {
           backgroundCompanyImg: 'assets/imgs/google_background.png',
           companyEmail: '',
           companyLocation: 'US, California',
-        companyLogo:'assets/imgs/google_logo.png',
+          companyLogo:'assets/imgs/google_logo.png',
           companyMajor: 'Software Engineering',
           companyName: 'Google',
           companyNumber: '',

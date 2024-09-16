@@ -19,6 +19,7 @@ class DynamicModel {
   String? error;
   TextEditingController? controller;
   double width;
+  double? hight;
   List<DynamicFormValidator>? validators;
   Widget? action;
 

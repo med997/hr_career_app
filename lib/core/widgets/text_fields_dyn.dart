@@ -6,7 +6,7 @@ import 'package:hr_career_platform/core/util/enums.dart';
 
 Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 8.0),
+    padding: const EdgeInsets.only(bottom: 2.0),
     child: Flex(
    mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -14,6 +14,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
       children: [
         Flexible(
           child: TextFormField(
+
             key: Key(dynamicModel.controlName),
             enabled: !dynamicModel.disabled,
             initialValue: dynamicModel.value,
@@ -31,7 +32,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
                 color: Colors.redAccent,
                 fontSize: 10.0,
               ),
-              constraints: const BoxConstraints.tightFor(height: 55),
+              constraints:   BoxConstraints.tightFor(height: dynamicModel.hight??55),
             ),
             keyboardType: dynamicModel.formType == FormType.number
                 ? TextInputType.number
