@@ -5,7 +5,6 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/widgets/company_button.dart';
-import 'package:hr_career_platform/features/company/presentation/widgets/company_feilds.dart';
 import '../../../../core/model/dynamic_model.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
