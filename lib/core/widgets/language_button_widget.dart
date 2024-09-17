@@ -4,12 +4,13 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 
 class LanguageButton extends StatelessWidget {
-  const LanguageButton({super.key});
+  const LanguageButton({super.key, required this.clr});
+  final Color clr;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.language, color: primaryColor,),
+      icon: Icon(Icons.language, color: clr,),
       tooltip: 'Choose Language',
       onPressed: () {
         _showLanguageDialog(context);
@@ -51,7 +52,7 @@ class LanguageButton extends StatelessWidget {
                         Navigator.pop(context);
                         context.read<LocaleCubit>().changeLanguage('en');
                         _showSnackBar(context,
-                            state.locale.languageCode == 'en' ? 'The Language is already English' : 'Language changed to English');
+                            state.locale.languageCode == 'en' ? 'The Language is already English ' : 'Language changed to English');
                       },
                     ),
                     const Divider(thickness: 2,),

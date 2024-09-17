@@ -14,28 +14,30 @@ class JobDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Flex(
-mainAxisAlignment: MainAxisAlignment.start,
-        direction: Axis.vertical,
-        children: [
-          Flexible(flex: 1, child: JobDetailsHeader(job: job)),
-          Expanded(/*fit: FlexFit.tight,flex: 1,*/
-            flex: 2,
-          child: JobDetailsTabBar(job: job)),
-          SizedBox(height: 20,),
-          Center(
-            child: SizedBox(
-              width: 260,
-              height: 35,
-              child: MaterialButton(
-                  color: primaryColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  onPressed: () {},
-              child: Text('Apply now',style: TextStyle(color: Colors.white),),),
-            ),
-          )
-        ],
+      body: SafeArea(
+        child: Flex(
+        mainAxisAlignment: MainAxisAlignment.start,
+          direction: Axis.vertical,
+          children: [
+            Flexible(flex: 1, child: JobDetailsHeader(job: job)),
+            Expanded(/*fit: FlexFit.tight,flex: 1,*/
+              flex: 2,
+            child: JobDetailsTabBar(job: job)),
+            SizedBox(height: 20,),
+            Center(
+              child: SizedBox(
+                width: 260,
+                height: 35,
+                child: MaterialButton(
+                    color: primaryColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
+                    onPressed: () {},
+                child: Text('Apply now',style: TextStyle(color: Colors.white),),),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/widgets/custom_chips.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
+import 'package:hr_career_platform/features/company/presentation/ui/company_details_profile_page.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 
 class JobDetailsHeader extends StatelessWidget {
@@ -57,7 +58,11 @@ class JobDetailsHeader extends StatelessWidget {
                   FilledButton(
                     style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(Colors.black12)),
-                    onPressed: () {},
+                    onPressed: () {Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>  CompanyProfileDetailPage()),
+                    );},
                     child: Text(
                       'profile',
                       style: TextStyle(

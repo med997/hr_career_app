@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
-import 'package:hr_career_platform/features/company/presentation/widgets/company_button.dart';
 import 'package:hr_career_platform/features/company/presentation/widgets/company_feilds.dart';
 import '../../../../core/model/dynamic_model.dart';
 import '../../../../core/util/enums.dart';
@@ -12,6 +11,7 @@ import '../../../../core/util/responsive.dart';
 import '../../../../core/util/validator.dart';
 import '../../../../core/widgets/dyn_form_widget.dart';
 import '../../../../core/widgets/sub-title.dart';
+import '../../../../core/widgets/toggle_btn_widget.dart';
 import '../widgets/company_appbar.dart';
 
 class CompanyProfilePage extends StatelessWidget {
@@ -20,8 +20,6 @@ class CompanyProfilePage extends StatelessWidget {
   });
 
   final _formKey = GlobalKey<FormState>();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -126,54 +124,65 @@ class CompanyProfilePage extends StatelessWidget {
             ]),
       ];
     }
+
     return Scaffold(
       appBar: jobsAppBarFunction(
           backgroundCompanyImg: 'assets/imgs/google_background.png',
           companyEmail: '',
           companyLocation: 'US, California',
-        companyLogo:'assets/imgs/google_logo.png',
+          companyLogo: 'assets/imgs/google_logo.png',
           companyMajor: 'Software Engineering',
           companyName: 'Google',
           companyNumber: '',
           companyWebsite: ''),
       body: BlocProvider(
-        create: (context) => DynamicFormCubit()
-          ..addAllFields(companyProfile()),
+        create: (context) => DynamicFormCubit()..addAllFields(companyProfile()),
         child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
           builder: (context, state) {
             switch (state.selectedTab) {
               case 0:
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ListView(
+                  child: ListView(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     shrinkWrap: true,
                     children: [
-                      CompanyButton(),
-                      const SizedBox(
-                        height: 14,
+                      Center(
+                        child: ToggleBtnWidget(
+                          options: const ['Main Information', 'Gallery'],
+                        ),
                       ),
                       SubTitle(
                         title: 'Main Information',
                         titleType: SubTitleType.withIcon,
                         iconButton: IconButton(
-                            onPressed: () {
-                              isEditing = !isEditing;
-                              context.read<DynamicFormCubit>().replaceAll(
-                                  companyProfile());
-                            },
-                            icon: const Icon(
-                              Icons.edit_road,
-                              color: primaryColor,
-                            )),
+                          onPressed: () {
+                            isEditing = !isEditing;
+                            context
+                                .read<DynamicFormCubit>()
+                                .replaceAll(companyProfile());
+                          },
+                          icon: const Icon(
+                            Icons.edit_road,
+                            color: primaryColor,
+                          ),
+                        ),
                       ),
-                      DynamicFormWidget(
-                        // key: const Key('companyProfile'),
-                        dynamicFormsList:
-                            companyProfile(),
-                        formKey: _formKey,
-                        useResponsiveUi: true,
-                      ),
+                      BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                          builder: (context, state) {
+                        if (state.selectedTab == 0) {
+                          context.read<ToggleBtnCubit>().changeTab(0);
+
+                          return DynamicFormWidget(
+                            // key: const Key('companyProfile'),
+                            dynamicFormsList: companyProfile(),
+                            formKey: _formKey,
+                            useResponsiveUi: true,
+                          );
+                        } else
+                          context.read<ToggleBtnCubit>().changeTab(1);
+                        return SizedBox();
+                      }),
                       Wrap(
                         direction: Axis.horizontal,
                         alignment: WrapAlignment.end,
@@ -181,7 +190,7 @@ class CompanyProfilePage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: MaterialButton(
-                                color:  Colors.yellow.shade700,
+                                color: Colors.yellow.shade700,
                                 minWidth: 12,
                                 height: 40,
                                 shape: RoundedRectangleBorder(
@@ -202,7 +211,11 @@ class CompanyProfilePage extends StatelessWidget {
                 return ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   children: [
-                    CompanyButton(),
+                    Center(
+                      child: ToggleBtnWidget(
+                        options: const ['Main Information', 'Gallery'],
+                      ),
+                    ),
                   ],
                 );
               default:
