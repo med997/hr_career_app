@@ -11,7 +11,6 @@ import '../../../../core/util/responsive.dart';
 import '../../../../core/util/validator.dart';
 import '../../../../core/widgets/dyn_form_widget.dart';
 import '../../../../core/widgets/sub-title.dart';
-import '../../../../core/widgets/toggle_btn_widget.dart';
 import '../widgets/company_appbar.dart';
 
 class CompanyProfilePage extends StatelessWidget {
@@ -20,6 +19,8 @@ class CompanyProfilePage extends StatelessWidget {
   });
 
   final _formKey = GlobalKey<FormState>();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -124,19 +125,19 @@ class CompanyProfilePage extends StatelessWidget {
             ]),
       ];
     }
-
     return Scaffold(
       appBar: jobsAppBarFunction(
           backgroundCompanyImg: 'assets/imgs/google_background.png',
           companyEmail: '',
           companyLocation: 'US, California',
-          companyLogo: 'assets/imgs/google_logo.png',
+          companyLogo:'assets/imgs/google_logo.png',
           companyMajor: 'Software Engineering',
           companyName: 'Google',
           companyNumber: '',
           companyWebsite: ''),
       body: BlocProvider(
-        create: (context) => DynamicFormCubit()..addAllFields(companyProfile()),
+        create: (context) => DynamicFormCubit()
+          ..addAllFields(companyProfile()),
         child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
           builder: (context, state) {
             switch (state.selectedTab) {

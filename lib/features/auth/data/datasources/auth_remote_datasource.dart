@@ -6,6 +6,8 @@ password: 'example-password',
 final Session? session = res.session;
 final User? user = res.user;*/
 
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hr_career_platform/core/error/exceptions.dart';
@@ -17,6 +19,8 @@ import 'package:hr_career_platform/features/profile/data/models/profile_model.da
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../core/strings/failures.dart';
+
 abstract class AuthRemoteDatasource {
   Session? get currentUserSession;
 
@@ -24,7 +28,7 @@ abstract class AuthRemoteDatasource {
 
   Future<AuthModel> login(Auth authModel);
 
-  Future<AuthModel?> getCurrentUserData();
+  Future<AuthModel> getCurrentUserData();
 }
 
 class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
@@ -43,7 +47,6 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         email: authModel.email.trim(),
         password: authModel.password,
       );
-
       final User? user = res.user;
       print(user.toString());
       UsrType usrType = user!.userMetadata!['userType']=="user"?UsrType.user:UsrType.company;
@@ -67,7 +70,7 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
       if (kDebugMode) {
         print(error);
       }
-      throw ServerException(message: error.message);
+      throw ServerException(message: '${error.message} - ${error.statusCode}');
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -138,40 +141,43 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
   }
 
   @override
-  Future<AuthModel?> getCurrentUserData() async {
+  Future<AuthModel> getCurrentUserData() async {
     try {
       if (currentUserSession != null) {
         print('getCurrentUserData');
         print(currentUserSession!.user.toString());
         User? user = currentUserSession!.user;
+
         AuthModel authModelData;
-        UsrType usrType = user.userMetadata!['userType']=="user"?UsrType.user:UsrType.company;
+        UsrType usrType = user.userMetadata!['userType'] == "user" ? UsrType
+            .user : UsrType.company;
         print('getCurrentUserData');
         print(usrType.toString());
         if (usrType == UsrType.company) {
-           authModelData = AuthModel(
+          authModelData = AuthModel(
               userType: usrType,
               email: user.email ?? '',
               password: '',
               userAuth: user,
-              company: CompanyModel.fromJson(user.userMetadata??{}));
+              company: CompanyModel.fromJson(user.userMetadata ?? {}));
         } else {
           authModelData = AuthModel(
               userType: usrType,
               email: user.email ?? '',
               password: '',
               userAuth: user,
-              profile: ProfileModel.fromJson(user.userMetadata??{}));
+              profile: ProfileModel.fromJson(user.userMetadata ?? {}));
         }
         return authModelData;
-
+      }else{
+        throw const AuthException(AUTH_FAILURE_MESSAGE);
       }
-      return null;
+
     } on AuthException catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      throw ServerException(message: e.message);
+      throw AuthException(e.message);
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());

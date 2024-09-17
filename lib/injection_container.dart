@@ -64,13 +64,13 @@ Future<void> initDependencies() async {
   _initGeneral();
 
 //! Core
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   final supBaseInit = await Supabase.initialize(url: BaseUrl, anonKey: AnonKey);
   sl.registerLazySingleton(() => supBaseInit.client);
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+
 
 //! External
 
-  sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => InternetConnection());
 }
 

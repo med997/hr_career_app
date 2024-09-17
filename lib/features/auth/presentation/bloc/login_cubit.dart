@@ -15,9 +15,13 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   final LoginUseCase loginUseCase;
   final FetchAuthUseCase fetchAuthUseCase;
-  LoginCubit({required this.loginUseCase,required this.fetchAuthUseCase,}) : super(LoginInitial()) ;
 
-  Future<void> loginUser(int selectedIndex, Map<String,dynamic>? value) async {
+  LoginCubit({
+    required this.loginUseCase,
+    required this.fetchAuthUseCase,
+  }) : super(LoginInitial());
+
+  Future<void> loginUser(int selectedIndex, Map<String, dynamic>? value) async {
     emit(LoginLoading());
 
     UsrType usrType = selectedIndex == 0 ? UsrType.user : UsrType.company;
@@ -25,53 +29,56 @@ class LoginCubit extends Cubit<LoginState> {
     print(value);
     if (usrType == UsrType.user) {
       auth = Auth(
-          userType:UsrType.user ,
+          userType: UsrType.user,
           email: value!['email'],
           password: value['password']);
     } else {
       auth = Auth(
-          userType:UsrType.company ,
+          userType: UsrType.company,
           email: value!['email'],
           password: value['password']);
     }
 
-
     final failureOrSuccess = await loginUseCase.call(auth);
 
     emit(_mapFailureOrAuthToState(failureOrSuccess));
-
   }
-  Future<void> checkLoginStatus() async {
 
+  Future<void> checkLoginStatus() async {
     final failureOrAuth = await fetchAuthUseCase.call();
     emit(_mapCheckAuthToState(failureOrAuth));
-
   }
 
-  LoginState _mapFailureOrAuthToState(Either<Failure,Auth> either) {
+  LoginState _mapFailureOrAuthToState(Either<Failure, Auth> either) {
     return either.fold(
-          (failure) => ErrLoginUser(msg: _mapFailureToMessage(failure)),
-          (auth) => SuccessLoginUser(auth  : auth),
+      (failure) => ErrLoginUser(msg: _mapFailureToMessage(failure)),
+      (auth) => SuccessLoginUser(auth: auth),
     );
   }
-  LoginState _mapCheckAuthToState(Either<Failure,Auth> either) {
+
+  LoginState _mapCheckAuthToState(Either<Failure, Auth> either) {
     return either.fold(
-          (failure) => NoLoginUser(),
-          (auth) => CurrentUserStatus(auth  : auth),
+      (failure) {
+        print(failure.runtimeType);
+        return NoLoginUser(msg: _mapFailureToMessage(failure));
+      },
+      (auth) => CurrentUserStatus(auth: auth),
     );
   }
+
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
-      case const (ServerFailure):
-        return SERVER_FAILURE_MESSAGE;
-      case const (EmptyCacheFailure):
+      case (ServerFailure):
+        return (failure as ServerFailure).messageServer ??
+            SERVER_FAILURE_MESSAGE;
+      case (EmptyCacheFailure):
         return EMPTY_CACHE_FAILURE_MESSAGE;
-      case OfflineFailure _:
+      case (AuthFailure):
+        return failure.message;
+      case (OfflineFailure):
         return OFFLINE_FAILURE_MESSAGE;
       default:
         return "Something want wrong .. try again";
     }
   }
-
-
 }

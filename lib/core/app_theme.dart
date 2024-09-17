@@ -9,6 +9,10 @@ const bgColor = Color(0xfffafcfd);
 
 final appTheme = ThemeData(
   scaffoldBackgroundColor: bgColor,
+  bottomSheetTheme: const BottomSheetThemeData(
+    backgroundColor: bgColor,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)))
+  ),
   fontFamily: 'almarai',
     inputDecorationTheme: InputDecorationTheme(
 

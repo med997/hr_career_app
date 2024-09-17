@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/widgets/custom_chips.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
-import 'package:hr_career_platform/features/company/presentation/ui/company_details_profile_page.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 
 class JobDetailsHeader extends StatelessWidget {
   final Job job;
+  final FilledButton profileFilledText;
+  final IconButton profileIcoButton;
 
-  const JobDetailsHeader({super.key, required this.job});
+  const JobDetailsHeader({super.key, required this.job, required this.profileFilledText, required this.profileIcoButton});
 
   @override
   Widget build(BuildContext context) {
@@ -46,32 +47,8 @@ class JobDetailsHeader extends StatelessWidget {
                 direction: Axis.horizontal,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () => {},
-                    icon: Icon(Icons.bookmark_added_outlined, size: 18),
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.orangeAccent.shade400,
-                    hoverColor: Colors.orangeAccent,
-                    iconSize: 18,
-                    splashRadius: 12,
-                  ),
-                  FilledButton(
-                    style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(Colors.black12)),
-                    onPressed: () {Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>  CompanyProfileDetailPage()),
-                    );},
-                    child: Text(
-                      'profile',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-
+                  profileIcoButton,
+                  profileFilledText
                 ],
               ),
               leading: Wrap(
