@@ -35,299 +35,318 @@ class CompanyDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isEditing = true;
     double width = MediaQuery.of(context).size.width;
-    List<DynamicModel> reviewJobForm() {
-      return [
-        DynamicModel('Job Title', FormType.text,
-            validators: [
-              DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-            ],
-            width: Responsive.isMobile(context) ? width : 300,
-            value: '',
-            isRequired: true,
-            disabled: isEditing),
-        DynamicModel('Deadline', FormType.datePicker,
-            value: '',
-            width: Responsive.isMobile(context) ? width : 300,
-            isRequired: true,
-            validators: [
-              DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-            ],
-            disabled: isEditing),
-        DynamicModel('Time parts', FormType.dropdown,
-            validators: [
-              DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-            ],
-            width: Responsive.isMobile(context) ? width : 300,
-            value: '',
-            isRequired: true,
-            disabled: isEditing),
-        DynamicModel('Other apply links', FormType.text,
-            validators: [
-              DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-            ],
-            value: '',
-            width: Responsive.isMobile(context) ? width : 300,
-            isRequired: true,
-            disabled: isEditing),
-        DynamicModel('Job Description', FormType.multiline,
-            validators: [
-              DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-            ],
-            value: '',
-            width: Responsive.isMobile(context) ? width : 300,
-            isRequired: true,
-            disabled: isEditing),
-        DynamicModel('Job requirement', FormType.multiline,
-            validators: [
-              DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-            ],
-            value: '',
-            width: Responsive.isMobile(context) ? width : 300,
-            isRequired: true,
-            disabled: isEditing),
-      ];
-    }
-
-    return BlocProvider(
-      create: (_) => DynamicFormCubit()..addAllFields(reviewJobForm()),
-      child: Scaffold(
-        body: BlocBuilder<GeneralCubit, GeneralState>(
-          builder: (context, state) {
-            if (state is GeneralLoading) {
-              return Center(
-                child: LoadingWidget(),
-              );
-            } else if (state is GeneralFetchedState) {
-              List<DynamicModel> externalModel() {
-                return [
-                  DynamicModel(
-                    'Address',
-                    FormType.text,
-                    width: Responsive.isMobile(context) ? width : 300,
-                    controller: TextEditingController(),
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    value: context
-                        .read<DynamicFormCubit>()
-                        .getCurrentValue()['Address'],
-                    isRequired: true,
-                    disabled: isEditing,
-                    action: ElevatedButton(
-                        onPressed: !isEditing
-                            ? () async {
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(
-                                  builder: (context) => LocationWidget(),
-                                ))
-                                    .then(
-                                  (value) {
-                                    context
-                                        .read<DynamicFormCubit>()
-                                        .updateValueOnly(
-                                            'Address', value[0].toString());
-                                    print(value[0]);
-                                    print(value[1]);
-                                  },
-                                );
-                              }
-                            : null,
-                        style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          backgroundColor: primaryColor,
-                        ),
-                        child: const Icon(Icons.location_on_outlined,
-                            color: Colors.white)),
+    List<DynamicModel> reviewJobForm = [];
+    reviewJobForm.addAll([
+      DynamicModel('Job Title', FormType.text,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          width: Responsive.isMobile(context) ? width : 300,
+          value: '',
+          isRequired: true,
+          disabled: isEditing),
+      DynamicModel('Deadline', FormType.datePicker,
+          value: '',
+          width: Responsive.isMobile(context) ? width : 300,
+          isRequired: true,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          disabled: isEditing),
+      DynamicModel('Time parts', FormType.dropdown,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          width: Responsive.isMobile(context) ? width : 300,
+          value: '',
+          isRequired: true,
+          disabled: isEditing),
+      DynamicModel('Other apply links', FormType.text,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          value: '',
+          width: Responsive.isMobile(context) ? width : 300,
+          isRequired: true,
+          disabled: isEditing),
+      DynamicModel('Job Description', FormType.multiline,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          value: '',
+          width: Responsive.isMobile(context) ? width : 300,
+          isRequired: true,
+          disabled: isEditing),
+      DynamicModel('Job requirement', FormType.multiline,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          value: '',
+          width: Responsive.isMobile(context) ? width : 300,
+          isRequired: true,
+          disabled: isEditing),
+    ]);
+    return Scaffold(
+      body: Flex(
+        mainAxisAlignment: MainAxisAlignment.start,
+        direction: Axis.vertical,
+        children: [
+          Responsive.isMobile(context)
+              ? JobDetailsHeader(
+                  job: job,
+                  profileFilledText: FilledButton(
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            WidgetStatePropertyAll(Colors.blueAccent)),
+                    onPressed: () {},
+                    child: const Text(
+                      'Active',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  DynamicModel('Office Type', FormType.dropdown,
-                      validators: [
-                        DynamicFormValidator(
-                            ValidatorType.notEmpty, 'isRequired')
-                      ],
-                      value: '',
-                      width: Responsive.isMobile(context) ? width : 300,
-                      items: state.generals.officeType
-                          .map(
-                            (e) => ItemModel(key: e, value: e),
-                          )
-                          .toList(),
-                      isRequired: true,
-                      disabled: isEditing),
-                  DynamicModel('Qualifications', FormType.dropdown,
-                      validators: [
-                        DynamicFormValidator(
-                            ValidatorType.notEmpty, 'isRequired')
-                      ],
-                      value: '',
-                      width: Responsive.isMobile(context) ? width : 300,
-                      items: state.generals.qualifications
-                          .map(
-                            (e) => ItemModel(key: e, value: e),
-                          )
-                          .toList(),
-                      isRequired: true,
-                      disabled: isEditing),
-                  DynamicModel(
-                    'Nationality',
-                    FormType.dropdown,
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    value: '',
-                    width: Responsive.isMobile(context) ? width : 300,
-                    items: state.generals.nationality
-                        .map(
-                          (e) => ItemModel(key: e, value: e),
-                        )
-                        .toList(),
-                    isRequired: true,
-                    disabled: isEditing,
-                  ),
-                  DynamicModel(
-                    'Gender',
-                    FormType.dropdown,
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    value: '',
-                    width: Responsive.isMobile(context) ? width : 300,
-                    items: state.generals.gender
-                        .map(
-                          (e) => ItemModel(key: e, value: e),
-                        )
-                        .toList(),
-                    isRequired: true,
-                    disabled: isEditing,
-                  ),
-                ];
-              }
-              for (var element in externalModel()) {
-                context.read<DynamicFormCubit>().addField(element);
-              }
-              return Flex(
-                mainAxisAlignment: MainAxisAlignment.start,
-                direction: Axis.vertical,
-                children: [
-                  Flexible(
-                      child: JobDetailsHeader(
-                          job: job,
-                          profileFilledText: FilledButton(
-                            style: const ButtonStyle(
-                                backgroundColor:
-                                    WidgetStatePropertyAll(Colors.blueAccent)),
-                            onPressed: () {},
-                            child: const Text(
-                              'Active',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              ),
-                            ),
+                  profileIcoButton: IconButton(
+                      iconSize: 18,
+                      color: Colors.white,
+                      onPressed: () {},
+                      icon: const Icon(Icons.visibility_off_outlined)))
+              : SizedBox(
+                  width: 400,
+                  child: JobDetailsHeader(
+                      job: job,
+                      profileFilledText: FilledButton(
+                        style: const ButtonStyle(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.blueAccent)),
+                        onPressed: () {},
+                        child: const Text(
+                          'Active',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
                           ),
-                          profileIcoButton: IconButton(
-                              iconSize: 18,
-                              color: Colors.white,
-                              onPressed: () {},
-                              icon:
-                                  const Icon(Icons.visibility_off_outlined)))),
-                  Flexible(
-                      child: ListView(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    children: [
-                      Center(
-                        child: ToggleBtnWidget(
-                          options: const ['Main Information', 'Appliance '],
                         ),
                       ),
-                      BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                      profileIcoButton: IconButton(
+                          iconSize: 18,
+                          color: Colors.white,
+                          onPressed: () {},
+                          icon: const Icon(Icons.visibility_off_outlined))),
+                ),
+          Center(
+            child: ToggleBtnWidget(
+              options: const ['Main Information', 'Appliance '],
+            ),
+          ),
+          Flexible(
+            child: BlocProvider(
+              create: (context2) => DynamicFormCubit()..addAllFields([]),
+              child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                builder: (context, state) {
+                  switch (state.selectedTab) {
+                    case 0:
+                      return BlocBuilder<GeneralCubit, GeneralState>(
                         builder: (context, state) {
-                          switch (state.selectedTab) {
-                            case 0:
-                              return Column(
-                                children: [
-                                  SubTitle(
-                                    title: 'Main Information',
-                                    titleType: SubTitleType.withIcon,
-                                    iconButton: IconButton(
-                                        onPressed: () {
-                                          isEditing = !isEditing;
+                          if (state is GeneralLoading) {
+                            return Center(
+                              child: LoadingWidget(),
+                            );
+                          } else if (state is GeneralFetchedState) {
+                            reviewJobForm.addAll([
+                              DynamicModel(
+                                'Address',
+                                FormType.text,
+                                width:
+                                    Responsive.isMobile(context) ? width : 300,
+                                controller: TextEditingController(),
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                value: context
+                                    .read<DynamicFormCubit>()
+                                    .getCurrentValue()['Address'],
+                                isRequired: true,
+                                disabled: isEditing,
+                                action: ElevatedButton(
+                                    onPressed: () async {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => LocationWidget(),
+                                      ))
+                                          .then(
+                                        (value) {
                                           context
                                               .read<DynamicFormCubit>()
-                                              .replaceAll([
-                                            ...reviewJobForm(),
-                                            ...externalModel()
-                                          ]);
+                                              .updateValueOnly('Address',
+                                                  value[0].toString());
+                                          print(value[0]);
+                                          print(value[1]);
                                         },
-                                        icon: const Icon(
-                                          Icons.edit_road,
-                                          color: primaryColor,
-                                        )),
-                                  ),
-                                  DynamicFormWidget(
-                                    dynamicFormsList: [
-                                      ...reviewJobForm(),
-                                      ...externalModel()
-                                    ],
-                                    formKey: reviewProfileFormKey,
-                                    useResponsiveUi: true,
-                                  ),
-                                  Flex(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    direction: Axis.horizontal,
-                                    children: [
-                                      MaterialButton(
-                                          color: Colors.yellow.shade700,
-                                          minWidth: 12,
-                                          height: 40,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(16)),
-                                          onPressed: () {},
-                                          child: const Icon(
-                                            Icons.save_outlined,
-                                            color: Colors.white,
-                                            size: 19,
-                                          )),
-                                    ],
-                                  ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: const CircleBorder(),
+                                      backgroundColor: primaryColor,
+                                    ),
+                                    child: const Icon(
+                                        Icons.location_on_outlined,
+                                        color: Colors.white)),
+                              ),
+                              DynamicModel('Office Type', FormType.dropdown,
+                                  validators: [
+                                    DynamicFormValidator(
+                                        ValidatorType.notEmpty, 'isRequired')
+                                  ],
+                                  value: '',
+                                  width: Responsive.isMobile(context)
+                                      ? width
+                                      : 300,
+                                  items: state.generals.officeType
+                                      .map(
+                                        (e) => ItemModel(key: e, value: e),
+                                      )
+                                      .toList(),
+                                  isRequired: true,
+                                  disabled: isEditing),
+                              DynamicModel('Qualifications', FormType.dropdown,
+                                  validators: [
+                                    DynamicFormValidator(
+                                        ValidatorType.notEmpty, 'isRequired')
+                                  ],
+                                  value: '',
+                                  width: Responsive.isMobile(context)
+                                      ? width
+                                      : 300,
+                                  items: state.generals.qualifications
+                                      .map(
+                                        (e) => ItemModel(key: e, value: e),
+                                      )
+                                      .toList(),
+                                  isRequired: true,
+                                  disabled: isEditing),
+                              DynamicModel(
+                                'Nationality',
+                                FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
                                 ],
-                              );
-                            case 1:
-                              return Wrap(
-                                runSpacing: 10,
-                                alignment: WrapAlignment.start,
-                                children: [
-                                  Flex(
-                                    direction: Axis.horizontal,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      squareButton(
-                                          clr: Colors.green,
-                                          icn: Icons.file_upload_outlined,
-                                          iconLabel: 'Export Excel',
-                                          onTap: () {}),
-                                    ],
-                                  ),
-                                  RecentProfile(),
-                                  RecentProfile(),
-                                  RecentProfile(),
-                                  RecentProfile()
+                                value: '',
+                                width:
+                                    Responsive.isMobile(context) ? width : 300,
+                                items: state.generals.nationality
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                    )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing,
+                              ),
+                              DynamicModel(
+                                'Gender',
+                                FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
                                 ],
-                              );
-                            default:
-                              return const SizedBox();
-                          }
+                                value: '',
+                                width:
+                                    Responsive.isMobile(context) ? width : 300,
+                                items: state.generals.gender
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                    )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing,
+                              ),
+                            ]);
+                            context
+                                .read<DynamicFormCubit>()
+                                .replaceAll(reviewJobForm);
+                            return ListView(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              shrinkWrap: true,
+                              children: [
+                                SubTitle(
+                                  title: 'Main Information',
+                                  titleType: SubTitleType.withIcon,
+                                  iconButton: IconButton(
+                                      onPressed: () {
+                                        isEditing = !isEditing;
+                                        context.read<DynamicFormCubit>()
+                                            .setDisableFiled(isEditing);
+                                      },
+                                      icon: const Icon(
+                                        Icons.edit_road,
+                                        color: primaryColor,
+                                      )),
+                                ),
+                                DynamicFormWidget(
+                                  dynamicFormsList: [],
+                                  formKey: reviewProfileFormKey,
+                                  useResponsiveUi: true,
+                                ),
+                                 Flex(
+                                 mainAxisAlignment: MainAxisAlignment.end,
+                                 direction: Axis.horizontal,
+                                 children: [
+                                   MaterialButton(
+                                       color: Colors.yellow.shade700,
+                                       minWidth: 12,
+                                       height: 40,
+                                       shape: RoundedRectangleBorder(
+                                           borderRadius: BorderRadius.circular(16)),
+                                       onPressed: () {},
+                                       child: const Icon(
+                                         Icons.save_outlined,
+                                         color: Colors.white,
+                                         size: 19,
+                                       ))
+                                 ],
+                               )
+
+                              ],
+                            );
+                          } else
+                            return const SizedBox();
                         },
-                      ),
-                    ],
-                  )),
-                ],
-              );
-            } else
-              return const SizedBox();
-          },
-        ),
+                      );
+                    case 1:
+                      return ListView(
+                        children: [
+                          Flex(
+                            direction: Axis.horizontal,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              squareButton(
+                                  clr: Colors.green,
+                                  icn: Icons.file_upload_outlined,
+                                  iconLabel: 'Export Excel',
+                                  onTap: () {}),
+                            ],
+                          ),
+                          RecentProfile(),
+                          RecentProfile(),
+                          RecentProfile(),
+                          RecentProfile(),
+                          RecentProfile(),
+                          RecentProfile(),
+                          RecentProfile()
+                        ],
+                      );
+                    default:
+                      return const SizedBox();
+                  }
+                },
+              ),
+            ),
+          ),
+
+        ],
       ),
     );
   }

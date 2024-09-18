@@ -36,57 +36,62 @@ class ProfileCard extends StatelessWidget {
       width: width,
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-          border:
-              Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.white),
+        border: Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+      ),
       child: Flex(
         direction: Axis.vertical,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+            contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
             leading: AvatarNetwork(
               imgUrl: userLogo ?? '',
               withBorder: true,
             ),
-            title:  Text(
+            title: Text(
               userName,
               style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14),
+
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+              ),
             ),
-            subtitle:  Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
+            subtitle: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.start,
               spacing: 4,
+              alignment: WrapAlignment.start,
               direction: Axis.horizontal,
               children: [
                 TextWithIcon(
-                    icon: Icon(
-                      Icons.access_time_outlined,
-                      size: 18,
-                      color: primaryTransparent.withOpacity(0.7),
-                    ),
-                    text: userTime,
-                    textColor: Colors.grey),
+                  icon: Icon(
+                    Icons.access_time_outlined,
+                    size: 18,
+                    color: primaryTransparent.withOpacity(0.7),
+                  ),
+                  text: userTime,
+                  textColor: Colors.grey,
+                ),
                 TextWithIcon(
-                    icon:  Icon(
-                      Icons.location_on_outlined,
-                      size: 18,
-                      color: primaryTransparent.withOpacity(0.7),
-                    ),
-                    text: userLocation,
-                    textColor: Colors.grey),
+                  icon: Icon(
+                    Icons.location_on_outlined,
+                    size: 18,
+                    color: primaryTransparent.withOpacity(0.7),
+                  ),
+                  text: userLocation,
+                  textColor: Colors.grey,
+                ),
                 TextWithIcon(
-                    icon:  Icon(
-                      Icons.people_alt_outlined,
-                      size: 18,
-                      color: primaryTransparent.withOpacity(0.7),
-                    ),
-                    text: userNationality,
-                  textColor: Colors.grey,),
+                  icon: Icon(
+                    Icons.people_alt_outlined,
+                    size: 18,
+                    color: primaryTransparent.withOpacity(0.7),
+                  ),
+                  text: userNationality,
+                  textColor: Colors.grey,
+                ),
               ],
             ),
           ),
@@ -94,4 +99,4 @@ class ProfileCard extends StatelessWidget {
       ),
     );
   }
-}
+  }
