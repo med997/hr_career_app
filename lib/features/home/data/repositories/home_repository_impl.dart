@@ -6,6 +6,7 @@ import 'package:hr_career_platform/core/network/network_info.dart';
 import 'package:hr_career_platform/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:hr_career_platform/features/home/domain/entities/home.dart';
 import 'package:hr_career_platform/features/home/domain/repositories/home_repository.dart';
+import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 
 import '../../../../core/error/exceptions.dart';
 
@@ -21,6 +22,20 @@ class HomeRepositoryImpl extends HomeRepository{
     if (await networkInfo.isConnected) {
       try {
         final remoteHome = await homeRemoteDataSource.getHomeUser();
+        return Right(remoteHome);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Job>>> getHomeCompany(String companyId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteHome = await homeRemoteDataSource.getHomeCompany(companyId);
         return Right(remoteHome);
       } on ServerException {
         return Left(ServerFailure());

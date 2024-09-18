@@ -6,6 +6,7 @@ import 'package:hr_career_platform/features/auth/data/datasources/auth_remote_da
 import 'package:hr_career_platform/features/auth/data/models/auth_model.dart';
 import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
 import 'package:hr_career_platform/features/auth/domain/repositories/auth_repository.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final AuthRemoteDatasource authRemoteDatasource;
@@ -20,8 +21,10 @@ class AuthRepositoryImpl extends AuthRepository {
       try {
         final response = await authRemoteDatasource.login(auth);
         return Right(response);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch(err){
+        return Left(ServerFailure(messageServer:err.message));
+      }catch(e) {
+        return Left(OfflineFailure());
       }
     } else {
       return Left(OfflineFailure());
@@ -48,13 +51,16 @@ class AuthRepositoryImpl extends AuthRepository {
     if (await networkInfo.isConnected) {
       try {
         final response = await authRemoteDatasource.getCurrentUserData();
-        if(response!=null) {
           return Right(response);
-        } else {
-          return left(AuthFailure());
-        }
+
+
       } on ServerException {
         return Left(ServerFailure());
+      } on AuthException catch(error){
+        // return Left(AuthFailure('${error.message}-${error.statusCode}'));
+        return Left(AuthFailure(error.message));
+      }catch(e) {
+        return Left(OfflineFailure());
       }
     } else {
       return Left(OfflineFailure());

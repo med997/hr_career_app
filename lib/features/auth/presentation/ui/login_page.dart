@@ -25,27 +25,26 @@ import '../../../home/presentation/ui/home_page.dart';
 class LoginPage extends StatelessWidget {
   final loginFormKey = GlobalKey<FormState>();
 
-  List<DynamicModel> loginDynForm = [
-    DynamicModel('email', FormType.email,
-        value: '',
-        isRequired: true,
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        disabled: false),
-    DynamicModel('password', FormType.password,
-        value: '',
-        isRequired: true,
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        disabled: false),
-  ];
-
   LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    List<DynamicModel> loginDynForm = [
+      DynamicModel('email', FormType.email,
+          value: '',
+          isRequired: true,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          disabled: false),
+      DynamicModel('password', FormType.password,
+          value: '',
+          isRequired: true,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          disabled: false),
+    ];
     return BlocProvider(
       create: (context) => DynamicFormCubit()..addAllFields(loginDynForm),
       child: Responsive(
@@ -55,184 +54,96 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-
   Widget _desktopAndTabletLoginPage(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(120.0),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset(
-                  'assets/imgs/project_logo.png',
-                ),
-                const Text(
-                  'Sign in to',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
-                ),
-                const Text(
-                  'Lorem Ipsum is simply ',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 60,
-                ),
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    const Text(
-                      'If you don’t have an account register You can',
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                    ),
-                    TextButton(
-                        onPressed: () {}, child: const Text('Register here !')),
-                  ],
-                ),
-              ],
-            ),
+        body: Container(
+            padding: const EdgeInsets.all(120.0),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/imgs/bglarg.png'),
+                fit: BoxFit.fitWidth, // Adjust fit as needed
+              ),
+              /*color: primaryColor,
+          border: Border.all(
+            color: primaryColor,
+            width: 0.5,
           ),
-          Container(
-            decoration: BoxDecoration(
-                image: const DecorationImage(
-                  opacity: 0.2,
-                  image: AssetImage('imgs/image10.png'),
-                  fit: BoxFit.fitWidth, // Adjust fit as needed
-                ),
-                border: Border.all(
-                  color: Colors.transparent,
-                  width: 0.5,
-                ),
-                borderRadius: BorderRadius.circular(12)),
-            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ToggleBtnWidget(options: [],),
-                ),
-                BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                    builder: (context, state) {
-                      return SizedBox(
-                        width: 350,
-                        child: DynamicFormWidget(
-                          key: Key('LoginKey'),
-                          formKey: loginFormKey,
-                          dynamicFormsList: loginDynForm,
-                          submitBtnLabel: 'login',
-                          useResponsiveUi: false,),
-                      );
-                    }
-
-                ),
-                _loginBtn(),
-                TextButton(
-                    onPressed: () {},
-                    child: const Text('Forget Password?',
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14))),
-              ],
+          borderRadius: BorderRadius.circular(12)*/
             ),
-          )
-        ]),
-      ),
-    );
+            child: Flex(
+                direction: Axis.horizontal,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Flexible(
+                    flex: 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        loginAndRegisterAppBar(bgColor: Colors.transparent),
+                        const SizedBox(
+                          height: 60,
+                        ),
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            const Text(
+                              'If you don’t have an account register You can',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16),
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => RegisterPage()),
+                                  );
+                                },
+                                child: const Text('Register here !')),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Flexible(
+                      flex: 1,
+                      fit: FlexFit.loose,
+                      child: _cardLogin(context)),
+                ])));
   }
 
   Widget _buildMobileLoginPage(BuildContext _) {
     return Scaffold(
-      appBar: loginAndRegisterAppBar(),
-      body: ListView(
-        children: [
-
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 18.0),
-                child: ToggleBtnWidget(options: [],),
-              ),
-
-              DynamicFormWidget(
-                key: Key('loginForm'),
-                formKey: loginFormKey,
-                dynamicFormsList: loginDynForm,
-                submitBtnLabel: 'login',
-                useResponsiveUi: false,),
-
-              Padding(
-                padding: const EdgeInsets.only(bottom: 18.0),
-                child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Forget Password?',
-                      style: TextStyle(
-                          color: primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12),
-                    )),
-              ),
-              _loginBtn(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 18.0),
-                child: SizedBox(
-                  width: 350,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.yellow.shade700),
-                    ),
-                    child: const Text(
-                      'Continue as Gust',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: primaryTransparent.withOpacity(0.2),
+                image: const DecorationImage(
+                  image: AssetImage('assets/imgs/paternPrimary.png'),
+                  fit: BoxFit.fitWidth, // Adjust fit as needed
                 ),
+                /*color: primaryColor,
+              border: Border.all(
+                color: primaryColor,
+                width: 0.5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Haven't an account?",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14),
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          _,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterPage()),
-                        );
-                      },
-                      child: const Text('Register')),
-                ],
+              borderRadius: BorderRadius.circular(12)*/
               ),
-            ],
-          ),
-        ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: loginAndRegisterAppBar(bgColor: Colors.transparent),
+            ),
+            Center(child: _cardLogin(_)),
+          ],
+        ),
       ),
     );
   }
-
 
   _loginBtn() {
     return BlocConsumer<LoginCubit, LoginState>(
@@ -244,69 +155,164 @@ class LoginPage extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => HomePage(),
                 ),
-                    (route) => false);
+                (route) => false);
           } else {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                   builder: (context) => HomeCompanyPage(),
                 ),
-                    (route) => false);
+                (route) => false);
           }
         }
       },
       builder: (context, state) {
         return BlocBuilder<LoginCubit, LoginState>(
           builder: (context, state) {
-            return Center(
-              child: SizedBox(
-                width: 350,
-                height: 35,
-                child: MaterialButton(
-                  color: primaryColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  onPressed: () {
-                    final value = context.read<DynamicFormCubit>()
-                        .getCurrentValue();
-                    print(value);
-                    if (loginFormKey.currentState!.validate()) {
-                      context.read<LoginCubit>().loginUser(
-                          context
-                              .read<ToggleBtnCubit>()
-                              .state
-                              .selectedTab,
-                          value);
-                    }
-                  },
-                  enableFeedback: false,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      if (state is LoginLoading)
-                        Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 12.0),
-                          child: FittedBox(
-                              child: LoadingWidget(
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Center(
+                  child: SizedBox(
+                    width: 350,
+                    height: 35,
+                    child: MaterialButton(
+                      color: primaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      onPressed: () {
+                        final value =
+                            context.read<DynamicFormCubit>().getCurrentValue();
+                        print(value);
+                        if (loginFormKey.currentState!.validate()) {
+                          context.read<LoginCubit>().loginUser(
+                              context.read<ToggleBtnCubit>().state.selectedTab,
+                              value);
+                        }
+                      },
+                      enableFeedback: false,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Login',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          if (state is LoginLoading)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: FittedBox(
+                                  child: LoadingWidget(
                                 progressColor: Colors.white,
                               )),
-                        )
-                    ],
+                            )
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                if (state is ErrLoginUser)
+                  Text(
+                    state.msg,
+                    style: const TextStyle(
+                        color: Colors.redAccent, fontWeight: FontWeight.w500),
+                  )
+              ],
             );
           },
         );
       },
+    );
+  }
+
+  Widget _asGustBtn() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Center(
+        child: SizedBox(
+          width: 350,
+          height: 30,
+          child: MaterialButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            onPressed: () {},
+            color: Colors.yellow.shade700,
+            child: const Text(
+              'Continue as Gust',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _cardLogin(BuildContext _) {
+    return Container(
+      width: 400,
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      margin: const EdgeInsets.symmetric(horizontal: 28),
+      decoration: BoxDecoration(
+          color: bgColor, borderRadius: BorderRadius.circular(18)),
+      child: ListView(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        children: [
+          Wrap(
+            alignment: WrapAlignment.center,
+            children: [
+              Center(
+                child: DynamicFormWidget(
+                  key: Key('loginForm'),
+                  formKey: loginFormKey,
+                  dynamicFormsList: [],
+                  submitBtnLabel: 'login',
+                  useResponsiveUi: false,
+                ),
+              ),
+            ],
+          ),
+          _loginBtn(),
+          _asGustBtn(),
+          const Center(
+            child: Text(
+              'Forget Password?',
+              style: TextStyle(
+                  color: primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12),
+            ),
+          ),
+          if(Responsive.isMobile(_))
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Haven't an account?",
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14),
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      _,
+                      MaterialPageRoute(builder: (context) => RegisterPage()),
+                    );
+                  },
+                  child: const Text('Register')),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

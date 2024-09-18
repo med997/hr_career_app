@@ -9,6 +9,7 @@ import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/cubit/location_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
+import 'package:hr_career_platform/core/splash_page.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
@@ -81,6 +82,7 @@ void main() async {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -117,39 +119,7 @@ class _MyAppState extends State<MyApp> {
               PointerDeviceKind.unknown
             },
           ),
-          home: BlocConsumer<LoginCubit, LoginState>(
-            listener: (context, state) {
-              if (state is CurrentUserStatus) {
-                if (state.auth.userType == UsrType.user) {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ),
-                      (route) => false);
-                }else{
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>  HomeCompanyPage(),
-                      ),
-                          (route) => false);
-                }
-              }
-            },
-            builder: (context, state) {
-              if (state is CurrentUserStatus) {
-                print(state.toString());
-                if (state.auth.userType == UsrType.user) {
-                  return HomePage();
-                } else {
-                  return  HomeCompanyPage();
-                }
-              } else {
-                return LoginPage();
-              }
-            },
-          ),
+          home: SplashPage(),
         );
       },
     );

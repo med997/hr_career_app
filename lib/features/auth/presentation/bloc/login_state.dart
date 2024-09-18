@@ -25,12 +25,16 @@ class CurrentUserStatus extends LoginState {
 
 }
 class NoLoginUser extends LoginState {
-  const NoLoginUser();
+  final String msg;
+  const NoLoginUser({required this.msg});
+  @override
+  List<Object> get props => [msg];
 
 }
 class ErrLoginUser extends LoginState {
   final String msg;
   const ErrLoginUser({required this.msg});
-
+  @override
+  List<Object> get props => [msg];
 }
 

@@ -6,15 +6,13 @@ import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/home.dart';
 
-class GetHomeUserCase {
+class GetHomeCompanyUserCase {
   final HomeRepository repository;
 
-  GetHomeUserCase(this.repository);
+  GetHomeCompanyUserCase(this.repository);
 
   Future<Either<Failure, Home>> call() async {
     return await repository.getHomeUser();
   }
-  Future<Either<Failure, List<Job>>> callCompanyHome(String companyId) async {
-    return await repository.getHomeCompany(companyId);
-  }
+
 }

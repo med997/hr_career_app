@@ -39,6 +39,8 @@ class AppLocalizations {
   String translate(String key) {
     return _localizedString![key] ?? "";
   }
+
+
 }
 
 class _AppLocalizationsDelegate
