@@ -14,6 +14,7 @@ import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
+import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
@@ -47,7 +48,7 @@ void main() async {
         create: (context) => di.sl<TabNavCubit>(),
       ),
       BlocProvider(
-        create: (context) => di.sl<LoginCubit>()..checkLoginStatus(),
+        create: (context) => di.sl<LoginCubit>(),
       ),
       BlocProvider(
         create: (context) => di.sl<ToggleBtnCubit>(),
@@ -77,6 +78,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<CurdJobCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<CompanyProfileCubit>(),
       ),
     ],
     child: const MyApp(),
@@ -113,7 +117,7 @@ class _MyAppState extends State<MyApp> {
           title: 'Flutter Demo',
           theme: appTheme,
           routes: {
-            '': (context) => HomePage(),
+           /* '': (context) => HomePage(auth: s,),*/
           },
           scrollBehavior: const MaterialScrollBehavior().copyWith(
             dragDevices: {

@@ -153,14 +153,14 @@ class LoginPage extends StatelessWidget {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomePage(),
+                  builder: (context) => HomePage(auth: state.auth,),
                 ),
                 (route) => false);
           } else {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeCompanyPage(),
+                  builder: (context) => HomeCompanyPage(auth: state.auth,),
                 ),
                 (route) => false);
           }

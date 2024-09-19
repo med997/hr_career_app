@@ -13,9 +13,9 @@ class AuthModel extends Auth{
 
   factory AuthModel.fromJson(Map<String, dynamic> json) => AuthModel(
     email: json["email"],
-    password: json["password"],
+    password: json["password"]!=null?json['password']:'',
     userType: json["userType"],
-    userAuth: User.fromJson(json['user']),
+    userAuth: json['user']!=null?  User.fromJson(json['user']):null,
     profile:ProfileModel.fromJson(json["profile"]),
     company:CompanyModel.fromJson(json["company"]),
   );

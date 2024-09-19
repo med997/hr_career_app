@@ -317,10 +317,12 @@ class CompanyDetailsPage extends StatelessWidget {
                       );
                     case 1:
                       return ListView(
+                        padding: EdgeInsets.symmetric(horizontal: 16,),
                         children: [
-                          Flex(
+                          Wrap(
+                            alignment: WrapAlignment.start,
                             direction: Axis.horizontal,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            // mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               squareButton(
                                   clr: Colors.green,

@@ -14,10 +14,21 @@ import '../features/home/presentation/ui/company_home_page.dart';
 import '../features/home/presentation/ui/home_page.dart';
 import 'app_theme.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
+  @override
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
   reloadingAgain(BuildContext context) {}
+
+  @override
+  void initState() {
+    super.initState();
+  context.read<LoginCubit>().checkLoginStatus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,20 +39,20 @@ class SplashPage extends StatelessWidget {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => HomePage(),
+                builder: (context) => HomePage(auth: state.auth,),
               ),
               (route) => false);
         } else {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeCompanyPage(),
+                builder: (context) =>  HomeCompanyPage(auth: state.auth,),
               ),
               (route) => false);
         }
       }
       if (state is NoLoginUser) {
-        if (state.msg == AUTH_FAILURE_MESSAGE) {
+        if (state.msg == EMPTY_CACHE_FAILURE_MESSAGE) {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
