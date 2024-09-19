@@ -11,16 +11,16 @@ class ToggleBtnWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width= MediaQuery.of(context).size.width /options.length;
     return BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: ToggleButtons(
-            constraints: const BoxConstraints.tightFor(height: 30, width: 120),
+            constraints:  BoxConstraints.tightFor(height: 30),
             fillColor: primaryColor,
             selectedBorderColor: primaryColor,
             selectedColor: Colors.white,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             borderRadius: BorderRadius.circular(8.0),
             borderColor: primaryColor,
             color: primaryColor,
@@ -29,7 +29,10 @@ class ToggleBtnWidget extends StatelessWidget {
             onPressed: (int index) {
               context.read<ToggleBtnCubit>().changeTab(index);
             },
-            children: options.map((String label) => Text(label)).toList(),
+            children: options.map((String label) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(label),
+            )).toList(),
           ),
         );
       },

@@ -16,6 +16,7 @@ AppBar buildAppBar({
 
 }) {
   return AppBar(
+
     iconTheme: IconThemeData(color: primaryColor),
     centerTitle: true,
     title: Row(
@@ -51,7 +52,7 @@ AppBar buildAppBar({
             else if (selectedTab == 1 && userOrCompany == 'Company')
               appBarButton(primaryColor)
             else if (selectedTab == 3)
-              const LanguageButton(),
+               const LanguageButton(clr: primaryColor),
             if (fullHeader == true)
               AvatarNetwork(
                 imgUrl: '',
