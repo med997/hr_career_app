@@ -1,6 +1,7 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:hr_career_platform/core/error/failures.dart';
+import 'package:hr_career_platform/features/job/data/models/job_model.dart';
 
 
 import '../../../../core/error/exceptions.dart';
@@ -19,9 +20,8 @@ class JobRepositoryImpl extends JobRepository {
       {required this.jobRemoteDataSource, required this.networkInfo});
 
   @override
-  Future<Either<Failure, Unit>> addJob(Job job) {
-    // TODO: implement addJob
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> addJob(Job job) async {
+    return await _getMessage(() => jobRemoteDataSource.addJob(JobModel.fromJob(job)));
   }
 
   @override
@@ -53,9 +53,22 @@ class JobRepositoryImpl extends JobRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateJob(Job job) {
-    // TODO: implement updateJob
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> updateJob(Job job) async {
+    return await _getMessage(() => jobRemoteDataSource.updateJob(JobModel.fromJob(job)));
+  }
+
+  Future<Either<Failure, Unit>> _getMessage(
+      DeleteOrUpdateOrAddJob deleteOrUpdateOrInsertAccount) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await deleteOrUpdateOrInsertAccount();
+        return const Right(unit);
+      }on ServerException catch (e) {
+        return Left(ServerFailure(messageServer:e.message??''));
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
   }
 
   @override

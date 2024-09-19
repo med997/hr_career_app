@@ -29,6 +29,7 @@ import 'package:hr_career_platform/features/job/domain/usercase/add_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
+import 'package:hr_career_platform/features/job/presentation/bloc/curd_job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
 import 'package:hr_career_platform/features/payment/data/datasources/payment_remote_datasource.dart';
@@ -115,6 +116,10 @@ void _initJob() {
     // cubit
     ..registerLazySingleton(
       () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl()),
+    )
+    // cubit
+    ..registerLazySingleton(
+      () => CurdJobCubit(addJobUserCase: sl(), updateJobUseCase: sl()),
     )
     ..registerLazySingleton(
       () => StepperCubit(),
