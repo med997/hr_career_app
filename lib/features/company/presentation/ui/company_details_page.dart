@@ -332,9 +332,6 @@ class CompanyDetailsPage extends StatelessWidget {
                           RecentProfile(),
                           RecentProfile(),
                           RecentProfile(),
-                          RecentProfile(),
-                          RecentProfile(),
-                          RecentProfile(),
                           RecentProfile()
                         ],
                       );

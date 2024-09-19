@@ -32,7 +32,8 @@ class ProfileCard extends StatelessWidget {
   Widget profileCard() {
     double width = columnWidth ?? 320;
     return Container(
-      height: 70,
+     height: 60,
+      padding: EdgeInsets.symmetric(vertical: 7),
       width: width,
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -40,12 +41,8 @@ class ProfileCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
       ),
-      child: Flex(
-        direction: Axis.vertical,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListTile(
-            contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+      child: ListTile(
+        minTileHeight: 55,
             leading: AvatarNetwork(
               imgUrl: userLogo ?? '',
               withBorder: true,
@@ -53,7 +50,6 @@ class ProfileCard extends StatelessWidget {
             title: Text(
               userName,
               style: const TextStyle(
-
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
                 fontSize: 14,
@@ -62,7 +58,6 @@ class ProfileCard extends StatelessWidget {
             subtitle: Wrap(
               crossAxisAlignment: WrapCrossAlignment.start,
               spacing: 4,
-              alignment: WrapAlignment.start,
               direction: Axis.horizontal,
               children: [
                 TextWithIcon(
@@ -95,8 +90,7 @@ class ProfileCard extends StatelessWidget {
               ],
             ),
           ),
-        ],
-      ),
-    );
+
+      );
   }
   }
