@@ -23,6 +23,7 @@ import 'package:hr_career_platform/features/payment/presentation/bloc/package_cu
 
 import 'features/general/presentation/bloc/general_cubit.dart';
 import 'features/home/presentation/ui/company_home_page.dart';
+import 'features/job/presentation/bloc/curd_job_cubit.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
 import 'features/profile/presentation/bloc/profile_cubit.dart';
 import 'injection_container.dart' as di;
@@ -73,6 +74,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<LocationCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<CurdJobCubit>(),
       ),
     ],
     child: const MyApp(),

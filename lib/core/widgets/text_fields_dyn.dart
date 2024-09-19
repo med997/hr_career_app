@@ -17,7 +17,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
 
             key: Key(dynamicModel.controlName),
             enabled: !dynamicModel.disabled,
-            initialValue: dynamicModel.value,
+            // initialValue: dynamicModel.value,
             style: const TextStyle(fontSize: 14),
             controller: dynamicModel.controller,
             obscureText: dynamicModel.formType == FormType.password,

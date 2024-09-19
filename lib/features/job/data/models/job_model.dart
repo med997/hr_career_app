@@ -12,9 +12,9 @@ class JobModel extends Job {
     super.id,
     required super.createdAt,
     required super.jobTitle,
-    super.gender,
+    required super.gender,
     required super.office,
-    super.otherApplyLinks,
+    required super.otherApplyLinks,
     required super.address,
     required super.timeParts,
     required super.city,
@@ -50,9 +50,29 @@ class JobModel extends Job {
         company:CompanyModel.fromJson(json["company"]),
       );
 
+  factory JobModel.fromJob(Job job) => JobModel(
+        id: job.id,
+        createdAt: job.createdAt,
+        jobTitle: job.jobTitle,
+        gender: job.gender,
+        office: job.office,
+        otherApplyLinks: job.otherApplyLinks,
+        address: job.address,
+        timeParts: job.timeParts,
+        city: job.city,
+        category: job.category,
+        deadlineDate: job.deadlineDate,
+        nationalities: job.nationalities,
+        qualifications: job.qualifications,
+        status: job.status,
+        jobDesc: job.jobDesc,
+        jobRequirements: job.jobRequirements,
+        companyId: job.companyId,
+      );
+
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "created_at": createdAt,
+        // "id": id,
+        // "created_at": createdAt,
         "job_title": jobTitle,
         "gender": gender,
         "office": office,
@@ -61,14 +81,13 @@ class JobModel extends Job {
         "time_parts": timeParts,
         "city": city,
         "category": category,
-        "deadline_date":
-            "${deadlineDate.year.toString().padLeft(4, '0')}-${deadlineDate.month.toString().padLeft(2, '0')}-${deadlineDate.day.toString().padLeft(2, '0')}",
+        "deadline_date":deadlineDate.toString(),
         "nationalities": nationalities,
         "qualifications": qualifications,
         "status": status,
         "job_desc": jobDesc,
         "job_requirements": jobRequirements,
         "company_id": companyId,
-        "company": company,
+
       };
 }
