@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/features/company/presentation/ui/company_details_profile_page.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_header.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_tabbar.dart';
@@ -25,7 +26,9 @@ class JobDetailsPage extends StatelessWidget {
                 profileFilledText: FilledButton(
                   style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.black12)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfileDetailPage( )));
+                  },
                   child: Text(
                     'profile',
                     style: TextStyle(

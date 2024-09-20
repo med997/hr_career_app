@@ -11,6 +11,8 @@ import 'package:hr_career_platform/features/home/presentation/ui/company_tenders
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
 
+import '../../../../core/widgets/sub-title.dart';
+
 class CompanyMainHomePage extends StatelessWidget {
   const CompanyMainHomePage({super.key});
 
@@ -63,6 +65,10 @@ class CompanyMainHomePage extends StatelessWidget {
                 })
           ],
         ),
+        const SizedBox(
+          height: 5,
+        ),
+        SubTitle(title: 'Recent your added Jobs', titleType: SubTitleType.withShowMore)
       ],
     );
   }
