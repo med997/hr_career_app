@@ -32,7 +32,7 @@ class HomeRepositoryImpl extends HomeRepository{
   }
 
   @override
-  Future<Either<Failure, List<Job>>> getHomeCompany(String companyId) async {
+  Future<Either<Failure, Home>> getHomeCompany(String companyId) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteHome = await homeRemoteDataSource.getHomeCompany(companyId);

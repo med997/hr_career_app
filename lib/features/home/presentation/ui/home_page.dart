@@ -6,6 +6,7 @@ import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
+import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_job_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_profile_page.dart';
@@ -58,7 +59,7 @@ class HomePage extends StatelessWidget {
                   selectedTab: state.selectedTab,
                 ),
           body: (state is TabNavChangedState)
-              ? _navPageBody(state.selectedTab)
+              ? _navPageBody(state.selectedTab,context)
               : SizedBox(),
           bottomNavigationBar: NavigationBar(
             destinations: navUserItem,
@@ -98,7 +99,7 @@ class HomePage extends StatelessWidget {
                   selectedIndex: state.selectedTab),
               Expanded(
                 child: (state is TabNavChangedState)
-                    ? _navPageBody(state.selectedTab)
+                    ? _navPageBody(state.selectedTab,context)
                     : SizedBox(),
               )
             ],
@@ -108,9 +109,10 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _navPageBody(int selectedTab) {
+  Widget _navPageBody(int selectedTab,BuildContext context) {
     switch (selectedTab) {
       case 0:
+
         return HomeJobPage();
       case 1:
         return SizedBox();

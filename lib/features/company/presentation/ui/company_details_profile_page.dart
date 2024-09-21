@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
+import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 import '../../../../core/model/dynamic_model.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
@@ -14,22 +15,16 @@ import '../../../../core/widgets/toggle_btn_widget.dart';
 import '../widgets/company_appbar.dart';
 
 class CompanyProfileDetailPage extends StatelessWidget {
+  final Company company;
   CompanyProfileDetailPage({
-    super.key,
+    super.key, required this.company,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: jobsAppBarFunction(
-          backgroundCompanyImg: 'assets/imgs/google_background.png',
-          companyEmail: '',
-          companyLocation: 'US, California',
-          companyLogo: 'assets/imgs/google_logo.png',
-          companyMajor: 'Software Engineering',
-          companyName: 'Google',
-          companyNumber: '',
-          companyWebsite: '',
+       company: company,
           appbarCompanyDetail: true),
       body: Flex(
         crossAxisAlignment: CrossAxisAlignment.start,
