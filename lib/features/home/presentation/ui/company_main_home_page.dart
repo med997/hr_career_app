@@ -18,6 +18,7 @@ import '../widgets/recent_jobs.dart';
 
 class CompanyMainHomePage extends StatefulWidget {
   final String authId;
+
   const CompanyMainHomePage({super.key, required this.authId});
 
   @override
@@ -49,9 +50,9 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
   }
 
   Widget _buildMobileLayout(List<Job> job, BuildContext context) {
+
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 12),
-
       children: [
         const SizedBox(
           height: 5,
@@ -61,7 +62,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
             squareButton(
                 clr: primaryColor,
                 icn: Icons.work_outline,
-                iconLabel: 'Add Job',
+                iconLabel: tr("add_job_msg"),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const AddJobPage(),
@@ -73,7 +74,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
             squareButton(
                 clr: Colors.yellow.shade700,
                 icn: Icons.bookmark_added_outlined,
-                iconLabel: 'Add Tender',
+                iconLabel: tr("add_tender_msg"),
                 onTap: () {
 
                 })
@@ -81,7 +82,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
         ),
         SubTitle(
           titleType: SubTitleType.textOnly,
-          title: AppLocalizations.of(context)!.translate("recent_job_msg"),
+          title: tr("recent_job_msg"),
           icon: Icon(Icons.edit_note),
         ),
         const RecentJobsWidget(jobCardType: JobCardType.company,)
@@ -98,7 +99,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
       squareButton(
           clr: Colors.white,
           icn: Icons.work_outline,
-          iconLabel: 'Add Job',
+          iconLabel: tr("add_job_msg"),
           onTap: () {})
     ]);
   }

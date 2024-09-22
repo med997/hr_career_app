@@ -8,6 +8,8 @@ import 'package:hr_career_platform/features/job/presentation/widgets/strepper_pa
 import 'package:hr_career_platform/features/payment/presentation/ui/payment_page.dart';
 import 'package:hr_career_platform/features/payment/presentation/ui/pkg_Page.dart';
 
+import '../../../../core/app_localizations.dart';
+
 class AddJobPage extends StatelessWidget {
   const AddJobPage({super.key});
 
@@ -15,7 +17,7 @@ class AddJobPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      appBar: buildAppBar(userName: 'Jobs', img: '', fullHeader: false, userOrCompany: 'User',),
+      appBar: buildAppBar(userName: tr("jobs_msg"), img: '', fullHeader: false, userOrCompany: 'User',),
       body: Flex(
         direction: Axis.vertical,
         children: [

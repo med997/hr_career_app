@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
@@ -160,18 +161,18 @@ class CompanyProfilePage extends StatelessWidget {
                   children: [
                     Center(
                       child: ToggleBtnWidget(
-                        options: const ['Main Information', 'Gallery'],
+                        options:  [tr("main_information_msg"),tr("gallery_msg")],
                       ),
                     ),
                     SubTitle(
-                      title: 'Main Information',
+                      title: tr("main_information_msg"),
                       titleType: SubTitleType.withIcon,
                       iconButton: IconButton(
                         onPressed: () {
                           isEditing = !isEditing;
                           context
                               .read<DynamicFormCubit>()
-                              .replaceAll(companyProfile );
+                              .setDisableFiled(isEditing);
                         },
                         icon: const Icon(
                           Icons.edit_road,
@@ -224,7 +225,7 @@ class CompanyProfilePage extends StatelessWidget {
                 children: [
                   Center(
                     child: ToggleBtnWidget(
-                      options: const ['Main Information', 'Gallery'],
+                      options:  [tr("main_information_msg"), tr("gallery_msg")],
                     ),
                   ),
                 ],
@@ -260,18 +261,19 @@ class CompanyProfilePage extends StatelessWidget {
                         ),
                     Center(
                       child: ToggleBtnWidget(
-                        options: const ['Main Information', 'Gallery'],
+                        options: [tr("main_information_msg"), tr("gallery_msg")],
                       ),
                     ),
                     SubTitle(
-                      title: 'Main Information',
+                      title: tr("main_information_msg"),
                       titleType: SubTitleType.withIcon,
                       iconButton: IconButton(
                         onPressed: () {
+
                           isEditing = !isEditing;
                           context
                               .read<DynamicFormCubit>()
-                              .replaceAll(companyProfile );
+                            .setDisableFiled(isEditing);
                         },
                         icon: const Icon(
                           Icons.edit_road,
@@ -326,7 +328,7 @@ class CompanyProfilePage extends StatelessWidget {
                 children: [
                   Center(
                     child: ToggleBtnWidget(
-                      options: const ['Main Information', 'Gallery'],
+                      options:  [tr("main_information_msg"), tr("gallery_msg")],
                     ),
                   ),
                 ],

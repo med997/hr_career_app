@@ -73,29 +73,33 @@ class AllJobsPage extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<JobCubit, JobState>(
-        builder: (context, state) {
-                if (state is JobLoadingState) {
-                  return  Center(
-                    child: LoadingWidget(),
-                  );
-                } else if (state is JobFetchedState) {
-            print('JobFetchedState');
-            return Responsive(
-                mobile: _buildMobileLayout(state.jobs, JobCardType.user),
-                tablet:
-                _buildTabletDesktopLayout(state.jobs, 2, context,JobCardType.user),
-                desktop:  _buildTabletDesktopLayout(state.jobs, 3, context,JobCardType.user),);
-          } else if (state is JobErrorState) {
-            print('JobErrorState');
-            return Text(
-              state.msg,
-              style: TextStyle(color: Colors.red),
-            );
-          }
-          return SizedBox();
-        },
-      );
+    return Scaffold(
+      body: SafeArea(
+        child: BlocBuilder<JobCubit, JobState>(
+            builder: (context, state) {
+                    if (state is JobLoadingState) {
+                      return  Center(
+                        child: LoadingWidget(),
+                      );
+                    } else if (state is JobFetchedState) {
+                print('JobFetchedState');
+                return Responsive(
+                    mobile: _buildMobileLayout(state.jobs, JobCardType.user),
+                    tablet:
+                    _buildTabletDesktopLayout(state.jobs, 2, context,JobCardType.user),
+                    desktop:  _buildTabletDesktopLayout(state.jobs, 3, context,JobCardType.user),);
+              } else if (state is JobErrorState) {
+                print('JobErrorState');
+                return Text(
+                  state.msg,
+                  style: TextStyle(color: Colors.red),
+                );
+              }
+              return SizedBox();
+            },
+          ),
+      ),
+    );
   }
 }
 /*

@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
@@ -32,9 +33,9 @@ class HomeProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isEditing = false;
-    double width = MediaQuery.of(context).size.width;
-    double defaultWidth = 300;
+      var isEditing = false;
+      double width = MediaQuery.of(context).size.width;
+      double defaultWidth = 300;
 
     List<DynamicModel> profileExp() {
       return [
@@ -356,7 +357,7 @@ class HomeProfilePage extends StatelessWidget {
                   ),
                 ),
                 SubTitle(
-                  title: 'Main Information',
+                  title: tr("main_information_msg"),
                   titleType: SubTitleType.withIcon,
                   iconButton: IconButton(
                       onPressed: () {
@@ -411,20 +412,20 @@ class HomeProfilePage extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                         onPressed: () {},
-                        child: const Wrap(
+                        child:  Wrap(
                           spacing: 4,
                           alignment: WrapAlignment.center,
                           crossAxisAlignment: WrapCrossAlignment.center,
                           direction: Axis.horizontal,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.save_outlined,
                               size: 18,
                               color: Colors.white,
                             ),
                             Text(
-                              'Save',
-                              style: TextStyle(
+                             tr("save_msg"),
+                              style: const TextStyle(
                                 color: Colors.white,
                               ),
                             ),
