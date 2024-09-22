@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 
 enum SubTitleType { textOnly, withIcon, withShowMore }
@@ -35,8 +36,8 @@ class SubTitle extends StatelessWidget {
             Container(
               child: InkWell(
                 onTap: () => onShowMoreClicked!(),
-                  child: const Text(
-                'show more',
+                  child: Text(
+                    tr("show_more_msg"),
                 style: TextStyle(color: Colors.black54),
               )),
             )

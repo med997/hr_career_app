@@ -1,16 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_career_platform/core/app_theme.dart';
-import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/features/company/domain/entities/company.dart';
-import '../../../../core/model/dynamic_model.dart';
-import '../../../../core/util/enums.dart';
-import '../../../../core/util/responsive.dart';
-import '../../../../core/util/validator.dart';
-import '../../../../core/widgets/dyn_form_widget.dart';
-import '../../../../core/widgets/sub-title.dart';
+
+import '../../../../core/app_localizations.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';
 import '../widgets/company_appbar.dart';
 
@@ -22,33 +16,35 @@ class CompanyProfileDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: jobsAppBarFunction(
-       company: company,
-          appbarCompanyDetail: true),
-      body: Flex(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        direction: Axis.vertical,
-        children: [
-          Center(
-            child: ToggleBtnWidget(
-              options: const ['About us', 'Jobs','Tender', 'Gallery',],
+    return SafeArea(
+      child: Scaffold(
+        appBar: jobsAppBarFunction(
+         company: company,
+            appbarCompanyDetail: true),
+        body: Flex(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          direction: Axis.vertical,
+          children: [
+            Center(
+              child: ToggleBtnWidget(
+                options: [tr("about_us_msg"), tr("jobs_msg"),tr("tenders_msg"), tr("gallery_msg"),],
+              ),
             ),
-          ),
-          BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-          builder: (context, state) {
-            switch (state.selectedTab) {
-              case 0:
-                return SizedBox();
-              case 1:
-                return SizedBox();
-              case 2:
-                return SizedBox();
-              default:
-                return const SizedBox();
-            }
-          },
-        ),]
+            BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+            builder: (context, state) {
+              switch (state.selectedTab) {
+                case 0:
+                  return SizedBox();
+                case 1:
+                  return SizedBox();
+                case 2:
+                  return SizedBox();
+                default:
+                  return const SizedBox();
+              }
+            },
+          ),]
+        ),
       ),
     );
   }

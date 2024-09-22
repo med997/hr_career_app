@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/widgets/avatar_network.dart';
@@ -29,7 +30,7 @@ AppBar buildAppBar({
           children: [
             if (fullHeader == true)
               Text(
-                fullHeader ? 'Welcome Back!' : ' ',
+                fullHeader ? tr("welcome-back_msg") : ' ',
                 style: const TextStyle(color: Colors.grey, fontSize: 14),
               ),
             Text(

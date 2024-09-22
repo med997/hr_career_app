@@ -20,7 +20,7 @@ class HomeTenderPage extends StatelessWidget {
             if (kDebugMode) print('showMoreClicked');
           },
           titleType: SubTitleType.textOnly,
-          title: AppLocalizations.of(context)!.translate("featured_tender_msg"),
+          title: tr("featured_tender_msg"),
           icon: Icon(Icons.edit_note),
         ),
         FeaturedJobs(),
@@ -32,7 +32,7 @@ class HomeTenderPage extends StatelessWidget {
             );
           },
           titleType: SubTitleType.withShowMore,
-          title: AppLocalizations.of(context)!.translate("recent_tender_msg"),
+          title: tr("recent_tender_msg"),
           icon: Icon(Icons.edit_note),
         ),
        RecentTenders()

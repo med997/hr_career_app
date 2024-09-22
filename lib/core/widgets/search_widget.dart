@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
@@ -34,7 +35,7 @@ class SearchWidget extends StatelessWidget {
         child: SearchBar(
           constraints: BoxConstraints.tight(const Size.fromHeight(35)),
           elevation: const WidgetStatePropertyAll(0.0),
-          hintText: 'Search',
+          hintText: tr("search_msg"),
           leading: Icon(
             Icons.search,
             color: primaryTransparent,

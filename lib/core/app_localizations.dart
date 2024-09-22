@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 
 import 'dart:convert';
 
+final tr = AppLocalizations.instance!.trnslt;
+
 class AppLocalizations {
   final Locale locale;
-
   AppLocalizations(this.locale);
 
   static AppLocalizations? of(BuildContext context) {
@@ -19,6 +20,9 @@ class AppLocalizations {
   // This [delegate] will be called from MaterialApp
   static const LocalizationsDelegate<AppLocalizations> delegate =
   _AppLocalizationsDelegate();
+
+  static AppLocalizations? get instance => _AppLocalizationsDelegate.instance;
+
 
   Map<String, String>? _localizedString;
 
@@ -37,8 +41,14 @@ class AppLocalizations {
 
   // This method will return the localized string for given key
   String translate(String key) {
-    return _localizedString![key] ?? "";
+    return _localizedString![key] ?? ' ';
   }
+
+  String trnslt(String key) {
+    return AppLocalizations.instance!.translate(key);
+  }
+
+
 
 
 }
@@ -47,11 +57,14 @@ class _AppLocalizationsDelegate
     extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
+
   @override
   bool isSupported(Locale locale) {
     // All supported languages
     return ["en", "ar"].contains(locale.languageCode);
   }
+
+  static AppLocalizations? instance;
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
@@ -59,6 +72,8 @@ class _AppLocalizationsDelegate
 
     // The [load] method from AppLocalizations class runs here
     await appLocalizations.load();
+    instance = appLocalizations;
+
     return appLocalizations;
   }
 

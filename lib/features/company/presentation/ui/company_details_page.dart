@@ -8,6 +8,7 @@ import 'package:hr_career_platform/features/job/presentation/widgets/job_details
 import 'package:hr_career_platform/features/profile/presentation/widgets/profile_card.dart';
 import 'package:hr_career_platform/features/profile/presentation/widgets/recent_profile.dart';
 
+import '../../../../core/app_localizations.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/cubit/toggle_btn_cubit.dart';
 import '../../../../core/model/dynamic_model.dart';
@@ -112,7 +113,7 @@ class CompanyDetailsPage extends StatelessWidget {
                 icon: const Icon(Icons.visibility_off_outlined))),
         Center(
           child: ToggleBtnWidget(
-            options: const ['Main Information', 'Appliance '],
+            options: [tr("main_information_msg"), 'Appliance '],
           ),
         ),
         Flexible(
@@ -268,7 +269,7 @@ class CompanyDetailsPage extends StatelessWidget {
                             shrinkWrap: true,
                             children: [
                               SubTitle(
-                                title: 'Main Information',
+                                title: tr("main_information_msg"),
                                 titleType: SubTitleType.withIcon,
                                 iconButton: IconButton(
                                     onPressed: () {
@@ -581,7 +582,7 @@ class CompanyDetailsPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             children: [
                               SubTitle(
-                                title: 'Main Information',
+                                title: tr("main_information_msg"),
                                 titleType: SubTitleType.withIcon,
                                 iconButton: IconButton(
                                     onPressed: () {

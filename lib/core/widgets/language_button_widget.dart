@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 
+import '../../features/home/presentation/bloc/tab_nav_cubit.dart';
+
 class LanguageButton extends StatelessWidget {
   const LanguageButton({super.key, required this.clr});
   final Color clr;
@@ -48,22 +50,29 @@ class LanguageButton extends StatelessWidget {
                     ListTile(
                       leading: const Icon(Icons.language, color: primaryColor),
                       title: const Text('English Language'),
-                      onTap: () {
-                        Navigator.pop(context);
+                      onTap: () async{
                         context.read<LocaleCubit>().changeLanguage('en');
+                        await Future.delayed(const Duration(seconds: 1));
+
                         _showSnackBar(context,
                             state.locale.languageCode == 'en' ? 'The Language is already English ' : 'Language changed to English');
+                        Navigator.pop(context);
+                        state.locale.languageCode == 'en' ? null : context.read<TabNavCubit>().changeTab(0);
                       },
                     ),
                     const Divider(thickness: 2,),
                     ListTile(
                       leading: const Icon(Icons.language, color: primaryColor),
                       title: const Text('اللغة العربية'),
-                      onTap: () {
-                        Navigator.pop(context);
+                      onTap: () async{
                         context.read<LocaleCubit>().changeLanguage('ar');
+                         await Future.delayed(const Duration(seconds: 1));
+
                         _showSnackBar(context,
                             state.locale.languageCode == 'ar' ? 'لغة التطبيق عربية بالفعل' : 'تم تغيير اللغة الى اللغة العربية');
+                        Navigator.pop(context);
+
+                        state.locale.languageCode == 'ar' ? null : context.read<TabNavCubit>().changeTab(0);
                       },
                     ),
                     const SizedBox(height: 20),
