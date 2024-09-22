@@ -24,12 +24,12 @@ class JobDetailsPage extends StatelessWidget {
               child: JobDetailsHeader(
                 job: job,
                 profileFilledText: FilledButton(
-                  style: ButtonStyle(
+                  style: const ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.black12)),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfileDetailPage( )));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfileDetailPage(company: job.company!)));
                   },
-                  child: Text(
+                  child: const Text(
                     'profile',
                     style: TextStyle(
                       fontSize: 14,
@@ -39,8 +39,8 @@ class JobDetailsPage extends StatelessWidget {
                 ),
                 profileIcoButton: IconButton(
                   onPressed: () => {},
-                  icon: Icon(Icons.visibility_off_outlined, size: 18),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  icon: const Icon(Icons.visibility_off_outlined, size: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   color: Colors.orangeAccent.shade400,
                   hoverColor: Colors.orangeAccent,
                   iconSize: 18,
