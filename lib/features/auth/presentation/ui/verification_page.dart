@@ -128,7 +128,6 @@ class VerificationPage extends StatelessWidget {
           child: Stack(
         children: [
           Container(
-            alignment: Alignment.topRight,
             decoration: BoxDecoration(
               color: primaryTransparent.withOpacity(0.2),
               image: const DecorationImage(
@@ -178,7 +177,7 @@ class VerificationPage extends StatelessWidget {
                     onFilled: (value) => print(value),
                     size: const Size(50, 60),
                     spaceBetween: 20,
-                    matchingPattern: RegExp(r'^\d+$'),
+                    matchingPattern: RegExp(r'^\d+$',),
                   ),
                   Spacer(),
                   MaterialButton(
