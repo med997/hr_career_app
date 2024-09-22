@@ -134,7 +134,7 @@ class HomeProfilePage extends StatelessWidget {
             validators: [
               DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
             ]),
-        DynamicModel('qualification ', FormType.dropdown,
+        DynamicModel('qualifications ', FormType.dropdown,
             disabled: isEditing,
             value: ' ',
             items: [
@@ -266,7 +266,6 @@ class HomeProfilePage extends StatelessWidget {
                   DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                 ]),
           ];
-
           return ListView(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

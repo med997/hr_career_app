@@ -6,6 +6,7 @@ import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
+import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_job_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_profile_page.dart';
@@ -14,18 +15,15 @@ import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cu
 
 import '../../../../core/util/const_val.dart';
 import '../../../../core/widgets/notification_page.dart';
+import '../../../auth/domain/entities/auth.dart';
 import '../../../company/presentation/ui/company_profile_page.dart';
 import 'company_job_page.dart';
 import 'company_tenders_page.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+class HomePage extends StatelessWidget {
+  final Auth auth;
 
-class _HomePageState extends State<HomePage> {
-
-
+  const HomePage({super.key, required this.auth});
   @override
   Widget build(BuildContext context) {
     return Responsive(
@@ -40,14 +38,11 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
           appBar: (state is TabNavChangedState)
               ? buildAppBar(
-                  userName: state.selectedTab == 4
-                      ? 'Notifications'
-                      : state.selectedTab == 2
-                          ? 'Search'
-                          : state.selectedTab == 3
-                              ? 'Profile'
-                              : 'Mohammed adnan',
-                  img: '',
+                  userName: state.selectedTab == 4 ? 'Notifications'
+                      : state.selectedTab == 2 ? 'Search'
+                          : state.selectedTab == 3 ? 'Profile'
+                              :auth.profile!.fullName??'',
+                  img: auth.profile!.avatarUrl??'',
                   userOrCompany: 'User',
                   fullHeader: (state.selectedTab == 4 ||
                           state.selectedTab == 3 ||
@@ -64,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                   selectedTab: state.selectedTab,
                 ),
           body: (state is TabNavChangedState)
-              ? _navPageBody(state.selectedTab)
+              ? _navPageBody(state.selectedTab,context)
               : SizedBox(),
           bottomNavigationBar: NavigationBar(
             destinations: navUserItem,
@@ -104,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                   selectedIndex: state.selectedTab),
               Expanded(
                 child: (state is TabNavChangedState)
-                    ? _navPageBody(state.selectedTab)
+                    ? _navPageBody(state.selectedTab,context)
                     : SizedBox(),
               )
             ],
@@ -114,9 +109,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _navPageBody(int selectedTab) {
+  Widget _navPageBody(int selectedTab,BuildContext context) {
     switch (selectedTab) {
       case 0:
+
         return HomeJobPage();
       case 1:
         return SizedBox();
@@ -124,14 +120,11 @@ class _HomePageState extends State<HomePage> {
 
         return const SearchPage();
       case 3:
-        context.read<LoginCubit>().checkLoginStatus();
         return BlocBuilder<LoginCubit ,LoginState>(
           builder: (context, state) {
-            if (state is CurrentUserStatus) {
-              context.read<ProfileCubit>().getUserByUuid(state.auth.userAuth!.id);
+              context.read<ProfileCubit>().getUserByUuid(auth.userAuth!.id);
               return HomeProfilePage();
-            }
-            return SizedBox();
+
           },
         );
       case 4:
@@ -139,10 +132,5 @@ class _HomePageState extends State<HomePage> {
       default:
         return Placeholder();
     }
-  }
-
-  @override
-  void initState() {
-
   }
 }

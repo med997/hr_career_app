@@ -45,7 +45,7 @@ class RecentProfile extends StatelessWidget {
  Widget _buildTabletDesktopLayout ( int columnCount, BuildContext context) {
    double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
    if(Responsive.isDesktop(context))
-     itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
+     itemWidth = 300 ;
    return Wrap(
        children: [
        ProfileCard(
@@ -54,7 +54,35 @@ class RecentProfile extends StatelessWidget {
        userLocation:  'Sanaa',
        userNationality:  'Yemeni',
        userLogo:  'No avatarUrl ',
-       columnWidth: itemWidth,)
+       columnWidth: itemWidth,),
+       ProfileCard(
+       userTime: '2 Hour Ago',
+       userName:  'Ibrahim Murad ',
+       userLocation:  'Sanaa',
+       userNationality:  'Yemeni',
+       userLogo:  'No avatarUrl ',
+       columnWidth: itemWidth,),
+       ProfileCard(
+       userTime: '2 Hour Ago',
+       userName:  'Ibrahim Murad ',
+       userLocation:  'Sanaa',
+       userNationality:  'Yemeni',
+       userLogo:  'No avatarUrl ',
+       columnWidth: itemWidth,),
+       ProfileCard(
+       userTime: '2 Hour Ago',
+       userName:  'Ibrahim Murad ',
+       userLocation:  'Sanaa',
+       userNationality:  'Yemeni',
+       userLogo:  'No avatarUrl ',
+       columnWidth: itemWidth,),
+       ProfileCard(
+       userTime: '2 Hour Ago',
+       userName:  'Ibrahim Murad ',
+       userLocation:  'Sanaa',
+       userNationality:  'Yemeni',
+       userLogo:  'No avatarUrl ',
+       columnWidth: itemWidth,),
            ]);
  }
 

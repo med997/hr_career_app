@@ -16,6 +16,7 @@ import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/register_page.dart';
+import 'package:hr_career_platform/features/auth/presentation/ui/verification_page.dart';
 import 'package:hr_career_platform/features/auth/presentation/widget/login_ana_register_appbar_functhion.dart';
 
 import '../../../../core/app_theme.dart';
@@ -153,14 +154,14 @@ class LoginPage extends StatelessWidget {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomePage(),
+                  builder: (context) => HomePage(auth: state.auth,),
                 ),
                 (route) => false);
           } else {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeCompanyPage(),
+                  builder: (context) => HomeCompanyPage(auth: state.auth,),
                 ),
                 (route) => false);
           }
@@ -281,14 +282,18 @@ class LoginPage extends StatelessWidget {
           ),
           _loginBtn(),
           _asGustBtn(),
-          const Center(
-            child: Text(
+           Center(
+            child: TextButton(onPressed: () {
+              Navigator.of(_).push(MaterialPageRoute(
+                  builder: (context) => const VerificationPage()));
+            },
+            child: const Text(
               'Forget Password?',
               style: TextStyle(
                   color: primaryColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 12),
-            ),
+            ),)
           ),
           if(Responsive.isMobile(_))
           Row(

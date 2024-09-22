@@ -44,12 +44,7 @@ Widget _buildMobileLayout(List<Job> job) {
         ),
         child: JobCard(
           jobCardType: JobCardType.userTender,
-            jobTitle: job[i].jobTitle,
-            companyName: job[i].company!.nameEn ,
-            jobLocation: job[i].city,
-            companyLogo: job[i].company!.companyLogo ?? '',
-            jobDeadLine: '${job[i].deadlineDate.hour}h ago',
-            jobNationality: job[i].nationalities ?? ''),
+            job: job[i],),
       ));
 }
 Widget _buildTabletDesktopLayout(
@@ -63,13 +58,8 @@ Widget _buildTabletDesktopLayout(
               (job) => SizedBox(
             width: itemWidth,
             child: JobCard(
+              job: job,
               jobCardType: JobCardType.userTender,
-              jobTitle: job.jobTitle,
-              companyName: job.company!.nameEn,
-              jobLocation: job.city,
-              companyLogo: job.company!.companyLogo ?? '',
-              jobDeadLine: '${job.deadlineDate.hour}h ago',
-              jobNationality:  '',
               columnWidth: itemWidth,),
           ),
         )

@@ -28,7 +28,7 @@ class RecentJobsWidget extends StatelessWidget {
               desktop: _buildTabletDesktopLayout(
                   state.homes.recentJobs, 3, context));
         }
-        return Placeholder();
+        return const SizedBox();
       },
     );
   }
@@ -36,33 +36,16 @@ class RecentJobsWidget extends StatelessWidget {
   Widget _buildMobileLayout(List<Job> job) {
     return ListView.builder(
         shrinkWrap: true,
-        physics: PageScrollPhysics(),
+        physics: const PageScrollPhysics(),
         itemCount: job.length ?? 0,
-        itemBuilder: (context, i) => InkWell(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => JobDetailsPage(job: job[i]) ),
-              ),
-              child: jobCardType == JobCardType.user ?JobCard(
-                jobCardType: JobCardType.user,
-                  jobTitle: job[i].jobTitle,
-                  companyName: job[i].company!.nameEn ,
-                  jobLocation: job[i].city,
-                  companyLogo: job[i].company!.companyLogo ?? '',
-                  jobDeadLine: '${job[i].deadlineDate.hour}h ago',
-                  jobNationality: job[i].nationalities ?? '') :
-              JobCard(
-                jobCardType: JobCardType.company,
-                  chipBgColor:primaryColor,
-                  chipText: 'Active',
-                  jobTitle: job[i].jobTitle,
-                  companyName: job[i].company!.nameEn ,
-                  jobLocation: job[i].city,
-                  companyLogo: job[i].company!.companyLogo ?? '',
-                  jobDeadLine: '${job[i].deadlineDate.hour}h ago',
-                  jobNationality: job[i].nationalities ?? '')
-                 ));
+        itemBuilder: (context, i) => jobCardType == JobCardType.user ?JobCard(
+          jobCardType: JobCardType.user,
+           job: job[i],) :
+        JobCard(
+          jobCardType: JobCardType.company,
+            chipBgColor:primaryColor,
+            chipText: 'Active',
+            job: job[i],));
   }
 
   Widget _buildTabletDesktopLayout(
@@ -76,22 +59,12 @@ class RecentJobsWidget extends StatelessWidget {
         (job) => SizedBox(
           width: itemWidth,
           child: jobCardType == JobCardType.user ? JobCard(
-              jobTitle: job.jobTitle,
-              companyName: job.company!.nameEn,
-              jobLocation: job.city,
-              companyLogo: job.company!.companyLogo ?? '',
-              jobDeadLine: '${job.deadlineDate.hour}h ago',
-              jobNationality: job.nationalities ?? '',
+              job: job,
              columnWidth: itemWidth,) : JobCard(
             jobCardType: JobCardType.company,
-            jobTitle: job.jobTitle,
+            job: job,
             chipText: 'Active',
             chipBgColor: primaryColor,
-            companyName: job.company!.nameEn,
-            jobLocation: job.city,
-            companyLogo: job.company!.companyLogo ?? '',
-            jobDeadLine: '${job.deadlineDate.hour}h ago',
-            jobNationality: job.nationalities ?? '',
             columnWidth: itemWidth,
           )
         ),

@@ -15,62 +15,62 @@ class JobDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Flex(
-          mainAxisAlignment: MainAxisAlignment.start,
-          direction: Axis.vertical,
-          children: [
-            Flexible(
-                flex: 2,
-                child: JobDetailsHeader(
-                  job: job,
-                  profileFilledText: FilledButton(
-                    style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(Colors.black12)),
-                    onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfileDetailPage(),));},
-                    child: Text(
-                      'profile',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
+      body: Flex(
+        mainAxisAlignment: MainAxisAlignment.start,
+        direction: Axis.vertical,
+        children: [
+          Flexible(
+              flex: 2,
+              child: JobDetailsHeader(
+                job: job,
+                profileFilledText: FilledButton(
+                  style: const ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(Colors.black12)),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfileDetailPage(company: job.company!)));
+                  },
+                  child: const Text(
+                    'profile',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
                     ),
                   ),
-                  profileIcoButton: IconButton(
-                    onPressed: () => {},
-                    icon: Icon(Icons.visibility_off_outlined, size: 18),
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.orangeAccent.shade400,
-                    hoverColor: Colors.orangeAccent,
-                    iconSize: 18,
-                    splashRadius: 12,
-                  ),
-                )),
-            Expanded(
-                /*fit: FlexFit.tight,flex: 1,*/
-                flex: 3,
-                child: JobDetailsTabBar(job: job)),
-            SizedBox(
-              height: 20,
-            ),
-            Center(
-              child: SizedBox(
-                width: 260,
-                height: 35,
-                child: MaterialButton(
-                  color: primaryColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  onPressed: () {},
-                  child: Text(
-                    'Apply now',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                ),
+                profileIcoButton: IconButton(
+                  onPressed: () => {},
+                  icon: const Icon(Icons.visibility_off_outlined, size: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  color: Colors.orangeAccent.shade400,
+                  hoverColor: Colors.orangeAccent,
+                  iconSize: 18,
+                  splashRadius: 12,
+                ),
+              )),
+          Expanded(
+              /*fit: FlexFit.tight,flex: 1,*/
+              flex: 3,
+              child: JobDetailsTabBar(job: job)),
+          SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: SizedBox(
+              width: 260,
+              height: 35,
+              child: MaterialButton(
+                color: primaryColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                onPressed: () {},
+                child: Text(
+                  'Apply now',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

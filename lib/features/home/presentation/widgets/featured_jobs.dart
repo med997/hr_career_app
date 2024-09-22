@@ -38,10 +38,10 @@ class FeaturedJobs extends StatelessWidget {
     );
   }
 
-  Widget _mobileFeaturedJob(List<Job> featuredJobs) {
+  Widget _mobileFeaturedJob(List<Job>? featuredJobs) {
     return CarouselSlider(
       options: CarouselOptions(height: 180.0),
-      items: featuredJobs.map((i) {
+      items: featuredJobs!.map((i) {
         return Builder(
           builder: (BuildContext context) {
             return Container(
@@ -67,7 +67,7 @@ class FeaturedJobs extends StatelessWidget {
     );
   }
 
-  Widget _desktopFeaturedJob(List<Job> featuredJobs,BuildContext context) {
+  Widget _desktopFeaturedJob(List<Job>? featuredJobs,BuildContext context) {
     return SizedBox(
       height: 160,
       width: MediaQuery.of(context).size.width,
@@ -78,7 +78,7 @@ class FeaturedJobs extends StatelessWidget {
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         shrinkWrap: true,
-        itemCount: featuredJobs.length,
+        itemCount: featuredJobs!.length??0,
         itemBuilder: (context, index) =>  Container(
             width: 400,
             height: 140,

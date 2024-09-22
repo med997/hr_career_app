@@ -13,6 +13,7 @@ Widget buildCustomDropDownMenu(
   return Padding(
     padding: EdgeInsets.only(bottom: 28.0),
     child: DropdownMenu(
+      initialSelection: dynModel.value,
       enabled: !dynModel.disabled,
       width: dynModel.width ,
       expandedInsets: EdgeInsets.zero,

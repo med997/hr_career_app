@@ -47,9 +47,23 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
   }
 
   @override
-  Future<Unit> addJob(JobModel jobModel) {
-    // TODO: implement addJob
-    throw UnimplementedError();
+  Future<Unit> addJob(JobModel jobModel) async{
+    try {
+      final data = await supBase
+          .from('jobs')
+          .insert(jobModel.toJson());
+      return Future.value(unit);
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
   }
 
   @override
@@ -71,9 +85,25 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
   }
 
   @override
-  Future<Unit> updateJob(JobModel jobModel) {
-    // TODO: implement updateJob
-    throw UnimplementedError();
+  Future<Unit> updateJob(JobModel jobModel) async {
+    try {
+      final data = await supBase
+          .from('jobs')
+          .update(jobModel.toJson())
+          .eq('id', jobModel.id.toString());
+      return Future.value(unit);
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+
   }
 
 
