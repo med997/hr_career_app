@@ -16,6 +16,8 @@ import 'package:hr_career_platform/features/company/data/datasources/company_rem
 import 'package:hr_career_platform/features/company/data/repositories/company_repository_impl.dart';
 import 'package:hr_career_platform/features/company/domain/repositories/company_repository.dart';
 import 'package:hr_career_platform/features/company/domain/usecases/fetch_company.dart';
+import 'package:hr_career_platform/features/company/domain/usecases/update_company.dart';
+import 'package:hr_career_platform/features/company/presentation/bloc/curd_company_cubit.dart';
 import 'package:hr_career_platform/features/general/data/datasources/general_remote_datasource.dart';
 import 'package:hr_career_platform/features/general/data/repositories/general_repository_impl.dart';
 import 'package:hr_career_platform/features/general/domain/repositories/general_repository.dart';
@@ -76,7 +78,6 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => supBaseInit.client);
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
-
 
 //! External
 
@@ -325,25 +326,30 @@ void _initGeneral() {
 
 void _initCompany() {
   sl
-    ..registerFactory<CompanyRemoteDatasource>(
-          () => CompanyRemoteDatasourceImp(
-              client: sl(),
-          )
-    )
-  // repository
+    ..registerFactory<CompanyRemoteDatasource>(() => CompanyRemoteDatasourceImp(
+          client: sl(),
+        ))
+    // repository
     ..registerFactory<CompanyRepository>(
-          () =>
-          CompanyRepositoryImpl(
-            companyRemoteDatasource: sl(),
-            networkInfo: sl(),
-          ),
-    )..registerFactory(
-        () =>
-        FetchCompanyUserCase(
-          sl(),
-        ),
-  )
+      () => CompanyRepositoryImpl(
+        companyRemoteDatasource: sl(),
+        networkInfo: sl(),
+      ),
+    )
+    ..registerFactory(
+      () => FetchCompanyUserCase(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => UpdateCompany(
+        sl(),
+      ),
+    )
     ..registerLazySingleton(
-          () => CompanyProfileCubit(fetchCompanyUserCase: sl()),
+      () => CompanyProfileCubit(fetchCompanyUserCase: sl()),
+    )
+    ..registerLazySingleton(
+      () => CurdCompanyCubit(updateCompanyUserCase: sl()),
     );
 }
