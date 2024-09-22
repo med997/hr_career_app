@@ -39,7 +39,7 @@ void main() async {
         create: (context) => di.sl<JobCubit>()..getAllJobs(),
       ),
       BlocProvider(
-        create: (context) => di.sl<HomeCubit>()..getUserHome(),
+        create: (context) => di.sl<HomeCubit>(),
       ),
       BlocProvider(
         create: (context) => di.sl<RegisterCubit>(),

@@ -5,6 +5,7 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
+import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 import '../../../../core/model/dynamic_model.dart';
@@ -31,8 +32,8 @@ class CompanyProfilePage extends StatelessWidget {
       return LoadingWidget();
     }
     else if(state is CompanyFetchedState) {
-      List<DynamicModel> companyProfile() {
-        return [
+      List<DynamicModel> companyProfile=
+         [
           DynamicModel(
               width: Responsive.isMobile(context) ? width : 300,
               'nameAr',
@@ -129,111 +130,213 @@ class CompanyProfilePage extends StatelessWidget {
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
         ];
-      }
-      return  Scaffold(
-        appBar: jobsAppBarFunction(
-            backgroundCompanyImg: 'assets/imgs/google_background.png',
-            companyEmail: '',
-            companyLocation: state.company.locations![0],
-            companyLogo:state.company.companyLogo ?? '',
-            companyMajor: state.company.major ?? '',
-            companyName: state.company.nameEn,
-            companyNumber: '',
-            companyWebsite: ''),
-        body: BlocProvider(
-          create: (context) => DynamicFormCubit()
-            ..addAllFields(companyProfile()),
-          child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-            builder: (context, state) {
-              switch (state.selectedTab) {
-                case 0:
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ListView(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      shrinkWrap: true,
-                      children: [
-                        Center(
-                          child: ToggleBtnWidget(
-                            options: const ['Main Information', 'Gallery'],
-                          ),
-                        ),
-                        SubTitle(
-                          title: 'Main Information',
-                          titleType: SubTitleType.withIcon,
-                          iconButton: IconButton(
-                            onPressed: () {
-                              isEditing = !isEditing;
-                              context
-                                  .read<DynamicFormCubit>()
-                                  .replaceAll(companyProfile());
-                            },
-                            icon: const Icon(
-                              Icons.edit_road,
-                              color: primaryColor,
-                            ),
-                          ),
-                        ),
-                        BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                            builder: (context, state) {
-                              if (state.selectedTab == 0) {
-                                context.read<ToggleBtnCubit>().changeTab(0);
 
-                                return DynamicFormWidget(
-                                  // key: const Key('companyProfile'),
-                                  dynamicFormsList: companyProfile(),
-                                  formKey: _formKey,
-                                  useResponsiveUi: true,
-                                );
-                              } else
-                                context.read<ToggleBtnCubit>().changeTab(1);
-                              return SizedBox();
-                            }),
-                        Wrap(
-                          direction: Axis.horizontal,
-                          alignment: WrapAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: MaterialButton(
-                                  color: Colors.yellow.shade700,
-                                  minWidth: 12,
-                                  height: 40,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16)),
-                                  onPressed: () {},
-                                  child: const Icon(
-                                    Icons.save_outlined,
-                                    color: Colors.white,
-                                    size: 19,
-                                  )),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                case 1:
-                  return ListView(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    children: [
-                      Center(
-                        child: ToggleBtnWidget(
-                          options: const ['Main Information', 'Gallery'],
-                        ),
-                      ),
-                    ],
-                  );
-                default:
-                  return const SizedBox();
-              }
-            },
-          ),
-        ),
-      );
+      return   Responsive(mobile: _buildMobileWidget(context,companyProfile,isEditing,state.company),
+            tablet: _buildDesktopWidget(context,companyProfile,isEditing,state.company),
+          desktop: _buildDesktopWidget(context,companyProfile,isEditing,state.company), )
+        ;
     } else return SizedBox();
 
   },
 );
+  }
+
+  _buildMobileWidget(BuildContext context, List<DynamicModel> companyProfile, bool isEditing, Company company) {
+    return Scaffold(
+        appBar:  jobsAppBarFunction(
+        company: company),
+    body: BlocProvider(
+      create: (context) => DynamicFormCubit()
+        ..addAllFields(companyProfile),
+      child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+        builder: (context, state) {
+          switch (state.selectedTab) {
+            case 0:
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  shrinkWrap: true,
+                  children: [
+                    Center(
+                      child: ToggleBtnWidget(
+                        options: const ['Main Information', 'Gallery'],
+                      ),
+                    ),
+                    SubTitle(
+                      title: 'Main Information',
+                      titleType: SubTitleType.withIcon,
+                      iconButton: IconButton(
+                        onPressed: () {
+                          isEditing = !isEditing;
+                          context
+                              .read<DynamicFormCubit>()
+                              .replaceAll(companyProfile );
+                        },
+                        icon: const Icon(
+                          Icons.edit_road,
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                    BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                        builder: (context, state) {
+                          if (state.selectedTab == 0) {
+                            context.read<ToggleBtnCubit>().changeTab(0);
+
+                            return DynamicFormWidget(
+                              // key: const Key('companyProfile'),
+                              dynamicFormsList: companyProfile ,
+                              formKey: _formKey,
+                              useResponsiveUi: true,
+                            );
+                          } else
+                            context.read<ToggleBtnCubit>().changeTab(1);
+                          return SizedBox();
+                        }),
+                    Wrap(
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MaterialButton(
+                              color: Colors.yellow.shade700,
+                              minWidth: 12,
+                              height: 40,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              onPressed: () {},
+                              child: const Icon(
+                                Icons.save_outlined,
+                                color: Colors.white,
+                                size: 19,
+                              )),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            case 1:
+              return ListView(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                children: [
+                  Center(
+                    child: ToggleBtnWidget(
+                      options: const ['Main Information', 'Gallery'],
+                    ),
+                  ),
+                ],
+              );
+            default:
+              return const SizedBox();
+          }
+        },
+      ),
+    )
+    );
+
+  }
+  _buildDesktopWidget(BuildContext context, List<DynamicModel> companyProfile, bool isEditing,Company company) {
+    return  BlocProvider(
+      create: (context) => DynamicFormCubit()
+        ..addAllFields(companyProfile),
+      child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+        builder: (context, state) {
+          switch (state.selectedTab) {
+            case 0:
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 42,vertical: 4),
+                    child:   jobsAppBarFunction(
+                        type: 'widget',
+                        company: company),
+                        ),
+                    Center(
+                      child: ToggleBtnWidget(
+                        options: const ['Main Information', 'Gallery'],
+                      ),
+                    ),
+                    SubTitle(
+                      title: 'Main Information',
+                      titleType: SubTitleType.withIcon,
+                      iconButton: IconButton(
+                        onPressed: () {
+                          isEditing = !isEditing;
+                          context
+                              .read<DynamicFormCubit>()
+                              .replaceAll(companyProfile );
+                        },
+                        icon: const Icon(
+                          Icons.edit_road,
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                    BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                        builder: (context, state) {
+                          if (state.selectedTab == 0) {
+                            context.read<ToggleBtnCubit>().changeTab(0);
+
+                            return Center(
+                              child: DynamicFormWidget(
+                                // key: const Key('companyProfile'),
+                                dynamicFormsList: companyProfile ,
+                                formKey: _formKey,
+                                useResponsiveUi: true,
+                              ),
+                            );
+                          } else
+                            context.read<ToggleBtnCubit>().changeTab(1);
+                          return SizedBox();
+                        }),
+                    Wrap(
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MaterialButton(
+                              color: Colors.yellow.shade700,
+                              minWidth: 12,
+                              height: 40,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              onPressed: () {},
+                              child: const Icon(
+                                Icons.save_outlined,
+                                color: Colors.white,
+                                size: 19,
+                              )),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            case 1:
+              return ListView(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                children: [
+                  Center(
+                    child: ToggleBtnWidget(
+                      options: const ['Main Information', 'Gallery'],
+                    ),
+                  ),
+                ],
+              );
+            default:
+              return const SizedBox();
+          }
+        },
+      ),
+    );
+
   }
 }

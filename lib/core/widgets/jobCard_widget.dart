@@ -11,40 +11,43 @@ import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
+import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/injection_container.dart' as di;
+
+import '../../features/company/presentation/ui/company_details_page.dart';
+import '../../features/job/presentation/ui/job_details_page.dart';
 
 class JobCard extends StatelessWidget {
   final JobCardType jobCardType;
   final Color? chipBgColor;
   final String? chipText;
-  final String jobTitle;
-  final String? createdAt;
-  final String companyName;
-  final String jobLocation;
-  final String jobDeadLine;
-  final String jobNationality;
-  final String companyLogo;
+  final Job job;
+ 
   double? columnWidth;
 
   JobCard({
     this.jobCardType = JobCardType.user,
-    required this.jobTitle,
+    required this.job,
     this.chipBgColor,
     this.chipText,
-    required this.companyName,
-    required this.jobLocation,
-    required this.companyLogo,
-    required this.jobDeadLine,
-    required this.jobNationality,
-    this.columnWidth, this.createdAt
+    this.columnWidth,
   });
 
   @override
   Widget build(BuildContext context) {
     if (jobCardType == JobCardType.user) {
-      return _jobCardUser();
+      return InkWell(
+          onTap:  () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => JobDetailsPage(job: job) ),
+          ),
+          child: _jobCardUser());
     } else if (jobCardType == JobCardType.company) {
-      return _jobCardCompany();
+      return InkWell(
+          onTap: () =>  Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => CompanyDetailsPage(job: job))),
+          child: _jobCardCompany());
     } else if (jobCardType == JobCardType.userTender) {
       return _jobCardUserTender();
     } else if(jobCardType == JobCardType.companyTender) {
@@ -53,76 +56,78 @@ class JobCard extends StatelessWidget {
   }
 
   Widget _jobCardUser() {
+    
     double width = columnWidth ?? 320;
-    return Container(
-      width: width,
-      padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-          border:
-              Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.white),
-      child: Flex(
-        direction: Axis.vertical,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 2,
+    return    Container(
+        width: width,
+        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+            border:
+                Border.all(color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.white),
+        child: Flex(
+          direction: Axis.vertical,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 2,
+              ),
+              child: Text(
+                job.jobTitle,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14),
+              ),
             ),
-            child: Text(
-              jobTitle,
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+              leading: AvatarNetwork(
+                imgUrl: job.company!.companyLogo ?? '',
+                withBorder: true,
+              ),
+              title: Text(
+                job.company!.nameEn??'',
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14),
+              ),
+              subtitle: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 4,
+                direction: Axis.horizontal,
+                children: [
+                  TextWithIcon(
+                      icon: const Icon(
+                        Icons.timelapse_outlined,
+                        size: 18,
+                        color: Colors.orangeAccent,
+                      ),
+                      text: '${job.deadlineDate.hour}h ago'),
+                  TextWithIcon(
+                      icon: const Icon(
+                        Icons.location_on_outlined,
+                        size: 18,
+                        color: Colors.orangeAccent,
+                      ),
+                      text: job.city),
+                  TextWithIcon(
+                      icon: const Icon(
+                        Icons.people_alt_outlined,
+                        size: 18,
+                        color: Colors.orangeAccent,
+                      ),
+                      text: job.nationalities??'All'),
+                ],
+              ),
             ),
-          ),
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-            leading: AvatarNetwork(
-              imgUrl: companyLogo ?? '',
-              withBorder: true,
-            ),
-            title: Text(
-              companyName,
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14),
-            ),
-            subtitle: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              spacing: 4,
-              direction: Axis.horizontal,
-              children: [
-                TextWithIcon(
-                    icon: const Icon(
-                      Icons.timelapse_outlined,
-                      size: 18,
-                      color: Colors.orangeAccent,
-                    ),
-                    text: jobDeadLine),
-                TextWithIcon(
-                    icon: const Icon(
-                      Icons.location_on_outlined,
-                      size: 18,
-                      color: Colors.orangeAccent,
-                    ),
-                    text: jobLocation),
-                TextWithIcon(
-                    icon: const Icon(
-                      Icons.people_alt_outlined,
-                      size: 18,
-                      color: Colors.orangeAccent,
-                    ),
-                    text: jobNationality),
-              ],
-            ),
-          ),
-        ],
-      ),
+          ],
+        ),
+    
     );
   }
 
@@ -146,7 +151,7 @@ class JobCard extends StatelessWidget {
               horizontal: 4,
             ),
             child: Text(
-              jobTitle,
+              job.jobTitle,
               style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -155,11 +160,11 @@ class JobCard extends StatelessWidget {
           ),
           ListTile(
             leading: AvatarNetwork(
-              imgUrl: companyLogo ?? '',
+              imgUrl: job.company!.companyLogo ?? '',
               withBorder: true,
             ),
             title: Text(
-              companyName,
+              job.company!.nameEn??'',
               style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -177,14 +182,14 @@ class JobCard extends StatelessWidget {
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: jobDeadLine),
+                    text: '${job.deadlineDate.hour}h ago'),
                 TextWithIcon(
                     icon: const Icon(
                       Icons.location_on_outlined,
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: jobLocation),
+                    text: job.city),
 
               ],
             ),
@@ -218,7 +223,7 @@ class JobCard extends StatelessWidget {
               direction: Axis.horizontal,
               children: [
                 Text(
-                  jobTitle,
+                  job.jobTitle,
                   style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -236,12 +241,12 @@ class JobCard extends StatelessWidget {
           ),
           ListTile(
             leading: AvatarNetwork(
-              imgUrl: companyLogo ?? '',
+              imgUrl: job.company!.companyLogo ?? '',
               withBorder: true,
             ),
 
             title: Text(
-              companyName,
+              job.company!.nameEn,
               style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -258,21 +263,21 @@ class JobCard extends StatelessWidget {
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: jobDeadLine),
+                    text: '${job.deadlineDate.hour}h ago'),
                 TextWithIcon(
                     icon: const Icon(
                       Icons.date_range_outlined,
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: jobLocation),
+                    text: job.city),
                 TextWithIcon(
                     icon: const Icon(
                       Icons.people_alt_outlined,
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: jobNationality),
+                    text: job.nationalities??'All'),
               ],
             ),
           ),
@@ -305,7 +310,7 @@ class JobCard extends StatelessWidget {
               direction: Axis.horizontal,
               children: [
                 Text(
-                  jobTitle,
+                  job.jobTitle,
                   style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -323,11 +328,11 @@ class JobCard extends StatelessWidget {
           ),
           ListTile(
             leading: AvatarNetwork(
-              imgUrl: companyLogo ?? '',
+              imgUrl: job.company!.companyLogo ?? '',
               withBorder: true,
             ),
             title: Text(
-              companyName,
+              job.company!.nameEn,
               style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -345,14 +350,14 @@ class JobCard extends StatelessWidget {
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: jobDeadLine),
+                    text: '${job.deadlineDate.hour}h ago'),
                 TextWithIcon(
                     icon: const Icon(
                       Icons.date_range_outlined,
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: createdAt!),
+                    text: job.createdAt!),
               ],
             ),
           ),

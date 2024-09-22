@@ -4,6 +4,7 @@ import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/ui/company_profile_page.dart';
+import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/company_job_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/company_main_home_page.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
@@ -16,7 +17,7 @@ import 'company_tenders_page.dart';
 
 class HomeCompanyPage extends StatelessWidget {
   final Auth auth;
-   HomeCompanyPage({super.key, required this.auth});
+   const HomeCompanyPage({super.key, required this.auth});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class HomeCompanyPage extends StatelessWidget {
             selectedTab: state.selectedTab,
           ) : null,
           body: (state is TabNavChangedState)
-              ? _navPageBody(state.selectedTab)
+              ? _navPageBody(state.selectedTab,context)
               : SizedBox(),
           bottomNavigationBar: NavigationBar(
             destinations: navUserCompanyItem,
@@ -83,7 +84,7 @@ class HomeCompanyPage extends StatelessWidget {
                   selectedIndex: state.selectedTab),
               Expanded(
                 child: (state is TabNavChangedState)
-                    ? _navPageBody(state.selectedTab)
+                    ? _navPageBody(state.selectedTab,context)
                     : SizedBox(),
               )
             ],
@@ -93,10 +94,10 @@ class HomeCompanyPage extends StatelessWidget {
     );
   }
 
-  Widget _navPageBody(int selectedTab) {
+  Widget _navPageBody(int selectedTab,BuildContext context) {
     switch (selectedTab) {
       case 0:
-        return CompanyMainHomePage();
+        return CompanyMainHomePage(authId:  auth.userAuth!.id);
       case 1:
         return CompanyJobPage();
       case 2:

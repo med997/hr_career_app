@@ -4,8 +4,8 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 
 class ToggleBtnWidget extends StatelessWidget {
-
-  ToggleBtnWidget({super.key, this.options = const ['User', 'Company']});
+  final Axis directions;
+  ToggleBtnWidget({super.key, this.options = const ['User', 'Company'],  this.directions=Axis.horizontal});
 
   final List<String> options;
 
@@ -17,8 +17,9 @@ class ToggleBtnWidget extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: ToggleButtons(
-            constraints:  BoxConstraints.tightFor(height: 30),
+            constraints:  BoxConstraints.tightFor(height: 30,width:directions==Axis.vertical?350:null),
             fillColor: primaryColor,
+            direction:directions,
             selectedBorderColor: primaryColor,
             selectedColor: Colors.white,
             borderRadius: BorderRadius.circular(8.0),

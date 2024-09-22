@@ -11,11 +11,20 @@ import 'package:hr_career_platform/features/home/presentation/ui/company_tenders
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
 
+import '../../../../core/app_localizations.dart';
+import '../../../../core/util/enums.dart';
 import '../../../../core/widgets/sub-title.dart';
+import '../widgets/recent_jobs.dart';
 
-class CompanyMainHomePage extends StatelessWidget {
-  const CompanyMainHomePage({super.key});
+class CompanyMainHomePage extends StatefulWidget {
+  final String authId;
+  const CompanyMainHomePage({super.key, required this.authId});
 
+  @override
+  State<CompanyMainHomePage> createState() => _CompanyMainHomePageState();
+}
+
+class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
@@ -23,20 +32,26 @@ class CompanyMainHomePage extends StatelessWidget {
         if (state is HomeLoading) {
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
-          return Responsive(
-              mobile: _buildMobileLayout(state.homes.recentJobs,context),
-              tablet:
-                  _buildTabletDesktopLayout(state.homes.recentJobs, 2, context),
-              desktop: _buildTabletDesktopLayout(
-                  state.homes.recentJobs, 3, context));
+          return _buildMobileLayout(state.homes.recentJobs,context);
         }
         return const SizedBox();
       },
     );
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<HomeCubit>().getCompanyHome(widget.authId);
+
+  }
+
   Widget _buildMobileLayout(List<Job> job, BuildContext context) {
-    return Column(
+    return ListView(
+      padding: EdgeInsets.symmetric(horizontal: 12),
+
       children: [
         const SizedBox(
           height: 5,
@@ -60,15 +75,16 @@ class CompanyMainHomePage extends StatelessWidget {
                 icn: Icons.bookmark_added_outlined,
                 iconLabel: 'Add Tender',
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CompanyDetailsPage(job: job.first)));
+
                 })
           ],
         ),
-        const SizedBox(
-          height: 5,
+        SubTitle(
+          titleType: SubTitleType.textOnly,
+          title: AppLocalizations.of(context)!.translate("recent_job_msg"),
+          icon: Icon(Icons.edit_note),
         ),
-        SubTitle(title: 'Recent your added Jobs', titleType: SubTitleType.withShowMore)
+        const RecentJobsWidget(jobCardType: JobCardType.company,)
       ],
     );
   }

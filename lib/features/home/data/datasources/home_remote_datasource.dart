@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class HomeRemoteDataSource {
   Future<HomeModel> getHomeUser();
-  Future<List<JobModel>> getHomeCompany(String companyId);
+  Future<HomeModel> getHomeCompany(String companyId);
 }
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
@@ -15,23 +15,28 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   HomeRemoteDataSourceImpl({ required this.supBase});
   @override
-  Future<List<JobModel>> getHomeCompany(String companyId) async {
+  Future<HomeModel> getHomeCompany(String companyId) async {
     try {
-      final data = await supBase.from('jobs').select('''
-    *,
-    company (
-      *
-    )
-  ''').eq('company_id', companyId).order('created_at').limit(10);
-
-      final List<JobModel> jobList =
-      data.map((json) => JobModel.fromJson(json)).toList();
-      return jobList;
+      Map<String,dynamic> param={'cmp_id': companyId};
+      final data = await supBase.rpc('company_home',params: param);
+      print('getHomeCompany');
+      print(data.toString());  print(companyId);
+      final HomeModel homeList = HomeModel.fromJson(data);
+      return homeList;
     } on PostgrestException catch (error) {
+
       if (kDebugMode) {
-        print(error);
+        print('PostgrestException ==> ${error.message}');
       }
-      throw ServerException();
+
+      throw ServerException(message: error.message);
+    }catch(e){
+      if (kDebugMode) {
+        print('anyException ==> ${e}');
+      }
+
+      throw ServerException(message: 'something wrong  !!!');
+
     }
   }
 

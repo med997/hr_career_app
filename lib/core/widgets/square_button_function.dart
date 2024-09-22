@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 
-SizedBox squareButton(
+Widget squareButton(
     {required Color clr, required IconData icn, required String iconLabel, required Function() onTap}) {
-  return SizedBox(
-    height: 75,
-    width: 105,
+  return InkWell(
+    onTap:() =>  onTap(),
     child: Container(
+      height: 75,
+      width: 105,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
         color: clr,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(onPressed: onTap, icon: Icon(icn,color: Colors.white,),),
-          Text(iconLabel,style: TextStyle(color: Colors.white),)
+          Text(iconLabel,style: const TextStyle(color: Colors.white),)
         ],
       ),
     ),
