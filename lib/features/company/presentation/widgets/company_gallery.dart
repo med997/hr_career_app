@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/app_localizations.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/widgets/documents_widget.dart';
 import '../../../../core/widgets/sub-title.dart';
@@ -28,7 +29,7 @@ CompanyGallery(Company company) {
         titleType: SubTitleType.withShowMore,
       ),
       SizedBox(
-        height: 140, // Height for the image gallery
+        height: 140,
         child: ListView.builder(
           padding: const EdgeInsets.symmetric(
               horizontal: 16, vertical: 15),
@@ -88,7 +89,7 @@ CompanyGallery(Company company) {
         titleType: SubTitleType.withShowMore,
       ),
       SizedBox(
-        height: 140, // Height for the image gallery
+        height: 140,
         child: ListView.builder(
           padding: const EdgeInsets.symmetric(
               horizontal: 16, vertical: 15),
@@ -121,7 +122,7 @@ CompanyGallery(Company company) {
         ),
       ),
       SubTitle(
-        title: 'Documents',
+        title: tr("documents_msg"),
         titleType: SubTitleType.withShowMore,
       ),
       ListView.builder(
@@ -130,24 +131,7 @@ CompanyGallery(Company company) {
         itemCount: documents.length,
         itemBuilder: (context, index) {
           final document = documents[index];
-          return ListTile(
-            leading: Icon(
-              Icons.description_rounded,
-              color: primaryColor,
-              size: 40,
-            ),
-            title: Text(
-              document.fileName,
-              style: TextStyle(fontSize: 13),
-            ),
-            subtitle: Text(
-              document.size,
-              style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  color: primaryTransparent.withOpacity(0.3)),
-            ),
-          );
+          return Document(size: document.size, fileName:document.fileName);
         },
       ),
     ],

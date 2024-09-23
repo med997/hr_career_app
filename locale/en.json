@@ -17,5 +17,6 @@
   "profile_msg" : "Profile",
   "about_us_msg" : "About us",
   "search_msg" : "Search",
-  "save_msg" : "Save"
+  "save_msg" : "Save",
+  "documents_msg" : "Documents"
 }
