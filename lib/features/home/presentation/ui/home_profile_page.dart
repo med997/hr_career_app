@@ -287,9 +287,9 @@ class HomeProfilePage extends StatelessWidget {
                     const SizedBox(
                       height: 2,
                     ),
-                    const Text(
-                      'Description',
-                      style: TextStyle(color: Colors.grey),
+                     Text(
+                      tr("description_msg"),
+                      style: const TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
@@ -380,7 +380,7 @@ class HomeProfilePage extends StatelessWidget {
                   ),
                 ),
                 SubTitle(
-                  title: 'Experience',
+                  title: tr("experience_msg"),
                   titleType: SubTitleType.textOnly,
                 ),
                 ...state.profile.experience.map(
@@ -434,7 +434,7 @@ class HomeProfilePage extends StatelessWidget {
                   ],
                 ),
                 SubTitle(
-                  title: 'Education',
+                  title: tr("education_msg"),
                   titleType: SubTitleType.withShowMore,
                 ),
                 ...state.profile.education.map(
@@ -453,7 +453,7 @@ class HomeProfilePage extends StatelessWidget {
                       useResponsiveUi: true),
                 ),
                 SubTitle(
-                  title: 'Resume',
+                  title: tr("resume_msg"),
                   titleType: SubTitleType.textOnly,
                 ),
                 BlocProvider(

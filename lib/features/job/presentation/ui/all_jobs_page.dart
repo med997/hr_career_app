@@ -7,6 +7,7 @@ import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/job_details_page.dart';
 
+import '../../../../core/app_localizations.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
@@ -30,12 +31,12 @@ class AllJobsPage extends StatelessWidget {
             jobCardType == JobCardType.company ?JobCard(
                 jobCardType: JobCardType.company,
                 chipBgColor:primaryColor,
-                chipText: 'Active',
+                chipText: tr("active_msg"),
                job: job[i],)
                 :JobCard(
                 jobCardType: JobCardType.companyTender,
                 chipBgColor:Colors.orange,
-                chipText: 'Active',
+                chipText: tr("active_msg"),
                job: job[i],) ));
   }
 
@@ -54,7 +55,7 @@ class AllJobsPage extends StatelessWidget {
                   columnWidth: itemWidth,) : jobCardType == JobCardType.company ?JobCard(
                   jobCardType: JobCardType.company,
 
-                  chipText: 'Active',
+                  chipText: tr("active_msg"),
                   chipBgColor: primaryColor,
              job: job,
                   columnWidth: itemWidth,
@@ -62,7 +63,7 @@ class AllJobsPage extends StatelessWidget {
                 JobCard(
                   jobCardType: JobCardType.companyTender,
 
-                  chipText: 'Active',
+                  chipText: tr("active_msg"),
                   chipBgColor: Colors.orange,
                   job: job,
                   columnWidth: itemWidth,

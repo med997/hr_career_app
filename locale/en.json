@@ -17,5 +17,16 @@
   "profile_msg" : "Profile",
   "about_us_msg" : "About us",
   "search_msg" : "Search",
-  "save_msg" : "Save"
+  "save_msg" : "Save",
+  "active_msg" : "Active",
+  "appliance_msg" : "Appliance",
+  "appliance_of_job_msg" : "Appliances of job",
+  "export_excel_msg" : "Export Excel",
+  "description_msg" : "Description",
+  "requirement_msg" : "Requirements",
+  "how_to_apply_msg" : "How to apply?",
+  "experience_msg" : "Experience",
+  "education_msg" : "Education",
+  "resume_msg" : "Resume"
+
 }

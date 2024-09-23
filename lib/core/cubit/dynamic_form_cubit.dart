@@ -1,9 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
-import 'package:hr_career_platform/core/util/validator.dart';
-import 'package:meta/meta.dart';
 
 
 
@@ -23,44 +20,46 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
 
   void updateFieldValue(DynamicModel dynamicModel) {
     final currentFields = state.map((field) {
-      if (field.controlName == dynamicModel.controlName) {
-        if(field.controlName =='confirmPassword') {
+      if (field.key == dynamicModel.key) {
+        if(field.key =='confirmPassword') {
           dynamicModel.compareText=getCurrentValue()['password'];
         }
-        print('${dynamicModel.controlName} value: ${dynamicModel.value}');
+        print('${dynamicModel.key} value: ${dynamicModel.value}');
         return dynamicModel;
       }
       return field;
     }).toList();
     emit(currentFields);
   }
-  void setDisableFiled(bool disabled) {
-    final currentFields = state.map((field) {
-      field.disabled = disabled;
-      return field;
-    }).toList();
-    emit(currentFields);
-  }
-  void updateValueOnly(String key, String value) {
-    final currentFields = state.map((field) {
-      if (field.controlName == key) {
-        field.controller!.text = value;
-        field.value = value;
-        print('${field.controlName} ${field.value}');
-        return field;
-      }
-      return field;
-    }).toList();
-    emit(currentFields);
-  }
-
-
-
 
   Map<String, dynamic> getCurrentValue(){
     final formData = <String, dynamic>{};
     for (var field in state) {
-      formData[field.controlName] = field.value;
+      if(field.formType== FormType.date){
+        formData[field.controlName]= field.controller!.value.text;
+      }else if (field.formType== FormType.color){
+        formData[field.controlName]= field.controller!.value.text;
+      }else if(field.formType==FormType.subDynForm){
+        final Map<String,dynamic> data ={} ;
+        for (var e in field.subDynamicModel!) {
+          data[e.controlName]=e.controller!.value.text;
+        }
+        formData[field.controlName]= data;
+      }else if(field.formType==FormType.listSubDynForm){
+
+        final List<Map<String,dynamic>> dataList =[] ;
+        for (var element in field.listSubDynamicModel!) {
+          Map<String,dynamic> data ={} ;
+          for (var e in element) {
+            data[e.controlName]=e.controller!.value.text;
+          }
+          dataList.add(data);
+        }
+        formData[field.controlName]= dataList;
+      }
+      else {
+        formData[field.controlName] = field.value;
+      }
     }
     return formData;
   }
@@ -84,8 +83,7 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
 
   void removeField(DynamicModel dynamicModel) {
     final currentFields = state.where((field) =>
-    field.controlName != dynamicModel.controlName).toList();
-
+    field.key != dynamicModel.key).toList();
     emit(currentFields);
   }
 
@@ -98,5 +96,4 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     final currentFields =dynamicModel;
     emit(currentFields);
   }
-
 }

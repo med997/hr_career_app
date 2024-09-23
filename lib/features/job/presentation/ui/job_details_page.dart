@@ -66,7 +66,7 @@ class JobDetailsPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16)),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  ApplyNowPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  const ApplyNowPage()));
                   },
                   child: Text(
                     tr("apply_now_msg"),

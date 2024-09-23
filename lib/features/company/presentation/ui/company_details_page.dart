@@ -108,9 +108,9 @@ class CompanyDetailsPage extends StatelessWidget {
               style: const ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.blueAccent)),
               onPressed: () {},
-              child: const Text(
-                'Active',
-                style: TextStyle(
+              child: Text(
+                tr("active_msg"),
+                style: const TextStyle(
                   fontSize: 14,
                   color: Colors.white,
                 ),
@@ -123,7 +123,7 @@ class CompanyDetailsPage extends StatelessWidget {
                 icon: const Icon(Icons.visibility_off_outlined))),
         Center(
           child: ToggleBtnWidget(
-            options: [tr("main_information_msg"), 'Appliance '],
+            options: [tr("main_information_msg"), tr("appliance_msg")],
           ),
         ),
         Flexible(
@@ -308,7 +308,7 @@ class CompanyDetailsPage extends StatelessWidget {
                             squareButton(
                                 clr: Colors.green,
                                 icn: Icons.file_upload_outlined,
-                                iconLabel: 'Export Excel',
+                                iconLabel: tr("export_excel_msg"),
                                 onTap: () {}),
                           ],
                         ),
@@ -402,9 +402,9 @@ class CompanyDetailsPage extends StatelessWidget {
                         backgroundColor:
                             WidgetStatePropertyAll(Colors.blueAccent)),
                     onPressed: () {},
-                    child: const Text(
-                      'Active',
-                      style: TextStyle(
+                    child: Text(
+                      tr("active_msg"),
+                      style: const TextStyle(
                         fontSize: 14,
                         color: Colors.white,
                       ),
@@ -598,15 +598,13 @@ class CompanyDetailsPage extends StatelessWidget {
               horizontal: 16,
             ),
             children: [
-
               SubTitle(
-                title: 'Appliances of job',
+                title: tr("appliance_of_job_msg"),
                 titleType: SubTitleType.textOnly,
-
-
               ),
-              SizedBox(height: 20,),
-
+              SizedBox(
+                height: 20,
+              ),
               Wrap(
                 alignment: WrapAlignment.start,
                 direction: Axis.horizontal,
@@ -615,13 +613,14 @@ class CompanyDetailsPage extends StatelessWidget {
                   squareButton(
                       clr: Colors.green,
                       icn: Icons.file_upload_outlined,
-                      iconLabel: 'Export Excel',
+                      iconLabel: tr("export_excel_msg"),
                       onTap: () {}),
                 ],
               ),
-              SizedBox(height: 12,),
+              SizedBox(
+                height: 12,
+              ),
               RecentProfile(),
-
             ],
           ),
         )
