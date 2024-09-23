@@ -45,7 +45,9 @@ class SearchWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.all(spacer),
-          child: buildCustomDropDownMenu(  DynamicModel('category', FormType.dropdown, value: null,
+          child: buildCustomDropDownMenu(  DynamicModel('category',
+              key: 'category' ,
+              FormType.dropdown, value: null,
               items: [
                 ItemModel(key: '1', value: 'Mohammed'),
                 ItemModel(key: '2', value: 'Mohammed'),
@@ -63,7 +65,7 @@ class SearchWidget extends StatelessWidget {
              ItemModel(key: '2', value: 'Mohammed'),
              ItemModel(key: '3', value: 'Mohammed'),
              ItemModel(key: '4', value: 'Mohammed'),
-             ItemModel(key: '5', value: 'Mohammed'),]
+             ItemModel(key: '5', value: 'Mohammed'),], key: 'company'
            )
 
           ),
@@ -76,7 +78,7 @@ class SearchWidget extends StatelessWidget {
                 ItemModel(key: '2', value: 'Mohammed'),
                 ItemModel(key: '3', value: 'Mohammed'),
                 ItemModel(key: '4', value: 'Mohammed'),
-                ItemModel(key: '5', value: 'Mohammed'),]
+                ItemModel(key: '5', value: 'Mohammed'),], key: 'location'
           )
               ),
         ),
@@ -102,6 +104,7 @@ class SearchWidget extends StatelessWidget {
         BlocProvider(
       create: (context) => DynamicFormCubit()..addAllFields( [
         DynamicModel('Search',
+      key: 'Search' ,
       width: widthItem,
       FormType.text,
       icons: Icon(Icons.search,size: 16, color:primaryColor.withOpacity(0.8) ,),
@@ -120,7 +123,7 @@ class SearchWidget extends StatelessWidget {
         ItemModel(key: '2', value: 'Mohammed'),
         ItemModel(key: '3', value: 'Mohammed'),
         ItemModel(key: '4', value: 'Mohammed'),
-        ItemModel(key: '5', value: 'Mohammed'),]
+        ItemModel(key: '5', value: 'Mohammed'),], key: 'category'
         ),
         DynamicModel('category',
       width: widthItem,
@@ -131,7 +134,7 @@ class SearchWidget extends StatelessWidget {
         ItemModel(key: '2', value: 'Mohammed'),
         ItemModel(key: '3', value: 'Mohammed'),
         ItemModel(key: '4', value: 'Mohammed'),
-        ItemModel(key: '5', value: 'Mohammed'),]
+        ItemModel(key: '5', value: 'Mohammed'),], key: 'category'
         ),
         DynamicModel('category',
       width: widthItem,
@@ -142,7 +145,7 @@ class SearchWidget extends StatelessWidget {
         ItemModel(key: '2', value: 'Mohammed'),
         ItemModel(key: '3', value: 'Mohammed'),
         ItemModel(key: '4', value: 'Mohammed'),
-        ItemModel(key: '5', value: 'Mohammed'),]
+        ItemModel(key: '5', value: 'Mohammed'),], key: 'category'
         ),
       ]),
       child: DynamicFormWidget(dynamicFormsList:[]

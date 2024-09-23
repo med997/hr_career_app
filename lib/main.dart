@@ -66,6 +66,10 @@ void main() async {
       ),
 
       BlocProvider(
+        create: (context) => di.sl<DynamicFormCubit>(),
+      ),
+
+      BlocProvider(
         create: (context) => di.sl<StepperCubit>(),
       ),
       BlocProvider(

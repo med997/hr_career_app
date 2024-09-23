@@ -20,6 +20,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
             // initialValue: dynamicModel.value,
             style: const TextStyle(fontSize: 14),
             controller: dynamicModel.controller,
+
             obscureText: dynamicModel.formType == FormType.password,
             decoration: InputDecoration(
               border: dynamicModel.inputBorder,
@@ -84,7 +85,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
             },
             onChanged: (value) {
               dynamicModel.value = value;
-              context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
+               context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
             }),
         ),
         if(dynamicModel.action != null)  SizedBox(

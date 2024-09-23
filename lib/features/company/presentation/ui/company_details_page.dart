@@ -57,7 +57,7 @@ class CompanyDetailsPage extends StatelessWidget {
           value: job.jobTitle,
           isRequired: true,
           disabled: isEditing),
-      DynamicModel('deadlineDate', FormType.datePicker,
+      DynamicModel('deadlineDate', FormType.date,
           value: job.deadlineDate.toString(),
           width: width,
           isRequired: true,
@@ -367,7 +367,7 @@ class CompanyDetailsPage extends StatelessWidget {
           value: job.jobTitle,
           isRequired: true,
           disabled: isEditing),
-      DynamicModel('deadlineDate', FormType.datePicker,
+      DynamicModel('deadlineDate', FormType.date,
           value: '',
           width: width,
           isRequired: true,
@@ -504,7 +504,7 @@ class CompanyDetailsPage extends StatelessWidget {
                                 ],
                                 value: job.qualifications,
                                 width: width,
-                                value: '',
+
                                 items: state.generals.cities
                                     .map(
                                       (e) => ItemModel(key: e, value: e),

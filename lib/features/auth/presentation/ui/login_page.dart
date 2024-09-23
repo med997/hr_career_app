@@ -27,33 +27,33 @@ class LoginPage extends StatelessWidget {
   final loginFormKey = GlobalKey<FormState>();
 
   LoginPage({super.key});
+  List<DynamicModel> loginDynForm = [
+    DynamicModel('email', FormType.email,
+        controller:  TextEditingController(),
+        isRequired: true,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        disabled: false, key: 'email'),
+    DynamicModel('password', FormType.password,
+        controller:  TextEditingController(),
+        isRequired: true,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        disabled: false, key: 'password'),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    List<DynamicModel> loginDynForm = [
-      DynamicModel('email', FormType.email,
-          value: '',
-          isRequired: true,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          disabled: false),
-      DynamicModel('password', FormType.password,
-          value: '',
-          isRequired: true,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          disabled: false),
-    ];
-    return BlocProvider(
-      create: (context) => DynamicFormCubit()..addAllFields(loginDynForm),
-      child: Responsive(
-          mobile: _buildMobileLoginPage(context),
-          tablet: _desktopAndTabletLoginPage(context),
-          desktop: _desktopAndTabletLoginPage(context)),
-    );
+    // TODO: implement build
+    return Responsive(
+        mobile: _buildMobileLoginPage(context),
+        tablet: _desktopAndTabletLoginPage(context),
+        desktop: _desktopAndTabletLoginPage(context));
   }
+
+
 
   Widget _desktopAndTabletLoginPage(BuildContext context) {
     return Scaffold(
@@ -64,12 +64,6 @@ class LoginPage extends StatelessWidget {
                 image: AssetImage('assets/imgs/bglarg.png'),
                 fit: BoxFit.fitWidth, // Adjust fit as needed
               ),
-              /*color: primaryColor,
-          border: Border.all(
-            color: primaryColor,
-            width: 0.5,
-          ),
-          borderRadius: BorderRadius.circular(12)*/
             ),
             child: Flex(
                 direction: Axis.horizontal,
@@ -271,9 +265,9 @@ class LoginPage extends StatelessWidget {
             children: [
               Center(
                 child: DynamicFormWidget(
-                  key: Key('loginForm'),
+                  key: const Key('loginForm'),
                   formKey: loginFormKey,
-                  dynamicFormsList: [],
+                  dynamicFormsList: loginDynForm,
                   submitBtnLabel: 'login',
                   useResponsiveUi: false,
                 ),

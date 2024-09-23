@@ -15,6 +15,8 @@ class DynamicModel {
   List<ItemModel> items;
   ItemModel? selectedItem;
   bool isRequired;
+   Widget? subFormHeader;
+   Widget? subFormFooter;
   String? compareText;
   Icon? icons;
   bool disabled;
@@ -24,7 +26,7 @@ class DynamicModel {
   bool?  subIsResponsive;
   String? error;
   TextEditingController? controller;
-  double width;
+  double? width;
   double? hight;
   List<DynamicFormValidator>? validators;
   Widget? action;
@@ -34,13 +36,16 @@ class DynamicModel {
       { this.value,
       this.items = const [],
       this.disabled = false,
-      required this.key ,
+        this.key='' ,
       this.selectedItem,
        this.icons,
         this.error,
         this.controller,
+        this.action,
         this.compareText,
         this.subFormKey,
+        this.subFormHeader,
+        this.subFormFooter,
         this.listSubDynamicModel,
         this.subIsResponsive,
         this.subDynamicModel,

@@ -257,8 +257,13 @@ void _initAuth() {
 void _initCore() {
   sl..registerLazySingleton(
         () => ToggleBtnCubit(),
-  )..registerLazySingleton(() => LocaleCubit())..registerLazySingleton(() =>
-      DynamicFormCubit())..registerLazySingleton(() => LocationCubit());
+  )
+
+    ..registerLazySingleton(() => LocaleCubit())
+
+    ..registerLazySingleton(() => DynamicFormCubit())
+
+    ..registerLazySingleton(() => LocationCubit());
 }
 
 void _initProfile() {
