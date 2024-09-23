@@ -43,7 +43,7 @@ class SearchWidget extends StatelessWidget {
         ),
       ),
       children: [
-        Padding(
+       /* Padding(
           padding: EdgeInsets.all(spacer),
           child: buildCustomDropDownMenu(  DynamicModel('category',
               key: 'category' ,
@@ -81,7 +81,7 @@ class SearchWidget extends StatelessWidget {
                 ItemModel(key: '5', value: 'Mohammed'),], key: 'location'
           )
               ),
-        ),
+        ),*/
         Padding(
           padding: EdgeInsets.all(spacer),
           child: SizedBox(

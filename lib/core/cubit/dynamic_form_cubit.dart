@@ -37,26 +37,50 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     }).toList();
     emit(currentFields);
   }
-  void addMenuItems(String key,List<ItemModel> itemModels,String selectedItem) {
+  void addMenuItems(DynamicModel dynamicModel,List<ItemModel> itemModels,String selectedItem) {
+    print('addMenuItems');
     final currentFields = state.map((field) {
-      if(field.formType == FormType.subDynForm){
-        field.subDynamicModel!.map((e){
-          if (e.key == key) {
-            e.items= itemModels;
-            e.controller!.text= selectedItem;
-            return e;
-          }
-        });
-      }else{
-        if (field.key == key) {
-
-          field.items= itemModels;
+      if (field.key == dynamicModel.key) {
+        dynamicModel.items= itemModels;
+        // field.value = selectedItem;
           field.controller!.text= selectedItem;
-          print('${field.key} ${selectedItem}');
-          return field;
-        }
+        print('${field.key} ${selectedItem}');
+        return dynamicModel;
       }
-
+      return field;
+    }).toList();
+    emit(currentFields);
+  }
+  void addMenuItems2(String key,List<ItemModel> itemModels,String selectedItem) {
+    print('addMenuItems');
+    final currentFields = state.map((field) {
+      if (field.key ==  key) {
+        field.items= itemModels;
+        // field.value = selectedItem;
+        field.controller!.text= selectedItem;
+        print('${field.key} ${selectedItem}');
+        return field;
+      }
+      return field;
+    }).toList();
+    emit(currentFields);
+  }
+  void addSubFormMenuItems(String key,String subKey,List<ItemModel> itemModels) {
+    final currentFields = state.map((field) {
+        if (field.key == key) {
+          if(field.formType == FormType.subDynForm){
+           field.subDynamicModel= field.subDynamicModel!.map((e){
+              if (e.key == subKey) {
+                e.items= itemModels;
+                 // e.controller!.text= selectedItem;
+                return e;
+              }
+              return e;
+            }).toList();
+           return field;
+          }
+          return field;
+      }
       return field;
     }).toList();
     emit(currentFields);
@@ -100,7 +124,7 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
         formData[field.controlName]= dataList;
       }
       else {
-        formData[field.controlName] = field.value;
+        formData[field.controlName] = field.controller!.value.text;
       }
     }
     return formData;

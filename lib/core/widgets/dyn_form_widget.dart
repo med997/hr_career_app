@@ -91,7 +91,7 @@ class _DynamicFormWidgetState extends State<DynamicFormWidget> {
             width: dynModel.width, child: getTextWidget(dynModel, context));
       case FormType.dropdown:
         return SizedBox(
-            width: dynModel.width, child: buildCustomDropDownMenu(dynModel));
+            width: dynModel.width, child: buildCustomDropDownMenu(context, dynModel));
 
       case FormType.autoComplete:
         return SizedBox();

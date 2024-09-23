@@ -1,20 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 
-Widget buildCustomDropDownMenu(
+import '../cubit/dynamic_form_cubit.dart';
+
+Widget buildCustomDropDownMenu( BuildContext context,
   DynamicModel dynModel,
 ) {
-  List<DropdownMenuEntry> dropdownItem = dynModel.items
-      .map(
-        (e) => DropdownMenuEntry(value: e.key, label: e.value),
-      )
-      .toList();
+  print('buildCustomDropDownMenu');
   return Padding(
     padding: EdgeInsets.only(bottom: 28.0),
     child: DropdownMenu(
-      // initialSelection: dynModel.value,
-
+      key: Key(dynModel.key),
+       // initialSelection: dynModel.value,
+      controller: dynModel.controller,
       enabled: !dynModel.disabled,
       width: dynModel.width ,
       expandedInsets: EdgeInsets.zero,
@@ -23,11 +23,14 @@ Widget buildCustomDropDownMenu(
         child: const Icon(Icons.keyboard_arrow_down),
       ),
       label: Text(dynModel.controlName),
-      dropdownMenuEntries: dropdownItem,
-      controller: dynModel.controller,
+      dropdownMenuEntries:  dynModel.items
+          .map(
+            (e) => DropdownMenuEntry(value: e.key, label: e.value),
+      ).toList(),
+
       onSelected: (value) {
-        dynModel.value = value;
-        print(dynModel.value);
+       dynModel.controller!.text = value!;
+        context.read<DynamicFormCubit>().updateFieldValue(dynModel);
       },
     ),
   );

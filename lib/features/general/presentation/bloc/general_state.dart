@@ -18,6 +18,7 @@ final class GeneralLoading extends GeneralState {
 final class GeneralFetchedState extends GeneralState {
   final General generals;
   const GeneralFetchedState({required this.generals});
+
 }
 
 final class GeneralErrorState extends GeneralState {

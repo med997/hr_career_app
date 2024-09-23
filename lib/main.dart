@@ -76,7 +76,7 @@ void main() async {
         create: (context) => di.sl<PackageCubit>(),
       ),
       BlocProvider(
-        create: (context) => di.sl<GeneralCubit>()..getGeneral(),
+        create: (context) => di.sl<GeneralCubit>() ,
       ),
       BlocProvider(
         create: (context) => di.sl<LocationCubit>(),
