@@ -29,4 +29,6 @@
   "education_msg" : "Education",
   "resume_msg" : "Resume"
 
+  "save_msg" : "Save",
+  "documents_msg" : "Documents"
 }

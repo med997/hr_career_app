@@ -8,6 +8,7 @@ import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
+import 'package:hr_career_platform/features/company/presentation/widgets/company_gallery.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 import '../../../../core/model/dynamic_model.dart';
 import '../../../../core/util/enums.dart';
@@ -16,6 +17,7 @@ import '../../../../core/util/validator.dart';
 import '../../../../core/widgets/dyn_form_widget.dart';
 import '../../../../core/widgets/sub-title.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';
+import '../bloc/curd_company_cubit.dart';
 import '../widgets/company_appbar.dart';
 
 class CompanyProfilePage extends StatelessWidget {
@@ -207,7 +209,15 @@ class CompanyProfilePage extends StatelessWidget {
                               height: 40,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16)),
-                              onPressed: () {},
+                              onPressed: () async {
+                                var updateValue = context
+                                    .read<DynamicFormCubit>()
+                                    .getCurrentValue();
+                                await context
+                                    .read<CurdCompanyCubit>()
+                                    .updateCompany(updateValue);
+                                print(updateValue.toString());
+                              },
                               child: const Icon(
                                 Icons.save_outlined,
                                 color: Colors.white,
@@ -221,13 +231,14 @@ class CompanyProfilePage extends StatelessWidget {
               );
             case 1:
               return ListView(
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
                 children: [
                   Center(
                     child: ToggleBtnWidget(
                       options:  [tr("main_information_msg"), tr("gallery_msg")],
                     ),
                   ),
+                  CompanyGallery(company)
                 ],
               );
             default:
@@ -251,7 +262,6 @@ class CompanyProfilePage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 42,vertical: 4),
@@ -310,7 +320,15 @@ class CompanyProfilePage extends StatelessWidget {
                               height: 40,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16)),
-                              onPressed: () {},
+                              onPressed: () async {
+                                var updateValue = context
+                                    .read<DynamicFormCubit>()
+                                    .getCurrentValue();
+                                await context
+                                    .read<CurdCompanyCubit>()
+                                    .updateCompany(updateValue);
+                                print(updateValue.toString());
+                              },
                               child: const Icon(
                                 Icons.save_outlined,
                                 color: Colors.white,
@@ -331,6 +349,7 @@ class CompanyProfilePage extends StatelessWidget {
                       options:  [tr("main_information_msg"), tr("gallery_msg")],
                     ),
                   ),
+                  CompanyGallery(company)
                 ],
               );
             default:

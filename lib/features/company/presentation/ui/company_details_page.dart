@@ -49,7 +49,7 @@ class CompanyDetailsPage extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     List<DynamicModel> reviewJobForm = [];
     reviewJobForm.addAll([
-      DynamicModel('Job Title', FormType.text,
+      DynamicModel('jobTitle', FormType.text,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
@@ -57,23 +57,15 @@ class CompanyDetailsPage extends StatelessWidget {
           value: job.jobTitle,
           isRequired: true,
           disabled: isEditing),
-      DynamicModel('Deadline', FormType.datePicker,
-          value: '',
+      DynamicModel('deadlineDate', FormType.datePicker,
+          value: job.deadlineDate.toString(),
           width: width,
           isRequired: true,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           disabled: isEditing),
-      DynamicModel('Time parts', FormType.dropdown,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          width: width,
-          value: job.timeParts,
-          isRequired: true,
-          disabled: isEditing),
-      DynamicModel('Other apply links', FormType.text,
+      DynamicModel('otherApplyLinks', FormType.text,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
@@ -81,7 +73,7 @@ class CompanyDetailsPage extends StatelessWidget {
           width: width,
           isRequired: true,
           disabled: isEditing),
-      DynamicModel('Job Description', FormType.multiline,
+      DynamicModel('jobDesc', FormType.multiline,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
@@ -89,7 +81,7 @@ class CompanyDetailsPage extends StatelessWidget {
           width: width,
           isRequired: true,
           disabled: isEditing),
-      DynamicModel('Job requirement', FormType.multiline,
+      DynamicModel('jobRequirements', FormType.multiline,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
@@ -142,13 +134,12 @@ class CompanyDetailsPage extends StatelessWidget {
                         } else if (state is GeneralFetchedState) {
                           reviewJobForm.addAll([
                             DynamicModel(
-                              'Address',
-                              FormType.text,
+                              'address',
                               width: width,
+                              FormType.text,
                               controller: TextEditingController(),
                               validators: [
-                                DynamicFormValidator(
-                                    ValidatorType.notEmpty, 'isRequired')
+                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                               ],
                               value: context
                                   .read<DynamicFormCubit>()
@@ -162,11 +153,9 @@ class CompanyDetailsPage extends StatelessWidget {
                                       builder: (context) => LocationWidget(),
                                     ))
                                         .then(
-                                      (value) {
-                                        context
-                                            .read<DynamicFormCubit>()
-                                            .updateValueOnly(
-                                                'Address', value[0].toString());
+                                          (value) {
+                                        context.read<DynamicFormCubit>().updateValueOnly(
+                                            'address', value[0].toString());
                                         print(value[0]);
                                         print(value[1]);
                                       },
@@ -179,7 +168,7 @@ class CompanyDetailsPage extends StatelessWidget {
                                   child: const Icon(Icons.location_on_outlined,
                                       color: Colors.white)),
                             ),
-                            DynamicModel('Office Type', FormType.dropdown,
+                            DynamicModel('office', FormType.dropdown,
                                 validators: [
                                   DynamicFormValidator(
                                       ValidatorType.notEmpty, 'isRequired')
@@ -189,11 +178,25 @@ class CompanyDetailsPage extends StatelessWidget {
                                 items: state.generals.officeType
                                     .map(
                                       (e) => ItemModel(key: e, value: e),
-                                    )
+                                )
                                     .toList(),
                                 isRequired: true,
                                 disabled: isEditing),
-                            DynamicModel('Qualifications', FormType.dropdown,
+                            DynamicModel('city', FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                value: '',
+                                items: state.generals.cities
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('qualifications', FormType.dropdown,
                                 validators: [
                                   DynamicFormValidator(
                                       ValidatorType.notEmpty, 'isRequired')
@@ -207,40 +210,62 @@ class CompanyDetailsPage extends StatelessWidget {
                                     .toList(),
                                 isRequired: true,
                                 disabled: isEditing),
-                            DynamicModel(
-                              'Nationality',
-                              FormType.dropdown,
-                              validators: [
-                                DynamicFormValidator(
-                                    ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              value: job.nationalities,
-                              width: width,
-                              items: state.generals.nationality
-                                  .map(
-                                    (e) => ItemModel(key: e, value: e),
-                                  )
-                                  .toList(),
-                              isRequired: true,
-                              disabled: isEditing,
-                            ),
-                            DynamicModel(
-                              'Gender',
-                              FormType.dropdown,
-                              validators: [
-                                DynamicFormValidator(
-                                    ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              value: job.gender,
-                              width: width,
-                              items: state.generals.gender
-                                  .map(
-                                    (e) => ItemModel(key: e, value: e),
-                                  )
-                                  .toList(),
-                              isRequired: true,
-                              disabled: isEditing,
-                            ),
+                            DynamicModel('nationalities', FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                value: '',
+                                items: state.generals.nationality
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('gender', FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                value: '',
+                                items: state.generals.gender
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('category', FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                value: '',
+                                items: state.generals.jobCategory
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('timeParts', FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                value: '',
+                                items: state.generals.timeParts
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing),
                           ]);
                           context
                               .read<DynamicFormCubit>()
@@ -312,10 +337,10 @@ class CompanyDetailsPage extends StatelessWidget {
                                 onTap: () {}),
                           ],
                         ),
-                        RecentProfile(),
-                        RecentProfile(),
-                        RecentProfile(),
-                        RecentProfile()
+                        const RecentProfile(),
+                        const RecentProfile(),
+                        const RecentProfile(),
+                        const RecentProfile()
                       ],
                     );
                   default:
@@ -334,7 +359,7 @@ class CompanyDetailsPage extends StatelessWidget {
     double width = 400 /*MediaQuery.of(context).size.width*/;
     List<DynamicModel> reviewJobForm = [];
     reviewJobForm.addAll([
-      DynamicModel('Job Title', FormType.text,
+      DynamicModel('jobTitle', FormType.text,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
@@ -342,23 +367,15 @@ class CompanyDetailsPage extends StatelessWidget {
           value: job.jobTitle,
           isRequired: true,
           disabled: isEditing),
-      DynamicModel('Deadline', FormType.datePicker,
-          value: job.deadlineDate.toString(),
+      DynamicModel('deadlineDate', FormType.datePicker,
+          value: '',
           width: width,
           isRequired: true,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           disabled: isEditing),
-      DynamicModel('Time parts', FormType.dropdown,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          width: width,
-          value: job.timeParts,
-          isRequired: true,
-          disabled: isEditing),
-      DynamicModel('Other apply links', FormType.text,
+      DynamicModel('otherApplyLinks', FormType.text,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
@@ -366,7 +383,7 @@ class CompanyDetailsPage extends StatelessWidget {
           width: width,
           isRequired: true,
           disabled: isEditing),
-      DynamicModel('Job Description', FormType.multiline,
+      DynamicModel('jobDesc', FormType.multiline,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
@@ -374,7 +391,7 @@ class CompanyDetailsPage extends StatelessWidget {
           width: width,
           isRequired: true,
           disabled: isEditing),
-      DynamicModel('Job requirement', FormType.multiline,
+      DynamicModel('jobRequirements', FormType.multiline,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
@@ -435,18 +452,14 @@ class CompanyDetailsPage extends StatelessWidget {
                         } else if (state is GeneralFetchedState) {
                           reviewJobForm.addAll([
                             DynamicModel(
-                              'Address',
-                              FormType.text,
+                              'address',
                               width: width,
+                              FormType.text,
                               controller: TextEditingController(),
                               validators: [
                                 DynamicFormValidator(
                                     ValidatorType.notEmpty, 'isRequired')
                               ],
-                              value: context
-                                  .read<DynamicFormCubit>()
-                                  .getCurrentValue()['Address'],
-                              isRequired: true,
                               disabled: isEditing,
                               action: ElevatedButton(
                                   onPressed: () async {
@@ -455,11 +468,9 @@ class CompanyDetailsPage extends StatelessWidget {
                                       builder: (context) => LocationWidget(),
                                     ))
                                         .then(
-                                      (value) {
-                                        context
-                                            .read<DynamicFormCubit>()
-                                            .updateValueOnly(
-                                                'Address', value[0].toString());
+                                          (value) {
+                                        context.read<DynamicFormCubit>().updateValueOnly(
+                                            'address', value[0].toString());
                                         print(value[0]);
                                         print(value[1]);
                                       },
@@ -472,7 +483,7 @@ class CompanyDetailsPage extends StatelessWidget {
                                   child: const Icon(Icons.location_on_outlined,
                                       color: Colors.white)),
                             ),
-                            DynamicModel('Office Type', FormType.dropdown,
+                            DynamicModel('office', FormType.dropdown,
                                 validators: [
                                   DynamicFormValidator(
                                       ValidatorType.notEmpty, 'isRequired')
@@ -486,13 +497,28 @@ class CompanyDetailsPage extends StatelessWidget {
                                     .toList(),
                                 isRequired: true,
                                 disabled: isEditing),
-                            DynamicModel('Qualifications', FormType.dropdown,
+                            DynamicModel('city', FormType.dropdown,
                                 validators: [
                                   DynamicFormValidator(
                                       ValidatorType.notEmpty, 'isRequired')
                                 ],
                                 value: job.qualifications,
                                 width: width,
+                                value: '',
+                                items: state.generals.cities
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('qualifications', FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                value: '',
                                 items: state.generals.qualifications
                                     .map(
                                       (e) => ItemModel(key: e, value: e),
@@ -500,40 +526,62 @@ class CompanyDetailsPage extends StatelessWidget {
                                     .toList(),
                                 isRequired: true,
                                 disabled: isEditing),
-                            DynamicModel(
-                              'Nationality',
-                              FormType.dropdown,
-                              validators: [
-                                DynamicFormValidator(
-                                    ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              value: job.nationalities,
-                              width: width,
-                              items: state.generals.nationality
-                                  .map(
-                                    (e) => ItemModel(key: e, value: e),
-                                  )
-                                  .toList(),
-                              isRequired: true,
-                              disabled: isEditing,
-                            ),
-                            DynamicModel(
-                              'Gender',
-                              FormType.dropdown,
-                              validators: [
-                                DynamicFormValidator(
-                                    ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              value: job.gender,
-                              width: width,
-                              items: state.generals.gender
-                                  .map(
-                                    (e) => ItemModel(key: e, value: e),
-                                  )
-                                  .toList(),
-                              isRequired: true,
-                              disabled: isEditing,
-                            ),
+                            DynamicModel('nationalities', FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                value: '',
+                                items: state.generals.nationality
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('gender', FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                value: '',
+                                items: state.generals.gender
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('category', FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                value: '',
+                                items: state.generals.jobCategory
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('timeParts', FormType.dropdown,
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                value: '',
+                                items: state.generals.timeParts
+                                    .map(
+                                      (e) => ItemModel(key: e, value: e),
+                                )
+                                    .toList(),
+                                isRequired: true,
+                                disabled: isEditing),
                           ]);
                           context
                               .read<DynamicFormCubit>()
@@ -561,7 +609,7 @@ class CompanyDetailsPage extends StatelessWidget {
                               DynamicFormWidget(
                                 dynamicFormsList: [],
                                 formKey: reviewProfileFormKey,
-                                useResponsiveUi: false,
+                                useResponsiveUi: isEditing,
                               ),
                               Flex(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -594,17 +642,19 @@ class CompanyDetailsPage extends StatelessWidget {
         ),
         Expanded(
           child: ListView(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 16,
             ),
             children: [
+
               SubTitle(
                 title: tr("appliance_of_job_msg"),
                 titleType: SubTitleType.textOnly,
+
+
               ),
-              SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20,),
+
               Wrap(
                 alignment: WrapAlignment.start,
                 direction: Axis.horizontal,
@@ -617,10 +667,9 @@ class CompanyDetailsPage extends StatelessWidget {
                       onTap: () {}),
                 ],
               ),
-              SizedBox(
-                height: 12,
-              ),
-              RecentProfile(),
+              const SizedBox(height: 12,),
+              const RecentProfile(),
+
             ],
           ),
         )
