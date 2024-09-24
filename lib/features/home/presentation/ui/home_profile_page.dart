@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,17 +11,14 @@ import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
-import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
 import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
-import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
-import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
-import 'package:hr_career_platform/injection_container.dart' as di;
 
 import '../../../../core/util/responsive.dart';
 import '../../../profile/presentation/widgets/education_widget.dart';
 import '../../../profile/presentation/widgets/experience_widget.dart';
+import '../../../profile/presentation/widgets/header_profile.dart';
 
 class HomeProfilePage extends StatefulWidget {
   final Auth auth;
@@ -166,24 +162,14 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
     var isEditing = false;
     double width = MediaQuery.of(context).size.width;
     print('build');
-    /*  List<DynamicModel>  = [
-      ...profileInf(context, width),
-
-
-    ];*/
-    List<DynamicModel> dynFinalForm=[];
-    return BlocConsumer<ProfileCubit, ProfileState>(
-        listener: (context, state) {
-
-        if(state is ProfileFetchedState){
-          context.read<GeneralCubit>().getGeneral();
-        }
+    List<DynamicModel> dynFinalForm = [];
+    return BlocConsumer<ProfileCubit, ProfileState>(listener: (context, state) {
+      if (state is ProfileFetchedState) {
+        context.read<GeneralCubit>().getGeneral();
+      }
     }, builder: (context, state) {
       BlocListener<GeneralCubit, GeneralState>(
-        listener: (context, gnState) {
-      
-
-        },
+        listener: (context, gnState) {},
       );
       if (state is ProfileLoading) {
         return LoadingWidget();
@@ -305,7 +291,8 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () {
-                     final value=   context.read<DynamicFormCubit>().getCurrentValue();
+                        final value =
+                            context.read<DynamicFormCubit>().getCurrentValue();
                         print(value);
                       },
                       child: Wrap(
@@ -361,89 +348,8 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           shrinkWrap: true,
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AvatarNetwork(
-                    imgUrl: state.profile.avatarUrl ?? '', withBorder: false),
-                const SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  state.profile.fullName ?? '',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  tr("description_msg"),
-                  style: const TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-            Container(
-              height: 60,
-              margin: EdgeInsets.symmetric(
-                  vertical: 12,
-                  horizontal: Responsive.isMobile(context) ? 32 : 65),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.white),
-              child: const Flex(
-                direction: Axis.horizontal,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '27',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text('applied')
-                      ],
-                    ),
-                  ),
-                  VerticalDivider(),
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '19',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text('viewed')
-                      ],
-                    ),
-                  ),
-                  VerticalDivider(),
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '14',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text('interview')
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            const HeaderProfileWidget(
+              withBox: true,
             ),
             SubTitle(
               title: tr("main_information_msg"),
@@ -458,43 +364,42 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                     color: primaryColor,
                   )),
             ),
-            BlocBuilder<GeneralCubit, GeneralState>(
-  builder: (context, gnState) {
-    if (gnState is GeneralFetchedState) {
-      print('GeneralFetchedState');
-      List<ItemModel> nationalityItems = gnState
-          .generals.nationality
-          .map((e) => ItemModel(key: e, value: e))
-          .toList();
-      List<ItemModel> qualificationsItems = gnState
-          .generals.qualifications
-          .map((e) => ItemModel(key: e, value: e))
-          .toList();
-      List<ItemModel> genderItems = gnState.generals.gender
-          .map((e) => ItemModel(key: e, value: e))
-          .toList();
-      context.read<DynamicFormCubit>().addMenuItems(
-          dynFinalForm
-              .where((element) => element.key == 'nationality')
-              .first,
-          nationalityItems,state.profile.nationality!
-      );
-      context.read<DynamicFormCubit>().addSubFormMenuItems('education','qualifications', qualificationsItems);
-      // context.read<DynamicFormCubit>().addSubFormMenuItems('education','qualifications', qualificationsItems);
-      context.read<DynamicFormCubit>().addMenuItems2('gender', genderItems, state.profile.gender!);
-      // context.read<DynamicFormCubit>().addMenuItems2('qualifications', genderItems, state.profile.gender!);
-
-    }
-    return DynamicFormWidget(
-              key: const Key('profileInf'),
-              dynamicFormsList: dynFinalForm,
-              formKey: mainInfoFormKey,
-              useResponsiveUi: true,
-
-            );
-  },
-),
-
+            BlocBuilder<GeneralCubit, GeneralState> (
+              builder: (context, gnState) {
+                if (gnState is GeneralFetchedState) {
+                  print('GeneralFetchedState');
+                  List<ItemModel> nationalityItems = gnState
+                      .generals.nationality
+                      .map((e) => ItemModel(key: e, value: e))
+                      .toList();
+                  List<ItemModel> qualificationsItems = gnState
+                      .generals.qualifications
+                      .map((e) => ItemModel(key: e, value: e))
+                      .toList();
+                  List<ItemModel> genderItems = gnState.generals.gender
+                      .map((e) => ItemModel(key: e, value: e))
+                      .toList();
+                  context.read<DynamicFormCubit>().addMenuItems(
+                      dynFinalForm
+                          .where((element) => element.key == 'nationality')
+                          .first,
+                      nationalityItems,
+                      state.profile.nationality!);
+                  context.read<DynamicFormCubit>().addSubFormMenuItems(
+                      'education', 'qualifications', qualificationsItems);
+                  // context.read<DynamicFormCubit>().addSubFormMenuItems('education','qualifications', qualificationsItems);
+                  context.read<DynamicFormCubit>().addMenuItems2(
+                      'gender', genderItems, state.profile.gender!);
+                  // context.read<DynamicFormCubit>().addMenuItems2('qualifications', genderItems, state.profile.gender!);
+                }
+                return DynamicFormWidget(
+                  key: const Key('profileInf'),
+                  dynamicFormsList: dynFinalForm,
+                  formKey: mainInfoFormKey,
+                  useResponsiveUi: true,
+                );
+              },
+            ),
           ],
         );
       } else {

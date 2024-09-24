@@ -17,141 +17,167 @@ import '../../../../core/util/validator.dart';
 import '../../../../core/widgets/dyn_form_widget.dart';
 import '../../../../core/widgets/sub-title.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';
+import '../../../auth/domain/entities/auth.dart';
+import '../../../general/presentation/bloc/general_cubit.dart';
 import '../bloc/curd_company_cubit.dart';
 import '../widgets/company_appbar.dart';
 
-class CompanyProfilePage extends StatelessWidget {
+class CompanyProfilePage extends StatefulWidget {
+  final Auth auth;
+
   CompanyProfilePage({
     super.key,
+    required this.auth,
   });
+
+  @override
+  State<CompanyProfilePage> createState() => _CompanyProfilePageState();
+}
+
+class _CompanyProfilePageState extends State<CompanyProfilePage> {
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<CompanyProfileCubit>()
+        .getCompanyByUuid(widget.auth.userAuth!.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isEditing = true;
     double width = MediaQuery.of(context).size.width;
-    return BlocBuilder<CompanyProfileCubit, CompanyProfileState>(
-  builder: (context, state) {
-    if(state is CompanyLoading) {
-      return LoadingWidget();
-    }
-    else if(state is CompanyFetchedState) {
-      List<DynamicModel> companyProfile=
-         [
+    return BlocConsumer<CompanyProfileCubit, CompanyProfileState>(
+        listener: (context, state) {
+      if (state is CompanyFetchedState) {
+        context.read<GeneralCubit>().getGeneral();
+      }
+    }, builder: (context, state) {
+      BlocListener<GeneralCubit, GeneralState>(listener: (context, gnState) {});
+      if (state is CompanyLoading) {
+        return LoadingWidget();
+      } else if (state is CompanyFetchedState) {
+        List<DynamicModel> companyProfile = [
           DynamicModel(
               width: Responsive.isMobile(context) ? width : 300,
               'nameAr',
+              key: 'nameAr',
+              controller: TextEditingController(text: state.company.nameAr),
               FormType.text,
-              value: '${state.company.nameAr}',
               disabled: isEditing,
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('nameEn', FormType.text,
-              value: state.company.nameEn,
+              key: 'nameEr',
+              controller: TextEditingController(text: state.company.nameEn),
               width: Responsive.isMobile(context) ? width : 300,
               disabled: isEditing,
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('headOffice', FormType.text,
-              value: state.company.headOffice,
+              key: 'headOffice',
               width: Responsive.isMobile(context) ? width : 300,
+              controller: TextEditingController(text: state.company.headOffice),
               disabled: isEditing,
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('major', FormType.text,
-              value: state.company.major,
+              key: 'major',
+              controller: TextEditingController(text: state.company.major),
               width: Responsive.isMobile(context) ? width : 300,
               disabled: isEditing,
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('nationality', FormType.dropdown,
-              value: state.company.nationality,
+              key: 'nationality',
               width: Responsive.isMobile(context) ? width : 300,
               disabled: isEditing,
-              items: [
-                ItemModel(key: state.company.nationality   ?? '', value: state.company.nationality ?? ''),
-                ItemModel(key: 'Soudis', value: 'Soudis'),
-                ItemModel(key: 'egyptian', value: 'egyptian'),
-              ],
+              items: [],
+              controller: TextEditingController(),
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('size', FormType.dropdown,
-              value: '',
+              key: 'size',
               width: Responsive.isMobile(context) ? width : 300,
               disabled: isEditing,
-              items: [
-                ItemModel(key: '', value: '0-10'),
-                ItemModel(key: '', value: '10-20'),
-              ],
+              controller: TextEditingController(text: ''),
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('phone', FormType.phone,
-              value: state.company.phone,
+              key: 'phone',
               width: Responsive.isMobile(context) ? width : 300,
               disabled: isEditing,
+              controller: TextEditingController(text: state.company.phone),
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('createdAt', FormType.text,
-              value: state.company.createdAt,
+              key: 'createdAt',
               width: Responsive.isMobile(context) ? width : 300,
               disabled: isEditing,
+              controller: TextEditingController(text: state.company.createdAt),
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('email', FormType.email,
-              value: state.company.email,
+              key: 'email',
               width: Responsive.isMobile(context) ? width : 300,
               disabled: isEditing,
+              controller: TextEditingController(text: state.company.email),
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('website', FormType.text,
-              value: state.company.website,
+              key: 'website',
               width: Responsive.isMobile(context) ? width : 300,
               disabled: isEditing,
+              controller: TextEditingController(text: state.company.website),
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('address', FormType.text,
-              value: state.company.address,
+              key: 'address',
               width: Responsive.isMobile(context) ? width : 300,
               disabled: isEditing,
+              controller: TextEditingController(text: state.company.address),
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
           DynamicModel('aboutUs', FormType.text,
-              value: state.company.aboutUs,
+              key: 'aboutUs',
+              controller: TextEditingController(text: state.company.aboutUs),
               width: Responsive.isMobile(context) ? width : 300,
               disabled: isEditing,
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
         ];
-
-      return   Responsive(mobile: _buildMobileWidget(context,companyProfile,isEditing,state.company),
-            tablet: _buildDesktopWidget(context,companyProfile,isEditing,state.company),
-          desktop: _buildDesktopWidget(context,companyProfile,isEditing,state.company), )
-        ;
-    } else return SizedBox();
-
-  },
-);
+        return Responsive(
+          mobile: _buildMobileWidget(
+              context, companyProfile, isEditing, state.company),
+          tablet: _buildDesktopWidget(
+              context, companyProfile, isEditing, state.company),
+          desktop: _buildDesktopWidget(
+              context, companyProfile, isEditing, state.company),
+        );
+      } else
+        return SizedBox();
+    });
   }
 
-  _buildMobileWidget(BuildContext context, List<DynamicModel> companyProfile, bool isEditing, Company company) {
+  _buildMobileWidget(BuildContext context, List<DynamicModel> companyProfile,
+      bool isEditing, Company company) {
     return Scaffold(
-        appBar:  jobsAppBarFunction(
-        company: company),
-    body: BlocProvider(
-      create: (context) => DynamicFormCubit()
-        ..addAllFields(companyProfile),
-      child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+      appBar: jobsAppBarFunction(company: company),
+      body: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
         builder: (context, state) {
           switch (state.selectedTab) {
             case 0:
@@ -163,7 +189,10 @@ class CompanyProfilePage extends StatelessWidget {
                   children: [
                     Center(
                       child: ToggleBtnWidget(
-                        options:  [tr("main_information_msg"),tr("gallery_msg")],
+                        options: [
+                          tr("main_information_msg"),
+                          tr("gallery_msg"),
+                        ],
                       ),
                     ),
                     SubTitle(
@@ -182,21 +211,30 @@ class CompanyProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                        builder: (context, state) {
-                          if (state.selectedTab == 0) {
-                            context.read<ToggleBtnCubit>().changeTab(0);
-
-                            return DynamicFormWidget(
-                              // key: const Key('companyProfile'),
-                              dynamicFormsList: companyProfile ,
-                              formKey: _formKey,
-                              useResponsiveUi: true,
-                            );
-                          } else
-                            context.read<ToggleBtnCubit>().changeTab(1);
-                          return SizedBox();
-                        }),
+                    BlocBuilder<GeneralCubit, GeneralState>(
+                      builder: (context, gnState) {
+                        if (gnState is GeneralFetchedState) {
+                          print('GeneralFetchedState');
+                          List<ItemModel> nationalityItems = gnState
+                              .generals.nationality
+                              .map((e) => ItemModel(key: e, value: e))
+                              .toList();
+                          context.read<DynamicFormCubit>().addMenuItems(
+                              companyProfile
+                                  .where(
+                                      (element) => element.key == 'nationality')
+                                  .first,
+                              nationalityItems,
+                              company.nationality!);
+                        }
+                        return DynamicFormWidget(
+                          key: const Key('company Profile'),
+                          dynamicFormsList: companyProfile,
+                          formKey: _formKey,
+                          useResponsiveUi: true,
+                        );
+                      },
+                    ),
                     Wrap(
                       direction: Axis.horizontal,
                       alignment: WrapAlignment.end,
@@ -204,25 +242,27 @@ class CompanyProfilePage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: MaterialButton(
-                              color: Colors.yellow.shade700,
-                              minWidth: 12,
-                              height: 40,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                              onPressed: () async {
-                                var updateValue = context
-                                    .read<DynamicFormCubit>()
-                                    .getCurrentValue();
-                                await context
-                                    .read<CurdCompanyCubit>()
-                                    .updateCompany(updateValue);
-                                print(updateValue.toString());
-                              },
-                              child: const Icon(
-                                Icons.save_outlined,
-                                color: Colors.white,
-                                size: 19,
-                              )),
+                            color: Colors.yellow.shade700,
+                            minWidth: 12,
+                            height: 40,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            onPressed: () async {
+                              var updateValue = context
+                                  .read<DynamicFormCubit>()
+                                  .getCurrentValue();
+                              await context
+                                  .read<CurdCompanyCubit>()
+                                  .updateCompany(updateValue);
+                              print(updateValue.toString());
+                            },
+                            child: const Icon(
+                              Icons.save_outlined,
+                              color: Colors.white,
+                              size: 19,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -231,14 +271,18 @@ class CompanyProfilePage extends StatelessWidget {
               );
             case 1:
               return ListView(
-                padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 children: [
                   Center(
                     child: ToggleBtnWidget(
-                      options:  [tr("main_information_msg"), tr("gallery_msg")],
+                      options: [
+                        tr("main_information_msg"),
+                        tr("gallery_msg"),
+                      ],
                     ),
                   ),
-                  CompanyGallery(company)
+                  CompanyGallery(company),
                 ],
               );
             default:
@@ -246,15 +290,14 @@ class CompanyProfilePage extends StatelessWidget {
           }
         },
       ),
-    )
     );
-
   }
-  _buildDesktopWidget(BuildContext context, List<DynamicModel> companyProfile, bool isEditing,Company company) {
-    return  BlocProvider(
-      create: (context) => DynamicFormCubit()
-        ..addAllFields(companyProfile),
-      child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+
+  _buildDesktopWidget(BuildContext context, List<DynamicModel> companyProfile,
+      bool isEditing, Company company) {
+    return Scaffold(
+      appBar: jobsAppBarFunction(company: company),
+      body: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
         builder: (context, state) {
           switch (state.selectedTab) {
             case 0:
@@ -263,15 +306,12 @@ class CompanyProfilePage extends StatelessWidget {
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 42,vertical: 4),
-                    child:   jobsAppBarFunction(
-                        type: 'widget',
-                        company: company),
-                        ),
                     Center(
                       child: ToggleBtnWidget(
-                        options: [tr("main_information_msg"), tr("gallery_msg")],
+                        options: [
+                          tr("main_information_msg"),
+                          tr("gallery_msg")
+                        ],
                       ),
                     ),
                     SubTitle(
@@ -279,11 +319,10 @@ class CompanyProfilePage extends StatelessWidget {
                       titleType: SubTitleType.withIcon,
                       iconButton: IconButton(
                         onPressed: () {
-
                           isEditing = !isEditing;
                           context
                               .read<DynamicFormCubit>()
-                            .setDisableFiled(isEditing);
+                              .setDisableFiled(isEditing);
                         },
                         icon: const Icon(
                           Icons.edit_road,
@@ -291,23 +330,32 @@ class CompanyProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                        builder: (context, state) {
-                          if (state.selectedTab == 0) {
-                            context.read<ToggleBtnCubit>().changeTab(0);
-
-                            return Center(
-                              child: DynamicFormWidget(
-                                // key: const Key('companyProfile'),
-                                dynamicFormsList: companyProfile ,
-                                formKey: _formKey,
-                                useResponsiveUi: true,
-                              ),
-                            );
-                          } else
-                            context.read<ToggleBtnCubit>().changeTab(1);
-                          return SizedBox();
-                        }),
+                    Center(
+                      child: BlocBuilder<GeneralCubit, GeneralState>(
+                        builder: (context, gnState) {
+                          if (gnState is GeneralFetchedState) {
+                            print('GeneralFetchedState');
+                            List<ItemModel> nationalityItems = gnState
+                                .generals.nationality
+                                .map((e) => ItemModel(key: e, value: e))
+                                .toList();
+                            context.read<DynamicFormCubit>().addMenuItems(
+                                companyProfile
+                                    .where(
+                                        (element) => element.key == 'nationality')
+                                    .first,
+                                nationalityItems,
+                                company.nationality!);
+                          }
+                          return DynamicFormWidget(
+                            key: const Key('company Profile'),
+                            dynamicFormsList: companyProfile,
+                            formKey: _formKey,
+                            useResponsiveUi: true,
+                          );
+                        },
+                      ),
+                    ),
                     Wrap(
                       direction: Axis.horizontal,
                       alignment: WrapAlignment.end,
@@ -341,16 +389,20 @@ class CompanyProfilePage extends StatelessWidget {
                 ),
               );
             case 1:
-              return ListView(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                children: [
-                  Center(
-                    child: ToggleBtnWidget(
-                      options:  [tr("main_information_msg"), tr("gallery_msg")],
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  children: [
+
+                    Center(
+                      child: ToggleBtnWidget(
+                        options: [tr("main_information_msg"), tr("gallery_msg")],
+                      ),
                     ),
-                  ),
-                  CompanyGallery(company)
-                ],
+                    CompanyGallery(company)
+                  ],
+                ),
               );
             default:
               return const SizedBox();
@@ -358,6 +410,5 @@ class CompanyProfilePage extends StatelessWidget {
         },
       ),
     );
-
   }
 }
