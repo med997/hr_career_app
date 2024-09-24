@@ -10,6 +10,7 @@ class Profile extends Equatable {
   final String? fullNameAr;
   final String? currentJob;
   final String? nationality;
+  final String? address;
   final DateTime? dob;
   final String? secondaryPhone;
   final String email;
@@ -30,6 +31,7 @@ class Profile extends Equatable {
     this.fullNameAr,
     this.nationality,
     this.dob,
+    this.address,
     this.secondaryPhone,
     this.education= const[],
     this.experience= const[],

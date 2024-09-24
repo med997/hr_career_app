@@ -32,7 +32,7 @@ Widget getDatePickerWidget(DynamicModel dynamicModel, BuildContext context) {
         ),
         keyboardType:TextInputType.text,
         maxLines: 1,
-        autovalidateMode: AutovalidateMode.onUnfocus,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (text) {
           //To validate non-empty, it returns an error message if the text is empty.
           if (dynamicModel.isRequired && dynamicModel.validators!.any((element) => element.type == ValidatorType.notEmpty) &&

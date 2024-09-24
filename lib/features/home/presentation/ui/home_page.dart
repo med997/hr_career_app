@@ -121,13 +121,7 @@ class HomePage extends StatelessWidget {
 
         return const SearchPage();
       case 3:
-        return BlocBuilder<LoginCubit ,LoginState>(
-          builder: (context, state) {
-              context.read<ProfileCubit>().getUserByUuid(auth.userAuth!.id);
-              return HomeProfilePage();
-
-          },
-        );
+        return HomeProfilePage(auth: auth,);
       case 4:
         return NotificationPage();
       default:

@@ -4,5 +4,5 @@ import '../../../../core/error/failures.dart';
 
 abstract class ProfileRepository {
   Future<Either<Failure, Profile>> getUserProfile();
-  Future<Either<Failure, Profile>> getUserByUuid(String uuid);
+  Future<Either<Failure, Profile>>  getUserByUuid(String uuid);
 }

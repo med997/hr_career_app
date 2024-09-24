@@ -18,6 +18,20 @@
   "about_us_msg" : "ماذا عننا؟",
   "search_msg" : "بحث",
   "save_msg" : "حفظ",
+  "active_msg" : "نشط",
+  "appliance_msg" : "المتقدمين",
+  "appliance_of_job_msg" : "المتقدمين على الوظيفة",
+  "export_excel_msg" : "تصدير الأكسل",
+  "description_msg" : "الوصف",
+  "requirement_msg" : "المتطلبات",
+  "how_to_apply_msg" : "كيفية التقديم؟",
+  "experience_msg" : "الخبرة",
+  "education_msg" : "التعليم",
+  "resume_msg" : "السيرة الذاتية",
+
+
+
+
   "documents_msg" : "المستندات"
 
 

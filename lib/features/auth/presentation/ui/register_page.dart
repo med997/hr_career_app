@@ -27,28 +27,28 @@ class RegisterPage extends StatelessWidget {
         ],
         value: '',
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'fullName'),
     DynamicModel('email', FormType.email,
         value: '',
         isRequired: true,
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
-        disabled: false),
+        disabled: false, key: 'email'),
     DynamicModel('phone', FormType.phone,
         value: '',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'phone'),
     DynamicModel('password', FormType.password,
         value: '',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'password'),
     DynamicModel('confirmPassword', FormType.password,
         value: '',
         validators: [
@@ -56,52 +56,46 @@ class RegisterPage extends StatelessWidget {
           DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'confirmPassword'),
   ];
   List<DynamicModel> regFormCompany = [
     DynamicModel('companyName', FormType.text,
-        value: 'ahmedBro',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'companyName'),
     DynamicModel('email', FormType.email,
-        value: 'ahmedafeef1999@gmail.com',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'email'),
     DynamicModel('address', FormType.text,
-        value: 'yemen',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'address'),
     DynamicModel('phone', FormType.phone,
-        value: '779377119',
         isRequired: true,
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
-        disabled: false),
+        disabled: false, key: 'phone'),
     DynamicModel('password', FormType.password,
-        value: '123456',
         isRequired: true,
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
-        disabled: false),
+        disabled: false, key: 'password'),
     DynamicModel('confirmPassword', FormType.password,
-        value: '123456',
         isRequired: true,
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
           DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
         ],
-        disabled: false),
+        disabled: false, key: 'confirmPassword'),
   ];
   final regFormKey = GlobalKey<FormState>();
 
@@ -278,39 +272,7 @@ width: 400,
           mobile: _buildMobileRegPage(context),
           tablet: _desktopAndTabletRegPage(context),
           desktop: _desktopAndTabletRegPage(context),
-       /*   child: Flex(
-            direction: Axis.vertical,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              loginAndRegisterAppBar(),
 
-
-              _registerBtn(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Have an account?',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14),
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
-                      },
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(color: primaryColor),
-                      )),
-                ],
-              ),
-            ],
-          ),*/
         ),
       ),
     );
@@ -341,7 +303,7 @@ width: 400,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Register',
                     style: TextStyle(
                       color: Colors.white,

@@ -43,7 +43,7 @@ class AddJobBodyPage extends StatelessWidget {
         value: '',
         isRequired: true,
         disabled: false),
-    DynamicModel('deadlineDate', FormType.datePicker,
+    DynamicModel('deadlineDate', FormType.date,
         value: '',
         isRequired: true,
         validators: [

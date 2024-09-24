@@ -104,13 +104,7 @@ class HomeCompanyPage extends StatelessWidget {
       case 2:
         return CompanyTendersPage();
       case 3:
-        return BlocBuilder<LoginCubit, LoginState>(
-          builder: (context, state) {
-            context.read<CompanyProfileCubit>().getCompanyByUuid(auth.userAuth!.id);
-
-            return CompanyProfilePage();
-          },
-        );
+            return CompanyProfilePage(auth: auth,);
       default:
         return Placeholder();
     }
