@@ -35,11 +35,10 @@ class HomeCompanyPage extends StatelessWidget {
         return Scaffold(
           appBar: state.selectedTab != 3 ? buildAppBar(
             userOrCompany: 'Company',
-            userName: state
-                .selectedTab == 3 ? tr("profile_msg") : state
+            userName: state.selectedTab == 3 ? tr("profile_msg") : state
                 .selectedTab == 1 ? 'Jobs' : state
                 .selectedTab == 2 ? tr("tenders_msg") : 'Ahmed Afeef',
-            img: '',
+            img:  '',
             fullHeader: (state.selectedTab != 0)
                 ? false
                 : true,

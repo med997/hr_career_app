@@ -15,6 +15,7 @@ import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
 import '../../../../core/util/validator.dart';
 import '../../../../core/widgets/dyn_form_widget.dart';
+import '../../../../core/widgets/map_icon_button.dart';
 import '../../../../core/widgets/sub-title.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';
 import '../../../auth/domain/entities/auth.dart';
@@ -143,14 +144,37 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
               validators: [
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
-          DynamicModel('address', FormType.text,
-              key: 'address',
-              width: Responsive.isMobile(context) ? width : 300,
-              disabled: isEditing,
-              controller: TextEditingController(text: state.company.address),
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
+          DynamicModel(
+            'address',
+            FormType.text,
+            controller: TextEditingController(text: state.company.address),
+            validators: [
+              DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+            ],
+            disabled: true,
+            width: Responsive.isMobile(context) ? width : 300,
+            action: ElevatedButton(
+                onPressed: () async   {
+                  Navigator.of(context)
+                      .push( MaterialPageRoute(
+                    builder: (context2) =>  LocationWidget(),
+                  ))
+                      .then(
+                        (value) {
+                      context.read<DynamicFormCubit>().updateValueOnly(
+                          'address', value[0].toString());
+                      print(value[0]);
+                      print(value[1]);
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                  backgroundColor: primaryColor,
+                ),
+                child: const Icon(Icons.location_on_outlined,
+                    color: Colors.white))
+          ),
           DynamicModel('aboutUs', FormType.text,
               key: 'aboutUs',
               controller: TextEditingController(text: state.company.aboutUs),
@@ -160,6 +184,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                 DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
               ]),
         ];
+
         return Responsive(
           mobile: _buildMobileWidget(
               context, companyProfile, isEditing, state.company),
@@ -228,7 +253,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                               company.nationality!);
                         }
                         return DynamicFormWidget(
-                          key: const Key('company Profile'),
+                          key: const Key('companyProfile'),
                           dynamicFormsList: companyProfile,
                           formKey: _formKey,
                           useResponsiveUi: true,
@@ -348,7 +373,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                                 company.nationality!);
                           }
                           return DynamicFormWidget(
-                            key: const Key('company Profile'),
+                            key: const Key('companyProfile'),
                             dynamicFormsList: companyProfile,
                             formKey: _formKey,
                             useResponsiveUi: true,
