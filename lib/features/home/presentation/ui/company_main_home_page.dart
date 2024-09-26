@@ -65,7 +65,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
                 iconLabel: tr("add_job_msg"),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AddJobPage(),
+                    builder: (context) =>  const AddJobPage(),
                   ));
                 }),
             const SizedBox(

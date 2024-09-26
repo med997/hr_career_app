@@ -345,7 +345,7 @@ class CompanyDetailsPage extends StatelessWidget {
                                     .where((element) =>
                                         element.key == 'qualifications')
                                     .first,
-                                nationalityItems,
+                                qualificationsItems,
                                 job.qualifications!);
                             // context.read<DynamicFormCubit>().addSubFormMenuItems('education','qualifications', qualificationsItems);
                             context.read<DynamicFormCubit>().addMenuItems2(
@@ -542,7 +542,7 @@ class CompanyDetailsPage extends StatelessWidget {
                                   .where((element) =>
                                       element.key == 'qualifications')
                                   .first,
-                              nationalityItems,
+                              qualificationsItems,
                               job.qualifications!);
                           // context.read<DynamicFormCubit>().addSubFormMenuItems('education','qualifications', qualificationsItems);
                           context.read<DynamicFormCubit>().addMenuItems2(
