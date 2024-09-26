@@ -31,28 +31,28 @@ class DynamicModel {
   List<DynamicFormValidator>? validators;
   Widget? action;
 
-
   DynamicModel(this.controlName, this.formType,
-      { this.value,
+      {this.value,
       this.items = const [],
       this.disabled = false,
-        this.key='' ,
+      this.key = '',
       this.selectedItem,
-       this.icons,
-        this.error,
-        this.controller,
-        this.action,
-        this.compareText,
-        this.subFormKey,
-        this.subFormHeader,
-        this.subFormFooter,
-        this.listSubDynamicModel,
-        this.subIsResponsive,
-        this.subDynamicModel,
+      this.icons,
+      this.error,
+      this.controller,
+      this.action,
+      this.compareText,
+      this.subFormKey,
+      this.subFormHeader,
+      this.subFormFooter,
+      this.listSubDynamicModel,
+      this.subIsResponsive,
+      this.subDynamicModel,
       this.width = 300,
       this.helperText,
+      this.inputBorder,
       this.isRequired = false,
-      this.validators });
+      this.validators});
 }
 
 class ItemModel {

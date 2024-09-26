@@ -22,35 +22,35 @@ class RegisterPage extends StatelessWidget {
 
   List<DynamicModel> regFormUsers = [
     DynamicModel('fullName', FormType.text,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
-        value: '',
         isRequired: true,
         disabled: false, key: 'fullName'),
     DynamicModel('email', FormType.email,
-        value: '',
+        controller: TextEditingController(),
         isRequired: true,
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         disabled: false, key: 'email'),
     DynamicModel('phone', FormType.phone,
-        value: '',
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
         disabled: false, key: 'phone'),
     DynamicModel('password', FormType.password,
-        value: '',
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
         disabled: false, key: 'password'),
     DynamicModel('confirmPassword', FormType.password,
-        value: '',
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
           DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
@@ -60,18 +60,21 @@ class RegisterPage extends StatelessWidget {
   ];
   List<DynamicModel> regFormCompany = [
     DynamicModel('companyName', FormType.text,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
         disabled: false, key: 'companyName'),
     DynamicModel('email', FormType.email,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
         disabled: false, key: 'email'),
     DynamicModel('address', FormType.text,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
@@ -79,18 +82,21 @@ class RegisterPage extends StatelessWidget {
         disabled: false, key: 'address'),
     DynamicModel('phone', FormType.phone,
         isRequired: true,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         disabled: false, key: 'phone'),
     DynamicModel('password', FormType.password,
         isRequired: true,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         disabled: false, key: 'password'),
     DynamicModel('confirmPassword', FormType.password,
         isRequired: true,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
           DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
@@ -266,14 +272,11 @@ width: 400,
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: BlocProvider(
-        create: (context) => DynamicFormCubit()..addAllFields(regFormUsers),
-        child: Responsive(
-          mobile: _buildMobileRegPage(context),
-          tablet: _desktopAndTabletRegPage(context),
-          desktop: _desktopAndTabletRegPage(context),
+      body: Responsive(
+        mobile: _buildMobileRegPage(context),
+        tablet: _desktopAndTabletRegPage(context),
+        desktop: _desktopAndTabletRegPage(context),
 
-        ),
       ),
     );
   }
