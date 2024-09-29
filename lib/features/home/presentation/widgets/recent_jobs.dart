@@ -10,6 +10,8 @@ import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.da
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/job_details_page.dart';
 
+import '../../../../core/app_localizations.dart';
+
 class RecentJobsWidget extends StatelessWidget {
  final JobCardType jobCardType;
 
@@ -44,7 +46,7 @@ class RecentJobsWidget extends StatelessWidget {
         JobCard(
           jobCardType: JobCardType.company,
             chipBgColor:primaryColor,
-            chipText: 'Active',
+            chipText: tr("active_msg"),
             job: job[i],));
   }
 
@@ -63,7 +65,7 @@ class RecentJobsWidget extends StatelessWidget {
              columnWidth: itemWidth,) : JobCard(
             jobCardType: JobCardType.company,
             job: job,
-            chipText: 'Active',
+            chipText: tr("active_msg"),
             chipBgColor: primaryColor,
             columnWidth: itemWidth,
           )

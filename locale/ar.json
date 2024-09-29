@@ -1,9 +1,38 @@
 {
   "welcome_msg_login" : "مرحبا",
-  "under_welcome_msg" : "قم بتسجيل الدخول, و الوظائف ",
-  "hello_msg" : "مرحبا مجددا!",
+  "under_welcome_msg" : "قم بتسجيل الدخول, وقدم عن الوظائف او اعرضها ",
+  "welcome-back_msg" : "مرحبا مجددا !",
   "featured_job_msg" : "الوظائف المميزة",
   "featured_tender_msg" : "المناقصات المميزة",
   "recent_job_msg" : "أحدث الوظائف",
-  "recent_tender_msg" : "أحدث المناقصات"
+  "recent_tender_msg" : "أحدث المناقصات",
+  "add_job_msg" : "اضف وظيفة",
+  "add_tender_msg" : "اضف مناقصة",
+  "show_more_msg" : "اظهار الكل",
+  "apply_now_msg" : "قدم الأن",
+  "main_information_msg" : "المعلومات الرئيسية",
+  "gallery_msg" : "المعرض",
+  "tenders_msg" : "المناقصات",
+  "jobs_msg" : "الوظائف",
+  "profile_msg" : "الحساب التعريفي",
+  "about_us_msg" : "ماذا عننا؟",
+  "search_msg" : "بحث",
+  "save_msg" : "حفظ",
+  "active_msg" : "نشط",
+  "appliance_msg" : "المتقدمين",
+  "appliance_of_job_msg" : "المتقدمين على الوظيفة",
+  "export_excel_msg" : "تصدير الأكسل",
+  "description_msg" : "الوصف",
+  "requirement_msg" : "المتطلبات",
+  "how_to_apply_msg" : "كيفية التقديم؟",
+  "experience_msg" : "الخبرة",
+  "education_msg" : "التعليم",
+  "resume_msg" : "السيرة الذاتية",
+
+
+
+
+  "documents_msg" : "المستندات"
+
+
 }

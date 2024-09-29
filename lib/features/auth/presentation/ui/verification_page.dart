@@ -35,89 +35,20 @@ class VerificationPage extends StatelessWidget {
               image: AssetImage('assets/imgs/bglarg.png'),
               fit: BoxFit.fitWidth, // Adjust fit as needed
             ),
-            /*color: primaryColor,
-          border: Border.all(
-            color: primaryColor,
-            width: 0.5,
-          ),
-          borderRadius: BorderRadius.circular(12)*/
-          ),
+            ),
           child: Flex(
               direction: Axis.horizontal,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Flexible(
-                  flex: 2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      loginAndRegisterAppBar(bgColor: Colors.transparent),
-                    ],
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    loginAndRegisterAppBar(bgColor: Colors.transparent),
+                  ],
                 ),
-                Flexible(
-                  child: Container(
-                    width: 420,
-                    height: 400,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 24),
-                    margin: const EdgeInsets.symmetric(horizontal: 28),
-                    decoration: BoxDecoration(
-                        color: bgColor,
-                        borderRadius: BorderRadius.circular(18)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Jobizz",
-                          style: TextStyle(
-                              fontSize: 24,
-                              color: primaryColor,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 30),
-                        const Text(
-                          "Verify Code",
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          "Enter your verification code from your email or phone number that we've sent",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ),
-                        const SizedBox(height: 40),
-                        VerificationCodeField(
-                          length: 4,
-                          onFilled: (value) => print(value),
-                          size: const Size(50, 60),
-                          spaceBetween: 20,
-                          matchingPattern: RegExp(r'^\d+$'),
-                        ),
-                        Spacer(),
-                        MaterialButton(
-                          height: 45,
-                          minWidth: 380,
-                          color: primaryColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4)),
-                          onPressed: () {},
-                          enableFeedback: false,
-                          child: const Text(
-                            'Verify',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                verificationCard(),
               ])),
     );
   }
@@ -126,9 +57,8 @@ class VerificationPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Stack(
-        children: [
+          children: [
           Container(
-            alignment: Alignment.topRight,
             decoration: BoxDecoration(
               color: primaryTransparent.withOpacity(0.2),
               image: const DecorationImage(
@@ -143,65 +73,69 @@ class VerificationPage extends StatelessWidget {
             child: loginAndRegisterAppBar(bgColor: Colors.transparent),
           ),
           Center(
-            child: Container(
-              width: 400,
-              height: 400,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              margin: const EdgeInsets.symmetric(horizontal: 28),
-              decoration: BoxDecoration(
-                  color: bgColor, borderRadius: BorderRadius.circular(18)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Jobizz",
-                    style: TextStyle(
-                        fontSize: 24,
-                        color: primaryColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 30),
-                  const Text(
-                    "Verify Code",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Enter your verification code from your email or phone number that we've sent",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 40),
-                  VerificationCodeField(
-                    length: 4,
-                    onFilled: (value) => print(value),
-                    size: const Size(50, 60),
-                    spaceBetween: 20,
-                    matchingPattern: RegExp(r'^\d+$'),
-                  ),
-                  Spacer(),
-                  MaterialButton(
-                    height: 45,
-                    minWidth: 380,
-                    color: primaryColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4)),
-                    onPressed: () {},
-                    enableFeedback: false,
-                    child: const Text(
-                      'Verify',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: verificationCard(),
           ),
         ],
       )),
     );
   }
+}
+
+Widget verificationCard () {
+  return Container(
+    width: 400,
+    height: 400,
+    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+    margin: const EdgeInsets.symmetric(horizontal: 28),
+    decoration: BoxDecoration(
+        color: bgColor, borderRadius: BorderRadius.circular(18)),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          "Jobizz",
+          style: TextStyle(
+              fontSize: 24,
+              color: primaryColor,
+              fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 30),
+        const Text(
+          "Verify Code",
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 20),
+        const Text(
+          "Enter your verification code from your email or phone number that we've sent",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16, color: Colors.grey),
+        ),
+        const SizedBox(height: 40),
+        VerificationCodeField(
+          length: 4,
+          onFilled: (value) => print(value),
+          size: const Size(50, 60),
+          spaceBetween: 20,
+          matchingPattern: RegExp(r'^\d+$',),
+        ),
+        Spacer(),
+        MaterialButton(
+          height: 45,
+          minWidth: 380,
+          color: primaryColor,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4)),
+          onPressed: () {},
+          enableFeedback: false,
+          child: const Text(
+            'Verify',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }

@@ -16,6 +16,7 @@ import 'package:hr_career_platform/injection_container.dart' as di;
 
 import '../../features/company/presentation/ui/company_details_page.dart';
 import '../../features/job/presentation/ui/job_details_page.dart';
+import '../app_localizations.dart';
 
 class JobCard extends StatelessWidget {
   final JobCardType jobCardType;
@@ -175,7 +176,7 @@ class JobCard extends StatelessWidget {
               spacing: 4,
               direction: Axis.horizontal,
               children: [
-                CustomChips(chipsTitles: ['Tender'] ,bgColor: Colors.blue.shade200,),
+                CustomChips(chipsTitles: [tr("tenders_msg")] ,bgColor: Colors.blue.shade200,),
                 TextWithIcon(
                     icon: const Icon(
                       Icons.timelapse_outlined,
@@ -343,7 +344,7 @@ class JobCard extends StatelessWidget {
               spacing: 4,
               direction: Axis.horizontal,
               children: [
-                CustomChips(chipsTitles: const ['Tender'],bgColor: Colors.blue.shade200,),
+                CustomChips(chipsTitles:  [tr("tenders_msg")],bgColor: Colors.blue.shade200,),
                 TextWithIcon(
                     icon: const Icon(
                       Icons.remove_red_eye_outlined,

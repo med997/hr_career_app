@@ -55,6 +55,8 @@ dependencies:
   permission_handler: ^10.2.0
   file_picker: ^8.1.2
   flutter_verification_code_field: ^1.0.4
+  flutter_colorpicker: ^1.1.0
+  date_picker_plus: ^4.1.0
 
 dev_dependencies:
   flutter_test:

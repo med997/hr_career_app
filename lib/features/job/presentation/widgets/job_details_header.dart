@@ -38,10 +38,11 @@ class JobDetailsHeader extends StatelessWidget {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white24,),
             margin: EdgeInsets.symmetric(vertical: 12),
             child: ListTile(
+
               title: Text(
                 job.company!.nameAr??'',
                 style: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
+                    fontWeight: FontWeight.bold, color: Colors.white, fontSize: 14),
               ),
               trailing: Wrap(
                 direction: Axis.horizontal,
@@ -53,7 +54,7 @@ class JobDetailsHeader extends StatelessWidget {
               ),
               leading: Wrap(
 
-                crossAxisAlignment: WrapCrossAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 direction: Axis.horizontal,
                 children: [
                   BackButton(

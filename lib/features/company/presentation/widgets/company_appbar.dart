@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
@@ -25,13 +26,13 @@ dynamic jobsAppBarFunction(
               )
             : Container(
           decoration: BoxDecoration(color: Colors.white38,borderRadius: BorderRadius.circular(12)),
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Profile',
+                     Text(
+                      tr("profile_msg"),
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -117,7 +118,7 @@ dynamic jobsAppBarFunction(
               onPressed: () {},
             ),
           ],
-        ) : SizedBox(),
+        ) : const SizedBox(),
       ],
     ),
     flexibleSpace: Container(
@@ -155,16 +156,16 @@ dynamic jobsAppBarFunction(
           color: Colors.white,
         )
             : Container(
-          margin: EdgeInsets.symmetric(horizontal: 26),
+          margin: const EdgeInsets.symmetric(horizontal: 26),
           decoration: BoxDecoration(color: Colors.white38,borderRadius: BorderRadius.circular(12)),
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                'Profile',
-                style: TextStyle(
+               Text(
+                 tr("profile_msg"),
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),

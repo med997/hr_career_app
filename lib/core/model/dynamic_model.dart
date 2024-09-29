@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hr_career_platform/core/util/enums.dart';
-import 'package:hr_career_platform/core/util/validator.dart';
+
+import '../util/enums.dart';
+import '../util/validator.dart';
+
 
 class DynamicModel {
-  Map<String,List<DynamicModel>>? subDynModel;
+  String key;
   String controlName;
   InputBorder? inputBorder;
   FormType formType;
@@ -13,34 +15,44 @@ class DynamicModel {
   List<ItemModel> items;
   ItemModel? selectedItem;
   bool isRequired;
+   Widget? subFormHeader;
+   Widget? subFormFooter;
   String? compareText;
   Icon? icons;
   bool disabled;
+  List<DynamicModel>? subDynamicModel;
+  List<List<DynamicModel>>? listSubDynamicModel;
+  GlobalKey<FormState>? subFormKey;
+  bool?  subIsResponsive;
   String? error;
   TextEditingController? controller;
-  double width;
+  double? width;
   double? hight;
   List<DynamicFormValidator>? validators;
   Widget? action;
 
-
   DynamicModel(this.controlName, this.formType,
-      { this.value,
-        this.subDynModel,
-        this.inputBorder,
+      {this.value,
       this.items = const [],
       this.disabled = false,
+      this.key = '',
       this.selectedItem,
-       this.icons,
-        this.error,
-        this.controller,
-        this.compareText,
-      this.width = 350,
-
+      this.icons,
+      this.error,
+      this.controller,
+      this.action,
+      this.compareText,
+      this.subFormKey,
+      this.subFormHeader,
+      this.subFormFooter,
+      this.listSubDynamicModel,
+      this.subIsResponsive,
+      this.subDynamicModel,
+      this.width = 300,
       this.helperText,
+      this.inputBorder,
       this.isRequired = false,
-      this.validators,
-      this.action});
+      this.validators});
 }
 
 class ItemModel {

@@ -59,8 +59,8 @@ class CompanyModel extends Company {
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "city": city,
+    // "id": id ,
+    // "city": city,
     "email": email,
     "major": major,
     "phone": phone,
@@ -69,14 +69,14 @@ class CompanyModel extends Company {
     "name_en": nameEn,
     "website": website,
     "about_us": aboutUs,
-    "company_logo": companyLogo,
-    "locations": locations??[],
+    // "company_logo": companyLogo,
+    // "locations": locations??[],
     "created_at": createdAt,
     "head_office": headOffice,
-    "images_path": imagesPath,
+    // "images_path": imagesPath,
     "nationality": nationality,
-    "video_paths": videoPaths,
-    "other_contact": otherContact,
-    "document_paths": documentPaths,
+    // "video_paths": videoPaths,
+    // "other_contact": otherContact,
+    // "document_paths": documentPaths,
   };
 }

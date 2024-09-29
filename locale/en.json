@@ -1,9 +1,34 @@
 {
   "welcome_msg_login" : "Welcome",
   "under_welcome_msg" : "Let's log in. Apply or post to jobs!",
-  "hello_msg" : "Welcome Back!",
+  "welcome-back_msg" : "Welcome Back!",
   "featured_job_msg" : "Featured Jobs",
   "featured_tender_msg" : "Featured Tenders",
   "recent_job_msg" : "Recent Jobs",
-  "recent_tender_msg" : "Recent Tenders"
+  "recent_tender_msg" : "Recent Tenders",
+  "add_job_msg" : "Add Job",
+  "add_tender_msg" : "Add Tender",
+  "show_more_msg" : "show more",
+  "apply_now_msg" : "Apply now",
+  "main_information_msg" : "Main Information",
+  "gallery_msg" : "Gallery",
+  "tenders_msg" : "Tenders",
+  "jobs_msg" : "Jobs",
+  "profile_msg" : "Profile",
+  "about_us_msg" : "About us",
+  "search_msg" : "Search",
+  "save_msg" : "Save",
+  "active_msg" : "Active",
+  "appliance_msg" : "Appliance",
+  "appliance_of_job_msg" : "Appliances of job",
+  "export_excel_msg" : "Export Excel",
+  "description_msg" : "Description",
+  "requirement_msg" : "Requirements",
+  "how_to_apply_msg" : "How to apply?",
+  "experience_msg" : "Experience",
+  "education_msg" : "Education",
+  "resume_msg" : "Resume",
+
+
+  "documents_msg" : "Documents"
 }

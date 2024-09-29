@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
@@ -34,11 +35,10 @@ class HomeCompanyPage extends StatelessWidget {
         return Scaffold(
           appBar: state.selectedTab != 3 ? buildAppBar(
             userOrCompany: 'Company',
-            userName: state
-                .selectedTab == 3 ? 'Profile' : state
+            userName: state.selectedTab == 3 ? tr("profile_msg") : state
                 .selectedTab == 1 ? 'Jobs' : state
-                .selectedTab == 2 ? 'Tender' : 'Ahmed Afeef',
-            img: '',
+                .selectedTab == 2 ? tr("tenders_msg") : 'Ahmed Afeef',
+            img:  '',
             fullHeader: (state.selectedTab != 0)
                 ? false
                 : true,
@@ -103,13 +103,7 @@ class HomeCompanyPage extends StatelessWidget {
       case 2:
         return CompanyTendersPage();
       case 3:
-        return BlocBuilder<LoginCubit, LoginState>(
-          builder: (context, state) {
-            context.read<CompanyProfileCubit>().getCompanyByUuid(auth.userAuth!.id);
-
-            return CompanyProfilePage();
-          },
-        );
+            return CompanyProfilePage(auth: auth,);
       default:
         return Placeholder();
     }

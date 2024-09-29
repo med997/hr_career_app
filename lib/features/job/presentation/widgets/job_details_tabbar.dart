@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
@@ -17,10 +18,10 @@ class JobDetailsTabBar extends StatelessWidget {
       children: [
         Center(
           child: ToggleBtnWidget(
-            options: const [
-              'Description',
-              'Requirement',
-              'How to apply?'
+            options: [
+              tr("description_msg"),
+              tr("requirement_msg"),
+              tr("how_to_apply_msg")
             ], // Adjusted options
           ),
         ),

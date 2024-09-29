@@ -22,86 +22,86 @@ class RegisterPage extends StatelessWidget {
 
   List<DynamicModel> regFormUsers = [
     DynamicModel('fullName', FormType.text,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
-        value: '',
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'fullName'),
     DynamicModel('email', FormType.email,
-        value: '',
+        controller: TextEditingController(),
         isRequired: true,
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
-        disabled: false),
+        disabled: false, key: 'email'),
     DynamicModel('phone', FormType.phone,
-        value: '',
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'phone'),
     DynamicModel('password', FormType.password,
-        value: '',
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'password'),
     DynamicModel('confirmPassword', FormType.password,
-        value: '',
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
           DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'confirmPassword'),
   ];
   List<DynamicModel> regFormCompany = [
     DynamicModel('companyName', FormType.text,
-        value: 'ahmedBro',
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'companyName'),
     DynamicModel('email', FormType.email,
-        value: 'ahmedafeef1999@gmail.com',
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'email'),
     DynamicModel('address', FormType.text,
-        value: 'yemen',
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false),
+        disabled: false, key: 'address'),
     DynamicModel('phone', FormType.phone,
-        value: '779377119',
         isRequired: true,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
-        disabled: false),
+        disabled: false, key: 'phone'),
     DynamicModel('password', FormType.password,
-        value: '123456',
         isRequired: true,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
-        disabled: false),
+        disabled: false, key: 'password'),
     DynamicModel('confirmPassword', FormType.password,
-        value: '123456',
         isRequired: true,
+        controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
           DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
         ],
-        disabled: false),
+        disabled: false, key: 'confirmPassword'),
   ];
   final regFormKey = GlobalKey<FormState>();
 
@@ -272,46 +272,11 @@ width: 400,
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: BlocProvider(
-        create: (context) => DynamicFormCubit()..addAllFields(regFormUsers),
-        child: Responsive(
-          mobile: _buildMobileRegPage(context),
-          tablet: _desktopAndTabletRegPage(context),
-          desktop: _desktopAndTabletRegPage(context),
-       /*   child: Flex(
-            direction: Axis.vertical,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              loginAndRegisterAppBar(),
+      body: Responsive(
+        mobile: _buildMobileRegPage(context),
+        tablet: _desktopAndTabletRegPage(context),
+        desktop: _desktopAndTabletRegPage(context),
 
-
-              _registerBtn(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Have an account?',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14),
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
-                      },
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(color: primaryColor),
-                      )),
-                ],
-              ),
-            ],
-          ),*/
-        ),
       ),
     );
   }
@@ -341,7 +306,7 @@ width: 400,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Register',
                     style: TextStyle(
                       color: Colors.white,

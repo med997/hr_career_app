@@ -8,4 +8,5 @@ import '../../../../core/error/failures.dart';
 abstract class CompanyRepository {
   Future<Either<Failure, Company>> getCompanyProfile();
   Future<Either<Failure, Company>> getCompanyByUuid(String uuid);
+  Future<Either<Failure, Unit>> updateCompany(Company company);
 }

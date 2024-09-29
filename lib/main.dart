@@ -15,6 +15,7 @@ import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.d
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
+import 'package:hr_career_platform/features/company/presentation/bloc/curd_company_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
@@ -65,13 +66,17 @@ void main() async {
       ),
 
       BlocProvider(
+        create: (context) => di.sl<DynamicFormCubit>(),
+      ),
+
+      BlocProvider(
         create: (context) => di.sl<StepperCubit>(),
       ),
       BlocProvider(
         create: (context) => di.sl<PackageCubit>(),
       ),
       BlocProvider(
-        create: (context) => di.sl<GeneralCubit>()..getGeneral(),
+        create: (context) => di.sl<GeneralCubit>() ,
       ),
       BlocProvider(
         create: (context) => di.sl<LocationCubit>(),
@@ -81,6 +86,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<CompanyProfileCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<CurdCompanyCubit>(),
       ),
     ],
     child: const MyApp(),

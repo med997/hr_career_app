@@ -35,7 +35,7 @@ class _HomeJobPageState extends State<HomeJobPage> {
             if (kDebugMode) print('showMoreClicked');
           },
           titleType: SubTitleType.textOnly,
-          title: AppLocalizations.of(context)!.translate("featured_job_msg"),
+          title: tr("featured_job_msg"),
           icon: Icon(Icons.edit_note),
         ),
         FeaturedJobs(),
@@ -47,7 +47,7 @@ class _HomeJobPageState extends State<HomeJobPage> {
             );
           },
           titleType: SubTitleType.withShowMore,
-          title: AppLocalizations.of(context)!.translate("recent_job_msg"),
+          title: tr("recent_job_msg"),
           icon: Icon(Icons.edit_note),
         ),
         RecentJobsWidget(jobCardType: JobCardType.user,)

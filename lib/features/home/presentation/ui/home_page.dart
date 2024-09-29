@@ -13,6 +13,7 @@ import 'package:hr_career_platform/features/home/presentation/ui/home_profile_pa
 import 'package:hr_career_platform/features/home/presentation/ui/search_page.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 
+import '../../../../core/app_localizations.dart';
 import '../../../../core/util/const_val.dart';
 import '../../../../core/widgets/notification_page.dart';
 import '../../../auth/domain/entities/auth.dart';
@@ -39,8 +40,8 @@ class HomePage extends StatelessWidget {
           appBar: (state is TabNavChangedState)
               ? buildAppBar(
                   userName: state.selectedTab == 4 ? 'Notifications'
-                      : state.selectedTab == 2 ? 'Search'
-                          : state.selectedTab == 3 ? 'Profile'
+                      : state.selectedTab == 2 ? tr("search_msg")
+                          : state.selectedTab == 3 ? tr("profile_msg")
                               :auth.profile!.fullName??'',
                   img: auth.profile!.avatarUrl??'',
                   userOrCompany: 'User',
@@ -120,13 +121,7 @@ class HomePage extends StatelessWidget {
 
         return const SearchPage();
       case 3:
-        return BlocBuilder<LoginCubit ,LoginState>(
-          builder: (context, state) {
-              context.read<ProfileCubit>().getUserByUuid(auth.userAuth!.id);
-              return HomeProfilePage();
-
-          },
-        );
+        return HomeProfilePage(auth: auth,);
       case 4:
         return NotificationPage();
       default:
