@@ -65,22 +65,6 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     return formData;
   }
 
-  String? _validateField(DynamicModel dynamicModel) {
-    dynamicModel.validators!.map((e) {
-      if (e.type == ValidatorType.notEmpty) {
-        if (dynamicModel.value==null || dynamicModel.value!.isEmpty) {
-          return e.errorMessage;
-        }
-      }
-      if (e.type == ValidatorType.textLength) {
-        if (dynamicModel.value!.length!= e.textLength) {
-          return e.errorMessage;
-        }
-    }
-    },);
-    return null;
-    // No error
-  }
 
   void removeField(DynamicModel dynamicModel) {
     final currentFields = state.where((field) =>
