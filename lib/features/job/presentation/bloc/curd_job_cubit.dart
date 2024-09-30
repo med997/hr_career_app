@@ -59,12 +59,12 @@ class CurdJobCubit extends Cubit<CurdJobState> {
   }
 
   CurdJobState _eitherDoneMessageOrErrorState(
-      Either<Failure, Unit> either, String message) {
+      Either<Failure, Job> either, String message) {
     return either.fold(
           (failure) => ErrorCurdJobState(
         message: _mapFailureToMessage(failure),
       ),
-          (_) => MessageCurdJobState(message: message),
+          (job) => MessageCurdJobState(job: job,message: message),
     );
   }
 
