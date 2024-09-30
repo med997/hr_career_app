@@ -28,7 +28,6 @@
   "experience_msg" : "Experience",
   "education_msg" : "Education",
   "resume_msg" : "Resume",
-
-
+  "confirm_msg" : "Confirm",
   "documents_msg" : "Documents"
 }

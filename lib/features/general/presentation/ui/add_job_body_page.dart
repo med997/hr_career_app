@@ -12,35 +12,62 @@ import 'package:hr_career_platform/features/general/domain/entities/general.dart
 import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/curd_job_cubit.dart';
-import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
 
-class AddJobBodyPage extends StatelessWidget {
+class AddJobBodyPage extends StatefulWidget {
   AddJobBodyPage({super.key, this.generals, this.job});
 
   final General? generals;
   final Job? job;
 
+  @override
+  State<AddJobBodyPage> createState() => _AddJobBodyPageState();
+}
+
+class _AddJobBodyPageState extends State<AddJobBodyPage> {
   final addJobFormKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<GeneralCubit>().getGeneral();
+  }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return ListView(
       shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(horizontal: 22),
       children: [
-        BlocConsumer<JobCubit, JobState>(
-          listener: (context, state) {
-            if (state is JobFetchedState) {
-              context.read<GeneralCubit>().getGeneral();
-            }
-          },
+        BlocConsumer<GeneralCubit, GeneralState>(
+          listener: (context, state) {},
           builder: (context, state) {
-            BlocListener<GeneralCubit, GeneralState>(
-                listener: (context, gnState) {});
-            if (state is JobLoadingState) {
+            if (state is GeneralLoading) {
               return LoadingWidget();
-            } else if (state is JobFetchedState) {
+            } else if (state is GeneralFetchedState) {
+              List<ItemModel> nationalityItems = state.generals.nationality
+                  .map((e) => ItemModel(key: e, value: e))
+                  .toList();
+              List<ItemModel> qualificationsItems = state
+                  .generals.qualifications
+                  .map((e) => ItemModel(key: e, value: e))
+                  .toList();
+              List<ItemModel> genderItems = state.generals.gender
+                  .map((e) => ItemModel(key: e, value: e))
+                  .toList();
+              List<ItemModel> officeItems = state.generals.officeType
+                  .map((e) => ItemModel(key: e, value: e))
+                  .toList();
+              List<ItemModel> cityItems = state.generals.cities
+                  .map((e) => ItemModel(key: e, value: e))
+                  .toList();
+              List<ItemModel> categoryItems = state.generals.jobCategory
+                  .map((e) => ItemModel(key: e, value: e))
+                  .toList();
+              List<ItemModel> timePartsItems = state.generals.timeParts
+                  .map((e) => ItemModel(key: e, value: e))
+                  .toList();
               List<DynamicModel> addJobForm = [
                 DynamicModel(
                   'jobTitle',
@@ -50,15 +77,15 @@ class AddJobBodyPage extends StatelessWidget {
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
                   width: width,
-                  controller: TextEditingController(text: job?.jobTitle),
+                  controller: TextEditingController(text: widget.job?.jobTitle),
                   isRequired: true,
                 ),
                 DynamicModel(
                   'deadlineDate',
                   FormType.date,
                   key: 'deadlineDate',
-                  controller:
-                      TextEditingController(text: job?.deadlineDate.toString()),
+                  controller: TextEditingController(
+                      text: widget.job?.deadlineDate.toString()),
                   width: width,
                   isRequired: true,
                   validators: [
@@ -72,7 +99,8 @@ class AddJobBodyPage extends StatelessWidget {
                   validators: [
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
-                  controller: TextEditingController(text: job?.otherApplyLinks),
+                  controller:
+                      TextEditingController(text: widget.job?.otherApplyLinks),
                   width: width,
                   isRequired: true,
                 ),
@@ -83,7 +111,7 @@ class AddJobBodyPage extends StatelessWidget {
                   validators: [
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
-                  controller: TextEditingController(text: job?.jobDesc),
+                  controller: TextEditingController(text: widget.job?.jobDesc),
                   width: width,
                   isRequired: true,
                 ),
@@ -94,7 +122,8 @@ class AddJobBodyPage extends StatelessWidget {
                   validators: [
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
-                  controller: TextEditingController(text: job?.jobRequirements),
+                  controller:
+                      TextEditingController(text: widget.job?.jobRequirements),
                   width: width,
                   isRequired: true,
                 ),
@@ -108,27 +137,31 @@ class AddJobBodyPage extends StatelessWidget {
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
                   isRequired: true,
-                  action: ElevatedButton(
-                      onPressed: () async {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                          builder: (context) => LocationWidget(),
-                        ))
-                            .then(
-                          (value) {
-                            context.read<DynamicFormCubit>().updateValueOnly(
-                                'address', value[0].toString());
-                            print(value[0]);
-                            print(value[1]);
-                          },
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
+                  action: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: MaterialButton(
+                        disabledColor: Colors.grey.shade600,
+                        padding: EdgeInsets.all(4),
+                        onPressed: () async {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                            builder: (context) => LocationWidget(),
+                          ))
+                              .then(
+                                (value) {
+                              context.read<DynamicFormCubit>().updateValueOnly(
+                                  'address', value[0].toString());
+                              print(value[0]);
+                              print(value[1]);
+                            },
+                          );
+                        },
                         shape: const CircleBorder(),
-                        backgroundColor: primaryColor,
-                      ),
-                      child: const Icon(Icons.location_on_outlined,
-                          color: Colors.white)),
+                        color: primaryColor,
+
+                        child: const Icon(Icons.location_on_outlined,
+                          color: Colors.white,size: 18,)),
+                  ),
                 ),
                 DynamicModel(
                   'office',
@@ -139,7 +172,7 @@ class AddJobBodyPage extends StatelessWidget {
                   ],
                   controller: TextEditingController(),
                   width: width,
-                  items: [],
+                  items: officeItems,
                   isRequired: true,
                 ),
                 DynamicModel(
@@ -151,7 +184,7 @@ class AddJobBodyPage extends StatelessWidget {
                   ],
                   controller: TextEditingController(),
                   width: width,
-                  items: [],
+                  items: cityItems,
                   isRequired: true,
                 ),
                 DynamicModel(
@@ -163,7 +196,7 @@ class AddJobBodyPage extends StatelessWidget {
                   ],
                   controller: TextEditingController(),
                   width: width,
-                  items: [],
+                  items: qualificationsItems,
                   isRequired: true,
                 ),
                 DynamicModel(
@@ -175,7 +208,7 @@ class AddJobBodyPage extends StatelessWidget {
                   ],
                   controller: TextEditingController(),
                   width: width,
-                  items: [],
+                  items: nationalityItems,
                   isRequired: true,
                 ),
                 DynamicModel(
@@ -187,7 +220,7 @@ class AddJobBodyPage extends StatelessWidget {
                   ],
                   controller: TextEditingController(),
                   width: width,
-                  items: [],
+                  items: genderItems,
                   isRequired: true,
                 ),
                 DynamicModel(
@@ -199,7 +232,7 @@ class AddJobBodyPage extends StatelessWidget {
                   ],
                   controller: TextEditingController(),
                   width: width,
-                  items: [],
+                  items: categoryItems,
                 ),
                 DynamicModel(
                   'timeParts',
@@ -209,101 +242,22 @@ class AddJobBodyPage extends StatelessWidget {
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
                   width: width,
-                  items: [],
+                  items: timePartsItems,
                   controller: TextEditingController(),
                   isRequired: true,
                 ),
               ];
+
               return Flex(
                 direction: Axis.vertical,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 22),
-                    child: BlocBuilder<GeneralCubit, GeneralState>(
-                      builder: (context, gnState) {
-                        if (gnState is GeneralFetchedState) {
-                          print('GeneralFetchedState');
-                          List<ItemModel> nationalityItems = gnState
-                              .generals.nationality
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          List<ItemModel> qualificationsItems = gnState
-                              .generals.qualifications
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          List<ItemModel> genderItems = gnState.generals.gender
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          List<ItemModel> officeItems = gnState
-                              .generals.officeType
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          List<ItemModel> cityItems = gnState.generals.cities
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          List<ItemModel> categoryItems = gnState
-                              .generals.jobCategory
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          List<ItemModel> timePartsItems = gnState
-                              .generals.timeParts
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          context.read<DynamicFormCubit>().addMenuItems(
-                              addJobForm
-                                  .where((element) =>
-                                      element.key == 'nationalities')
-                                  .first,
-                              nationalityItems,
-                              state.jobs[0].nationalities!);
-                          context.read<DynamicFormCubit>().addMenuItems(
-                              addJobForm
-                                  .where((element) => element.key == 'category')
-                                  .first,
-                              categoryItems,
-                              state.jobs[0].category);
-                          context.read<DynamicFormCubit>().addMenuItems(
-                              addJobForm
-                                  .where((element) => element.key == 'city')
-                                  .first,
-                              cityItems,
-                              state.jobs[0].city);
-                          context.read<DynamicFormCubit>().addMenuItems(
-                              addJobForm
-                                  .where((element) =>
-                                      element.key == 'qualifications')
-                                  .first,
-                              qualificationsItems,
-                              state.jobs[0].qualifications!);
-                          context.read<DynamicFormCubit>().addMenuItems(
-                              addJobForm
-                                  .where((element) => element.key == 'gender')
-                                  .first,
-                              genderItems,
-                              state.jobs[0].gender!);
-                          context.read<DynamicFormCubit>().addMenuItems(
-                              addJobForm
-                                  .where(
-                                      (element) => element.key == 'timeParts')
-                                  .first,
-                              timePartsItems,
-                              state.jobs[0].timeParts);
-                          context.read<DynamicFormCubit>().addMenuItems(
-                              addJobForm
-                                  .where((element) => element.key == 'office')
-                                  .first,
-                              officeItems,
-                              state.jobs[0].office);
-                        }
-                        return DynamicFormWidget(
-                          key: const Key('profileInf'),
-                          dynamicFormsList: addJobForm,
-                          formKey: addJobFormKey,
-                          useResponsiveUi: true,
-                        );
-                      },
-                    ),
+                  DynamicFormWidget(
+                    key: const Key('profileInf'),
+                    dynamicFormsList: addJobForm,
+                    formKey: addJobFormKey,
+                    useResponsiveUi: true,
                   ),
                   FloatingActionButton(
                       child: const Icon(

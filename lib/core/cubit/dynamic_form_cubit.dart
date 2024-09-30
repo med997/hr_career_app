@@ -1,11 +1,18 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
+
+import '../app_theme.dart';
+import '../widgets/map_icon_button.dart';
 
 
 
 class DynamicFormCubit extends Cubit<List<DynamicModel>> {
   DynamicFormCubit() : super([]);
+
 
   void addField(DynamicModel dynamicModel) {
     final currentFields = List<DynamicModel>.from(state);
@@ -17,9 +24,41 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     final currentFields = dynamicModel;
     emit(currentFields);
   }
-  void setDisableFiled(bool disabled) {
+  void setDisableFiled(bool disabled,  BuildContext?  context
+      ) {
     final currentFields = state.map((field) {
       field.disabled = disabled;
+      if (field.controlName =='address'){
+        print(disabled);
+        field.action =Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: MaterialButton(
+              disabledColor: Colors.grey.shade600,
+              padding: EdgeInsets.all(4),
+              onPressed: disabled ==true ? null  :  () {
+                Navigator.of(context!)
+                    .push(MaterialPageRoute(
+                  builder: (context) => LocationWidget(),
+                ))
+                    .then((value) {
+                  context
+                      .read<DynamicFormCubit>()
+                      .updateValueOnly('address', value[0].toString());
+                  print('cubittttttttttttttttttttttttttttttttttttttttt');
+
+                  print(value[0]);
+                  print(value[1]);
+                });
+              },
+              shape: const CircleBorder(),
+              color: primaryColor,
+              child: const Icon(
+                Icons.location_on_outlined,
+                color: Colors.white,
+                size: 18,
+              )),
+        );
+      }
       return field;
     }).toList();
     emit(currentFields);

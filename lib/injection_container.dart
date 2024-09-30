@@ -18,6 +18,7 @@ import 'package:hr_career_platform/features/company/domain/repositories/company_
 import 'package:hr_career_platform/features/company/domain/usecases/fetch_company.dart';
 import 'package:hr_career_platform/features/company/domain/usecases/update_company.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/curd_company_cubit.dart';
+import 'package:hr_career_platform/features/general/data/datasources/general_local_datasource.dart';
 import 'package:hr_career_platform/features/general/data/datasources/general_remote_datasource.dart';
 import 'package:hr_career_platform/features/general/data/repositories/general_repository_impl.dart';
 import 'package:hr_career_platform/features/general/domain/repositories/general_repository.dart';
@@ -302,6 +303,11 @@ void _initGeneral() {
           GeneralRemoteDataSourceImpl(
             supBase: sl(),
           ),
+    )..registerFactory<GeneralLocalDataSource>(
+          () =>
+          GeneralLocalDataSourceImpl(
+            sharedPreferences: sl(),
+          ),
     )
 
   // repository
@@ -309,6 +315,7 @@ void _initGeneral() {
           () =>
           GeneralRepositoryImpl(
             generalRemoteDataSource: sl(),
+            generalLocaleDataSource: sl(),
             networkInfo: sl(),
           ),
     )

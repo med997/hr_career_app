@@ -90,6 +90,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
         ),
         if(dynamicModel.action != null)  SizedBox(
           height: 35 ,
+            width: 35,
             child: dynamicModel.action!),
       ],
     ),
