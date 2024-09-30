@@ -32,13 +32,6 @@ class HomeProfilePage extends StatefulWidget {
 
 class _HomeProfilePageState extends State<HomeProfilePage> {
   final mainInfoFormKey = GlobalKey<FormState>();
-
-  final expFormKey = GlobalKey<FormState>();
-
-  final edcFormKey = GlobalKey<FormState>();
-
-  final uplFormKey = GlobalKey<FormState>();
-
   double defaultWidth = 300;
 
   @override
@@ -191,7 +184,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               child: const Icon(Icons.cloud_upload_outlined,
                   color: Colors.white)),
           inputBorder: InputBorder.none,
-          value: '',
+
           validators: [
             DynamicFormValidator(
                 ValidatorType.notEmpty, 'isRequired')
@@ -422,7 +415,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               iconButton: IconButton(
                   onPressed: () {
                     isEditing = !isEditing;
-                    context.read<DynamicFormCubit>().setDisableFiled(isEditing);
+                    context.read<DynamicFormCubit>().setDisableFiled(isEditing,context);
                   },
                   icon: const Icon(
                     Icons.edit_road,

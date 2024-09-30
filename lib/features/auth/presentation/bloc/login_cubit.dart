@@ -15,6 +15,7 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   final LoginUseCase loginUseCase;
   final FetchAuthUseCase fetchAuthUseCase;
+  Auth? authenticatedUser;
 
   LoginCubit({
     required this.loginUseCase,
@@ -62,7 +63,10 @@ class LoginCubit extends Cubit<LoginState> {
         print(failure.runtimeType);
         return NoLoginUser(msg: _mapFailureToMessage(failure));
       },
-      (auth) => CurrentUserStatus(auth: auth),
+      (auth) {
+        authenticatedUser = auth;
+       return CurrentUserStatus(auth: auth);
+      } ,
     );
   }
 

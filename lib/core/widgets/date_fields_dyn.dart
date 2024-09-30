@@ -18,6 +18,7 @@ Widget getDatePickerWidget(DynamicModel dynamicModel, BuildContext context) {
           dynamicModel.controller!.text = dateTime.toString();
         } ,
         readOnly: true,
+        enabled: !dynamicModel.disabled,
         controller: dynamicModel.controller,
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(

@@ -75,4 +75,6 @@ class AuthRepositoryImpl extends AuthRepository {
       }*/
     }
   }
-}
+
+  }
+
