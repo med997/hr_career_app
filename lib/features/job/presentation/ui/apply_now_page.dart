@@ -336,7 +336,7 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                       child: MaterialButton(
                         color: primaryColor,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16)),
+                            borderRadius: BorderRadius.circular(8)),
                         onPressed: () {},
                         child: Text(
                           tr("confirm_msg"),

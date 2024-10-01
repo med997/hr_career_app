@@ -59,13 +59,20 @@ class RegisterPage extends StatelessWidget {
         disabled: false, key: 'confirmPassword'),
   ];
   List<DynamicModel> regFormCompany = [
-    DynamicModel('companyName', FormType.text,
+    DynamicModel('companyNameEn', FormType.text,
         controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false, key: 'companyName'),
+        disabled: false, key: 'companyNameEn'),
+    DynamicModel('companyNameAr', FormType.text,
+        controller: TextEditingController(),
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        isRequired: true,
+        disabled: false, key: 'companyNameAr'),
     DynamicModel('email', FormType.email,
         controller: TextEditingController(),
         validators: [
@@ -80,6 +87,14 @@ class RegisterPage extends StatelessWidget {
         ],
         isRequired: true,
         disabled: false, key: 'address'),
+    DynamicModel('city', FormType.dropdown,
+        items: [],
+        controller: TextEditingController(),
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        isRequired: true,
+        disabled: false, key: 'city'),
     DynamicModel('phone', FormType.phone,
         isRequired: true,
         controller: TextEditingController(),
@@ -107,6 +122,7 @@ class RegisterPage extends StatelessWidget {
 
   _cardRegister(BuildContext _) {
     return Container(
+height: 500,
 width: 400,
       padding: const EdgeInsets.symmetric(horizontal:  24,vertical: 10),
       margin:  EdgeInsets.only(left: 28,right: 28, top: MediaQuery.of(_).size.height*0.2),
