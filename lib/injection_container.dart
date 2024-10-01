@@ -43,8 +43,10 @@ import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.
 import 'package:hr_career_platform/features/payment/data/datasources/payment_remote_datasource.dart';
 import 'package:hr_career_platform/features/payment/data/repositories/payment_repository_impl.dart';
 import 'package:hr_career_platform/features/payment/domain/repositories/payment_repository.dart';
+import 'package:hr_career_platform/features/payment/domain/usecases/add_payment.dart';
 import 'package:hr_career_platform/features/payment/domain/usecases/get_package.dart';
 import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
+import 'package:hr_career_platform/features/payment/presentation/bloc/payment_curd_cubit.dart';
 import 'package:hr_career_platform/features/profile/data/datasources/profile_remote_datasource.dart';
 import 'package:hr_career_platform/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:hr_career_platform/features/profile/domain/repositories/profile_repository.dart';
@@ -159,6 +161,14 @@ void _initPayment() {
   // usecases
     ..registerFactory(
           () => GetPackageUseCase(repository: sl()),
+    )
+  // usecases
+    ..registerFactory(
+          () => AddPaymentUseCase(repository: sl()),
+    )
+  // cubit
+    ..registerLazySingleton(
+          () => PaymentCurdCubit(addPaymentUseCase: sl()),
     )
   // cubit
     ..registerLazySingleton(

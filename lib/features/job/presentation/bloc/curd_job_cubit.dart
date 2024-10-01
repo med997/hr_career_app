@@ -36,7 +36,7 @@ class CurdJobCubit extends Cubit<CurdJobState> {
     final failureOrSuccess = await updateJobUseCase.call(job);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
-  Future<void> insertJob(Map<String,dynamic>? value) async {
+  Future<void> insertJob(Map<String,dynamic>? value,String companyId) async {
     emit(LoadingCurdJobState());
     Job job = Job(
         jobTitle: value!['jobTitle'],
@@ -52,19 +52,19 @@ class CurdJobCubit extends Cubit<CurdJobState> {
         status: 'draft',
         deadlineDate:DateTime.now(),
         jobDesc: value['jobDesc'],
-        companyId: '04363fab-42e2-4b7e-9d6c-10bfb68f138b',
+        companyId:companyId,
         jobRequirements: value['jobRequirements']);
     final failureOrSuccess = await addJobUserCase.call(job);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'insertDone'));
   }
 
   CurdJobState _eitherDoneMessageOrErrorState(
-      Either<Failure, Unit> either, String message) {
+      Either<Failure, Job> either, String message) {
     return either.fold(
           (failure) => ErrorCurdJobState(
         message: _mapFailureToMessage(failure),
       ),
-          (_) => MessageCurdJobState(message: message),
+          (job) => MessageCurdJobState(job: job,message: message),
     );
   }
 

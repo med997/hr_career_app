@@ -10,7 +10,7 @@ import '../../domain/entities/job.dart';
 import '../../domain/repositories/job_repository.dart';
 import '../datasources/network/job_remote_datasource.dart';
 
-typedef DeleteOrUpdateOrAddJob = Future<Unit> Function();
+typedef DeleteOrUpdateOrAddJob = Future<Job> Function();
 
 class JobRepositoryImpl extends JobRepository {
   final JobRemoteDataSource jobRemoteDataSource;
@@ -20,7 +20,7 @@ class JobRepositoryImpl extends JobRepository {
       {required this.jobRemoteDataSource, required this.networkInfo});
 
   @override
-  Future<Either<Failure, Unit>> addJob(Job job) async {
+  Future<Either<Failure, Job>> addJob(Job job) async {
     return await _getMessage(() => jobRemoteDataSource.addJob(JobModel.fromJob(job)));
   }
 
@@ -53,16 +53,16 @@ class JobRepositoryImpl extends JobRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateJob(Job job) async {
+  Future<Either<Failure, Job>> updateJob(Job job) async {
     return await _getMessage(() => jobRemoteDataSource.updateJob(JobModel.fromJob(job)));
   }
 
-  Future<Either<Failure, Unit>> _getMessage(
+  Future<Either<Failure, Job>> _getMessage(
       DeleteOrUpdateOrAddJob deleteOrUpdateOrInsertAccount) async {
     if (await networkInfo.isConnected) {
       try {
-        await deleteOrUpdateOrInsertAccount();
-        return const Right(unit);
+        final remoteJob =  await deleteOrUpdateOrInsertAccount();
+        return  Right(remoteJob);
       }on ServerException catch (e) {
         return Left(ServerFailure(messageServer:e.message??''));
       }

@@ -12,7 +12,7 @@ class AddJobUserCase {
   AddJobUserCase(this.repository);
 
 
-  Future<Either<Failure, Unit>> call(Job job) async {
+  Future<Either<Failure, Job>> call(Job job) async {
     return await repository.addJob(job);
   }
 }

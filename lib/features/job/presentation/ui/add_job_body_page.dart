@@ -14,6 +14,8 @@ import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/curd_job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
 
+import '../../../auth/presentation/bloc/login_cubit.dart';
+
 class AddJobBodyPage extends StatefulWidget {
   AddJobBodyPage({super.key, this.generals, this.job});
 
@@ -267,21 +269,23 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                       onPressed: () {
                         var value =
                             context.read<DynamicFormCubit>().getCurrentValue();
-                        print(value.toString());
-                        context.read<CurdJobCubit>().insertJob(value);
+                        final companyId = context.read<LoginCubit>().authenticatedUser!.userAuth!.id;
+
+                        print('company_id: $companyId ===> $value');
+                        context.read<CurdJobCubit>().insertJob(value,companyId);
 
                         // context.read<StepperCubit>().changeStep(1);
                       })
                 ],
               );
-            } else
-              return SizedBox();
+            }
+              return const SizedBox();
           },
         ),
         // BlocListener(listener: (context, state) => ),
         BlocConsumer<CurdJobCubit, CurdJobState>(
           listener: (context, state) => state is MessageCurdJobState
-              ? context.read<StepperCubit>().changeStep(1)
+              ? context.read<StepperCubit>().changeStep(1,addedJob: state.job)
               : null,
           builder: (context, state) {
             if (state is LoadingCurdJobState) {

@@ -2,17 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/app_theme.dart';
+import '../../domain/entities/package.dart';
 
 class PaymentCardWidget extends StatelessWidget {
-  final String pkgName;
-  final String price;
-  final List<String> pkgFeatures; 
+  final Package pkg;
+  final Function onPkgSelected;
 
   const PaymentCardWidget({
     super.key,
-    required this.pkgName,
-    required this.price,
-    required this.pkgFeatures, 
+    required this.pkg,
+    required this.onPkgSelected,
   });
 
   @override
@@ -32,7 +31,7 @@ class PaymentCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              pkgName,
+              pkg.pkgName,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             const SizedBox(height: 12),
@@ -41,7 +40,7 @@ class PaymentCardWidget extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.end,
               children: [
                 Text(
-                  price,
+                  pkg.price.toString(),
                   style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
@@ -51,7 +50,7 @@ class PaymentCardWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            ...pkgFeatures.map((feature) {
+            ...pkg.desc.map((feature) {
               return  Padding(
                 padding: const EdgeInsets.only(bottom: 4.0),
                 child: Text(
@@ -75,7 +74,10 @@ class PaymentCardWidget extends StatelessWidget {
         child: MaterialButton(
           color: primaryColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          onPressed: () {},
+          onPressed: () {
+            onPkgSelected();
+
+          },
           enableFeedback: false,
           child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
