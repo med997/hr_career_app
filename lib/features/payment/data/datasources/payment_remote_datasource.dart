@@ -1,11 +1,14 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hr_career_platform/core/error/exceptions.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/payment/data/models/package_model.dart';
+import 'package:hr_career_platform/features/payment/data/models/payment_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class PaymentRemoteDataSource {
   Future<List<PackageModel>> getPackages(PkgType type);
+  Future<Unit> insertPayment(PaymentModel paymentModel);
 }
 
 class PaymentsRemoteDataSourceImpl implements PaymentRemoteDataSource {
@@ -32,6 +35,26 @@ class PaymentsRemoteDataSourceImpl implements PaymentRemoteDataSource {
       }
       throw const ServerException(message: 'something wrong  !!!');
 
+    }
+  }
+
+  @override
+  Future<Unit> insertPayment(PaymentModel paymentModel) async{
+    try {
+      await supBase
+          .from('payment')
+          .insert(paymentModel.toJson());
+      return Future.value(unit);
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
     }
   }
 }

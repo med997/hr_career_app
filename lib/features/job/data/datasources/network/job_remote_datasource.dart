@@ -51,8 +51,9 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
     try {
       final data = await supBase
           .from('jobs')
-          .insert(jobModel.toJson()).select().single();
-      final JobModel job =JobModel.fromJson(data);
+          .insert(jobModel.toJson()).select();
+      print(data.toString());
+      final JobModel job =JobModel.fromJson(data.first);
       return job;
     } on PostgrestException catch (error) {
       if (kDebugMode) {

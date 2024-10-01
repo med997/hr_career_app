@@ -47,7 +47,7 @@ class JobModel extends Job {
         jobDesc: json["job_desc"],
         jobRequirements: json["job_requirements"],
         companyId: json["company_id"],
-        company:CompanyModel.fromJson(json["company"]),
+        company:json["company"]!=null?CompanyModel.fromJson(json["company"]):null,
       );
 
   factory JobModel.fromJob(Job job) => JobModel(

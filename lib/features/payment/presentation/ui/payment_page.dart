@@ -1,26 +1,47 @@
-
 import 'package:flutter/material.dart';
-import 'package:hr_career_platform/features/payment/presentation/widgets/credit_card_payment_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
+import 'package:hr_career_platform/core/widgets/loading_widget.dart';
+import 'package:hr_career_platform/features/job/domain/entities/job.dart';
+import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
+import 'package:hr_career_platform/features/payment/domain/entities/package.dart';
+import 'package:hr_career_platform/features/payment/domain/entities/payment.dart';
+import 'package:hr_career_platform/features/payment/presentation/bloc/payment_curd_cubit.dart';
 import 'package:moyasar/moyasar.dart';
 
-class PaymentPage extends StatelessWidget {
-  PaymentPage({super.key});
+class PaymentPage extends StatefulWidget {
+  const PaymentPage({super.key});
 
-  final paymentConfig = PaymentConfig(
-    publishableApiKey: 'pk_test_uPPeSaJvibxgtZtwUX2Jc5wYfsXZxXwQGvqiFTid',
-    amount: 25758, // SAR Halala
-    description: 'order #1324',
-    metadata: {'size': '250g'},
-    creditCard: CreditCardConfig( saveCard: true, manual: false),
-  );
-  void onPaymentResult(result) {
+  @override
+  State<PaymentPage> createState() => _PaymentPageState();
+}
+
+class _PaymentPageState extends State<PaymentPage> {
+
+  PaymentConfig? paymentConfig;
+
+  Package? pkg;
+
+  Job? job;
+
+  onPaymentResult(result) {
     if (result is PaymentResponse) {
       switch (result.status) {
         case PaymentStatus.initiated:
           print('init');
           break;
         case PaymentStatus.paid:
-          // result.
+          Payment payment = Payment(jobId: job!.id!,
+              companyId: job!.companyId!,
+              amount: result.amount,
+              refId: result.id,
+              amountTxt: result.amountFormat,
+              fee: result.feeFormat,
+              description: result.description!,
+              metadata: result.metadata,
+              pkg: pkg!.id!);
+          context.read<PaymentCurdCubit>().insertPayment(payment);
+
           print('paid');
           break;
         case PaymentStatus.failed:
@@ -36,14 +57,51 @@ class PaymentPage extends StatelessWidget {
       }
     }
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+    job = context
+        .read<StepperCubit>()
+        .job!;
+    pkg = context
+        .read<StepperCubit>()
+        .package!;
+    paymentConfig = PaymentConfig(
+      publishableApiKey: 'pk_test_uPPeSaJvibxgtZtwUX2Jc5wYfsXZxXwQGvqiFTid',
+      amount: pkg!.price * 100,
+      // SAR Halala
+      description: 'payment ${pkg!.pkgName} for Job No ${job!
+          .id} from company id ${job!.companyId}',
+      metadata: {'pkgDesc': ' ${pkg!.desc}', "jobTitle": job!.jobTitle},
+      creditCard: CreditCardConfig(saveCard: true, manual: false),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       padding: const EdgeInsets.symmetric(horizontal: 24),
       children: [
-        CreditCard(config: paymentConfig,
-        onPaymentResult: onPaymentResult),
+        CreditCard(config: paymentConfig!,
+            onPaymentResult: onPaymentResult),
+        BlocConsumer<PaymentCurdCubit, PaymentCurdState>(
+          listener: (context, state) {
+            if (state is MessageCurdPaymentState){
+              Navigator.pop(context);
+            }
+          },
+          builder: (context, state) {
+
+                if (state is LoadingCurdPaymentState) {
+                  return LoadingWidget();
+                }
+                return const SizedBox();
+
+          },
+        )
       ],
     );
   }

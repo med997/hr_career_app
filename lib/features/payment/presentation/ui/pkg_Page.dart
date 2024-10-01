@@ -7,6 +7,8 @@ import 'package:hr_career_platform/features/payment/presentation/bloc/package_cu
 import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 import 'package:hr_career_platform/features/payment/presentation/widgets/payment_card_widget.dart';
 
+import '../../../job/presentation/bloc/stepper_cubit.dart';
+
 class PkgPage extends StatefulWidget {
   const PkgPage({super.key});
 
@@ -15,25 +17,27 @@ class PkgPage extends StatefulWidget {
 }
 
 class _PkgPageState extends State<PkgPage> {
-
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PackageCubit, PackageState>(
-      builder: (context, state)  {
+      builder: (context, state) {
         if (state is PackageFetchedState) {
           return ListView.builder(
-            itemCount: state.packages.length ,
-              itemBuilder: (context, index){
+            itemCount: state.packages.length,
+            itemBuilder: (context, index) {
               Package e = state.packages[index];
-              return PaymentCardWidget(pkgName: e.pkgName,
-              price: e.price.toString(), pkgFeatures: e.desc);
-        },
-        shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        );
-        }
-        else if (state is PackageLoadingState){
+              return InkWell(
+                  child: PaymentCardWidget(
+                pkg: e,
+                onPkgSelected: () {
+                  context.read<StepperCubit>().changeStep(2, selectedPackage: e);
+                },
+              ));
+            },
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+          );
+        } else if (state is PackageLoadingState) {
           return LoadingWidget();
         }
 

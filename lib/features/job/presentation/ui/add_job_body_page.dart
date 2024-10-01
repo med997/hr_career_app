@@ -274,14 +274,14 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                       })
                 ],
               );
-            } else
-              return SizedBox();
+            }
+              return const SizedBox();
           },
         ),
         // BlocListener(listener: (context, state) => ),
         BlocConsumer<CurdJobCubit, CurdJobState>(
           listener: (context, state) => state is MessageCurdJobState
-              ? context.read<StepperCubit>().changeStep(1)
+              ? context.read<StepperCubit>().changeStep(1,addedJob: state.job)
               : null,
           builder: (context, state) {
             if (state is LoadingCurdJobState) {

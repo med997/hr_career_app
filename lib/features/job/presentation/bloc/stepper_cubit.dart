@@ -14,8 +14,13 @@ class StepperCubit extends Cubit<StepperState> {
 
   Future<void> changeStep(int tabIndex,
       {Job? addedJob, Package? selectedPackage}) async {
-    job = addedJob;
-    package = selectedPackage;
+    if(addedJob!=null) {
+      job = addedJob;
+    }
+    if(selectedPackage!=null){
+      package = selectedPackage;
+    }
+
     emit(StepperChangedState(activeStep: tabIndex));
   }
 }
