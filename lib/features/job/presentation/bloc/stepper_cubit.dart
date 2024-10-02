@@ -23,4 +23,5 @@ class StepperCubit extends Cubit<StepperState> {
 
     emit(StepperChangedState(activeStep: tabIndex));
   }
+
 }

@@ -82,18 +82,18 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                   controller: TextEditingController(text: widget.job?.jobTitle),
                   isRequired: true,
                 ),
-                DynamicModel(
-                  'deadlineDate',
-                  FormType.date,
-                  key: 'deadlineDate',
-                  controller: TextEditingController(
-                      text: widget.job?.deadlineDate.toString()),
-                  width: width,
-                  isRequired: true,
-                  validators: [
-                    DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                  ],
-                ),
+                // DynamicModel(
+                //   'deadlineDate',
+                //   FormType.date,
+                //   key: 'deadlineDate',
+                //   controller: TextEditingController(
+                //       text: widget.job?.deadlineDate.toString()),
+                //   width: width,
+                //   isRequired: true,
+                //   validators: [
+                //     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                //   ],
+                // ),
                 DynamicModel(
                   'otherApplyLinks',
                   FormType.text,

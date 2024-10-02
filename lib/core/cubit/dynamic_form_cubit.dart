@@ -94,11 +94,12 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     print('addMenuItems');
     final currentFields = state.map((field) {
       if (field.key ==  key) {
-        field.items= itemModels;
-        // field.value = selectedItem;
-        field.controller!.text= selectedItem;
+        final dynamicModel = field;
+        dynamicModel.items= itemModels;
+
+        dynamicModel.controller!.text= selectedItem;
         print('${field.key} ${selectedItem}');
-        return field;
+        return dynamicModel;
       }
       return field;
     }).toList();

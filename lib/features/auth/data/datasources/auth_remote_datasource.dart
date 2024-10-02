@@ -8,6 +8,7 @@ final User? user = res.user;*/
 
 import 'dart:math';
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hr_career_platform/core/error/exceptions.dart';
@@ -27,6 +28,7 @@ abstract class AuthRemoteDatasource {
   Future<AuthModel> signup(Auth authModel);
 
   Future<AuthModel> login(Auth authModel);
+  Future<Unit> signOut();
 
   Future<AuthModel> getCurrentUserData();
 }
@@ -105,7 +107,7 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         Map<String, dynamic> userTypeMap = {'userType': UsrType.company.name};
 
         CompanyModel model = CompanyModel.fromCompany(authModel.company);
-        print(model.phone);
+        print(model.toJson());
 
         data = await supBase.auth.signUp(
           email: authModel.email.trim(),
@@ -183,6 +185,25 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         print(e.toString());
       }
       throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<Unit> signOut() async{
+    try {
+    await supBase.auth.signOut();
+    return Future.value(unit);
+
+    } on AuthException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: error.message);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw const ServerException(message: 'Something Wrong');
     }
   }
 }
