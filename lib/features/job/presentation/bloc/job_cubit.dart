@@ -31,10 +31,10 @@ class JobCubit extends Cubit<JobState> {
           ),
     );
   }
- Future<void> searchJob( int companyId, String category, String nationalities) async {
-   emit(JobLoadingState());
-   final failureOrSuccess = await searchJobsUserCase.call(companyId, category, nationalities);
-   emit(_mapFailureOrJobsToState(failureOrSuccess));
+  Future<void> searchJob({ int? companyId, required String category, String? nationalities}) async {
+    emit(JobLoadingState());
+    final failureOrSuccess = await searchJobsUserCase.call(companyId!, category, nationalities,);
+    emit(_mapFailureOrJobsToState(failureOrSuccess));
   }
 
 

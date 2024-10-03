@@ -216,7 +216,6 @@ width: 400,
 
   Widget _desktopAndTabletRegPage(BuildContext context) {
     return Container(
-
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/imgs/bglarg.png'),

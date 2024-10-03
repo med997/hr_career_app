@@ -12,9 +12,8 @@ class SearchJobsUserCase{
 
   SearchJobsUserCase({required this.repository});
 
-
-  Future<Either<Failure, List<Job>>> call(int  companyId,String category,nationalities ) async {
-    return await repository.getSearchJob( companyId,category,nationalities);
+  Future<Either<Failure, List<Job>>> call(int companyId, String category, String? nationalities) async {
+    return await repository.getSearchJob(companyId, category, nationalities);
   }
 
 }

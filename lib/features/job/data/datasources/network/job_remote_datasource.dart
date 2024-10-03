@@ -106,24 +106,22 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
 
   }
 
-
-
   @override
-  Future<List<JobModel>> getSearchJobs( companyId,  category,  nationalities) async {
-    try{
+  Future<List<JobModel>> getSearchJobs(int companyId, String category, String? nationalities) async {
+    try {
       final res = await supBase
           .from('jobs')
           .select('*, company(*)')
           .eq('company.id', companyId)
           .eq('category', category)
-          .eq('nationalities', nationalities);
+          .eq('nationalities', nationalities!);
 
-      final List<JobModel> jobList =
-      res.map((json) => JobModel.fromJson(json)).toList();
-      return jobList;
+      return res.map((json) => JobModel.fromJson(json)).toList();
     } on PostgrestException catch (error) {
-      print(error); // Contains http status code
+      if (kDebugMode) {
+        print(error); // Contains http status code
+      }
+      throw ServerException();
     }
-    throw ServerException();
   }
 }
