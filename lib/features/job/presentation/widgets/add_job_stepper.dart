@@ -18,6 +18,7 @@ class AddJobStepper extends StatelessWidget {
           borderThickness: 2,
           stepRadius: 28,
           fitWidth: true,
+          enableStepTapping: false,
           unreachedStepIconColor: Colors.grey,
           finishedStepBorderColor: primaryColor,
           finishedStepTextColor: primaryColor,

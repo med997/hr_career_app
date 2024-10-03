@@ -7,6 +7,7 @@ import 'package:hr_career_platform/features/company/domain/entities/company.dart
 import '../../../../core/app_localizations.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';
 import '../widgets/company_appbar.dart';
+import '../widgets/company_gallery.dart';
 
 class CompanyProfileDetailPage extends StatelessWidget {
   final Company company;
@@ -39,6 +40,8 @@ class CompanyProfileDetailPage extends StatelessWidget {
                   return SizedBox();
                 case 2:
                   return SizedBox();
+                case 3:
+                  return CompanyGallery(company);
                 default:
                   return const SizedBox();
               }

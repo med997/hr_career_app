@@ -64,7 +64,7 @@ class JobDetailsPage extends StatelessWidget {
                 child: MaterialButton(
                   color: primaryColor,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
+                      borderRadius: BorderRadius.circular(8)),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>  const ApplyNowPage()));
                   },

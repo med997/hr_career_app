@@ -7,6 +7,9 @@ import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/language_button_widget.dart';
 
+import '../../features/auth/presentation/bloc/login_cubit.dart';
+import '../splash_page.dart';
+
 AppBar buildAppBar({
   required String userName,
   required String img,
@@ -52,8 +55,37 @@ AppBar buildAppBar({
               )
             else if (selectedTab == 1 && userOrCompany == 'Company')
               appBarButton(primaryColor)
-            else if (selectedTab == 3)
-               const LanguageButton(clr: primaryColor),
+            else if (selectedTab == 3 && userOrCompany == 'User')
+              Wrap(children:[ LanguageButton(clr: primaryColor),
+                BlocConsumer<LoginCubit, LoginState>(
+                  listener: (context, state) {
+                    if (state is LoginSignOutState) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                            const SplashPage(),
+                          ),
+                              (route) => false);
+                    }
+                  },
+                  builder: (context, state) {
+                    return ElevatedButton(
+                        onPressed: () {
+                          context.read<LoginCubit>().signOut();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: const CircleBorder(),
+                          backgroundColor: Colors.redAccent,
+                        ),
+                        child: const Icon(
+                          Icons.power_settings_new_outlined,
+                          color: Colors.white,
+                          size: 14,
+                        ));
+                  },
+                ),]),
+
             if (fullHeader == true)
               AvatarNetwork(
                 imgUrl: '',

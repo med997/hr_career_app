@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
-import 'package:hr_career_platform/features/general/presentation/ui/add_job_body_page.dart';
+import 'package:hr_career_platform/features/job/presentation/ui/add_job_body_page.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_header.dart';
 import 'package:hr_career_platform/features/profile/presentation/widgets/profile_card.dart';
@@ -111,27 +111,23 @@ class CompanyDetailsPage extends StatelessWidget {
                   ],
                   isRequired: true,
                   disabled: isEditing,
-                  action: ElevatedButton(
-                      onPressed: () async {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                          builder: (context) => LocationWidget(),
-                        ))
-                            .then(
-                          (value) {
-                            context.read<DynamicFormCubit>().updateValueOnly(
-                                'address', value[0].toString());
-                            print(value[0]);
-                            print(value[1]);
-                          },
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
+                  action: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: MaterialButton(
+
+                        disabledColor: Colors.grey.shade600,
+                        padding: EdgeInsets.all(4),
+                        onPressed: isEditing==isEditing ? null : () {
+
+                        },
                         shape: const CircleBorder(),
-                        backgroundColor: primaryColor,
-                      ),
-                      child: const Icon(Icons.location_on_outlined,
-                          color: Colors.white)),
+                        color: primaryColor,
+                        child: const Icon(
+                          Icons.location_on_outlined,
+                          color: Colors.white,
+                          size: 18,
+                        )),
+                  ),
                 ),
                 DynamicModel('office', FormType.dropdown,
                     key: 'office',
@@ -282,7 +278,7 @@ class CompanyDetailsPage extends StatelessWidget {
                               isEditing = !isEditing;
                               context
                                   .read<DynamicFormCubit>()
-                                  .setDisableFiled(isEditing);
+                                  .setDisableFiled(isEditing,context);
                             },
                             icon: const Icon(
                               Icons.edit_road,
@@ -348,12 +344,25 @@ class CompanyDetailsPage extends StatelessWidget {
                                 qualificationsItems,
                                 job.qualifications!);
                             // context.read<DynamicFormCubit>().addSubFormMenuItems('education','qualifications', qualificationsItems);
-                            context.read<DynamicFormCubit>().addMenuItems2(
-                                'gender', genderItems, job.gender!);
-                            context.read<DynamicFormCubit>().addMenuItems2(
-                                'timeParts', timePartsItems, job.timeParts);
-                            context.read<DynamicFormCubit>().addMenuItems2(
-                                'office', officeItems, job.office);
+                            context.read<DynamicFormCubit>().addMenuItems(
+                                reviewJobForm
+                                    .where((element) => element.key == 'gender')
+                                    .first,
+                                genderItems,
+                                job.gender!);
+                            context.read<DynamicFormCubit>().addMenuItems(
+                                reviewJobForm
+                                    .where(
+                                        (element) => element.key == 'timeParts')
+                                    .first,
+                                timePartsItems,
+                                job.timeParts);
+                            context.read<DynamicFormCubit>().addMenuItems(
+                                reviewJobForm
+                                    .where((element) => element.key == 'office')
+                                    .first,
+                                officeItems,
+                                job.office);
                             // context.read<DynamicFormCubit>().addMenuItems2('qualifications', genderItems, state.profile.gender!);
                           }
                           return DynamicFormWidget(
@@ -481,7 +490,7 @@ class CompanyDetailsPage extends StatelessWidget {
                             isEditing = !isEditing;
                             context
                                 .read<DynamicFormCubit>()
-                                .setDisableFiled(isEditing);
+                                .setDisableFiled(isEditing,context);
                           },
                           icon: const Icon(
                             Icons.edit_road,

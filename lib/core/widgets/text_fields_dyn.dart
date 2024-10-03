@@ -84,12 +84,13 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
               return null;
             },
             onChanged: (value) {
-              dynamicModel.value = value;
+              dynamicModel.controller!.text = value;
                context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
             }),
         ),
         if(dynamicModel.action != null)  SizedBox(
           height: 35 ,
+            width: 35,
             child: dynamicModel.action!),
       ],
     ),

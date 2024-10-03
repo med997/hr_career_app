@@ -6,6 +6,7 @@ import 'package:hr_career_platform/core/error/failures.dart';
 import 'package:hr_career_platform/core/strings/failures.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
+import 'package:hr_career_platform/features/auth/domain/usecases/delete_auth.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/fetch_auth.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/login_use_case.dart';
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
@@ -15,8 +16,10 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   final LoginUseCase loginUseCase;
   final FetchAuthUseCase fetchAuthUseCase;
+  final DeleteAuthUseCase deleteAuthUseCase;
+  Auth? authenticatedUser;
 
-  LoginCubit({
+  LoginCubit({required this.deleteAuthUseCase,
     required this.loginUseCase,
     required this.fetchAuthUseCase,
   }) : super(LoginInitial());
@@ -51,20 +54,41 @@ class LoginCubit extends Cubit<LoginState> {
 
   LoginState _mapFailureOrAuthToState(Either<Failure, Auth> either) {
     return either.fold(
-      (failure) => ErrLoginUser(msg: _mapFailureToMessage(failure)),
-      (auth) => SuccessLoginUser(auth: auth),
+          (failure) => ErrLoginUser(msg: _mapFailureToMessage(failure)),
+          (auth) => SuccessLoginUser(auth: auth),
     );
   }
 
   LoginState _mapCheckAuthToState(Either<Failure, Auth> either) {
     return either.fold(
-      (failure) {
+          (failure) {
         print(failure.runtimeType);
         return NoLoginUser(msg: _mapFailureToMessage(failure));
       },
-      (auth) => CurrentUserStatus(auth: auth),
+          (auth) {
+        authenticatedUser = auth;
+        return CurrentUserStatus(auth: auth);
+      },
     );
   }
+
+  LoginState _signOutCheckState(Either<Failure, Unit> either) {
+    return either.fold(
+          (failure) {
+        print(failure.runtimeType);
+        return ErrLoginUser(msg: _mapFailureToMessage(failure));
+      },
+          (auth) {
+        return LoginSignOutState();
+      },
+    );
+  }
+
+  Future<void> signOut() async {
+    final failureOrAuth = await deleteAuthUseCase.call();
+    emit(_signOutCheckState(failureOrAuth));
+  }
+
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {

@@ -19,7 +19,8 @@ class ErrorCurdJobState extends CurdJobState {
 
 class MessageCurdJobState extends CurdJobState {
   final String message;
-  const MessageCurdJobState({required this.message});
+  final Job job;
+  const MessageCurdJobState({required this.message, required this.job});
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [job];
 }

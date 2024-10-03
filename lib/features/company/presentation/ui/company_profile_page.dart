@@ -150,29 +150,34 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             validators: [
               DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
             ],
-            disabled: true,
+            disabled: isEditing,
             width: Responsive.isMobile(context) ? width : 300,
-            action: ElevatedButton(
-                onPressed: () async   {
-                  Navigator.of(context)
-                      .push( MaterialPageRoute(
-                    builder: (context2) =>  LocationWidget(),
-                  ))
-                      .then(
-                        (value) {
-                      context.read<DynamicFormCubit>().updateValueOnly(
-                          'address', value[0].toString());
+            action: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: MaterialButton(
+                  disabledColor: Colors.grey.shade600,
+                  padding: EdgeInsets.all(4),
+                  onPressed: isEditing==isEditing ? null : () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                      builder: (context) => LocationWidget(),
+                    ))
+                        .then((value) {
+                      context
+                          .read<DynamicFormCubit>()
+                          .updateValueOnly('address', value[0].toString());
                       print(value[0]);
                       print(value[1]);
-                    },
-                  );
-                },
-                style: ElevatedButton.styleFrom(
+                    });
+                  },
                   shape: const CircleBorder(),
-                  backgroundColor: primaryColor,
-                ),
-                child: const Icon(Icons.location_on_outlined,
-                    color: Colors.white))
+                  color: primaryColor,
+                  child: const Icon(
+                    Icons.location_on_outlined,
+                    color: Colors.white,
+                    size: 18,
+                  )),
+            ),
           ),
           DynamicModel('aboutUs', FormType.text,
               key: 'aboutUs',
@@ -227,7 +232,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                           isEditing = !isEditing;
                           context
                               .read<DynamicFormCubit>()
-                              .setDisableFiled(isEditing);
+                              .setDisableFiled(isEditing,context);
                         },
                         icon: const Icon(
                           Icons.edit_road,
@@ -346,7 +351,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                           isEditing = !isEditing;
                           context
                               .read<DynamicFormCubit>()
-                              .setDisableFiled(isEditing);
+                              .setDisableFiled(isEditing,context);
                         },
                         icon: const Icon(
                           Icons.edit_road,
@@ -365,8 +370,8 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                                 .toList();
                             context.read<DynamicFormCubit>().addMenuItems(
                                 companyProfile
-                                    .where(
-                                        (element) => element.key == 'nationality')
+                                    .where((element) =>
+                                        element.key == 'nationality')
                                     .first,
                                 nationalityItems,
                                 company.nationality!);
@@ -418,10 +423,12 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   children: [
-
                     Center(
                       child: ToggleBtnWidget(
-                        options: [tr("main_information_msg"), tr("gallery_msg")],
+                        options: [
+                          tr("main_information_msg"),
+                          tr("gallery_msg")
+                        ],
                       ),
                     ),
                     CompanyGallery(company)

@@ -4,6 +4,7 @@ import 'package:hr_career_platform/core/cubit/location_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:hr_career_platform/features/auth/domain/usecases/delete_auth.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/fetch_auth.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/login_use_case.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
@@ -18,6 +19,7 @@ import 'package:hr_career_platform/features/company/domain/repositories/company_
 import 'package:hr_career_platform/features/company/domain/usecases/fetch_company.dart';
 import 'package:hr_career_platform/features/company/domain/usecases/update_company.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/curd_company_cubit.dart';
+import 'package:hr_career_platform/features/general/data/datasources/general_local_datasource.dart';
 import 'package:hr_career_platform/features/general/data/datasources/general_remote_datasource.dart';
 import 'package:hr_career_platform/features/general/data/repositories/general_repository_impl.dart';
 import 'package:hr_career_platform/features/general/domain/repositories/general_repository.dart';
@@ -42,8 +44,10 @@ import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.
 import 'package:hr_career_platform/features/payment/data/datasources/payment_remote_datasource.dart';
 import 'package:hr_career_platform/features/payment/data/repositories/payment_repository_impl.dart';
 import 'package:hr_career_platform/features/payment/domain/repositories/payment_repository.dart';
+import 'package:hr_career_platform/features/payment/domain/usecases/add_payment.dart';
 import 'package:hr_career_platform/features/payment/domain/usecases/get_package.dart';
 import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
+import 'package:hr_career_platform/features/payment/presentation/bloc/payment_curd_cubit.dart';
 import 'package:hr_career_platform/features/profile/data/datasources/profile_remote_datasource.dart';
 import 'package:hr_career_platform/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:hr_career_platform/features/profile/domain/repositories/profile_repository.dart';
@@ -159,6 +163,14 @@ void _initPayment() {
     ..registerFactory(
           () => GetPackageUseCase(repository: sl()),
     )
+  // usecases
+    ..registerFactory(
+          () => AddPaymentUseCase(repository: sl()),
+    )
+  // cubit
+    ..registerLazySingleton(
+          () => PaymentCurdCubit(addPaymentUseCase: sl()),
+    )
   // cubit
     ..registerLazySingleton(
           () => PackageCubit(getPackageUseCase: sl()),
@@ -244,13 +256,18 @@ void _initAuth() {
         FetchAuthUseCase(
           sl(),
         ),
+  )..registerFactory(
+        () =>
+        DeleteAuthUseCase(
+          sl(),
+        ),
   )
   // cubit
 
     ..registerLazySingleton(
           () => RegisterCubit(signupUseCase: sl()),
     )..registerLazySingleton(
-        () => LoginCubit(loginUseCase: sl(), fetchAuthUseCase: sl()),
+        () => LoginCubit(loginUseCase: sl(), fetchAuthUseCase: sl(), deleteAuthUseCase: sl()),
   );
 }
 
@@ -302,6 +319,11 @@ void _initGeneral() {
           GeneralRemoteDataSourceImpl(
             supBase: sl(),
           ),
+    )..registerFactory<GeneralLocalDataSource>(
+          () =>
+          GeneralLocalDataSourceImpl(
+            sharedPreferences: sl(),
+          ),
     )
 
   // repository
@@ -309,6 +331,7 @@ void _initGeneral() {
           () =>
           GeneralRepositoryImpl(
             generalRemoteDataSource: sl(),
+            generalLocaleDataSource: sl(),
             networkInfo: sl(),
           ),
     )

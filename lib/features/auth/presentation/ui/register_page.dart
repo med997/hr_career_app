@@ -14,7 +14,9 @@ import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
+import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 
+import '../../../../core/widgets/map_icon_button.dart';
 import '../widget/login_ana_register_appbar_functhion.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -27,28 +29,32 @@ class RegisterPage extends StatelessWidget {
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false, key: 'fullName'),
+        disabled: false,
+        key: 'fullName'),
     DynamicModel('email', FormType.email,
         controller: TextEditingController(),
         isRequired: true,
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
-        disabled: false, key: 'email'),
+        disabled: false,
+        key: 'email'),
     DynamicModel('phone', FormType.phone,
         controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false, key: 'phone'),
+        disabled: false,
+        key: 'phone'),
     DynamicModel('password', FormType.password,
         controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false, key: 'password'),
+        disabled: false,
+        key: 'password'),
     DynamicModel('confirmPassword', FormType.password,
         controller: TextEditingController(),
         validators: [
@@ -56,72 +62,139 @@ class RegisterPage extends StatelessWidget {
           DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
         ],
         isRequired: true,
-        disabled: false, key: 'confirmPassword'),
+        disabled: false,
+        key: 'confirmPassword'),
   ];
-  List<DynamicModel> regFormCompany = [
-    DynamicModel('companyName', FormType.text,
+
+  List<DynamicModel> regFormCompany(BuildContext context) {
+    return [
+      DynamicModel('companyNameEn', FormType.text,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'companyNameEn'),
+      DynamicModel('companyNameAr', FormType.text,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'companyNameAr'),
+      DynamicModel('email', FormType.email,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'email'),
+      DynamicModel(
+        'address',
+        FormType.text,
         controller: TextEditingController(),
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         isRequired: true,
-        disabled: false, key: 'companyName'),
-    DynamicModel('email', FormType.email,
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        isRequired: true,
-        disabled: false, key: 'email'),
-    DynamicModel('address', FormType.text,
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        isRequired: true,
-        disabled: false, key: 'address'),
-    DynamicModel('phone', FormType.phone,
-        isRequired: true,
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        disabled: false, key: 'phone'),
-    DynamicModel('password', FormType.password,
-        isRequired: true,
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        disabled: false, key: 'password'),
-    DynamicModel('confirmPassword', FormType.password,
-        isRequired: true,
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
-          DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
-        ],
-        disabled: false, key: 'confirmPassword'),
-  ];
+        disabled: false,
+        key: 'address',
+        action: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: MaterialButton(
+              disabledColor: Colors.grey.shade600,
+              padding: const EdgeInsets.all(4),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(
+                  builder: (context) => LocationWidget(),
+                ))
+                    .then((value) {
+                  context
+                      .read<DynamicFormCubit>()
+                      .updateValueOnly('address', value[0].toString());
+                  print(value[0]);
+                  print(value[1]);
+                });
+              },
+              shape: const CircleBorder(),
+              color: primaryColor,
+              child: const Icon(
+                Icons.location_on_outlined,
+                color: Colors.white,
+                size: 18,
+              )),
+        ),
+      ),
+      DynamicModel('city', FormType.dropdown,
+          items: [],
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'city'),
+      DynamicModel('phone', FormType.phone,
+          isRequired: true,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          disabled: false,
+          key: 'phone'),
+      DynamicModel('govRegNo', FormType.text,
+          isRequired: true,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          disabled: false,
+          key: 'govRegNo'),
+      DynamicModel('password', FormType.password,
+          isRequired: true,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          disabled: false,
+          key: 'password'),
+      DynamicModel('confirmPassword', FormType.password,
+          isRequired: true,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
+            DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
+          ],
+          disabled: false,
+          key: 'confirmPassword'),
+    ];
+  }
+
   final regFormKey = GlobalKey<FormState>();
 
   _cardRegister(BuildContext _) {
+    final finalList=regFormCompany(_);
     return Container(
-width: 400,
-      padding: const EdgeInsets.symmetric(horizontal:  24,vertical: 10),
-      margin:  EdgeInsets.only(left: 28,right: 28, top: MediaQuery.of(_).size.height*0.2),
+      height: 500,
+      width: 400,
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+      margin: EdgeInsets.only(
+          left: 28, right: 28, top: MediaQuery.of(_).size.height * 0.2),
       decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(18)
-      ),
+          color: bgColor, borderRadius: BorderRadius.circular(18)),
       child: ListView(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(horizontal: 12 ,vertical: 12),
-
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         children: [
           Center(child: ToggleBtnWidget()),
-         SizedBox(height: 8,),
+          const SizedBox(
+            height: 8,
+          ),
           Wrap(
             alignment: WrapAlignment.center,
             children: [
@@ -129,32 +202,47 @@ width: 400,
                 child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
                   builder: (context, state) {
                     if (state.selectedTab == 0) {
-                      context.read<DynamicFormCubit>().replaceAll(regFormUsers);
                       return DynamicFormWidget(
-                          key: Key('regFormUsers'),
+                          key: const Key('regFormUsers'),
                           formKey: regFormKey,
                           dynamicFormsList: regFormUsers,
                           submitBtnLabel: 'login',
                           useResponsiveUi: false);
                     } else {
-                      context.read<DynamicFormCubit>().replaceAll(regFormCompany);
-                      return DynamicFormWidget(
-                        key: Key('regFormCompany'),
-                        formKey: regFormKey,
-                        dynamicFormsList: regFormCompany,
-                        submitBtnLabel: 'login',
-                        useResponsiveUi: false,
+
+                      return BlocBuilder<GeneralCubit, GeneralState>(
+                        builder: (context, gnState) {
+                          if (gnState is GeneralFetchedState){
+                            List<ItemModel> cityItems = gnState.generals.cities
+                                .map((e) => ItemModel(key: e, value: e))
+                                .toList();
+                            context.read<DynamicFormCubit>().addMenuItems(finalList[4], cityItems, '');
+                           print('Gooooo ${cityItems.first.value}');
+                            return DynamicFormWidget(
+                              key: const Key('regFormCompany'),
+                              formKey: regFormKey,
+                              dynamicFormsList: finalList,
+                              submitBtnLabel: 'login',
+                              useResponsiveUi: false,
+                            );
+                          }
+                          return DynamicFormWidget(
+                            key: const Key('regFormCompany'),
+                            formKey: regFormKey,
+                            dynamicFormsList: finalList,
+                            submitBtnLabel: 'login',
+                            useResponsiveUi: false,
+                          );
+                        },
                       );
+
                     }
                   },
                 ),
               ),
-
             ],
           ),
-
           _registerBtn(),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -181,101 +269,93 @@ width: 400,
         ],
       ),
     );
-
   }
+
   Widget _buildMobileRegPage(BuildContext _) {
     return SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: primaryColor.withOpacity(0.3),
-                image: const DecorationImage(
-                  image: AssetImage('assets/imgs/image10.png'),
-                  fit: BoxFit.fitWidth, // Adjust fit as needed
-                ),
-                /*color: primaryColor,
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: primaryColor.withOpacity(0.3),
+              image: const DecorationImage(
+                image: AssetImage('assets/imgs/image10.png'),
+                fit: BoxFit.fitWidth, // Adjust fit as needed
+              ),
+              /*color: primaryColor,
               border: Border.all(
                 color: primaryColor,
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(12)*/
-              ),
-
             ),
-            Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: loginAndRegisterAppBar(bgColor: Colors.transparent),
-            ),
-            _cardRegister(_),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: loginAndRegisterAppBar(bgColor: Colors.transparent),
+          ),
+          _cardRegister(_),
+        ],
+      ),
     );
   }
 
-
   Widget _desktopAndTabletRegPage(BuildContext context) {
     return Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/imgs/bglarg.png'),
-                fit: BoxFit.fitWidth, // Adjust fit as needed
-              ),
-              /*color: primaryColor,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/imgs/bglarg.png'),
+            fit: BoxFit.fitWidth, // Adjust fit as needed
+          ),
+          /*color: primaryColor,
           border: Border.all(
             color: primaryColor,
             width: 0.5,
           ),
           borderRadius: BorderRadius.circular(12)*/
-            ),
-            child: Flex(
-                direction: Axis.horizontal,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+        child: Flex(
+            direction: Axis.horizontal,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Flexible(
+                flex: 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    loginAndRegisterAppBar(bgColor: Colors.transparent),
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        loginAndRegisterAppBar(bgColor: Colors.transparent),
-                        const SizedBox(
-                          height: 60,
+                        const Text(
+                          'If you don’t have an account register You can',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            const Text(
-                              'If you don’t have an account register You can',
-                              style:
-                              TextStyle(color: Colors.black, fontSize: 16),
-                            ),
-                            TextButton(
-                                onPressed: () {},
-                                child: const Text('Register here !')),
-                          ],
-                        ),
+                        TextButton(
+                            onPressed: () {},
+                            child: const Text('Register here !')),
                       ],
                     ),
-                  ),
-
-                  Flexible(
-                      flex: 1,
-                      fit: FlexFit.loose,
-                      child: _cardRegister(context)),
-                ]));
+                  ],
+                ),
+              ),
+              Flexible(
+                  flex: 1, fit: FlexFit.loose, child: _cardRegister(context)),
+            ]));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Responsive(
         mobile: _buildMobileRegPage(context),
         tablet: _desktopAndTabletRegPage(context),
         desktop: _desktopAndTabletRegPage(context),
-
       ),
     );
   }

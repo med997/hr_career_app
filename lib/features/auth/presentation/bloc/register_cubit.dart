@@ -41,10 +41,13 @@ class RegisterCubit extends Cubit<RegisterState> {
            email: value!['email'],
            password: value['password'],
            company: Company(
-               nameEn: value['companyName'],
+               nameEn: value['companyNameEn'],
+               nameAr: value['companyNameAr'],
                phone: value['phone'],
                email: value['email'],
-               address: value['address']));
+               city: value['city'],
+             govRegNo: value['govRegNo'],
+               address: value['address'],),);
      }
 
 

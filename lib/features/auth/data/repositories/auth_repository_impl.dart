@@ -18,21 +18,20 @@ class AuthRepositoryImpl extends AuthRepository {
       {required this.authLocalDataSource, required this.authRemoteDatasource, required this.networkInfo});
 
   @override
-  Future<Either<Failure, Auth>> login(Auth auth)async {
+  Future<Either<Failure, Auth>> login(Auth auth) async {
     if (await networkInfo.isConnected) {
       try {
         final response = await authRemoteDatasource.login(auth);
         authLocalDataSource.cacheAuths(response);
         return Right(response);
-      } on ServerException catch(err){
-        return Left(ServerFailure(messageServer:err.message));
-      }catch(e) {
+      } on ServerException catch (err) {
+        return Left(ServerFailure(messageServer: err.message));
+      } catch (e) {
         return Left(OfflineFailure());
       }
     } else {
       return Left(OfflineFailure());
     }
-
   }
 
   @override
@@ -51,11 +50,11 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Auth>> getCurrentUser() async{
-    try{
+  Future<Either<Failure, Auth>> getCurrentUser() async {
+    try {
       final authModel = await authLocalDataSource.getCachedAuths();
       return Right(authModel);
-    }on EmptyCacheException{
+    } on EmptyCacheException {
       return Left(EmptyCacheFailure());
       /*if (await networkInfo.isConnected) {
         try {
@@ -73,6 +72,17 @@ class AuthRepositoryImpl extends AuthRepository {
       } else {
         return Left(OfflineFailure());
       }*/
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> signOut() async {
+    try {
+      await authRemoteDatasource.signOut();
+      await authLocalDataSource.clearCachedAuths();
+      return const Right(unit);
+    } catch (e) {
+      return Left(ServerFailure());
     }
   }
 }

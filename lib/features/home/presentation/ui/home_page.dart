@@ -53,8 +53,8 @@ class HomePage extends StatelessWidget {
                   selectedTab: state.selectedTab,
                 )
               : buildAppBar(
-                  userName: 'Mohammed adnan',
-                  img: '',
+                  userName: auth.profile!.fullName??'',
+                  img: auth.profile!.avatarUrl??'',
                   userOrCompany: 'User',
                   fullHeader: true,
                   selectedTab: state.selectedTab,

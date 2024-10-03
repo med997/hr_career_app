@@ -1,11 +1,18 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
+
+import '../app_theme.dart';
+import '../widgets/map_icon_button.dart';
 
 
 
 class DynamicFormCubit extends Cubit<List<DynamicModel>> {
   DynamicFormCubit() : super([]);
+
 
   void addField(DynamicModel dynamicModel) {
     final currentFields = List<DynamicModel>.from(state);
@@ -17,9 +24,41 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     final currentFields = dynamicModel;
     emit(currentFields);
   }
-  void setDisableFiled(bool disabled) {
+  void setDisableFiled(bool disabled,  BuildContext?  context
+      ) {
     final currentFields = state.map((field) {
       field.disabled = disabled;
+      if (field.controlName =='address'){
+        print(disabled);
+        field.action =Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: MaterialButton(
+              disabledColor: Colors.grey.shade600,
+              padding: EdgeInsets.all(4),
+              onPressed: disabled ==true ? null  :  () {
+                Navigator.of(context!)
+                    .push(MaterialPageRoute(
+                  builder: (context) => LocationWidget(),
+                ))
+                    .then((value) {
+                  context
+                      .read<DynamicFormCubit>()
+                      .updateValueOnly('address', value[0].toString());
+                  print('cubittttttttttttttttttttttttttttttttttttttttt');
+
+                  print(value[0]);
+                  print(value[1]);
+                });
+              },
+              shape: const CircleBorder(),
+              color: primaryColor,
+              child: const Icon(
+                Icons.location_on_outlined,
+                color: Colors.white,
+                size: 18,
+              )),
+        );
+      }
       return field;
     }).toList();
     emit(currentFields);
@@ -55,11 +94,12 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     print('addMenuItems');
     final currentFields = state.map((field) {
       if (field.key ==  key) {
-        field.items= itemModels;
-        // field.value = selectedItem;
-        field.controller!.text= selectedItem;
+        final dynamicModel = field;
+        dynamicModel.items= itemModels;
+
+        dynamicModel.controller!.text= selectedItem;
         print('${field.key} ${selectedItem}');
-        return field;
+        return dynamicModel;
       }
       return field;
     }).toList();
@@ -130,22 +170,6 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     return formData;
   }
 
-  String? _validateField(DynamicModel dynamicModel) {
-    dynamicModel.validators!.map((e) {
-      if (e.type == ValidatorType.notEmpty) {
-        if (dynamicModel.value==null || dynamicModel.value!.isEmpty) {
-          return e.errorMessage;
-        }
-      }
-      if (e.type == ValidatorType.textLength) {
-        if (dynamicModel.value!.length!= e.textLength) {
-          return e.errorMessage;
-        }
-    }
-    },);
-    return null;
-    // No error
-  }
 
   void removeField(DynamicModel dynamicModel) {
     final currentFields = state.where((field) =>

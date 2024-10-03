@@ -27,6 +27,7 @@ import 'features/general/presentation/bloc/general_cubit.dart';
 import 'features/home/presentation/ui/company_home_page.dart';
 import 'features/job/presentation/bloc/curd_job_cubit.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
+import 'features/payment/presentation/bloc/payment_curd_cubit.dart';
 import 'features/profile/presentation/bloc/profile_cubit.dart';
 import 'injection_container.dart' as di;
 
@@ -76,7 +77,7 @@ void main() async {
         create: (context) => di.sl<PackageCubit>(),
       ),
       BlocProvider(
-        create: (context) => di.sl<GeneralCubit>() ,
+        create: (context) => di.sl<GeneralCubit>()..getGeneral(),
       ),
       BlocProvider(
         create: (context) => di.sl<LocationCubit>(),
@@ -89,6 +90,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<CurdCompanyCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<PaymentCurdCubit >(),
       ),
     ],
     child: const MyApp(),
@@ -120,7 +124,9 @@ class _MyAppState extends State<MyApp> {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
+            GlobalCupertinoLocalizations.delegate,
+            // internally:
+            // FlutterQuillLocalizations.delegate,
           ],
           title: 'Flutter Demo',
           theme: appTheme,
