@@ -26,10 +26,10 @@ import '../../../general/presentation/bloc/general_cubit.dart';
 import '../../../job/domain/entities/job.dart';
 import '../../../job/presentation/bloc/stepper_cubit.dart';
 
-class CompanyDetailsPage extends StatelessWidget {
+class CompanyJobDetailsPage extends StatelessWidget {
   final Job job;
 
-  CompanyDetailsPage({super.key, required this.job});
+  CompanyJobDetailsPage({super.key, required this.job});
 
   final reviewProfileFormKey = GlobalKey<FormState>();
 
