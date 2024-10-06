@@ -37,8 +37,8 @@ class HomeCompanyPage extends StatelessWidget {
             userOrCompany: 'Company',
             userName: state.selectedTab == 3 ? tr("profile_msg") : state
                 .selectedTab == 1 ? 'Jobs' : state
-                .selectedTab == 2 ? tr("tenders_msg") : 'Ahmed Afeef',
-            img:  '',
+                .selectedTab == 2 ? tr("tenders_msg") : auth.company!.nameEn?? '',
+            img:  auth.company!.companyLogo??'',
             fullHeader: (state.selectedTab != 0)
                 ? false
                 : true,

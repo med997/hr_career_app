@@ -4,6 +4,7 @@ import 'package:hr_career_platform/core/cubit/location_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:hr_career_platform/features/auth/domain/usecases/delete_auth.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/fetch_auth.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/login_use_case.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
@@ -257,13 +258,18 @@ void _initAuth() {
         FetchAuthUseCase(
           sl(),
         ),
+  )..registerFactory(
+        () =>
+        DeleteAuthUseCase(
+          sl(),
+        ),
   )
   // cubit
 
     ..registerLazySingleton(
           () => RegisterCubit(signupUseCase: sl()),
     )..registerLazySingleton(
-        () => LoginCubit(loginUseCase: sl(), fetchAuthUseCase: sl()),
+        () => LoginCubit(loginUseCase: sl(), fetchAuthUseCase: sl(), deleteAuthUseCase: sl()),
   );
 }
 

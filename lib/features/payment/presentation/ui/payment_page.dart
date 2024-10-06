@@ -69,7 +69,7 @@ class _PaymentPageState extends State<PaymentPage> {
         .read<StepperCubit>()
         .package!;
     paymentConfig = PaymentConfig(
-      publishableApiKey: 'pk_test_uPPeSaJvibxgtZtwUX2Jc5wYfsXZxXwQGvqiFTid',
+      publishableApiKey: 'pk_test_9GuD6YHzMHnA43YVkeH6nyUFzk2uEYc9AepYdQnP',
       amount: pkg!.price * 100,
       // SAR Halala
       description: 'payment ${pkg!.pkgName} for Job No ${job!
@@ -78,6 +78,8 @@ class _PaymentPageState extends State<PaymentPage> {
       creditCard: CreditCardConfig(saveCard: true, manual: false),
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,11 @@ class _PaymentPageState extends State<PaymentPage> {
         BlocConsumer<PaymentCurdCubit, PaymentCurdState>(
           listener: (context, state) {
             if (state is MessageCurdPaymentState){
+              context.read<StepperCubit>().job=null;
+              context.read<StepperCubit>().package=null;
+              context.read<StepperCubit>().changeStep(0);
               Navigator.pop(context);
+
             }
           },
           builder: (context, state) {

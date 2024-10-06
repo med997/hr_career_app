@@ -28,16 +28,9 @@ class CompanyMainHomePage extends StatefulWidget {
 class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
-        if (state is HomeLoading) {
-          return LoadingWidget();
-        } else if (state is HomeFetchedState) {
-          return _buildMobileLayout(state.homes.recentJobs,context);
-        }
-        return const SizedBox();
-      },
-    );
+
+          return _buildMobileLayout(context);
+
   }
 
 
@@ -49,7 +42,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
 
   }
 
-  Widget _buildMobileLayout(List<Job> job, BuildContext context) {
+  Widget _buildMobileLayout( BuildContext context) {
 
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 12),

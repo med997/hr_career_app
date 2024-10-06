@@ -18,7 +18,7 @@ return
       enabled: !dynamicModel.disabled,
 flagsButtonMargin: EdgeInsets.symmetric(vertical: 4),
         flagsButtonPadding: EdgeInsets.symmetric(vertical: 4),
-        initialValue: dynamicModel.value,
+       controller: dynamicModel.controller,
       showCountryFlag: false,
       decoration: InputDecoration(
         counterText: '',
@@ -49,7 +49,6 @@ flagsButtonMargin: EdgeInsets.symmetric(vertical: 4),
 
       initialCountryCode: 'SA',
         onChanged: (value) {
-          dynamicModel.value = value.completeNumber;
           context!.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
         }
     ),

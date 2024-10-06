@@ -12,6 +12,7 @@ import '../models/auth_model.dart';
 
 abstract class AuthLocalDataSource {
   Future<AuthModel> getCachedAuths();
+  Future<Unit> clearCachedAuths();
   Future<Unit> cacheAuths(AuthModel authModels);
 }
 
@@ -62,5 +63,12 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     } else {
       throw EmptyCacheException();
     }
+  }
+
+  @override
+  Future<Unit> clearCachedAuths() {
+    sharedPreferences.clear();
+    return Future.value(unit);
+
   }
 }

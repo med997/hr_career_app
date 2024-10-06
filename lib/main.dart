@@ -92,7 +92,7 @@ void main() async {
         create: (context) => di.sl<PackageCubit>(),
       ),
       BlocProvider(
-        create: (context) => di.sl<GeneralCubit>() ,
+        create: (context) => di.sl<GeneralCubit>()..getGeneral(),
       ),
       BlocProvider(
         create: (context) => di.sl<LocationCubit>(),
@@ -154,7 +154,9 @@ class _MyAppState extends State<MyApp> {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
+            GlobalCupertinoLocalizations.delegate,
+            // internally:
+            // FlutterQuillLocalizations.delegate,
           ],
           title: 'Flutter Demo',
           theme: appTheme,
