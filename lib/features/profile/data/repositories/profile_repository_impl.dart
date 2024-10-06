@@ -7,7 +7,7 @@ import 'package:hr_career_platform/features/profile/domain/repositories/profile_
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/network_info.dart';
 import '../models/profile_model.dart';
-
+typedef DeleteOrUpdateOrAddProfile = Future<Profile> Function();
 class ProfileRepositoryImpl extends ProfileRepository {
   final ProfileRemoteDatasource profileRemoteDatasource;
   final NetworkInfo networkInfo;
@@ -42,4 +42,25 @@ class ProfileRepositoryImpl extends ProfileRepository {
       return Left(OfflineFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Profile>> updateProfileFcmToken(Profile profile)async {
+
+  return await _getMessage(() => profileRemoteDatasource.updateProfileFcmToken(
+      ProfileModel.fromProfile(profile)));
+}
+
+Future<Either<Failure, Profile>> _getMessage(
+    DeleteOrUpdateOrAddProfile deleteOrUpdateOrAddProfile) async {
+  if (await networkInfo.isConnected) {
+    try {
+      final response =await deleteOrUpdateOrAddProfile();
+      return  Right(response);
+    }on ServerException catch (e) {
+      return Left(ServerFailure(messageServer:e.message??''));
+    }
+  } else {
+    return Left(OfflineFailure());
+  }
+}
 }

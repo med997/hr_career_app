@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/cubit/reload_btn_cubit.dart';
@@ -7,6 +8,8 @@ import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/widgets/err_widget.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
+import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
+import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profile_cubit.dart';
 
 import '../features/auth/presentation/bloc/login_cubit.dart';
 import '../features/auth/presentation/widget/login_ana_register_appbar_functhion.dart';
@@ -35,7 +38,18 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
         body: BlocConsumer<LoginCubit, LoginState>(listener: (context, state) {
       if (state is CurrentUserStatus) {
+        FirebaseMessaging.instance.getToken().then((value) {
+          Profile profile = Profile(
+              id: state.auth.userAuth!.id,
+              fcmToken:value,
+              phone: state.auth.profile!.phone,
+              email: state.auth.profile!.email);
+
+
+          context.read<CurdProfileCubit>().updateProfile(profile);
+        });
         if (state.auth.userType == UsrType.user) {
+
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
