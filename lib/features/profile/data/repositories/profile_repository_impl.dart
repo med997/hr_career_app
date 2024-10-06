@@ -63,4 +63,18 @@ Future<Either<Failure, Profile>> _getMessage(
     return Left(OfflineFailure());
   }
 }
+
+  @override
+  Future<Either<Failure, List<Profile>>> getAppliance(String profileId) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteAppliance = await profileRemoteDatasource.getAppliance(profileId);
+        return Right(remoteAppliance);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
 }

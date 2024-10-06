@@ -20,6 +20,7 @@ import 'package:hr_career_platform/features/company/presentation/bloc/company_pr
 import 'package:hr_career_platform/features/company/presentation/bloc/curd_company_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
+import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
  import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
  import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profile_cubit.dart';
@@ -35,13 +36,13 @@ import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      name: 'hr_career_platform',
-      options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.instance.getToken().then((value) {
-    print("TOKEN IS :: :: $value");
-  });
+  // await Firebase.initializeApp(
+  //     name: 'hr_career_platform',
+  //     options: DefaultFirebaseOptions.currentPlatform);
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.instance.getToken().then((value) {
+  //   print("TOKEN IS :: :: $value");
+  // });
 
 
 
@@ -112,19 +113,22 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<CurdProfileCubit>(),
       ),
+      BlocProvider(
+        create: (context) => di.sl<ApplianceCubit>(),
+      ),
     ],
     child: const MyApp(),
   ));
 }
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(
-      name: 'hr_career_platform',
-      options: DefaultFirebaseOptions.currentPlatform);
- await setupFlutterNotifications();
-  showFlutterNotification(message);
-  print("Handling a background message: ${message.messageId}");
-}
+// @pragma('vm:entry-point')
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp(
+//       name: 'hr_career_platform',
+//       options: DefaultFirebaseOptions.currentPlatform);
+//  await setupFlutterNotifications();
+//   showFlutterNotification(message);
+//   print("Handling a background message: ${message.messageId}");
+// }
 
 
 

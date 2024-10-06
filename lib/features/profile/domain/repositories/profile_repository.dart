@@ -6,4 +6,5 @@ abstract class ProfileRepository {
   Future<Either<Failure, Profile>> getUserProfile();
   Future<Either<Failure, Profile>>  getUserByUuid(String uuid);
   Future<Either<Failure, Profile>>  updateProfileFcmToken(Profile profile);
+  Future<Either<Failure, List<Profile>>> getAppliance(String profileId);
 }
