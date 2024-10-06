@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
@@ -113,7 +116,7 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                   validators: [
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
-                  controller: TextEditingController(text: widget.job?.jobDesc),
+                  controller: FleatherController(),
                   width: width,
                   isRequired: true,
                 ),
@@ -124,8 +127,7 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                   validators: [
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
-                  controller:
-                      TextEditingController(text: widget.job?.jobRequirements),
+                  controller: FleatherController(),
                   width: width,
                   isRequired: true,
                 ),
@@ -150,7 +152,7 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                             builder: (context) => LocationWidget(),
                           ))
                               .then(
-                                (value) {
+                            (value) {
                               context.read<DynamicFormCubit>().updateValueOnly(
                                   'address', value[0].toString());
                               print(value[0]);
@@ -160,9 +162,11 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                         },
                         shape: const CircleBorder(),
                         color: primaryColor,
-
-                        child: const Icon(Icons.location_on_outlined,
-                          color: Colors.white,size: 18,)),
+                        child: const Icon(
+                          Icons.location_on_outlined,
+                          color: Colors.white,
+                          size: 18,
+                        )),
                   ),
                 ),
                 DynamicModel(
@@ -269,23 +273,29 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                       onPressed: () {
                         var value =
                             context.read<DynamicFormCubit>().getCurrentValue();
-                        final companyId = context.read<LoginCubit>().authenticatedUser!.userAuth!.id;
+                        final companyId = context
+                            .read<LoginCubit>()
+                            .authenticatedUser!
+                            .userAuth!
+                            .id;
 
                         print('company_id: $companyId ===> $value');
-                        context.read<CurdJobCubit>().insertJob(value,companyId);
+                        context
+                            .read<CurdJobCubit>()
+                            .insertJob(value, companyId);
 
                         // context.read<StepperCubit>().changeStep(1);
                       })
                 ],
               );
             }
-              return const SizedBox();
+            return const SizedBox();
           },
         ),
         // BlocListener(listener: (context, state) => ),
         BlocConsumer<CurdJobCubit, CurdJobState>(
           listener: (context, state) => state is MessageCurdJobState
-              ? context.read<StepperCubit>().changeStep(1,addedJob: state.job)
+              ? context.read<StepperCubit>().changeStep(1, addedJob: state.job)
               : null,
           builder: (context, state) {
             if (state is LoadingCurdJobState) {

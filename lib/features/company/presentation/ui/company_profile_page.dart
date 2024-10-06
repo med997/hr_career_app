@@ -158,19 +158,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
               child: MaterialButton(
                   disabledColor: Colors.grey.shade600,
                   padding: EdgeInsets.all(4),
-                  onPressed: isEditing==isEditing ? null : () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                      builder: (context) => LocationWidget(),
-                    ))
-                        .then((value) {
-                      context
-                          .read<DynamicFormCubit>()
-                          .updateValueOnly('address', value[0].toString());
-                      print(value[0]);
-                      print(value[1]);
-                    });
-                  },
+                  onPressed: isEditing == isEditing ? null : () {},
                   shape: const CircleBorder(),
                   color: primaryColor,
                   child: const Icon(
@@ -204,7 +192,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   }
 
   _buildMobileWidget(BuildContext context, List<DynamicModel> companyProfile,
-      bool isEditing, Company company) {
+      isEditing, Company company) {
     return Scaffold(
       appBar: jobsAppBarFunction(company: company),
       body: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
@@ -233,7 +221,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                           isEditing = !isEditing;
                           context
                               .read<DynamicFormCubit>()
-                              .setDisableFiled(isEditing,context);
+                              .setDisableFiled(isEditing, context);
                         },
                         icon: const Icon(
                           Icons.edit_road,
@@ -352,7 +340,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                           isEditing = !isEditing;
                           context
                               .read<DynamicFormCubit>()
-                              .setDisableFiled(isEditing,context);
+                              .setDisableFiled(isEditing, context);
                         },
                         icon: const Icon(
                           Icons.edit_road,

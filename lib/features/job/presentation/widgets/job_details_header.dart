@@ -105,7 +105,7 @@ class JobDetailsHeader extends StatelessWidget {
                     color: Colors.orangeAccent,
                   ),
                   text:
-                      '${job.deadlineDate.day}/${job.deadlineDate.month}/${job.deadlineDate.year}',
+                      '${job.deadlineDate!.day}/${job.deadlineDate!.month}/${job.deadlineDate!.year}',
                   textColor: Colors.white,
                 ),
                 TextWithIcon(

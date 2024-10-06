@@ -4,7 +4,7 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/square_button_function.dart';
-import 'package:hr_career_platform/features/company/presentation/ui/company_details_page.dart';
+import 'package:hr_career_platform/features/company/presentation/ui/company_job_details_page.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/company_tenders_page.dart';

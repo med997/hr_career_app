@@ -149,7 +149,7 @@ class FeaturedJobs extends StatelessWidget {
                   color: Colors.white,
                 ),
                 text:
-                    '${job.deadlineDate.day}/${job.deadlineDate.month}/${job.deadlineDate.year}',
+                    '${job.deadlineDate!.day}/${job.deadlineDate!.month}/${job.deadlineDate!.year}',
                 textColor: Colors.white,
               ),
               TextWithIcon(

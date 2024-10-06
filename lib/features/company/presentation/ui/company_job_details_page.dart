@@ -1,3 +1,4 @@
+import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,20 +23,22 @@ import '../../../../core/widgets/map_icon_button.dart';
 import '../../../../core/widgets/square_button_function.dart';
 import '../../../../core/widgets/sub-title.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';
+import '../../../auth/presentation/bloc/login_cubit.dart';
 import '../../../general/presentation/bloc/general_cubit.dart';
 import '../../../job/domain/entities/job.dart';
+import '../../../job/presentation/bloc/curd_job_cubit.dart';
 import '../../../job/presentation/bloc/stepper_cubit.dart';
 
-class CompanyDetailsPage extends StatelessWidget {
+class CompanyJobDetailsPage extends StatelessWidget {
   final Job job;
 
-  CompanyDetailsPage({super.key, required this.job});
+  CompanyJobDetailsPage({super.key, required this.job});
 
   final reviewProfileFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    bool isEditing = true;
+    bool isEditing = false;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
@@ -61,16 +64,6 @@ class CompanyDetailsPage extends StatelessWidget {
                     controller: TextEditingController(text: job.jobTitle),
                     isRequired: true,
                     disabled: isEditing),
-                DynamicModel('deadlineDate', FormType.date,
-                    key: 'deadlineDate',
-                    controller: TextEditingController(
-                        text: job.deadlineDate.toString()),
-                    width: width,
-                    isRequired: true,
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    disabled: isEditing),
                 DynamicModel('otherApplyLinks', FormType.text,
                     key: 'otherApplyLinks',
                     validators: [
@@ -86,7 +79,7 @@ class CompanyDetailsPage extends StatelessWidget {
                     validators: [
                       DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                     ],
-                    controller: TextEditingController(text: job.jobDesc),
+                    controller: FleatherController(),
                     width: width,
                     isRequired: true,
                     disabled: isEditing),
@@ -95,8 +88,7 @@ class CompanyDetailsPage extends StatelessWidget {
                     validators: [
                       DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                     ],
-                    controller:
-                        TextEditingController(text: job.jobRequirements),
+                    controller: FleatherController(),
                     width: width,
                     isRequired: true,
                     disabled: isEditing),
@@ -105,7 +97,7 @@ class CompanyDetailsPage extends StatelessWidget {
                   width: width,
                   key: 'address',
                   FormType.text,
-                  controller: TextEditingController(),
+                  controller: TextEditingController(text: job.address),
                   validators: [
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
@@ -114,12 +106,9 @@ class CompanyDetailsPage extends StatelessWidget {
                   action: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: MaterialButton(
-
                         disabledColor: Colors.grey.shade600,
                         padding: EdgeInsets.all(4),
-                        onPressed: isEditing==isEditing ? null : () {
-
-                        },
+                        onPressed: isEditing == !isEditing ? null : () {},
                         shape: const CircleBorder(),
                         color: primaryColor,
                         child: const Icon(
@@ -134,7 +123,7 @@ class CompanyDetailsPage extends StatelessWidget {
                     validators: [
                       DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                     ],
-                    controller: TextEditingController(),
+                    controller: TextEditingController(text: job.office),
                     width: width,
                     items: [],
                     isRequired: true,
@@ -144,7 +133,7 @@ class CompanyDetailsPage extends StatelessWidget {
                     validators: [
                       DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                     ],
-                    controller: TextEditingController(),
+                    controller: TextEditingController(text: job.city),
                     width: width,
                     items: [],
                     isRequired: true,
@@ -154,7 +143,7 @@ class CompanyDetailsPage extends StatelessWidget {
                     validators: [
                       DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                     ],
-                    controller: TextEditingController(),
+                    controller: TextEditingController(text: job.qualifications),
                     width: width,
                     items: [],
                     isRequired: true,
@@ -164,7 +153,7 @@ class CompanyDetailsPage extends StatelessWidget {
                     validators: [
                       DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                     ],
-                    controller: TextEditingController(),
+                    controller: TextEditingController(text: job.nationalities),
                     width: width,
                     items: [],
                     isRequired: true,
@@ -174,7 +163,7 @@ class CompanyDetailsPage extends StatelessWidget {
                     validators: [
                       DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                     ],
-                    controller: TextEditingController(),
+                    controller: TextEditingController(text: job.gender),
                     width: width,
                     items: [],
                     isRequired: true,
@@ -184,7 +173,7 @@ class CompanyDetailsPage extends StatelessWidget {
                     validators: [
                       DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                     ],
-                    controller: TextEditingController(),
+                    controller: TextEditingController(text: job.category),
                     width: width,
                     items: [],
                     disabled: isEditing),
@@ -195,7 +184,7 @@ class CompanyDetailsPage extends StatelessWidget {
                     ],
                     width: width,
                     items: [],
-                    controller: TextEditingController(),
+                    controller: TextEditingController(text: job.timeParts),
                     isRequired: true,
                     disabled: isEditing),
               ];
@@ -204,19 +193,16 @@ class CompanyDetailsPage extends StatelessWidget {
                   mobile: _buildMobileWidget(
                     context,
                     isEditing,
-                    state.jobs,
                     reviewJobForm,
                   ),
                   tablet: _buildTabletAndDesktopWidget(
                     context,
                     isEditing,
-                    state.jobs,
                     reviewJobForm,
                   ),
                   desktop: _buildTabletAndDesktopWidget(
                     context,
                     isEditing,
-                    state.jobs,
                     reviewJobForm,
                   ));
             } else
@@ -229,8 +215,7 @@ class CompanyDetailsPage extends StatelessWidget {
 
   _buildMobileWidget(
     BuildContext context,
-    bool isEditing,
-    List<Job> jobs,
+    isEditing,
     List<DynamicModel> reviewJobForm,
   ) {
     return Flex(
@@ -278,7 +263,7 @@ class CompanyDetailsPage extends StatelessWidget {
                               isEditing = !isEditing;
                               context
                                   .read<DynamicFormCubit>()
-                                  .setDisableFiled(isEditing,context);
+                                  .setDisableFiled(isEditing, context);
                             },
                             icon: const Icon(
                               Icons.edit_road,
@@ -383,7 +368,21 @@ class CompanyDetailsPage extends StatelessWidget {
                               height: 40,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16)),
-                              onPressed: () {},
+                              onPressed: () {
+                                var value = context
+                                    .read<DynamicFormCubit>()
+                                    .getCurrentValue();
+                                final companyId = context
+                                    .read<LoginCubit>()
+                                    .authenticatedUser!
+                                    .userAuth!
+                                    .id;
+
+                                print('company_id: $companyId ===> $value');
+                                context
+                                    .read<CurdJobCubit>()
+                                    .updateJob(value, job);
+                              },
                               child: const Icon(
                                 Icons.save_outlined,
                                 color: Colors.white,
@@ -431,7 +430,6 @@ class CompanyDetailsPage extends StatelessWidget {
   _buildTabletAndDesktopWidget(
     BuildContext context,
     bool isEditing,
-    List<Job> jobs,
     List<DynamicModel> reviewJobForm,
   ) {
     bool isEditing = true;
@@ -490,7 +488,7 @@ class CompanyDetailsPage extends StatelessWidget {
                             isEditing = !isEditing;
                             context
                                 .read<DynamicFormCubit>()
-                                .setDisableFiled(isEditing,context);
+                                .setDisableFiled(isEditing, context);
                           },
                           icon: const Icon(
                             Icons.edit_road,

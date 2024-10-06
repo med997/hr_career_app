@@ -57,6 +57,7 @@ dependencies:
   flutter_verification_code_field: ^1.0.4
   flutter_colorpicker: ^1.1.0
   date_picker_plus: ^4.1.0
+  fleather: ^1.19.0
 
 
 

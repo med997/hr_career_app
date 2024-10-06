@@ -8,6 +8,7 @@ import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/color_fields_dyn.dart';
 import 'package:hr_career_platform/core/widgets/custom_drop_down_menu.dart';
 import 'package:hr_career_platform/core/widgets/date_fields_dyn.dart';
+import 'package:hr_career_platform/core/widgets/multi_line_field_dyn.dart';
 import 'package:hr_career_platform/core/widgets/phone_fields_dyn.dart';
 import 'package:hr_career_platform/core/widgets/text_fields_dyn.dart';
 
@@ -88,7 +89,8 @@ class _DynamicFormWidgetState extends State<DynamicFormWidget> {
             child: getColorPickerWidget(dynModel, context));
       case FormType.multiline:
         return SizedBox(
-            width: dynModel.width, child: getTextWidget(dynModel, context));
+            width: dynModel.width,
+            child: getMultiLineFieldWidget(dynModel, context));
       case FormType.dropdown:
         return SizedBox(
             width: dynModel.width, child: buildCustomDropDownMenu(context, dynModel));

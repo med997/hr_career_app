@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fleather/fleather.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
 
@@ -16,22 +17,26 @@ class CurdJobCubit extends Cubit<CurdJobState> {
   CurdJobCubit({required this.addJobUserCase, required this.updateJobUseCase}) : super(CurdJobInitial());
 
 
-  Future<void> updateJob(Map<String,dynamic>? value) async {
+  Future<void> updateJob(Map<String,dynamic>? value,Job jobRef) async {
     emit(LoadingCurdJobState());
 
     Job job = Job(
+        companyId:jobRef.companyId,
+        id: jobRef.id,
         jobTitle: value!['jobTitle'],
         gender: value['gender'],
         office: value['office'],
         otherApplyLinks: value['otherApplyLinks'],
         address: value['address'],
         timeParts: value['timeParts'],
-        city: value['city'],
+        city: value['city']==null||value['city']==''?jobRef.city:value['city'],
+        category: value['category']??jobRef.category,
+        nationalities: value['nationalities'],
         qualifications: value['qualifications'],
-        category: value['category'],
-        deadlineDate: value['deadlineDate'],
-        jobDesc: value['jobDesc'],
-        jobRequirements: value['jobRequirements']);
+        jobDesc: (value['jobDesc'] as ParchmentDocument).toPlainText(),
+        jobDescFormated:(value['jobDesc'] as ParchmentDocument).toJson(),
+        jobReqFormated:(value['jobRequirements'] as ParchmentDocument).toJson(),
+        jobRequirements: (value['jobRequirements'] as ParchmentDocument).toPlainText());
 
     final failureOrSuccess = await updateJobUseCase.call(job);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
@@ -50,10 +55,11 @@ class CurdJobCubit extends Cubit<CurdJobState> {
         nationalities: value['nationalities'],
         qualifications: value['qualifications'],
         status: 'draft',
-        deadlineDate:DateTime.now(),
-        jobDesc: value['jobDesc'],
         companyId:companyId,
-        jobRequirements: value['jobRequirements']);
+        jobDesc: (value['jobDesc'] as ParchmentDocument).toPlainText(),
+        jobDescFormated:(value['jobDesc'] as ParchmentDocument).toJson(),
+        jobReqFormated:(value['jobRequirements'] as ParchmentDocument).toJson(),
+        jobRequirements: (value['jobRequirements'] as ParchmentDocument).toPlainText());
     final failureOrSuccess = await addJobUserCase.call(job);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'insertDone'));
   }

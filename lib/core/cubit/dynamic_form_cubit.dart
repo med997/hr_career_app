@@ -145,6 +145,8 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
         formData[field.controlName]= field.controller!.value.text;
       }else if (field.formType== FormType.color){
         formData[field.controlName]= field.controller!.value.text;
+      }else if (field.formType== FormType.multiline){
+        formData[field.controlName]= field.controller.document;
       }else if(field.formType==FormType.subDynForm){
         final Map<String,dynamic> data ={} ;
         for (var e in field.subDynamicModel!) {

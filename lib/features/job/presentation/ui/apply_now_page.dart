@@ -159,56 +159,6 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                 validators: [
                   DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                 ]),
-            DynamicModel('pdfName', FormType.subDynForm,
-                key: 'pdfName',
-                subFormHeader: Flex(
-                    direction: Axis.vertical,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      SubTitle(
-                        title: tr("resume_msg"),
-                        titleType: SubTitleType.textOnly,
-                      ), //*
-                      Document(size: '1.2 MB', fileName: 'ahmedAfeefResume.pdf'),
-                      MaterialButton(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 2, horizontal: 14),
-                        onPressed: () async {
-                          FilePickerResult? result =
-                              await FilePicker.platform.pickFiles();
-                          if (result != null && result.files.isNotEmpty) {
-                            String fileName = result.files.first.name;
-                            // context.read<ProfileCubit>().uploadFile(fileName);
-                          }
-                        },
-                        color: Colors.yellow.shade700,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        child: const Wrap(
-                          alignment: WrapAlignment.center,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          direction: Axis.vertical,
-                          children: [
-                            Icon(Icons.cloud_upload_outlined,
-                                color: Colors.white),
-                            Text(
-                              'update',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ),
-                    ]),
-                subFormFooter: const SizedBox(
-                  height: 5,
-                ),
-                controller: TextEditingController(),
-                disabled: isEditing,
-                subDynamicModel: [],
-                width: Responsive.isMobile(context) ? width : width,
-                validators: [
-                  DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                ]),
             DynamicModel('experience', FormType.subDynForm,
                 key: 'experience',
                 disabled: isEditing,

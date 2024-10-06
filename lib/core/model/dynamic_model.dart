@@ -25,7 +25,7 @@ class DynamicModel {
   GlobalKey<FormState>? subFormKey;
   bool?  subIsResponsive;
   String? error;
-  TextEditingController? controller;
+  dynamic? controller;
   double? width;
   double? hight;
   List<DynamicFormValidator>? validators;

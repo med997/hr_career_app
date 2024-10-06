@@ -26,23 +26,6 @@ Future<dynamic> showDatePickerDialog(BuildContext context) {
 
             ),
           )
-        /* actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              final value = context.read<DynamicFormCubit>().getCurrentValue();
-              context.read<CurdStepsCubit>().insertOperations(value,stpId);
-              Navigator.of(context).pop();
-            },
-            child: Text('Add'),
-          ),
-        ],*/
-
       );
     },
   );

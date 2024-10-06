@@ -9,6 +9,7 @@ import 'package:hr_career_platform/features/job/presentation/ui/apply_now_page.d
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_header.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_tabbar.dart';
 
+
 class JobDetailsPage extends StatelessWidget {
   final Job job;
 
