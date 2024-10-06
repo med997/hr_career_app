@@ -14,9 +14,9 @@ class ApplianceCubit extends Cubit<ApplianceState> {
   final FetchProfileUserCase getProfileUserCase;
   ApplianceCubit({required this.getProfileUserCase}) : super(ApplianceInitial());
 
-  Future<void> getAppliance(String profileId) async {
+  Future<void> getAppliance(String jobId) async {
     emit( ApplianceLoading());
-    final failureOrSuccess = await getProfileUserCase.getAppliance(profileId);
+    final failureOrSuccess = await getProfileUserCase.getAppliance(jobId);
     emit(_mapFailureOrHomeToState(failureOrSuccess));
   }
 

@@ -7,6 +7,7 @@ import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_body_page.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_header.dart';
+import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/widgets/profile_card.dart';
 import 'package:hr_career_platform/features/profile/presentation/widgets/recent_profile.dart';
 
@@ -38,6 +39,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ApplianceCubit>().getAppliance(job.id.toString());
+
     bool isEditing = false;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -412,9 +415,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
                         ],
                       ),
                       const RecentProfile(),
-                      const RecentProfile(),
-                      const RecentProfile(),
-                      const RecentProfile()
+
                     ],
                   );
                 default:

@@ -82,8 +82,9 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
   @override
   Future<List<ProfileModel>> getAppliance(String profileId) async {
     try {
-      Map<String,dynamic> param={'pro_id': profileId};
-      final data = await client.rpc('appliance',params: param);
+      Map<String,dynamic> param={'job_id':int.parse(profileId) };
+      final data = await client.rpc('get_appliance',params: param).select();
+   //   final data = await client.from('profiles').select();
       print('getAppliance');
       print(data.toString());
       print(profileId);

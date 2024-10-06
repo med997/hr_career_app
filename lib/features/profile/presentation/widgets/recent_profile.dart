@@ -12,6 +12,7 @@ import '../../../home/presentation/bloc/home_cubit.dart';
 class RecentProfile extends StatelessWidget {
   const RecentProfile({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ApplianceCubit, ApplianceState>(
@@ -24,7 +25,7 @@ class RecentProfile extends StatelessWidget {
               tablet: _buildTabletDesktopLayout(2, context, state.profile),
               desktop: _buildTabletDesktopLayout(3, context, state.profile));
         } else
-          return SizedBox();
+          return const SizedBox();
       },
     );
   }

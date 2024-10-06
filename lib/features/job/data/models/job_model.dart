@@ -44,7 +44,7 @@ class JobModel extends Job {
         jobDescFormated:json['job_desc_formated']!=null?List<dynamic>.from(json['job_desc_formated']):null,
         jobReqFormated:json['job_req_formated']!=null?List<dynamic>.from(json['job_req_formated']):null,
         category: json["category"],
-        deadlineDate: DateTime.parse(json["deadline_date"]),
+        deadlineDate: json["deadline_date"] != null ? DateTime.parse(json["deadline_date"]) : null,
         nationalities: json["nationalities"],
         qualifications: json["qualifications"]!,
         status: json["status"],

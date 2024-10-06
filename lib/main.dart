@@ -1,6 +1,9 @@
 import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fleather/l10n/fleather_localizations.g.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,7 +14,6 @@ import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/cubit/location_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/splash_page.dart';
-import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
@@ -28,15 +30,30 @@ import 'features/general/presentation/bloc/general_cubit.dart';
 import 'features/home/presentation/ui/company_home_page.dart';
 import 'features/job/presentation/bloc/curd_job_cubit.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
+import 'features/notification/service/notification_service.dart';
 import 'features/payment/presentation/bloc/payment_curd_cubit.dart';
 import 'features/profile/presentation/bloc/appliance_cubit.dart';
 import 'features/profile/presentation/bloc/curd_profile_cubit.dart';
 import 'features/profile/presentation/bloc/profile_cubit.dart';
+import 'firebase_options.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      name: 'hr_career_platform',
+      options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.instance.getToken().then((value) {
+    print("TOKEN IS :: :: $value");
+  });
 
+
+
+
+  if (!kIsWeb) {
+    await setupFlutterNotifications();
+  }
   di.initDependencies();
   runApp(MultiBlocProvider(
     providers: [
@@ -107,6 +124,15 @@ void main() async {
     child: const MyApp(),
   ));
 }
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+ await setupFlutterNotifications();
+  showFlutterNotification(message);
+  print("Handling a background message: ${message.messageId}");
+}
+
+
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
