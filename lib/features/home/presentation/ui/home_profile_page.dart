@@ -177,14 +177,15 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                   // context.read<ProfileCubit>().uploadFile(fileName);
                 }
               },
+              
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
+                padding: EdgeInsets.all(2),
                 backgroundColor: primaryColor,
               ),
               child: const Icon(Icons.cloud_upload_outlined,
                   color: Colors.white)),
           inputBorder: InputBorder.none,
-
           validators: [
             DynamicFormValidator(
                 ValidatorType.notEmpty, 'isRequired')

@@ -40,16 +40,16 @@ class _SplashPageState extends State<SplashPage> {
       if (state is CurrentUserStatus) {
 
         if (state.auth.userType == UsrType.user) {
-          FirebaseMessaging.instance.getToken().then((value) {
-            Profile profile = Profile(
-                id: state.auth.userAuth!.id,
-                fcmToken:value,
-                phone: state.auth.profile!.phone,
-                email: state.auth.profile!.email);
-
-
-            context.read<CurdProfileCubit>().updateProfile(profile);
-          });
+          // FirebaseMessaging.instance.getToken().then((value) {
+          //   Profile profile = Profile(
+          //       id: state.auth.userAuth!.id,
+          //       fcmToken:value,
+          //       phone: state.auth.profile!.phone,
+          //       email: state.auth.profile!.email);
+          //
+          //
+          //   context.read<CurdProfileCubit>().updateProfile(profile);
+          // });
 
           Navigator.pushAndRemoveUntil(
               context,

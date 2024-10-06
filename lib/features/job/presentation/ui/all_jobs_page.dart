@@ -30,8 +30,6 @@ class AllJobsPage extends StatelessWidget {
               job: job[i],) :
             jobCardType == JobCardType.company ?JobCard(
                 jobCardType: JobCardType.company,
-                chipBgColor:primaryColor,
-                chipText: tr("active_msg"),
                job: job[i],)
                 :JobCard(
                 jobCardType: JobCardType.companyTender,
@@ -85,7 +83,7 @@ class AllJobsPage extends StatelessWidget {
                     } else if (state is JobFetchedState) {
                 print('JobFetchedState');
                 return Responsive(
-                    mobile: _buildMobileLayout(state.jobs, JobCardType.user),
+                    mobile: _buildMobileLayout(state.jobs, JobCardType.company),
                     tablet:
                     _buildTabletDesktopLayout(state.jobs, 2, context,JobCardType.user),
                     desktop:  _buildTabletDesktopLayout(state.jobs, 3, context,JobCardType.user),);
