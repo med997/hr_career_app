@@ -14,8 +14,9 @@ import '../../../../core/app_localizations.dart';
 
 class RecentJobsWidget extends StatelessWidget {
  final JobCardType jobCardType;
-
-  const RecentJobsWidget({super.key, required this.jobCardType});
+final int? selectedJobState;
+final List<String> jobStatusList= ['active', 'hidden', 'completed'];
+  RecentJobsWidget({super.key, required this.jobCardType,this.selectedJobState});
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
@@ -36,17 +37,24 @@ class RecentJobsWidget extends StatelessWidget {
   }
 
   Widget _buildMobileLayout(List<Job> job) {
+    if(selectedJobState!=null){
+      job = job.where((jobs) => jobs.status==jobStatusList[selectedJobState??0] ,).toList();
+    }
     return ListView.builder(
         shrinkWrap: true,
         physics: const PageScrollPhysics(),
         itemCount: job.length ?? 0,
-        itemBuilder: (context, i) => jobCardType == JobCardType.user ?JobCard(
+        itemBuilder: (context, i) => jobCardType == JobCardType.user?
+        JobCard(
           jobCardType: JobCardType.user,
-           job: job[i],) :
+           job: job[i],):
         JobCard(
           jobCardType: JobCardType.company,
-            chipBgColor:primaryColor,
-            chipText: tr("active_msg"),
+            chipBgColor:
+            job[i].status=='hidden'?Colors.grey:
+            job[i].status=='completed'?primaryTransparent:
+            primaryColor,
+            chipText:'${job[i].status}',
             job: job[i],));
   }
 
@@ -65,7 +73,7 @@ class RecentJobsWidget extends StatelessWidget {
              columnWidth: itemWidth,) : JobCard(
             jobCardType: JobCardType.company,
             job: job,
-            chipText: tr("active_msg"),
+            chipText: jobs.first.status ,
             chipBgColor: primaryColor,
             columnWidth: itemWidth,
           )
