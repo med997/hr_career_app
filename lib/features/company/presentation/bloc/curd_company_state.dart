@@ -12,14 +12,14 @@ class LoadingCurdCompanyState extends CurdCompanyState {}
 
 class ErrorCurdCompanyState extends CurdCompanyState {
   final String message;
-  ErrorCurdCompanyState({required this.message});
+  const ErrorCurdCompanyState({required this.message});
   @override
   List<Object> get props => [message];
 }
 
 class MessageCurdCompanyState extends CurdCompanyState {
   final String message;
-  MessageCurdCompanyState({required this.message});
+  const MessageCurdCompanyState({required this.message});
   @override
   List<Object> get props => [message];
 }

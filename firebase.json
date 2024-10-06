@@ -1,0 +1,31 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "gymday-ee08c",
+          "appId": "1:181961421151:android:4d3541baab5801d0dfc6ea",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "gymday-ee08c",
+          "appId": "1:181961421151:ios:d9c3bf1932c11bebdfc6ea",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "gymday-ee08c",
+          "configurations": {
+            "android": "1:181961421151:android:4d3541baab5801d0dfc6ea",
+            "ios": "1:181961421151:ios:d9c3bf1932c11bebdfc6ea",
+            "web": "1:181961421151:web:a1f1bbf70cfadc49dfc6ea"
+          }
+        }
+      }
+    }
+  }
+}

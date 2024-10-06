@@ -18,6 +18,7 @@ class Profile extends Equatable {
   final String? resumeUrl;
   final String? documentsUrl;
   final String? major;
+  final String? fcmToken;
   final List<String>? skils;
   final List<dynamic> experience;
   final List<dynamic> education;
@@ -27,6 +28,7 @@ class Profile extends Equatable {
     this.updatedAt,
     this.username,
     this.fullName,
+    this.fcmToken,
     this.avatarUrl,
     this.fullNameAr,
     this.nationality,
