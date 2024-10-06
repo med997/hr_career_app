@@ -118,9 +118,7 @@ void main() async {
 }
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(
-      name: 'hr_career_platform',
-      options: DefaultFirebaseOptions.currentPlatform);
+
  await setupFlutterNotifications();
   showFlutterNotification(message);
   print("Handling a background message: ${message.messageId}");
