@@ -30,6 +30,7 @@ import 'features/general/presentation/bloc/general_cubit.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
 import 'features/notification/service/notification_service.dart';
 import 'features/payment/presentation/bloc/payment_curd_cubit.dart';
+import 'features/profile/presentation/bloc/appliance_cubit.dart';
 import 'features/profile/presentation/bloc/profile_cubit.dart';
 import 'injection_container.dart' as di;
 
