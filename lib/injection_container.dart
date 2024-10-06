@@ -38,6 +38,7 @@ import 'package:hr_career_platform/features/job/domain/usercase/add_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
+import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/curd_job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
@@ -52,6 +53,8 @@ import 'package:hr_career_platform/features/profile/data/datasources/profile_rem
 import 'package:hr_career_platform/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:hr_career_platform/features/profile/domain/repositories/profile_repository.dart';
 import 'package:hr_career_platform/features/profile/domain/usecases/fetch_profile.dart';
+import 'package:hr_career_platform/features/profile/domain/usecases/update_profile.dart';
+import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profile_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -304,9 +307,19 @@ void _initProfile() {
         FetchProfileUserCase(
           sl(),
         ),
+  )..registerFactory(
+        () =>
+        UpdateProfileUseCase(
+          sl(),
+        ),
   )
     ..registerLazySingleton(
           () => ProfileCubit(fetchProfileUserCase: sl()),
+    )..registerLazySingleton(
+          () => CurdProfileCubit(updateProfileUserCase: sl()),
+    )
+    ..registerLazySingleton(
+          () => ApplianceCubit(getProfileUserCase: sl()),
     );
 }
 

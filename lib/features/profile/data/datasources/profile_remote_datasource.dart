@@ -11,18 +11,40 @@ import '../models/profile_model.dart';
 abstract class ProfileRemoteDatasource {
   Future<ProfileModel> getUser();
   Future<ProfileModel> getUserByUuid(String uuid);
+  Future<ProfileModel> updateProfileFcmToken(ProfileModel profileModel);
+  Future<List<ProfileModel>> getAppliance(String profileId);
 }
 
 class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
   final SupabaseClient client;
 
+  @override
+  Future<ProfileModel> updateProfileFcmToken(ProfileModel profileModel) async {
+    try {
+      final data = await client
+          .from('profiles')
+          .update({ 'fcm_token': profileModel.fcmToken})
+          .eq('id', profileModel.id.toString()).select();
+      return ProfileModel.fromJson(data.first);
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
 
+  }
   ProfileRemoteDatasourceImp({ required this.client});
 
   @override
   Future<ProfileModel> getUser() async {
     try {
-      final data = await client.from('profile').select();
+      final data = await client.from('profiles').select();
 
       if (data.isNotEmpty) {
         return ProfileModel.fromJson(data[0]);
@@ -54,6 +76,30 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
         print(error);
       }
       throw ServerException(message: error.message);
+    }
+  }
+
+  @override
+  Future<List<ProfileModel>> getAppliance(String profileId) async {
+    try {
+      Map<String,dynamic> param={'pro_id': profileId};
+      final data = await client.rpc('appliance',params: param);
+      print('getAppliance');
+      print(data.toString());
+      print(profileId);
+      final List<ProfileModel> profileList =
+      data.map((json) => ProfileModel.fromJson(json)).toList();
+      return profileList;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print('PostgrestException ==> ${error.message}');
+      }
+      throw ServerException(message: error.message);
+    }catch(e) {
+      if (kDebugMode) {
+        print('anyException ==> ${e}');
+      }
+      throw ServerException(message: 'something wrong  !!!');
     }
   }
 }

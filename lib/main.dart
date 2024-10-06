@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:fleather/l10n/fleather_localizations.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -95,6 +94,12 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<PaymentCurdCubit >(),
       ),
+      BlocProvider(
+        create: (context) => di.sl<CurdProfileCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<ApplianceCubit>(),
+      ),
     ],
     child: const MyApp(),
   ));
@@ -143,7 +148,7 @@ class _MyAppState extends State<MyApp> {
               PointerDeviceKind.unknown
             },
           ),
-          home: SplashPage(),
+          home: const SplashPage(),
         );
       },
     );

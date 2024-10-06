@@ -58,6 +58,10 @@ dependencies:
   flutter_colorpicker: ^1.1.0
   date_picker_plus: ^4.1.0
   fleather: ^1.19.0
+  firebase_messaging: ^15.1.3
+  firebase_core: ^3.6.0
+  flutter_local_notifications: ^17.2.3
+
 
 
 

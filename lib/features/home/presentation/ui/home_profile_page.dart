@@ -192,11 +192,13 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
     ];
     print('build');
     List<DynamicModel> dynFinalForm = [];
-    return BlocConsumer<ProfileCubit, ProfileState>(listener: (context, state) {
+    return BlocConsumer<ProfileCubit, ProfileState>
+      (listener: (context, state) {
       if (state is ProfileFetchedState) {
         context.read<GeneralCubit>().getGeneral();
       }
-    }, builder: (context, state) {
+    },
+        builder: (context, state) {
       BlocListener<GeneralCubit, GeneralState>(
         listener: (context, gnState) {},
       );

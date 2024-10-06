@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "181961421151",
+    "firebase_url": "https://gymday-ee08c.firebaseio.com",
+    "project_id": "gymday-ee08c",
+    "storage_bucket": "gymday-ee08c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181961421151:android:37cc300d28f9d6afdfc6ea",
+        "android_client_info": {
+          "package_name": "com.example.hr_career"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "181961421151-nkm0p567j8j9hr9lld4gs2ciqnljm476.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQHOUGH4jgpfU8B6KFTaK_Uip1TwGmXuY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "181961421151-nkm0p567j8j9hr9lld4gs2ciqnljm476.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -16,7 +16,7 @@ class CurdCompanyCubit extends Cubit<CurdCompanyState> {
 
   Future<void> updateCompany(Map<String, dynamic>? value) async {
     if (value!['id'] == null) {
-      emit(ErrorCurdCompanyState(message: "ID cannot be null"));
+      emit(const ErrorCurdCompanyState(message: "ID cannot be null"));
       return;
     }
     emit(LoadingCurdCompanyState());

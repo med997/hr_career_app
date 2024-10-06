@@ -10,20 +10,11 @@ import '../../../../core/widgets/text_with_icon.dart';
 
 class ProfileCard extends StatelessWidget {
   double? columnWidth;
-  final String userTime;
-  final String userName;
-  final String userLocation;
-  final String userNationality;
-  final String userLogo;
+  final Profile profile;
 
   ProfileCard(
       {super.key,
-      required this.userTime,
-      required this.userName,
-      required this.userLocation,
-      required this.userNationality,
-      required this.userLogo,
-      this.columnWidth});
+      this.columnWidth, required this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +35,11 @@ class ProfileCard extends StatelessWidget {
       child: ListTile(
         minTileHeight: 55,
             leading: AvatarNetwork(
-              imgUrl: userLogo ?? '',
+              imgUrl: profile.avatarUrl ?? '',
               withBorder: true,
             ),
             title: Text(
-              userName,
+              profile.fullName ??'',
               style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
@@ -66,7 +57,7 @@ class ProfileCard extends StatelessWidget {
                     size: 18,
                     color: primaryTransparent.withOpacity(0.7),
                   ),
-                  text: userTime,
+                  text: profile.dob.toString(),
                   textColor: Colors.grey,
                 ),
                 TextWithIcon(
@@ -75,7 +66,7 @@ class ProfileCard extends StatelessWidget {
                     size: 18,
                     color: primaryTransparent.withOpacity(0.7),
                   ),
-                  text: userLocation,
+                  text: profile.address ?? '',
                   textColor: Colors.grey,
                 ),
                 TextWithIcon(
@@ -84,7 +75,7 @@ class ProfileCard extends StatelessWidget {
                     size: 18,
                     color: primaryTransparent.withOpacity(0.7),
                   ),
-                  text: userNationality,
+                  text: profile.nationality ?? '',
                   textColor: Colors.grey,
                 ),
               ],

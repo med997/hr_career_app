@@ -45,7 +45,6 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
         .read<CompanyProfileCubit>()
         .getCompanyByUuid(widget.auth.userAuth!.id);
   }
-
   @override
   Widget build(BuildContext context) {
     bool isEditing = true;
