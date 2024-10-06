@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:fleather/l10n/fleather_localizations.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -28,6 +29,8 @@ import 'features/home/presentation/ui/company_home_page.dart';
 import 'features/job/presentation/bloc/curd_job_cubit.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
 import 'features/payment/presentation/bloc/payment_curd_cubit.dart';
+import 'features/profile/presentation/bloc/appliance_cubit.dart';
+import 'features/profile/presentation/bloc/curd_profile_cubit.dart';
 import 'features/profile/presentation/bloc/profile_cubit.dart';
 import 'injection_container.dart' as di;
 

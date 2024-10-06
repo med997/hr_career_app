@@ -14,7 +14,7 @@ import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/injection_container.dart' as di;
 
-import '../../features/company/presentation/ui/company_details_page.dart';
+import '../../features/company/presentation/ui/company_job_details_page.dart';
 import '../../features/job/presentation/ui/job_details_page.dart';
 import '../app_localizations.dart';
 
