@@ -20,7 +20,6 @@ import 'package:hr_career_platform/features/company/presentation/bloc/company_pr
 import 'package:hr_career_platform/features/company/presentation/bloc/curd_company_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
-import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
  import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
  import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profile_cubit.dart';
