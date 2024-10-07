@@ -30,8 +30,6 @@ class AllJobsPage extends StatelessWidget {
               job: job[i],) :
             jobCardType == JobCardType.company ?JobCard(
                 jobCardType: JobCardType.company,
-                chipBgColor:primaryColor,
-                chipText: tr("active_msg"),
                job: job[i],)
                 :JobCard(
                 jobCardType: JobCardType.companyTender,

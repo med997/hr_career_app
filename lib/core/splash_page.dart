@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,16 +41,28 @@ class _SplashPageState extends State<SplashPage> {
       if (state is CurrentUserStatus) {
 
         if (state.auth.userType == UsrType.user) {
-          FirebaseMessaging.instance.getToken().then((value) {
-            Profile profile = Profile(
-                id: state.auth.userAuth!.id,
-                fcmToken:value,
-                phone: state.auth.profile!.phone,
-                email: state.auth.profile!.email);
+          if(kIsWeb){
+            FirebaseMessaging.instance.getToken(vapidKey: 'BPaPxgy_jKqb35xtkHOFbPfD25kCEp3ACdJdLQBA8d4bbg7zVmYbYozAa4CgB-2yvBM1Sr-ZNpGHZleC--W4fUM').then((value) {
+              Profile profile = Profile(
+                  id: state.auth.userAuth!.id,
+                  fcmToken:value,
+                  phone: state.auth.profile!.phone,
+                  email: state.auth.profile!.email);
 
+              context.read<CurdProfileCubit>().updateProfile(profile);
+            });
+          }else{
+            FirebaseMessaging.instance.getToken().then((value) {
+              Profile profile = Profile(
+                  id: state.auth.userAuth!.id,
+                  fcmToken:value,
+                  phone: state.auth.profile!.phone,
+                  email: state.auth.profile!.email);
 
-            context.read<CurdProfileCubit>().updateProfile(profile);
-          });
+              context.read<CurdProfileCubit>().updateProfile(profile);
+            });
+          }
+
 
           Navigator.pushAndRemoveUntil(
               context,

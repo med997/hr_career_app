@@ -84,7 +84,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
               return null;
             },
             onChanged: (value) {
-              dynamicModel.controller!.text = value;
+
                context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
             }),
         ),
