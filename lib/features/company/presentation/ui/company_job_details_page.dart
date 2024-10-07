@@ -228,11 +228,13 @@ class CompanyJobDetailsPage extends StatelessWidget {
         JobDetailsHeader(
             job: job,
             profileFilledText: FilledButton(
-              style: const ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.blueAccent)),
+              style:  ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(job.status=='hidden'?Colors.grey:
+                  job.status=='completed'?primaryTransparent:
+                  primaryColor,)),
               onPressed: () {},
               child: Text(
-                tr("active_msg"),
+                job.status.toString(),
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.white,

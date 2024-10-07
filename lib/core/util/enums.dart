@@ -10,6 +10,7 @@ enum FormType { text, number, password, phone,email, date, color,
 enum UsrType { user,company }
 enum JobCardType { user,company, userTender,companyTender }
 enum PkgType { tender,job }
+enum ApplianceStateItem { approved, toShortList, ignored }
 
 enum StepEnabling { sequential, individual }
 enum ValidatorType {equalTo, notEmpty, textLength, phoneNumber, age, email }
