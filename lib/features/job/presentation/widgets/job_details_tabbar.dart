@@ -16,7 +16,7 @@ import '../../../../core/widgets/multi_line_dialog.dart';
 class JobDetailsTabBar extends StatefulWidget {
   final Job job;
 
-  JobDetailsTabBar({super.key, required this.job});
+  JobDetailsTabBar({super.key,  required this.job});
 
   @override
   State<JobDetailsTabBar> createState() => _JobDetailsTabBarState();
@@ -27,11 +27,11 @@ class _JobDetailsTabBarState extends State<JobDetailsTabBar> {
   Widget build(BuildContext context) {
 
     print(widget.job.jobReqFormated);
-    final ParchmentDocument documentReq = ParchmentDocument.fromJson(jsonDecode(jsonEncode(widget.job.jobReqFormated)));
-    final ParchmentDocument documentDesc = ParchmentDocument.fromJson(jsonDecode(jsonEncode(widget.job.jobDescFormated)));
+    ParchmentDocument? documentReq = widget.job.jobReqFormated!=null? ParchmentDocument.fromJson(jsonDecode(jsonEncode(widget.job.jobReqFormated))):null;
+    ParchmentDocument? documentDesc = widget.job.jobDescFormated!=null? ParchmentDocument.fromJson(jsonDecode(jsonEncode(widget.job.jobDescFormated))):null;
      const converter = ParchmentHtmlCodec();
-    String htmlReq = converter.encode(documentReq.toDelta());
-    String htmlDesc = converter.encode(documentDesc.toDelta());
+    String? htmlReq =  documentReq!=null?converter.encode(documentReq.toDelta()):null;
+    String? htmlDesc = documentDesc!=null?converter.encode(documentDesc.toDelta()):null;
     return ListView(children: [
       Center(
         child: ToggleBtnWidget(
@@ -47,15 +47,30 @@ class _JobDetailsTabBarState extends State<JobDetailsTabBar> {
           switch (state.selectedTab) {
             case 0:
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18.0),
-                child: Html(data: htmlDesc,),
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child:htmlDesc!=null?  Html(data: htmlDesc,):Text(
+                  widget.job.jobDesc,
+                  textAlign: TextAlign.justify,
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
 
               );
             case 1:
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Html(data: htmlReq,),
-
+                child:htmlReq!=null?  Html(data: htmlReq,):Text(
+                  widget.job.jobRequirements,
+                  textAlign: TextAlign.justify,
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
               );
             case 2:
               return Padding(

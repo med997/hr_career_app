@@ -22,6 +22,7 @@ import 'package:hr_career_platform/features/company/presentation/bloc/curd_compa
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
+import 'package:hr_career_platform/features/job/presentation/bloc/curd_appliance_job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
 import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
@@ -104,6 +105,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<CurdJobCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<CurdApplianceJobCubit>(),
       ),
       BlocProvider(
         create: (context) => di.sl<CompanyProfileCubit>(),

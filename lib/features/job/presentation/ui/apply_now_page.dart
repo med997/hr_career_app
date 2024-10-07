@@ -21,10 +21,15 @@ import '../../../profile/presentation/bloc/profile_cubit.dart';
 import '../../../profile/presentation/widgets/education_widget.dart';
 import '../../../profile/presentation/widgets/experience_widget.dart';
 import '../../../profile/presentation/widgets/header_profile.dart';
+import '../../domain/entities/job.dart';
+import '../bloc/curd_appliance_job_cubit.dart';
 
 class ApplyNowPage extends StatefulWidget {
+  final Job job;
+
   const ApplyNowPage({
     super.key,
+    required this.job,
   });
 
   @override
@@ -51,7 +56,6 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
     List<DynamicModel> reviewDynFinalForm = [];
     return SafeArea(
       child: Scaffold(
-      
           body: BlocConsumer<ProfileCubit, ProfileState>(
               listener: (context, state) {
         if (state is ProfileFetchedState) {
@@ -77,7 +81,8 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
             DynamicModel('fullNameAr', FormType.text,
                 key: 'fullNameAr',
                 disabled: isEditing,
-                controller: TextEditingController(text: state.profile.fullNameAr),
+                controller:
+                    TextEditingController(text: state.profile.fullNameAr),
                 width: Responsive.isMobile(context) ? width : defaultWidth,
                 validators: [
                   DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -85,7 +90,8 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
             DynamicModel('currentJob', FormType.text,
                 disabled: isEditing,
                 key: 'currentJob',
-                controller: TextEditingController(text: state.profile.currentJob),
+                controller:
+                    TextEditingController(text: state.profile.currentJob),
                 width: Responsive.isMobile(context) ? width : defaultWidth,
                 validators: [
                   DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -219,14 +225,15 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                   shrinkWrap: true,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   children: [
-      
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Wrap(
                         spacing: 90,
                         direction: Axis.horizontal,
                         children: [
-                          const BackButton(color: primaryColor,),
+                          const BackButton(
+                            color: primaryColor,
+                          ),
                           HeaderProfileWidget(
                             withBox: false,
                             avatar: state.profile.avatarUrl ?? '',
@@ -235,7 +242,7 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                         ],
                       ),
                     ),
-                    BlocBuilder<GeneralCubit, GeneralState>(
+                    /*   BlocBuilder<GeneralCubit, GeneralState>(
                       builder: (context, gnState) {
                         if (gnState is GeneralFetchedState) {
                           print('GeneralFetchedState');
@@ -262,35 +269,40 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                           context.read<DynamicFormCubit>().addMenuItems2(
                               'gender', genderItems, state.profile.gender!);
                         }
-                        return DynamicFormWidget(
-                          key: const Key('profileInf'),
-                          dynamicFormsList: reviewDynFinalForm,
-                          formKey: reviewMainInfoFormKey,
-                          useResponsiveUi: true,
-                        );
-                      },
-                    ),
+                        return*/
+                    DynamicFormWidget(
+                      key: const Key('profileInf'),
+                      dynamicFormsList: reviewDynFinalForm,
+                      formKey: reviewMainInfoFormKey,
+                      useResponsiveUi: true,
+                    )
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Center(
-                  child: SizedBox(
-                    width: 260,
-                    height: 35,
-                    child: MaterialButton(
-                      color: primaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      onPressed: () {},
-                      child: Text(
-                        tr("confirm_msg"),
-                        style: const TextStyle(color: Colors.white),
+              BlocBuilder<CurdApplianceJobCubit, CurdApplianceJobState>(
+                builder: (context, state) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: Center(
+                      child: SizedBox(
+                        width: 260,
+                        height: 35,
+                        child: MaterialButton(
+                          color: primaryColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          onPressed: () {
+
+                          },
+                          child: Text(
+                            tr("confirm_msg"),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ],
           );
@@ -298,6 +310,75 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
           return const SizedBox();
         }
       })),
+    );
+  }
+  _loginBtn() {
+    return BlocConsumer<CurdApplianceJobCubit, CurdApplianceJobState>(
+      listener: (context, state) {
+        if (state is MessageCurdApplianceJobState) {
+
+        }
+      },
+      builder: (context, state) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Center(
+                  child: SizedBox(
+                    width: 350,
+                    height: 35,
+                    child: MaterialButton(
+                      color: primaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      onPressed: () {
+                        final profileId = context
+                            .read<LoginCubit>()
+                            .authenticatedUser!
+                            .userAuth!
+                            .id;
+                        context
+                            .read<CurdApplianceJobCubit>()
+                            .addApplianceJob(widget.job.id!, profileId);
+
+                        print(profileId);
+                        print(widget.job.id);
+                      },
+                      enableFeedback: false,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Confirm',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          if (state is LoadingCurdApplianceJobState)
+                            Padding(
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: FittedBox(
+                                  child: LoadingWidget(
+                                    progressColor: Colors.white,
+                                  )),
+                            )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                if (state is ErrorCurdApplianceJobState)
+                  Text(
+                    state.message,
+                    style: const TextStyle(
+                        color: Colors.redAccent, fontWeight: FontWeight.w500),
+                  )
+              ],
+            );
+
+      },
     );
   }
 }
