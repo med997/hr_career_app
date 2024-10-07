@@ -177,7 +177,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                   // context.read<ProfileCubit>().uploadFile(fileName);
                 }
               },
-              
+
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
                 padding: EdgeInsets.all(2),
