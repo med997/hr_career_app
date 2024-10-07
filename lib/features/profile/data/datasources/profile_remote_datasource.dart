@@ -12,6 +12,7 @@ abstract class ProfileRemoteDatasource {
   Future<ProfileModel> getUser();
   Future<ProfileModel> getUserByUuid(String uuid);
   Future<ProfileModel> updateProfileFcmToken(ProfileModel profileModel);
+  Future<ProfileModel> updateProfile(ProfileModel profileModel);
   Future<List<ProfileModel>> getAppliance(String profileId);
 }
 
@@ -101,6 +102,28 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
         print('anyException ==> ${e}');
       }
       throw ServerException(message: 'something wrong  !!!');
+    }
+  }
+
+  @override
+  Future<ProfileModel> updateProfile(ProfileModel profileModel) async{
+    try {
+      final data = await client
+          .from('profiles')
+          .update(profileModel.toJson())
+          .eq('id', profileModel.id.toString()).select().single();
+      final ProfileModel profileUpdate = ProfileModel.fromJson(data);
+      return profileUpdate;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
     }
   }
 }

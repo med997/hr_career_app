@@ -77,4 +77,10 @@ Future<Either<Failure, Profile>> _getMessage(
       return Left(OfflineFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Profile>> updateProfile(Profile profile) async {
+    return await _getMessage(() => profileRemoteDatasource.updateProfileFcmToken(
+        ProfileModel.fromProfile(profile)));
+  }
 }

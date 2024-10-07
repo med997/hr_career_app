@@ -69,7 +69,7 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
         if(field.key =='confirmPassword') {
           dynamicModel.compareText=getCurrentValue()['password'];
         }
-        print('${dynamicModel.key} value: ${dynamicModel.value}');
+        print('${dynamicModel.key} value: ${dynamicModel.controller!.value.text}');
         return dynamicModel;
       }
       return field;

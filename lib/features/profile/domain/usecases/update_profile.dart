@@ -8,7 +8,7 @@ class UpdateProfileUseCase {
 
   UpdateProfileUseCase(this.profileRepository);
 
-  Future<Either<Failure, Profile>> updateFcmToken(Profile profile) async {
-    return await profileRepository.updateProfileFcmToken(profile);
+  Future<Either<Failure, Profile>> updateProfile(Profile profile) async {
+    return await profileRepository.updateProfile(profile);
   }
 }
