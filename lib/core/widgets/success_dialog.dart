@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../app_theme.dart';
 class SuccessDialog extends StatelessWidget {
-  const SuccessDialog({super.key});
+  final String message;
+  final Function onDonePressed;
+  const SuccessDialog({super.key, required this.message, required this.onDonePressed});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+
       content: Lottie.asset('assets/animation/success_animation.json',height: 160,repeat: false),
       actions: <Widget>[
-        const Center(
+         Center(
             child: Text(
-              'Completed successfully',
-              style: TextStyle(
+              message,
+              style: const TextStyle(
                   color: primaryColor, fontWeight: FontWeight.bold, fontSize: 18),
             )),
         Center(
@@ -28,6 +31,7 @@ class SuccessDialog extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.of(context).pop();
+              onDonePressed();
             },
           ),
         )

@@ -34,7 +34,7 @@ class RecentTenders extends StatelessWidget {
 Widget _buildMobileLayout(List<Job> job) {
   return ListView.builder(
       shrinkWrap: true,
-      physics: PageScrollPhysics(),
+      physics: const PageScrollPhysics(),
       itemCount: job.length ?? 0,
       itemBuilder: (context, i) => InkWell(
         onTap: () => Navigator.push(
