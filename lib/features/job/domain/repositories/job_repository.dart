@@ -8,4 +8,5 @@ abstract class JobRepository {
   Future<Either<Failure, Job>> addJob(Job job);
   Future<Either<Failure, Job>> updateJob(Job job);
   Future<Either<Failure, List<Job>>> getSearchJob(int companyId, String categoryStr, String? nationalitiesStr);
+  Future<Either<Failure, int>> addApplianceJob(int jobId, String profileId);
 }

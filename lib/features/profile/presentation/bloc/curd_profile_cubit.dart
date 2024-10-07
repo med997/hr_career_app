@@ -1,36 +1,69 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hr_career_platform/core/error/failures.dart';
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 import 'package:hr_career_platform/features/profile/domain/usecases/update_profile.dart';
+import 'package:hr_career_platform/features/profile/domain/usecases/update_profile_fcm_token.dart';
 
 import '../../../../core/strings/failures.dart';
 
 part 'curd_profile_state.dart';
 
 class CurdProfileCubit extends Cubit<CurdProfileState> {
-  final UpdateProfileUseCase updateProfileUserCase;
-  CurdProfileCubit({required this.updateProfileUserCase}) : super(CurdProfileInitial());
+  final UpdateProfileFcmToken updateProfileFcmToken;
+  final UpdateProfileUseCase updateProfileUseCase;
 
-  Future<void> updateProfile(Profile profile) async {
+  CurdProfileCubit(
+      {required this.updateProfileFcmToken, required this.updateProfileUseCase})
+      : super(CurdProfileInitial());
+
+  Future<void> updateProfile(Map<String, dynamic>? value) async {
+    if (value!['id'] == null) {
+      emit(const ErrorCurdProfileState(message: "ID cannot be null"));
+      return;
+    }
+    emit(LoadingCurdProfileState());
+    Profile profile = Profile(
+      id: value['id'],
+      address: value['address'] ?? '',
+      phone: value['phone'] ?? '',
+      currentJob: value['currentJob'] ?? '',
+      fullName: value['fullName'] ?? '',
+      secondaryPhone: value['secondaryPhone'] ?? '',
+      gender: value['gender'] ?? '',
+      fullNameAr: value['fullNameAr'] ?? '',
+      major: value['major'] ?? '',
+      dob: value['dob'] ?? '',
+      email: value['email'] ?? '',
+    );
+    final failureOrSuccess = await updateProfileUseCase.updateProfile(profile);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+  }
+
+  Future<void> updateProfileFcm(Profile profile) async {
     if (profile.id == null) {
       emit(const ErrorCurdProfileState(message: "ID cannot be null"));
       return;
     }
     emit(LoadingCurdProfileState());
-    final failureOrSuccess = await updateProfileUserCase.updateFcmToken(profile);
-    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+    final failureOrSuccess =
+        await updateProfileFcmToken.updateFcmToken(profile);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateFcmDone'));
   }
+
   CurdProfileState _eitherDoneMessageOrErrorState(
       Either<Failure, Profile> either, String message) {
     return either.fold(
-          (failure) => ErrorCurdProfileState(
+      (failure) => ErrorCurdProfileState(
         message: _mapFailureToMessage(failure),
       ),
-          (_) => MessageCurdProfileState(message: message),
+      (profile) => MessageCurdProfileState(message: message, profile: profile),
     );
   }
+
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case const (ServerFailure):

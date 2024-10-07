@@ -387,6 +387,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
                                 context
                                     .read<CurdJobCubit>()
                                     .updateJob(value, job);
+
+                                // SnackBar(content: Text('Job updated successfully'),backgroundColor: Colors.green,duration:  Duration(seconds: 2),);
                               },
                               child: const Icon(
                                 Icons.save_outlined,

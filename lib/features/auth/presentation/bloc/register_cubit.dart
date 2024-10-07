@@ -32,6 +32,10 @@ class RegisterCubit extends Cubit<RegisterState> {
           password: value['password'],
           profile: Profile(
               fullName: value['fullName'],
+              fullNameAr: value['fullNameAr'],
+              currentJob: value['currentJob'],
+              gender: value['gender'],
+              nationality: value['nationality'],
               phone: value['phone'],
               email: value['email']));
     } else {

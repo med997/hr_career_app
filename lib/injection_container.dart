@@ -38,6 +38,7 @@ import 'package:hr_career_platform/features/job/domain/usercase/add_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
+import 'package:hr_career_platform/features/profile/domain/usecases/update_profile_fcm_token.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/curd_job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
@@ -66,6 +67,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/company/presentation/bloc/company_profile_cubit.dart';
+import 'features/job/domain/usercase/add_appliance.dart';
+import 'features/job/presentation/bloc/curd_appliance_job_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -131,6 +134,11 @@ void _initJob() {
         UpdateJob(
           sl(),
         ),
+  )..registerFactory(
+        () =>
+         AddApplianceJobUseCase(
+          sl(),
+        ),
   )
   // cubit
     ..registerLazySingleton(
@@ -141,6 +149,8 @@ void _initJob() {
           () => CurdJobCubit(addJobUserCase: sl(), updateJobUseCase: sl()),
     )..registerLazySingleton(
         () => StepperCubit(),
+  )..registerLazySingleton(
+        () => CurdApplianceJobCubit(addApplianceJobUseCase: sl()),
   );
 }
 
@@ -312,11 +322,16 @@ void _initProfile() {
         UpdateProfileUseCase(
           sl(),
         ),
+  )..registerFactory(
+        () =>
+        UpdateProfileFcmToken(
+          sl(),
+        ),
   )
     ..registerLazySingleton(
           () => ProfileCubit(fetchProfileUserCase: sl()),
     )..registerLazySingleton(
-          () => CurdProfileCubit(updateProfileUserCase: sl()),
+          () => CurdProfileCubit(updateProfileUseCase: sl(), updateProfileFcmToken: sl()),
     )
     ..registerLazySingleton(
           () => ApplianceCubit(getProfileUserCase: sl()),

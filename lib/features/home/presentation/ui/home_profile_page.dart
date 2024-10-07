@@ -14,6 +14,7 @@ import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
 import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
 import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
+import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profile_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 
 import '../../../../core/util/responsive.dart';
@@ -200,209 +201,12 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
       }
     },
         builder: (context, state) {
-      BlocListener<GeneralCubit, GeneralState>(
-        listener: (context, gnState) {},
-      );
+
       if (state is ProfileLoading) {
         return LoadingWidget();
       } else if (state is ProfileFetchedState) {
         print('ProfileFetchedState');
-        dynFinalForm = [
-          DynamicModel('fullName', FormType.text,
-              disabled: true,
-              controller: TextEditingController(text: state.profile.fullName),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ],
-              key: 'fullName'),
-          DynamicModel('fullNameAr', FormType.text,
-              key: 'fullNameAr',
-              disabled: true,
-              controller: TextEditingController(text: state.profile.fullNameAr),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('currentJob', FormType.text,
-              disabled: true,
-              key: 'currentJob',
-              controller: TextEditingController(text: state.profile.currentJob),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('dob', FormType.text,
-              key: 'dob',
-              disabled: true,
-              controller:
-                  TextEditingController(text: state.profile.dob.toString()),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('nationality', FormType.dropdown,
-              items: [],
-              disabled: true,
-              key: 'nationality',
-              controller: TextEditingController(),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('status', FormType.dropdown,
-              key: 'status',
-              disabled: true,
-              controller: TextEditingController(),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('phone', FormType.phone,
-              key: 'phone',
-              disabled: true,
-              controller: TextEditingController(text: state.profile.phone),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('secondaryPhone', FormType.phone,
-              disabled: true,
-              controller:
-                  TextEditingController(text: state.profile.secondaryPhone),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ],
-              key: 'secondaryPhone'),
-          DynamicModel('email', FormType.email,
-              key: 'email',
-              disabled: true,
-              controller: TextEditingController(text: state.profile.email),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('address', FormType.text,
-              key: 'address',
-              disabled: true,
-              controller: TextEditingController(text: state.profile.address),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('gender', FormType.dropdown,
-              key: 'gender',
-              items: [],
-              disabled: true,
-              controller: TextEditingController(),
-              width: Responsive.isMobile(context) ? width : defaultWidth,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('experience', FormType.subDynForm,
-              key: 'experience',
-              subDynamicModel: profileExp,
-              width: Responsive.isMobile(context) ? width : width,
-              subFormHeader: Flex(
-                direction: Axis.vertical,
-                children: [
-                  SubTitle(
-                    title: tr("experience_msg"),
-                    titleType: SubTitleType.textOnly,
-                  ),
-                  ...state.profile.experience.map(
-                    (e) => experienceWidget(
-                        dateText: '${e['from_date']}-${e['to_date']}',
-                        locationText: e['where'].toString(),
-                        infoText: e['title'].toString()),
-                  ),
-                ],
-              ),
-              subFormFooter: Flex(
-                direction: Axis.horizontal,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  MaterialButton(
-                      minWidth: 75,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 2, horizontal: 14),
-                      color: primaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      onPressed: () {
-                        final value =
-                            context.read<DynamicFormCubit>().getCurrentValue();
-                        print(value);
-                      },
-                      child: Wrap(
-                        spacing: 4,
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        direction: Axis.horizontal,
-                        children: [
-                          const Icon(
-                            Icons.save_outlined,
-                            size: 18,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            tr("save_msg"),
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      )),
-                ],
-              ),
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('education', FormType.subDynForm,
-              key: 'education',
-              subFormHeader: Flex(
-                direction: Axis.vertical,
-                children: [
-                  SubTitle(
-                    title: tr("education_msg"),
-                    titleType: SubTitleType.withShowMore,
-                  ),
-                  ...state.profile.education.map(
-                    (e) => educationWidget(
-                        dateText: '${e['from_date']}-${e['to_date']}',
-                        locationText: e['where'].toString(),
-                        infoText: e['title'].toString()),
-                  ), //*
-                ],
-              ),
-              subFormFooter: const SizedBox(),
-              subDynamicModel: profileEdc,
-              width: Responsive.isMobile(context) ? width : width,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-          DynamicModel('pdfName', FormType.subDynForm,
-              key: 'pdfName',
-              subFormHeader: Flex(
-                direction: Axis.vertical,
-                children: [
-                  SubTitle(
-                    title: tr("resume_msg"),
-                    titleType: SubTitleType.textOnly,
-                  ), //*
-                ],
-              ),
-              subFormFooter: const SizedBox(),
-              controller: TextEditingController(),
-              subDynamicModel: profileUpl,
-              width: Responsive.isMobile(context) ? width : width,
-              validators: [
-                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-              ]),
-        ];
+
         return ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -428,7 +232,6 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
             BlocBuilder<GeneralCubit, GeneralState>(
               builder: (context, gnState) {
                 if (gnState is GeneralFetchedState) {
-                  print('GeneralFetchedState');
                   List<ItemModel> nationalityItems = gnState
                       .generals.nationality
                       .map((e) => ItemModel(key: e, value: e))
@@ -440,25 +243,215 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                   List<ItemModel> genderItems = gnState.generals.gender
                       .map((e) => ItemModel(key: e, value: e))
                       .toList();
-                  context.read<DynamicFormCubit>().addMenuItems(
-                      dynFinalForm
-                          .where((element) => element.key == 'nationality')
-                          .first,
-                      nationalityItems,
-                      state.profile.nationality!);
-                  context.read<DynamicFormCubit>().addSubFormMenuItems(
-                      'education', 'qualifications', qualificationsItems);
-                  // context.read<DynamicFormCubit>().addSubFormMenuItems('education','qualifications', qualificationsItems);
-                  context.read<DynamicFormCubit>().addMenuItems2(
-                      'gender', genderItems, state.profile.gender!);
-                  // context.read<DynamicFormCubit>().addMenuItems2('qualifications', genderItems, state.profile.gender!);
-                }
-                return DynamicFormWidget(
-                  key: const Key('profileInf'),
-                  dynamicFormsList: dynFinalForm,
-                  formKey: mainInfoFormKey,
-                  useResponsiveUi: true,
-                );
+                  final dynFinalForm = [
+                    DynamicModel('fullName', FormType.text,
+                        disabled: true,
+                        controller: TextEditingController(text: state.profile.fullName),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ],
+                        key: 'fullName'),
+                    DynamicModel('fullNameAr', FormType.text,
+                        key: 'fullNameAr',
+                        disabled: true,
+                        controller: TextEditingController(text: state.profile.fullNameAr),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('currentJob', FormType.text,
+                        disabled: true,
+                        key: 'currentJob',
+                        controller: TextEditingController(text: state.profile.currentJob),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('dob', FormType.text,
+                        key: 'dob',
+                        disabled: true,
+                        controller:
+                        TextEditingController(text: state.profile.dob.toString()),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('nationality', FormType.dropdown,
+                        items: nationalityItems,
+
+                        disabled: true,
+                        key: 'nationality',
+                        controller: TextEditingController(text:  state.profile.nationality!),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('status', FormType.dropdown,
+                        key: 'status',
+                        disabled: true,
+                        controller: TextEditingController(),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('phone', FormType.phone,
+                        key: 'phone',
+                        disabled: true,
+                        controller: TextEditingController(text: state.profile.phone),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('secondaryPhone', FormType.phone,
+                        disabled: true,
+                        controller:
+                        TextEditingController(text: state.profile.secondaryPhone),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ],
+                        key: 'secondaryPhone'),
+                    DynamicModel('email', FormType.email,
+                        key: 'email',
+                        disabled: true,
+                        controller: TextEditingController(text: state.profile.email),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('address', FormType.text,
+                        key: 'address',
+                        disabled: true,
+                        controller: TextEditingController(text: state.profile.address),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('gender', FormType.dropdown,
+                        key: 'gender',
+                        items: genderItems,
+
+                        disabled: true,
+                        controller: TextEditingController(text:  state.profile.gender!),
+                        width: Responsive.isMobile(context) ? width : defaultWidth,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('experience', FormType.subDynForm,
+                        key: 'experience',
+                        subDynamicModel: profileExp,
+                        width: Responsive.isMobile(context) ? width : width,
+                        subFormHeader: Flex(
+                          direction: Axis.vertical,
+                          children: [
+                            SubTitle(
+                              title: tr("experience_msg"),
+                              titleType: SubTitleType.textOnly,
+                            ),
+                            ...state.profile.experience.map(
+                                  (e) => experienceWidget(
+                                  dateText: '${e['from_date']}-${e['to_date']}',
+                                  locationText: e['where'].toString(),
+                                  infoText: e['title'].toString()),
+                            ),
+                          ],
+                        ),
+                        subFormFooter: Flex(
+                          direction: Axis.horizontal,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            MaterialButton(
+                                minWidth: 75,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 2, horizontal: 14),
+                                color: primaryColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                onPressed: () async {
+                                  final updateValue =
+                                  context.read<DynamicFormCubit>().getCurrentValue();
+                                  print(updateValue);
+                                  await context
+                                      .read<CurdProfileCubit>().updateProfile(updateValue);
+                                  print(updateValue);
+                                },
+                                child: Wrap(
+                                  spacing: 4,
+                                  alignment: WrapAlignment.center,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    const Icon(
+                                      Icons.save_outlined,
+                                      size: 18,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      tr("save_msg"),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          ],
+                        ),
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('education', FormType.subDynForm,
+                        key: 'education',
+                        subFormHeader: Flex(
+                          direction: Axis.vertical,
+                          children: [
+                            SubTitle(
+                              title: tr("education_msg"),
+                              titleType: SubTitleType.withShowMore,
+                            ),
+                            ...state.profile.education.map(
+                                  (e) => educationWidget(
+                                  dateText: '${e['from_date']}-${e['to_date']}',
+                                  locationText: e['where'].toString(),
+                                  infoText: e['title'].toString()),
+                            ), //*
+                          ],
+                        ),
+                        subFormFooter: const SizedBox(),
+                        subDynamicModel: profileEdc,
+                        width: Responsive.isMobile(context) ? width : width,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                    DynamicModel('pdfName', FormType.subDynForm,
+                        key: 'pdfName',
+                        subFormHeader: Flex(
+                          direction: Axis.vertical,
+                          children: [
+                            SubTitle(
+                              title: tr("resume_msg"),
+                              titleType: SubTitleType.textOnly,
+                            ), //*
+                          ],
+                        ),
+                        subFormFooter: const SizedBox(),
+                        controller: TextEditingController(),
+                        subDynamicModel: profileUpl,
+                        width: Responsive.isMobile(context) ? width : width,
+                        validators: [
+                          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                        ]),
+                  ];
+                  return DynamicFormWidget(
+                    key: const Key('profileInf'),
+                    dynamicFormsList: dynFinalForm,
+                    formKey: mainInfoFormKey,
+                    useResponsiveUi: true,
+                  );
+                 } return const SizedBox();
+
               },
             ),
           ],

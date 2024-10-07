@@ -49,7 +49,7 @@ class ProfileModel extends Profile {
   factory ProfileModel.fromProfile(Profile? profile) {
       return ProfileModel(
           id: profile!.id ?? '', // Handle potential nulls
-          updatedAt: profile.updatedAt,
+          updatedAt: profile.updatedAt??'',
           fullName: profile.fullName ?? '',
           avatarUrl: profile.avatarUrl ?? '',
           fullNameAr: profile.fullNameAr ?? '',
@@ -65,7 +65,7 @@ class ProfileModel extends Profile {
           currentJob: profile.currentJob??'',
           dob: profile.dob,
           email: profile.email,
-          gender: profile.gender,
+          gender: profile.gender??'',
       );
   }
 

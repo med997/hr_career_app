@@ -49,7 +49,7 @@ class _SplashPageState extends State<SplashPage> {
                   phone: state.auth.profile!.phone,
                   email: state.auth.profile!.email);
 
-              context.read<CurdProfileCubit>().updateProfile(profile);
+              context.read<CurdProfileCubit>().updateProfileFcm(profile);
             });
           }else{
             FirebaseMessaging.instance.getToken().then((value) {
@@ -59,7 +59,7 @@ class _SplashPageState extends State<SplashPage> {
                   phone: state.auth.profile!.phone,
                   email: state.auth.profile!.email);
 
-              context.read<CurdProfileCubit>().updateProfile(profile);
+              context.read<CurdProfileCubit>().updateProfileFcm(profile);
             });
           }
 
