@@ -9,7 +9,6 @@ class SuccessDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-
       content: Lottie.asset('assets/animation/success_animation.json',height: 160,repeat: false),
       actions: <Widget>[
          Center(
@@ -19,16 +18,12 @@ class SuccessDialog extends StatelessWidget {
                   color: primaryColor, fontWeight: FontWeight.bold, fontSize: 18),
             )),
         Center(
-          heightFactor: 2,
-          child: ElevatedButton(
-            style: ButtonStyle(
-                padding: const WidgetStatePropertyAll(
-                    EdgeInsets.symmetric(horizontal: 150)),
-                shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7)))),
-            child: const Text(
-              'Done',
-            ),
+          child: MaterialButton(
+            color: primaryColor,
+            padding: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+            height: 35,
+            minWidth: 260,
+            child:  const Text('Done',style: TextStyle(color: Colors.white),),
             onPressed: () {
               Navigator.of(context).pop();
               onDonePressed();

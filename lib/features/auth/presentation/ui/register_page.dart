@@ -22,50 +22,6 @@ import '../widget/login_ana_register_appbar_functhion.dart';
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
-  List<DynamicModel> regFormUsers = [
-    DynamicModel('fullName', FormType.text,
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        isRequired: true,
-        disabled: false,
-        key: 'fullName'),
-    DynamicModel('email', FormType.email,
-        controller: TextEditingController(),
-        isRequired: true,
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        disabled: false,
-        key: 'email'),
-    DynamicModel('phone', FormType.phone,
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        isRequired: true,
-        disabled: false,
-        key: 'phone'),
-    DynamicModel('password', FormType.password,
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        isRequired: true,
-        disabled: false,
-        key: 'password'),
-    DynamicModel('confirmPassword', FormType.password,
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
-          DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
-        ],
-        isRequired: true,
-        disabled: false,
-        key: 'confirmPassword'),
-  ];
-
   List<DynamicModel> regFormCompany(BuildContext context) {
     return [
       DynamicModel('companyNameEn', FormType.text,
@@ -177,7 +133,8 @@ class RegisterPage extends StatelessWidget {
   final regFormKey = GlobalKey<FormState>();
 
   _cardRegister(BuildContext _) {
-    final finalList=regFormCompany(_);
+    final finalList = regFormCompany(_);
+
     return Container(
       height: 500,
       width: 400,
@@ -199,44 +156,122 @@ class RegisterPage extends StatelessWidget {
             alignment: WrapAlignment.center,
             children: [
               Center(
-                child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-                  builder: (context, state) {
-                    if (state.selectedTab == 0) {
-                      return DynamicFormWidget(
-                          key: const Key('regFormUsers'),
-                          formKey: regFormKey,
-                          dynamicFormsList: regFormUsers,
-                          submitBtnLabel: 'login',
-                          useResponsiveUi: false);
-                    } else {
+                child: BlocBuilder<GeneralCubit, GeneralState>(
+                  builder: (context, gnState) {
+                    if (gnState is GeneralFetchedState) {
+                  return  BlocBuilder<ToggleBtnCubit, ToggleBtnState>(builder: (context, state) {
+                      if (state.selectedTab == 0) {
+                        List<ItemModel> genderList = gnState.generals.gender
+                            .map((e) => ItemModel(key: e, value: e)).toList();
+                        List<ItemModel> natList = gnState.generals.nationality
+                            .map((e) => ItemModel(key: e, value: e)).toList();
 
-                      return BlocBuilder<GeneralCubit, GeneralState>(
-                        builder: (context, gnState) {
-                          if (gnState is GeneralFetchedState){
-                            List<ItemModel> cityItems = gnState.generals.cities
-                                .map((e) => ItemModel(key: e, value: e))
-                                .toList();
-                            context.read<DynamicFormCubit>().addMenuItems(finalList[4], cityItems, '');
-                           print('Gooooo ${cityItems.first.value}');
-                            return DynamicFormWidget(
-                              key: const Key('regFormCompany'),
-                              formKey: regFormKey,
-                              dynamicFormsList: finalList,
-                              submitBtnLabel: 'login',
-                              useResponsiveUi: false,
-                            );
-                          }
-                          return DynamicFormWidget(
-                            key: const Key('regFormCompany'),
+                      final   List<DynamicModel> regFormUsers = [
+                          DynamicModel('fullName', FormType.text,
+                              controller: TextEditingController(),
+                              validators: [
+                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              isRequired: true,
+                              disabled: false,
+                              key: 'fullName'),
+                          DynamicModel('fullNameAr', FormType.text,
+                              controller: TextEditingController(),
+                              validators: [
+                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              isRequired: true,
+                              disabled: false,
+                              key: 'fullNameAr'),
+                          DynamicModel('email', FormType.email,
+                              controller: TextEditingController(),
+                              isRequired: true,
+                              validators: [
+                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              disabled: false,
+                              key: 'email'),
+                          DynamicModel('phone', FormType.phone,
+                              controller: TextEditingController(),
+                              validators: [
+                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              isRequired: true,
+                              disabled: false,
+                              key: 'phone'),
+                          DynamicModel('currentJob', FormType.text,
+                              controller: TextEditingController(),
+                              validators: [
+                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              isRequired: true,
+                              disabled: false,
+                              key: 'currentJob'),
+                          DynamicModel('gender', FormType.dropdown,
+                              items: genderList,
+                              controller: TextEditingController(),
+                              validators: [
+                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              isRequired: true,
+                              disabled: false,
+                              key: 'gender'),
+                          DynamicModel('nationality', FormType.dropdown,
+                              items: natList,
+                              controller: TextEditingController(),
+                              validators: [
+                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              isRequired: true,
+                              disabled: false,
+                              key: 'nationality'),
+                          DynamicModel('password', FormType.password,
+                              controller: TextEditingController(),
+                              validators: [
+                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              isRequired: true,
+                              disabled: false,
+                              key: 'password'),
+                          DynamicModel('confirmPassword', FormType.password,
+                              controller: TextEditingController(),
+                              validators: [
+                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
+                                DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
+                              ],
+                              isRequired: true,
+                              disabled: false,
+                              key: 'confirmPassword'),
+                        ];
+
+
+                        return DynamicFormWidget(
+                            key: const Key('regFormUsers'),
                             formKey: regFormKey,
-                            dynamicFormsList: finalList,
+                            dynamicFormsList: regFormUsers,
                             submitBtnLabel: 'login',
-                            useResponsiveUi: false,
-                          );
-                        },
-                      );
+                            useResponsiveUi: false);
+                      } else {
+
+                        List<ItemModel> cityItems = gnState.generals.cities
+                            .map((e) => ItemModel(key: e, value: e)).toList();
+
+                        context.read<DynamicFormCubit>().addMenuItems(
+                            finalList[4], cityItems, '');
+
+                        return DynamicFormWidget(
+                          key: const Key('regFormCompany'),
+                          formKey: regFormKey,
+                          dynamicFormsList: finalList,
+                          submitBtnLabel: 'login',
+                          useResponsiveUi: false,
+                        );
+                      }
+
+                    },);
 
                     }
+                    return const SizedBox();
                   },
                 ),
               ),

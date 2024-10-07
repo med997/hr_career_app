@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
 import 'package:hr_career_platform/core/widgets/documents_widget.dart';
+import 'package:hr_career_platform/core/widgets/success_dialog.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
+import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
 
 import '../../../../core/app_localizations.dart';
 import '../../../../core/app_theme.dart';
@@ -242,34 +244,6 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                         ],
                       ),
                     ),
-                    /*   BlocBuilder<GeneralCubit, GeneralState>(
-                      builder: (context, gnState) {
-                        if (gnState is GeneralFetchedState) {
-                          print('GeneralFetchedState');
-                          List<ItemModel> nationalityItems = gnState
-                              .generals.nationality
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          List<ItemModel> qualificationsItems = gnState
-                              .generals.qualifications
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          List<ItemModel> genderItems = gnState.generals.gender
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          context.read<DynamicFormCubit>().addMenuItems(
-                              reviewDynFinalForm
-                                  .where(
-                                      (element) => element.key == 'nationality')
-                                  .first,
-                              nationalityItems,
-                              state.profile.nationality!);
-                          context.read<DynamicFormCubit>().addSubFormMenuItems(
-                              'education', 'qualifications', qualificationsItems);
-                          context.read<DynamicFormCubit>().addMenuItems2(
-                              'gender', genderItems, state.profile.gender!);
-                        }
-                        return*/
                     DynamicFormWidget(
                       key: const Key('profileInf'),
                       dynamicFormsList: reviewDynFinalForm,
@@ -279,31 +253,7 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                   ],
                 ),
               ),
-              BlocBuilder<CurdApplianceJobCubit, CurdApplianceJobState>(
-                builder: (context, state) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Center(
-                      child: SizedBox(
-                        width: 260,
-                        height: 35,
-                        child: MaterialButton(
-                          color: primaryColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          onPressed: () {
-
-                          },
-                          child: Text(
-                            tr("confirm_msg"),
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+              _confirmBtn()
             ],
           );
         } else {
@@ -312,72 +262,85 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
       })),
     );
   }
-  _loginBtn() {
+
+  _confirmBtn() {
     return BlocConsumer<CurdApplianceJobCubit, CurdApplianceJobState>(
       listener: (context, state) {
         if (state is MessageCurdApplianceJobState) {
-
+          showDialog<Color>(
+              context: context,
+              builder: (BuildContext contextDialog) {
+                return SuccessDialog(
+                    message: 'completed Done',
+                    onDonePressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomePage(
+                                  auth: context
+                                      .read<LoginCubit>()
+                                      .authenticatedUser!)));
+                    });
+              });
         }
       },
       builder: (context, state) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Center(
-                  child: SizedBox(
-                    width: 350,
-                    height: 35,
-                    child: MaterialButton(
-                      color: primaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      onPressed: () {
-                        final profileId = context
-                            .read<LoginCubit>()
-                            .authenticatedUser!
-                            .userAuth!
-                            .id;
-                        context
-                            .read<CurdApplianceJobCubit>()
-                            .addApplianceJob(widget.job.id!, profileId);
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Center(
+              child: SizedBox(
+                width: 350,
+                height: 35,
+                child: MaterialButton(
+                  color: primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  onPressed: () {
+                    final profileId = context
+                        .read<LoginCubit>()
+                        .authenticatedUser!
+                        .userAuth!
+                        .id;
+                    context
+                        .read<CurdApplianceJobCubit>()
+                        .addApplianceJob(widget.job.id!, profileId);
 
-                        print(profileId);
-                        print(widget.job.id);
-                      },
-                      enableFeedback: false,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Confirm',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          if (state is LoadingCurdApplianceJobState)
-                            Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: FittedBox(
-                                  child: LoadingWidget(
-                                    progressColor: Colors.white,
-                                  )),
-                            )
-                        ],
+                    print(profileId);
+                    print(widget.job.id);
+                  },
+                  enableFeedback: false,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Confirm',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
+                      if (state is LoadingCurdApplianceJobState)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: FittedBox(
+                              child: LoadingWidget(
+                            progressColor: Colors.white,
+                          )),
+                        )
+                    ],
                   ),
                 ),
-                if (state is ErrorCurdApplianceJobState)
-                  Text(
-                    state.message,
-                    style: const TextStyle(
-                        color: Colors.redAccent, fontWeight: FontWeight.w500),
-                  )
-              ],
-            );
-
+              ),
+            ),
+            if (state is ErrorCurdApplianceJobState)
+              Text(
+                state.message,
+                style: const TextStyle(
+                    color: Colors.redAccent, fontWeight: FontWeight.w500),
+              )
+          ],
+        );
       },
     );
   }

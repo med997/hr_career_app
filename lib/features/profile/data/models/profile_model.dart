@@ -65,7 +65,7 @@ class ProfileModel extends Profile {
           currentJob: profile.currentJob??'',
           dob: profile.dob,
           email: profile.email,
-          gender: profile.gender,
+          gender: profile.gender??'',
       );
   }
 

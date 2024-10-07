@@ -37,8 +37,6 @@ class Profile extends Equatable {
     this.secondaryPhone,
     this.education= const[],
     this.experience= const[],
-
-
      this.currentJob,
     required this.phone,
     required this.email,
