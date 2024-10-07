@@ -16,7 +16,7 @@ class ErrWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ReloadBtnCubit, bool>(
       listener: (context, state) =>state == true ? clickedReload():null,
-      child: Container(
+      child: SizedBox(
           height: 350,
           child: Center(
             child: Column(
