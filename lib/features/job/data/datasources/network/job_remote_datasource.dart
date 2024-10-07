@@ -13,6 +13,7 @@ abstract class JobRemoteDataSource {
   Future<JobModel> updateJob(JobModel jobModel);
 
   Future<JobModel> addJob(JobModel jobModel);
+  Future<int> addApplianceJob(int jobId, String profileId);
 
   Future<List<JobModel>> getSearchJobs( int companyId, String category,String nationalities);
 
@@ -95,6 +96,28 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
           .eq('id', jobModel.id.toString()).select().single();
       final JobModel job =JobModel.fromJson(data);
       return job;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+
+  }
+
+  @override
+  Future<int> addApplianceJob(int jobId, String profileId) async {
+    try {
+      final data = await supBase
+          .from('appliance_jobs')
+          .insert({'jobs_id': jobId, 'profile_id': profileId }).select().single();
+      final int applianceId =data['id'];
+      return applianceId;
     } on PostgrestException catch (error) {
       if (kDebugMode) {
         print(error);

@@ -90,4 +90,21 @@ class JobRepositoryImpl extends JobRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, int>> addApplianceJob(int jobId, String profileId) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final applianceId = await jobRemoteDataSource.addApplianceJob(
+    jobId,
+    profileId,
+        );
+        return Right(applianceId);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
 }

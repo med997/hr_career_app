@@ -69,7 +69,7 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
         if(field.key =='confirmPassword') {
           dynamicModel.compareText=getCurrentValue()['password'];
         }
-        print('${dynamicModel.key} value: ${dynamicModel.controller!.value.text}');
+        print('${dynamicModel.key} value: ${(dynamicModel.controller as TextEditingController).value.text}');
         return dynamicModel;
       }
       return field;
@@ -89,6 +89,7 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
       return field;
     }).toList();
     emit(currentFields);
+
   }
   void addMenuItems2(String key,List<ItemModel> itemModels,String selectedItem) {
     print('addMenuItems');

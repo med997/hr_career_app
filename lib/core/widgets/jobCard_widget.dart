@@ -1,18 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_career_platform/core/app_theme.dart';
-import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
-import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/custom_chips.dart';
-import 'package:hr_career_platform/core/widgets/image_holder.dart';
-import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
-import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
-import 'package:hr_career_platform/injection_container.dart' as di;
+
 
 import '../../features/company/presentation/ui/company_job_details_page.dart';
 import '../../features/job/presentation/ui/job_details_page.dart';
