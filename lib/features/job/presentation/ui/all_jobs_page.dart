@@ -83,7 +83,7 @@ class AllJobsPage extends StatelessWidget {
                     } else if (state is JobFetchedState) {
                 print('JobFetchedState');
                 return Responsive(
-                    mobile: _buildMobileLayout(state.jobs, JobCardType.company),
+                    mobile: _buildMobileLayout(state.jobs, JobCardType.user),
                     tablet:
                     _buildTabletDesktopLayout(state.jobs, 2, context,JobCardType.user),
                     desktop:  _buildTabletDesktopLayout(state.jobs, 3, context,JobCardType.user),);
