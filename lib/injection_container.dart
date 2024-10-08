@@ -38,6 +38,7 @@ import 'package:hr_career_platform/features/job/domain/usercase/add_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
+import 'package:hr_career_platform/features/profile/domain/usecases/update_profile_fcm_token.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/curd_job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
@@ -321,11 +322,16 @@ void _initProfile() {
         UpdateProfileUseCase(
           sl(),
         ),
+  )..registerFactory(
+        () =>
+        UpdateProfileFcmToken(
+          sl(),
+        ),
   )
     ..registerLazySingleton(
           () => ProfileCubit(fetchProfileUserCase: sl()),
     )..registerLazySingleton(
-          () => CurdProfileCubit(updateProfileUserCase: sl()),
+          () => CurdProfileCubit(updateProfileUseCase: sl(), updateProfileFcmToken: sl()),
     )
     ..registerLazySingleton(
           () => ApplianceCubit(getProfileUserCase: sl()),

@@ -19,7 +19,6 @@ class CurdJobCubit extends Cubit<CurdJobState> {
 
   Future<void> updateJob(Map<String,dynamic>? value,Job jobRef) async {
     emit(LoadingCurdJobState());
-
     Job job = Job(
         companyId:jobRef.companyId,
         id: jobRef.id,
