@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/cubit/avatar_cubit.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/cubit/location_cubit.dart';
@@ -119,6 +120,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<ApplianceCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<AvatarCubit>(),
       ),
     ],
     child: const MyApp(),

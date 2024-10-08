@@ -1,3 +1,4 @@
+import 'package:hr_career_platform/core/cubit/avatar_cubit.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/cubit/location_cubit.dart';
@@ -293,7 +294,9 @@ void _initCore() {
 
     ..registerLazySingleton(() => DynamicFormCubit())
 
-    ..registerLazySingleton(() => LocationCubit());
+    ..registerLazySingleton(() => LocationCubit())
+
+    ..registerLazySingleton(() => AvatarCubit());
 }
 
 void _initProfile() {

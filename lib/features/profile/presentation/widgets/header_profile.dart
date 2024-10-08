@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/cubit/avatar_cubit.dart';
 
 import '../../../../core/app_localizations.dart';
 import '../../../../core/util/responsive.dart';
@@ -7,14 +10,16 @@ import '../../../../core/widgets/avatar_network.dart';
 import '../bloc/profile_cubit.dart';
 
 class HeaderProfileWidget extends StatelessWidget {
-  const HeaderProfileWidget({
+  HeaderProfileWidget({
     required this.withBox,
     super.key,
     required this.avatar,
+    this.avatarUnit,
     required this.fullName,
   });
 
-  final String avatar;
+  var avatar;
+  Uint8List? avatarUnit;
   final String fullName;
   final bool withBox;
 
@@ -23,7 +28,25 @@ class HeaderProfileWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AvatarNetwork(imgUrl: avatar, withBorder: false),
+        BlocBuilder<AvatarCubit, Uint8List?>(
+          builder: (context, state) {
+            return GestureDetector(
+              onTap: () {
+                context.read<AvatarCubit>().pickImage();
+              },
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child:  state != null
+                    ? AvatarNetwork(imgMemory: state,imgUrl: '', withBorder: false)
+                    : AvatarNetwork(
+                  withBorder: false,
+                  imgUrl: avatar,
+                ),
+              )
+              //
+            );
+          },
+        ),
         const SizedBox(
           height: 2,
         ),

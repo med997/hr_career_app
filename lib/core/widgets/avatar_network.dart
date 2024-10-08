@@ -1,17 +1,22 @@
+
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 
 class AvatarNetwork extends StatelessWidget {
-  String imgUrl;
+  String? imgUrl;
   bool withBorder;
   double? redius;
+  Uint8List? imgMemory;
 
   AvatarNetwork({
     super.key,
-    required this.imgUrl,
+     this.imgUrl,
     required this.withBorder,
     this.redius,
+    this.imgMemory
   });
 
   @override
@@ -37,18 +42,19 @@ class AvatarNetwork extends StatelessWidget {
   }
 
   Image buildImage() {
-    if (imgUrl.startsWith('http://') || imgUrl.startsWith('https://')) {
+    if (imgUrl!.startsWith('http://') || imgUrl!.startsWith('https://')) {
       return Image.network(
-        imgUrl,
+        imgUrl!,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
           print(error);
           return const Icon(Icons.person);
         },
       );
-    } else {
-      return Image.asset(
-        imgUrl,
+    }
+    else if (imgMemory != null ) {
+      return Image.memory(
+        imgMemory! ,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
           print(error);
@@ -56,4 +62,15 @@ class AvatarNetwork extends StatelessWidget {
         },
       );
   }
+    else  {
+      return Image.asset(
+        imgUrl!,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          print(error);
+          return const Icon(Icons.person);
+        },
+      );
+  }
+
 }}
