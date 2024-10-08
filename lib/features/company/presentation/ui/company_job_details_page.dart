@@ -397,11 +397,6 @@ class CompanyJobDetailsPage extends StatelessWidget {
                                     color: Colors.yellow.shade700,
                                     // disabledColor: Colors.grey,
                                     minWidth: 12,
-                                    child: const Icon(
-                                      Icons.save_outlined,
-                                      color: Colors.white,
-                                      size: 19,
-                                    ),
                                     height: 40,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
@@ -422,7 +417,12 @@ class CompanyJobDetailsPage extends StatelessWidget {
                                                 .read<CurdJobCubit>()
                                                 .updateJob(value, job);
                                           }
-                                        : null);
+                                        : null,
+                                    child: const Icon(
+                                      Icons.save_outlined,
+                                      color: Colors.white,
+                                      size: 19,
+                                    ));
                               }
                               return SizedBox();
                             },
