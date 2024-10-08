@@ -16,9 +16,24 @@ import '../../../profile/presentation/bloc/profile_cubit.dart';
 import '../bloc/tab_nav_cubit.dart';
 import 'company_tenders_page.dart';
 
-class HomeCompanyPage extends StatelessWidget {
+class HomeCompanyPage extends StatefulWidget {
   final Auth auth;
    const HomeCompanyPage({super.key, required this.auth});
+
+  @override
+  State<HomeCompanyPage> createState() => _HomeCompanyPageState();
+}
+
+
+class _HomeCompanyPageState extends State<HomeCompanyPage> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<ProfileCubit>().getUserByUuid(
+        context.read<LoginCubit>().authenticatedUser!.userAuth!.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +53,8 @@ class HomeCompanyPage extends StatelessWidget {
             userName: state.selectedTab == 3 ? tr("profile_msg")
                 : state.selectedTab == 1 ? 'Jobs'
                 : state.selectedTab == 2 ? tr("tenders_msg")
-                : auth.company!.nameEn?? '',
-            img:  auth.company!.companyLogo??'',
+                : widget.auth.company!.nameEn ?? '',
+            img:  widget.auth.company!.companyLogo??'',
             fullHeader: (state.selectedTab != 0)
                 ? false
                 : true,
@@ -98,13 +113,13 @@ class HomeCompanyPage extends StatelessWidget {
   Widget _navPageBody(int selectedTab,BuildContext context) {
     switch (selectedTab) {
       case 0:
-        return CompanyMainHomePage(authId:  auth.userAuth!.id);
+        return CompanyMainHomePage(authId:  widget.auth.userAuth!.id);
       case 1:
         return CompanyJobPage();
       case 2:
         return CompanyTendersPage();
       case 3:
-            return CompanyProfilePage(auth: auth,);
+            return CompanyProfilePage(auth: widget.auth,);
       default:
         return Placeholder();
     }

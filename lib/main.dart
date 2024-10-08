@@ -120,6 +120,9 @@ void main() async {
       BlocProvider(
         create: (context) => di.sl<ApplianceCubit>(),
       ),
+      BlocProvider(
+        create: (context) => di.sl<DisableButtonCubit>(),
+      ),
     ],
     child: const MyApp(),
   ));

@@ -16,6 +16,7 @@ import 'package:hr_career_platform/features/general/presentation/bloc/general_cu
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/curd_job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
+import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 
 import '../../../auth/presentation/bloc/login_cubit.dart';
 
@@ -36,6 +37,10 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
   void initState() {
     super.initState();
     context.read<GeneralCubit>().getGeneral();
+
+      context.read<ProfileCubit>().getUserByUuid(
+          context.read<LoginCubit>().authenticatedUser!.userAuth!.id);
+
   }
 
   @override
@@ -274,10 +279,7 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                         var value =
                             context.read<DynamicFormCubit>().getCurrentValue();
                         final companyId = context
-                            .read<LoginCubit>()
-                            .authenticatedUser!
-                            .userAuth!
-                            .id;
+                            .read<LoginCubit>().authenticatedUser!.userAuth!.id;
 
                         print('company_id: $companyId ===> $value');
                         context

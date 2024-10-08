@@ -72,7 +72,8 @@ class RegisterPage extends StatelessWidget {
                   context
                       .read<DynamicFormCubit>()
                       .updateValueOnly('address', value[0].toString());
-
+                  print(value[0]);
+                  print(value[1]);
                 });
               },
               shape: const CircleBorder(),
@@ -415,7 +416,6 @@ class RegisterPage extends StatelessWidget {
                         context.read<ToggleBtnCubit>().state.selectedTab, value);
                   }
                 }
-
               },
               enableFeedback: false,
               child: Row(
