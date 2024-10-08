@@ -236,7 +236,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
               child: Text(
                 job.status.toString(),
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 10,
                   color: Colors.white,
                 ),
               ),

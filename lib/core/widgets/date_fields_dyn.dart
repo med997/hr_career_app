@@ -11,7 +11,7 @@ import '../util/enums.dart';
 import 'date_picker_dialog.dart';
 Widget getDatePickerWidget(DynamicModel dynamicModel, BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 8.0),
+    padding:  EdgeInsets.only(bottom: dynamicModel.padding??8.0),
     child: TextFormField(
         onTap: () async{
           DateTime dateTime= await showDatePickerDialog(context);

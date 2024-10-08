@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
@@ -40,6 +41,12 @@ class CurdProfileCubit extends Cubit<CurdProfileState> {
       email: value['email'] ?? '',
     );
     final failureOrSuccess = await updateProfileUseCase.updateProfile(profile);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+  }
+
+  Future<void> uploadImageProfile(File file,String id) async {
+    emit(LoadingCurdProfileState());
+    final failureOrSuccess = await updateProfileUseCase.uploadImageProfile(file,id);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
 

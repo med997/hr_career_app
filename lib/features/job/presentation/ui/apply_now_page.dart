@@ -238,6 +238,7 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                           ),
                           HeaderProfileWidget(
                             withBox: false,
+                            desc: state.profile.currentJob??'',
                             avatar: state.profile.avatarUrl ?? '',
                             fullName: state.profile.fullName ?? '',
                           ),

@@ -11,9 +11,14 @@ class LanguageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.language, color: clr,),
-      tooltip: 'Choose Language',
+    return MaterialButton(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: CircleBorder(),
+        clipBehavior: Clip.hardEdge,
+        padding: EdgeInsets.all(4),
+
+        minWidth: 16,
+        child: Icon(Icons.language, color: clr,size: 22,),
       onPressed: () {
         _showLanguageDialog(context);
       },

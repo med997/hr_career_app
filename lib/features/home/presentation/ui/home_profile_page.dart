@@ -8,7 +8,6 @@ import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
-import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/sub-title.dart';
@@ -24,7 +23,7 @@ import '../../../profile/presentation/widgets/header_profile.dart';
 
 class HomeProfilePage extends StatefulWidget {
   final Auth auth;
-
+  final subFieldSpace=1.0;
   const HomeProfilePage({super.key, required this.auth});
 
   @override
@@ -46,15 +45,16 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
   Widget build(BuildContext context) {
     var isEditing = false;
     double width = MediaQuery.of(context).size.width;
-    List<DynamicModel> profileExp = [
+    final List<DynamicModel> profileExp = [
       DynamicModel('from', FormType.date,
           icons: Icon(
             Icons.date_range_outlined,
             color: primaryColor.withOpacity(0.7),
             size: 18,
           ),
+          padding: widget.subFieldSpace,
           controller: TextEditingController(),
-          width:Responsive.isMobile(context) ? (width / 2 * 0.9) : defaultWidth,
+          width:Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
           // disabled: !state.isDisabled,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -62,25 +62,25 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           key: 'from'),
       DynamicModel('to', FormType.date,
           controller: TextEditingController(),
-          width:Responsive.isMobile(context) ? (width / 2 * 0.9) : defaultWidth,
+          padding: widget.subFieldSpace,
+          width:Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
           icons: Icon(
             Icons.date_range_outlined,
             color: primaryColor.withOpacity(0.7),
             size: 18,
           ),
-
-          // disabled: !state.isDisabled,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           key: 'to'),
       DynamicModel('where', FormType.text,
+          padding: widget.subFieldSpace,
           icons: Icon(
             Icons.location_on_outlined,
             color: primaryColor.withOpacity(0.7),
             size: 18,
           ),
-          width:Responsive.isMobile(context) ? (width / 2 * 0.9) : defaultWidth,
+          width:Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
 
           controller: TextEditingController(),
           validators: [
@@ -88,29 +88,28 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ],
           key: 'where'),
       DynamicModel('jobTitle', FormType.text,
+          padding: widget.subFieldSpace,
           icons: Icon(
             Icons.info_outline_rounded,
             color: primaryColor.withOpacity(0.7),
             size: 18,
           ),
-          width:Responsive.isMobile(context) ? (width / 2 * 0.9) : defaultWidth,
+          width:Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
           controller: TextEditingController(),
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           key: 'jobTitle'),
     ];
-    List<DynamicModel> profileEdc = [
+    final List<DynamicModel> profileEdc = [
       DynamicModel('from', FormType.date,
           icons: Icon(
             Icons.date_range_outlined,
             color: primaryColor.withOpacity(0.7),
             size: 18,
           ),
-          width:Responsive.isMobile(context) ? (width / 2 * 0.9) : defaultWidth,
+          width:Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
           controller: TextEditingController(),
-
-          // disabled: !state.isDisabled,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
@@ -121,7 +120,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
             color: primaryColor.withOpacity(0.7),
             size: 18,
           ),
-          width:Responsive.isMobile(context) ? (width / 2 * 0.9) : defaultWidth,
+          width:Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
           controller: TextEditingController(),
           // disabled: !state.isDisabled,
           validators: [
@@ -135,7 +134,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
             color: primaryColor.withOpacity(0.7),
             size: 18,
           ),
-          width:Responsive.isMobile(context) ? (width / 2 * 0.9) : defaultWidth,
+          width:Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
@@ -146,7 +145,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
-          width:Responsive.isMobile(context) ? (width / 2 * 0.9) : defaultWidth,
+          width:Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
           key: 'qualifications'),
       DynamicModel('where', FormType.text,
           controller: TextEditingController(),
@@ -164,7 +163,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ],
           key: 'where'),
     ];
-    List<DynamicModel> profileUpl = [
+    final List<DynamicModel> profileUpl = [
       DynamicModel('pdfName', FormType.text,
           disabled: true,
           width: Responsive.isMobile(context) ? width : defaultWidth,
@@ -172,8 +171,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               onPressed: () async {
                 FilePickerResult? result =
                 await FilePicker.platform.pickFiles();
-                if (result != null &&
-                    result.files.isNotEmpty) {
+                if (result != null && result.files.isNotEmpty) {
                   String fileName = result.files.first.name;
                   // context.read<ProfileCubit>().uploadFile(fileName);
                 }
@@ -181,10 +179,10 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
 
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
-                padding: EdgeInsets.all(2),
+                padding: EdgeInsets.all(4),
                 backgroundColor: primaryColor,
               ),
-              child: const Icon(Icons.cloud_upload_outlined,
+              child: const Icon(Icons.cloud_upload_outlined,  size: 18,
                   color: Colors.white)),
           inputBorder: InputBorder.none,
           validators: [
@@ -192,8 +190,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                 ValidatorType.notEmpty, 'isRequired')
           ])
     ];
-    print('build');
-    List<DynamicModel> dynFinalForm = [];
+
     return BlocConsumer<ProfileCubit, ProfileState>
       (listener: (context, state) {
       if (state is ProfileFetchedState) {
@@ -212,7 +209,9 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           children: [
             HeaderProfileWidget(
+              desc: state.profile.currentJob!??'',
               withBox: true,
+              uuid: state.profile.id,
               avatar: state.profile.avatarUrl ?? '',
               fullName: state.profile.fullName ?? '',
             ),
@@ -364,6 +363,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             MaterialButton(
+                              height: 30,
                                 minWidth: 75,
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 2, horizontal: 14),
@@ -409,7 +409,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                           children: [
                             SubTitle(
                               title: tr("education_msg"),
-                              titleType: SubTitleType.withShowMore,
+                              titleType: SubTitleType.textOnly,
                             ),
                             ...state.profile.education.map(
                                   (e) => educationWidget(

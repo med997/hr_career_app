@@ -72,8 +72,7 @@ class RegisterPage extends StatelessWidget {
                   context
                       .read<DynamicFormCubit>()
                       .updateValueOnly('address', value[0].toString());
-                  print(value[0]);
-                  print(value[1]);
+
                 });
               },
               shape: const CircleBorder(),
@@ -130,7 +129,8 @@ class RegisterPage extends StatelessWidget {
     ];
   }
 
-  final regFormKey = GlobalKey<FormState>();
+  final regFormKeyUser = GlobalKey<FormState>();
+  final regFormKeyCompany = GlobalKey<FormState>();
 
   _cardRegister(BuildContext _) {
     final finalList = regFormCompany(_);
@@ -247,7 +247,7 @@ class RegisterPage extends StatelessWidget {
 
                         return DynamicFormWidget(
                             key: const Key('regFormUsers'),
-                            formKey: regFormKey,
+                            formKey: regFormKeyUser,
                             dynamicFormsList: regFormUsers,
                             submitBtnLabel: 'login',
                             useResponsiveUi: false);
@@ -261,7 +261,7 @@ class RegisterPage extends StatelessWidget {
 
                         return DynamicFormWidget(
                           key: const Key('regFormCompany'),
-                          formKey: regFormKey,
+                          formKey: regFormKeyCompany,
                           dynamicFormsList: finalList,
                           submitBtnLabel: 'login',
                           useResponsiveUi: false,
@@ -290,10 +290,8 @@ class RegisterPage extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      _,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
+                    Navigator.of(_).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => LoginPage()),(route) => false);
                   },
                   child: const Text(
                     'Login',
@@ -317,12 +315,7 @@ class RegisterPage extends StatelessWidget {
                 image: AssetImage('assets/imgs/image10.png'),
                 fit: BoxFit.fitWidth, // Adjust fit as needed
               ),
-              /*color: primaryColor,
-              border: Border.all(
-                color: primaryColor,
-                width: 0.5,
-              ),
-              borderRadius: BorderRadius.circular(12)*/
+
             ),
           ),
           Padding(
@@ -410,10 +403,19 @@ class RegisterPage extends StatelessWidget {
                 final value =
                     context.read<DynamicFormCubit>().getCurrentValue();
                 print(value);
-                if (regFormKey.currentState!.validate()) {
-                  context.read<RegisterCubit>().registerUser(
-                      context.read<ToggleBtnCubit>().state.selectedTab, value);
+                final selectedTab =context.read<ToggleBtnCubit>().state.selectedTab;
+                if(selectedTab==0){
+                  if (regFormKeyUser.currentState!.validate()) {
+                    context.read<RegisterCubit>().registerUser(
+                        context.read<ToggleBtnCubit>().state.selectedTab, value);
+                  }
+                }else{
+                  if (regFormKeyCompany.currentState!.validate()) {
+                    context.read<RegisterCubit>().registerUser(
+                        context.read<ToggleBtnCubit>().state.selectedTab, value);
+                  }
                 }
+
               },
               enableFeedback: false,
               child: Row(

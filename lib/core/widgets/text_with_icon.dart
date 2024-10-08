@@ -11,14 +11,21 @@ class TextWithIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: 1,
+    return Flex(
+      direction: Axis.horizontal,
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         icon,
-        Text(text,
-            overflow: TextOverflow.visible,
-            style: TextStyle(color: textColor ?? primaryColor, fontSize: 12)),
+        Flexible(
+
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2.0),
+            child: Text(text, overflow: TextOverflow.ellipsis,
+                softWrap: true, maxLines: 1, textAlign: TextAlign.start,
+                style: TextStyle(color: textColor ?? primaryColor, fontSize: 12)),
+          ),
+        ),
 
       ],
     );

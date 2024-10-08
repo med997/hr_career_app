@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:path/path.dart' as p;
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
@@ -14,6 +15,7 @@ abstract class ProfileRemoteDatasource {
   Future<ProfileModel> updateProfileFcmToken(ProfileModel profileModel);
   Future<ProfileModel> updateProfile(ProfileModel profileModel);
   Future<List<ProfileModel>> getAppliance(String profileId);
+  Future<ProfileModel> uploadImageProfile(File file,String id);
 }
 
 class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
@@ -114,6 +116,40 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
           .eq('id', profileModel.id.toString()).select().single();
       final ProfileModel profileUpdate = ProfileModel.fromJson(data);
       return profileUpdate;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+  }
+  @override
+  Future<ProfileModel> uploadImageProfile(File file,String id) async{
+    try {
+      final avatarFile =file;
+      final String uploadedFile= await client.storage.from('avatars').upload(
+        'public/${id}-${DateTime.now().millisecondsSinceEpoch}${p.extension(file.path)}',
+        avatarFile,
+      );
+
+        final data = await client
+            .from('profiles')
+            .update({'avatar_url':uploadedFile.isNotEmpty?uploadedFile:''})
+            .eq('id', id).select().single();
+        final ProfileModel profileUpdate = ProfileModel.fromJson(data);
+        return profileUpdate;
+
+
+    } on StorageException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.message}');
     } on PostgrestException catch (error) {
       if (kDebugMode) {
         print(error);

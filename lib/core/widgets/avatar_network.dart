@@ -39,6 +39,7 @@ class AvatarNetwork extends StatelessWidget {
   Image buildImage() {
     if (imgUrl.startsWith('http://') || imgUrl.startsWith('https://')) {
       return Image.network(
+
         imgUrl,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {

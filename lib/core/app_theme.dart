@@ -42,7 +42,7 @@ final appTheme = ThemeData(
             ),
         ),
 
-      textStyle: TextStyle(fontSize: 14),
+      textStyle: const TextStyle(fontSize: 14, ),
 
     ),
 

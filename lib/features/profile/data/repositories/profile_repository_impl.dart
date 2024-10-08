@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:hr_career_platform/core/error/failures.dart';
 import 'package:hr_career_platform/features/profile/data/datasources/profile_remote_datasource.dart';
@@ -48,6 +50,10 @@ class ProfileRepositoryImpl extends ProfileRepository {
 
   return await _getMessage(() => profileRemoteDatasource.updateProfileFcmToken(
       ProfileModel.fromProfile(profile)));
+}
+  @override
+  Future<Either<Failure, Profile>> uploadImageProfile(File file,String id)async {
+  return await _getMessage(() => profileRemoteDatasource.uploadImageProfile(file,id));
 }
 
 Future<Either<Failure, Profile>> _getMessage(

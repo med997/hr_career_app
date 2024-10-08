@@ -1,5 +1,12 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/util/const_val.dart';
+import 'package:hr_career_platform/core/widgets/loading_widget.dart';
+import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profile_cubit.dart';
 
 import '../../../../core/app_localizations.dart';
 import '../../../../core/util/responsive.dart';
@@ -11,19 +18,59 @@ class HeaderProfileWidget extends StatelessWidget {
     required this.withBox,
     super.key,
     required this.avatar,
+    this.uuid,
+    this.editingAvatar = false,
+    required this.desc,
     required this.fullName,
   });
 
   final String avatar;
+  final String desc;
   final String fullName;
   final bool withBox;
+  final bool editingAvatar;
+  final String? uuid;
+
+  void pickImage(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png'],
+    );
+    if (result != null) {
+      print(result.files.first.name);
+
+      final File file = File(result.files.first.path.toString());
+      // pickedFileBytes = await file.readAsBytes();
+     context.read<CurdProfileCubit>().uploadImageProfile(file,uuid!);
+
+    } else {
+      print("No file selected");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AvatarNetwork(imgUrl: avatar, withBorder: false),
+
+        InkWell(
+            onTap:() =>  pickImage(context),
+            child: BlocBuilder<CurdProfileCubit, CurdProfileState>(
+          builder: (context, state) {
+            if(state is LoadingCurdProfileState){
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: LoadingWidget(width: 2,progressColor: primaryColor,),
+              );
+            }else if(state is MessageCurdProfileState){
+              String imageUrl =state.profile.avatarUrl!=null? '$BaseUrl/storage/v1/object/${state.profile.avatarUrl}':'';
+              return AvatarNetwork(imgUrl:imageUrl, withBorder: false);
+            }
+            String imageUrl =avatar.isNotEmpty? '$BaseUrl/storage/v1/object/$avatar':'';
+            return AvatarNetwork(imgUrl: imageUrl, withBorder: false);
+          },
+        )),
         const SizedBox(
           height: 2,
         ),
@@ -35,7 +82,7 @@ class HeaderProfileWidget extends StatelessWidget {
           height: 2,
         ),
         Text(
-          tr("description_msg"),
+          desc,
           style: const TextStyle(color: Colors.grey),
         ),
         if (withBox == true)
