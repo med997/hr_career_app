@@ -179,7 +179,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                   List<ItemModel> genderItems = gnState.generals.gender
                       .map((e) => ItemModel(key: e, value: e))
                       .toList();
-                  List<DynamicModel> profileEdc = [
+                 final List<DynamicModel> profileEdc = [
                     DynamicModel('from', FormType.date,
                         icons: Icon(
                           Icons.date_range_outlined,
