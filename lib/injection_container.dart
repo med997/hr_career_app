@@ -401,5 +401,8 @@ void _initCompany() {
     )
     ..registerLazySingleton(
       () => CurdCompanyCubit(updateCompanyUserCase: sl()),
+    )
+    ..registerLazySingleton(
+      () => DisableButtonCubit(),
     );
 }

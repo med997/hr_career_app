@@ -19,44 +19,48 @@ class JobDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Flex(
-          mainAxisAlignment: MainAxisAlignment.start,
-          direction: Axis.vertical,
+        child: Column(
           children: [
-            Flexible(
-                flex: 2,
-                child: JobDetailsHeader(
-                  job: job,
-                  profileFilledText: FilledButton(
-                    style: const ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(Colors.black12)),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfileDetailPage(company: job.company!)));
-                    },
-                    child: Text(
-                      tr("profile_msg"),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  profileIcoButton: IconButton(
-                    onPressed: () => {},
-                    icon: const Icon(Icons.visibility_off_outlined, size: 18),
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.orangeAccent.shade400,
-                    hoverColor: Colors.orangeAccent,
-                    iconSize: 18,
-                    splashRadius: 12,
-                  ),
-                )),
             Expanded(
-                /*fit: FlexFit.tight,flex: 1,*/
-                flex: 3,
-                child: JobDetailsTabBar(job: job)),
-            const SizedBox(
-              height: 20,
+              child: Flex(
+                mainAxisAlignment: MainAxisAlignment.start,
+                direction: Axis.vertical,
+                children: [
+                  Flexible(
+                      flex: 2,
+                      child: JobDetailsHeader(
+                        job: job,
+                        profileFilledText: FilledButton(
+                          style: const ButtonStyle(
+                              backgroundColor: WidgetStatePropertyAll(Colors.black12)),
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfileDetailPage(company: job.company!)));
+                          },
+                          child: Text(
+                            tr("profile_msg"),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        profileIcoButton: IconButton(
+                          onPressed: () => {},
+                          icon: const Icon(Icons.visibility_off_outlined, size: 18),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          color: Colors.orangeAccent.shade400,
+                          hoverColor: Colors.orangeAccent,
+                          iconSize: 18,
+                          splashRadius: 12,
+                        ),
+                      )),
+                  Expanded(
+                      /*fit: FlexFit.tight,flex: 1,*/
+                      flex: 3,
+                      child: JobDetailsTabBar(job: job)),
+              
+                ],
+              ),
             ),
             Center(
               child: SizedBox(
@@ -75,7 +79,8 @@ class JobDetailsPage extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            const SizedBox(height: 10,),
           ],
         ),
       ),
