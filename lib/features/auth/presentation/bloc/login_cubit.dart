@@ -55,7 +55,11 @@ class LoginCubit extends Cubit<LoginState> {
   LoginState _mapFailureOrAuthToState(Either<Failure, Auth> either) {
     return either.fold(
           (failure) => ErrLoginUser(msg: _mapFailureToMessage(failure)),
-          (auth) => SuccessLoginUser(auth: auth),
+          (auth) {
+            authenticatedUser = auth;
+            return SuccessLoginUser(auth: auth);
+
+            } ,
     );
   }
 

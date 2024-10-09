@@ -19,7 +19,8 @@ class ErrorCurdCompanyState extends CurdCompanyState {
 
 class MessageCurdCompanyState extends CurdCompanyState {
   final String message;
-  const MessageCurdCompanyState({required this.message});
+  final Company company;
+  const MessageCurdCompanyState({required this.message,required this.company});
   @override
   List<Object> get props => [message];
 }

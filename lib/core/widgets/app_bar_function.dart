@@ -55,7 +55,7 @@ AppBar buildAppBar({
               )
             else if (selectedTab == 1 && userOrCompany == 'Company')
               appBarButton(primaryColor)
-            else if (selectedTab == 3 && userOrCompany == 'User')
+            else if (selectedTab == 3 )
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Wrap(

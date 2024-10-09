@@ -45,6 +45,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
         .read<CompanyProfileCubit>()
         .getCompanyByUuid(widget.auth.userAuth!.id);
   }
+
   @override
   Widget build(BuildContext context) {
     bool isEditing = true;
@@ -193,26 +194,168 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   _buildMobileWidget(BuildContext context, List<DynamicModel> companyProfile,
       isEditing, Company company) {
     return Scaffold(
-      appBar: jobsAppBarFunction(company: company),
-      body: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-        builder: (context, state) {
-          switch (state.selectedTab) {
-            case 0:
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+      body: Flex(
+        direction: Axis.vertical,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Flexible(
+              flex: 1,
+              fit: FlexFit.loose,
+              child: CompanyAppBarWidget(
+                company: company,
+                withEditing: true,
+              )),
+          Expanded(
+            flex: 3,
+            child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+              builder: (context, state) {
+                switch (state.selectedTab) {
+                  case 0:
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListView(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        shrinkWrap: true,
+                        children: [
+                          Center(
+                            child: ToggleBtnWidget(
+                              options: [
+                                tr("main_information_msg"),
+                                tr("gallery_msg"),
+                              ],
+                            ),
+                          ),
+                          SubTitle(
+                            title: tr("main_information_msg"),
+                            titleType: SubTitleType.withIcon,
+                            iconButton: IconButton(
+                              onPressed: () {
+                                isEditing = !isEditing;
+                                context
+                                    .read<DynamicFormCubit>()
+                                    .setDisableFiled(isEditing, context);
+                              },
+                              icon: const Icon(
+                                Icons.edit_road,
+                                color: primaryColor,
+                              ),
+                            ),
+                          ),
+                          BlocBuilder<GeneralCubit, GeneralState>(
+                            builder: (context, gnState) {
+                              if (gnState is GeneralFetchedState) {
+                                print('GeneralFetchedState');
+                                List<ItemModel> nationalityItems = gnState
+                                    .generals.nationality
+                                    .map((e) => ItemModel(key: e, value: e))
+                                    .toList();
+                                context.read<DynamicFormCubit>().addMenuItems(
+                                    companyProfile
+                                        .where((element) =>
+                                            element.key == 'nationality')
+                                        .first,
+                                    nationalityItems,
+                                    company.nationality!);
+                              }
+                              return DynamicFormWidget(
+                                key: const Key('companyProfile'),
+                                dynamicFormsList: companyProfile,
+                                formKey: _formKey,
+                                useResponsiveUi: true,
+                              );
+                            },
+                          ),
+                          Wrap(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.end,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: MaterialButton(
+                                  color: Colors.yellow.shade700,
+                                  minWidth: 12,
+                                  height: 40,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  onPressed: () async {
+                                    var updateValue = context
+                                        .read<DynamicFormCubit>()
+                                        .getCurrentValue();
+                                    await context
+                                        .read<CurdCompanyCubit>()
+                                        .updateCompany(updateValue);
+                                    print(updateValue.toString());
+                                  },
+                                  child: const Icon(
+                                    Icons.save_outlined,
+                                    color: Colors.white,
+                                    size: 19,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  case 1:
+                    return ListView(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      children: [
+                        Center(
+                          child: ToggleBtnWidget(
+                            options: [
+                              tr("main_information_msg"),
+                              tr("gallery_msg"),
+                            ],
+                          ),
+                        ),
+                        CompanyGallery(company),
+                      ],
+                    );
+                  default:
+                    return const SizedBox();
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _buildDesktopWidget(BuildContext context, List<DynamicModel> companyProfile,
+      bool isEditing, Company company) {
+    return Scaffold(
+      body: Flex(
+        direction: Axis.horizontal,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+              flex: 1,
+
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  shrinkWrap: true,
                   children: [
-                    Center(
+                    CompanyAppBarWidget(
+                      company: company,
+                      withEditing: true,
+                    ),
+                   /* Center(
                       child: ToggleBtnWidget(
                         options: [
                           tr("main_information_msg"),
-                          tr("gallery_msg"),
+                          tr("gallery_msg")
                         ],
                       ),
-                    ),
+                    ),*/
                     SubTitle(
+
                       title: tr("main_information_msg"),
                       titleType: SubTitleType.withIcon,
                       iconButton: IconButton(
@@ -238,8 +381,8 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                               .toList();
                           context.read<DynamicFormCubit>().addMenuItems(
                               companyProfile
-                                  .where(
-                                      (element) => element.key == 'nationality')
+                                  .where((element) =>
+                                      element.key == 'nationality')
                                   .first,
                               nationalityItems,
                               company.nationality!);
@@ -251,127 +394,6 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                           useResponsiveUi: true,
                         );
                       },
-                    ),
-                    Wrap(
-                      direction: Axis.horizontal,
-                      alignment: WrapAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MaterialButton(
-                            color: Colors.yellow.shade700,
-                            minWidth: 12,
-                            height: 40,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            onPressed: () async {
-                              var updateValue = context
-                                  .read<DynamicFormCubit>()
-                                  .getCurrentValue();
-                              await context
-                                  .read<CurdCompanyCubit>()
-                                  .updateCompany(updateValue);
-                              print(updateValue.toString());
-                            },
-                            child: const Icon(
-                              Icons.save_outlined,
-                              color: Colors.white,
-                              size: 19,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            case 1:
-              return ListView(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                children: [
-                  Center(
-                    child: ToggleBtnWidget(
-                      options: [
-                        tr("main_information_msg"),
-                        tr("gallery_msg"),
-                      ],
-                    ),
-                  ),
-                  CompanyGallery(company),
-                ],
-              );
-            default:
-              return const SizedBox();
-          }
-        },
-      ),
-    );
-  }
-
-  _buildDesktopWidget(BuildContext context, List<DynamicModel> companyProfile,
-      bool isEditing, Company company) {
-    return Scaffold(
-      appBar: jobsAppBarFunction(company: company),
-      body: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-        builder: (context, state) {
-          switch (state.selectedTab) {
-            case 0:
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  children: [
-                    Center(
-                      child: ToggleBtnWidget(
-                        options: [
-                          tr("main_information_msg"),
-                          tr("gallery_msg")
-                        ],
-                      ),
-                    ),
-                    SubTitle(
-                      title: tr("main_information_msg"),
-                      titleType: SubTitleType.withIcon,
-                      iconButton: IconButton(
-                        onPressed: () {
-                          isEditing = !isEditing;
-                          context
-                              .read<DynamicFormCubit>()
-                              .setDisableFiled(isEditing, context);
-                        },
-                        icon: const Icon(
-                          Icons.edit_road,
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: BlocBuilder<GeneralCubit, GeneralState>(
-                        builder: (context, gnState) {
-                          if (gnState is GeneralFetchedState) {
-                            print('GeneralFetchedState');
-                            List<ItemModel> nationalityItems = gnState
-                                .generals.nationality
-                                .map((e) => ItemModel(key: e, value: e))
-                                .toList();
-                            context.read<DynamicFormCubit>().addMenuItems(
-                                companyProfile
-                                    .where((element) =>
-                                        element.key == 'nationality')
-                                    .first,
-                                nationalityItems,
-                                company.nationality!);
-                          }
-                          return DynamicFormWidget(
-                            key: const Key('companyProfile'),
-                            dynamicFormsList: companyProfile,
-                            formKey: _formKey,
-                            useResponsiveUi: true,
-                          );
-                        },
-                      ),
                     ),
                     Wrap(
                       direction: Axis.horizontal,
@@ -404,29 +426,21 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     ),
                   ],
                 ),
-              );
-            case 1:
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  children: [
-                    Center(
-                      child: ToggleBtnWidget(
-                        options: [
-                          tr("main_information_msg"),
-                          tr("gallery_msg")
-                        ],
-                      ),
-                    ),
-                    CompanyGallery(company)
-                  ],
-                ),
-              );
-            default:
-              return const SizedBox();
-          }
-        },
+              )),
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListView(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                children: [
+
+                  CompanyGallery(company)
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

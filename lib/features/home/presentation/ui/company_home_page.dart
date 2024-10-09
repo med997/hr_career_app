@@ -31,7 +31,7 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
   void initState() {
     super.initState();
 
-    context.read<ProfileCubit>().getUserByUuid(
+    context.read<CompanyProfileCubit>().getCompanyByUuid(
         context.read<LoginCubit>().authenticatedUser!.userAuth!.id);
   }
 
@@ -80,9 +80,14 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
         return Scaffold(
           appBar: buildAppBar(
             userOrCompany: 'Company',
-            userName: 'Mohammed adnan',
-            img: '',
-            fullHeader: true,
+            userName: state.selectedTab == 3 ? tr("profile_msg")
+                : state.selectedTab == 1 ? 'Jobs'
+                : state.selectedTab == 2 ? tr("tenders_msg")
+                : widget.auth.company!.nameEn ?? '',
+            img:  widget.auth.company!.companyLogo??'',
+            fullHeader: (state.selectedTab != 0)
+                ? false
+                : true,
             selectedTab: state.selectedTab,
           ),
           body: Row(

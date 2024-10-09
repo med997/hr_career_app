@@ -75,10 +75,8 @@ class LoginPage extends StatelessWidget {
                             ),
                             TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => RegisterPage()),
-                                  );
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                                 },
                                 child: const Text('Register here !')),
                           ],

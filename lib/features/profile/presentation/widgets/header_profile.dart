@@ -54,23 +54,22 @@ class HeaderProfileWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
 
-        InkWell(
-            onTap:() =>  pickImage(context),
-            child: BlocBuilder<CurdProfileCubit, CurdProfileState>(
-          builder: (context, state) {
-            if(state is LoadingCurdProfileState){
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: LoadingWidget(width: 2,progressColor: primaryColor,),
-              );
-            }else if(state is MessageCurdProfileState){
-              String imageUrl =state.profile.avatarUrl!=null? '$BaseUrl/storage/v1/object/${state.profile.avatarUrl}':'';
-              return AvatarNetwork(imgUrl:imageUrl, withBorder: false);
-            }
-            String imageUrl =avatar.isNotEmpty? '$BaseUrl/storage/v1/object/$avatar':'';
-            return AvatarNetwork(imgUrl: imageUrl, withBorder: false);
-          },
-        )),
+        BlocBuilder<CurdProfileCubit, CurdProfileState>(
+                  builder: (context, state) {
+        if(state is LoadingCurdProfileState){
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: LoadingWidget(width: 2,progressColor: primaryColor,),
+          );
+        }else if(state is MessageCurdProfileState){
+          String imageUrl =state.profile.avatarUrl!=null? '$BaseStorageUrl${state.profile.avatarUrl}':'';
+          return AvatarNetwork(imgUrl:imageUrl, withBorder: false, withEditBtn: true,
+          editClicked: ()=> pickImage(context),);
+        }
+        String imageUrl =avatar.isNotEmpty? '$BaseStorageUrl$avatar':'';
+        return AvatarNetwork(imgUrl: imageUrl, withBorder: false);
+                  },
+                ),
         const SizedBox(
           height: 2,
         ),

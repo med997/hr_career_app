@@ -14,7 +14,7 @@ final appTheme = ThemeData(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)))
   ),
   fontFamily: 'almarai',
-    inputDecorationTheme: InputDecorationTheme(
+  inputDecorationTheme: InputDecorationTheme(
 
         floatingLabelStyle: TextStyle(color: primaryColor ,fontSize: 14),
         prefixStyle: TextStyle(fontSize: 12),
@@ -31,7 +31,7 @@ final appTheme = ThemeData(
           borderRadius: BorderRadius.circular(8),
         )),
 
-    dropdownMenuTheme:  DropdownMenuThemeData(
+  dropdownMenuTheme:  DropdownMenuThemeData(
         inputDecorationTheme:  InputDecorationTheme(
 
          contentPadding: EdgeInsets.symmetric(horizontal: 8),

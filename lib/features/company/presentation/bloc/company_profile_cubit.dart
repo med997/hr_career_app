@@ -15,7 +15,7 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
   CompanyProfileCubit({required this.fetchCompanyUserCase}) : super(CompanyProfileInitial());
 
   Future<void> getCompanyByUuid(String uuid) async {
-    emit( CompanyLoading());
+    emit(CompanyLoading());
     final failureOrSuccess = await fetchCompanyUserCase.getCompanyByUuid(uuid);
     emit(_mapFailureOrHomeToState(failureOrSuccess));
   }

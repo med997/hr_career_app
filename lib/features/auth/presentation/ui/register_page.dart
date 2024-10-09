@@ -22,7 +22,7 @@ import '../widget/login_ana_register_appbar_functhion.dart';
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
-  List<DynamicModel> regFormCompany(BuildContext context) {
+  List<DynamicModel> regFormCompany(BuildContext context,List<ItemModel> ciyItems) {
     return [
       DynamicModel('companyNameEn', FormType.text,
           controller: TextEditingController(),
@@ -86,7 +86,8 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
       DynamicModel('city', FormType.dropdown,
-          items: [],
+
+          items: ciyItems,
           controller: TextEditingController(),
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -129,12 +130,91 @@ class RegisterPage extends StatelessWidget {
           key: 'confirmPassword'),
     ];
   }
+   List<DynamicModel> regFormUsers(List<ItemModel> genderItems,List<ItemModel> natList) {
+    return    [
+      DynamicModel('fullName', FormType.text,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'fullName'),
+      DynamicModel('fullNameAr', FormType.text,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'fullNameAr'),
+      DynamicModel('email', FormType.email,
+          controller: TextEditingController(),
+          isRequired: true,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          disabled: false,
+          key: 'email'),
+      DynamicModel('phone', FormType.phone,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'phone'),
+      DynamicModel('currentJob', FormType.text,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'currentJob'),
+      DynamicModel('gender', FormType.dropdown,
+          items: genderItems,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'gender'),
+      DynamicModel('nationality', FormType.dropdown,
+          items: natList,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'nationality'),
+      DynamicModel('password', FormType.password,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'password'),
+      DynamicModel('confirmPassword', FormType.password,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
+            DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'confirmPassword'),
+    ];
+  }
 
   final regFormKeyUser = GlobalKey<FormState>();
   final regFormKeyCompany = GlobalKey<FormState>();
 
   _cardRegister(BuildContext _) {
-    final finalList = regFormCompany(_);
+    _.read<GeneralCubit>().getGeneral();
 
     return Container(
       height: 500,
@@ -167,103 +247,21 @@ class RegisterPage extends StatelessWidget {
                         List<ItemModel> natList = gnState.generals.nationality
                             .map((e) => ItemModel(key: e, value: e)).toList();
 
-                      final   List<DynamicModel> regFormUsers = [
-                          DynamicModel('fullName', FormType.text,
-                              controller: TextEditingController(),
-                              validators: [
-                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              isRequired: true,
-                              disabled: false,
-                              key: 'fullName'),
-                          DynamicModel('fullNameAr', FormType.text,
-                              controller: TextEditingController(),
-                              validators: [
-                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              isRequired: true,
-                              disabled: false,
-                              key: 'fullNameAr'),
-                          DynamicModel('email', FormType.email,
-                              controller: TextEditingController(),
-                              isRequired: true,
-                              validators: [
-                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              disabled: false,
-                              key: 'email'),
-                          DynamicModel('phone', FormType.phone,
-                              controller: TextEditingController(),
-                              validators: [
-                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              isRequired: true,
-                              disabled: false,
-                              key: 'phone'),
-                          DynamicModel('currentJob', FormType.text,
-                              controller: TextEditingController(),
-                              validators: [
-                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              isRequired: true,
-                              disabled: false,
-                              key: 'currentJob'),
-                          DynamicModel('gender', FormType.dropdown,
-                              items: genderList,
-                              controller: TextEditingController(),
-                              validators: [
-                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              isRequired: true,
-                              disabled: false,
-                              key: 'gender'),
-                          DynamicModel('nationality', FormType.dropdown,
-                              items: natList,
-                              controller: TextEditingController(),
-                              validators: [
-                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              isRequired: true,
-                              disabled: false,
-                              key: 'nationality'),
-                          DynamicModel('password', FormType.password,
-                              controller: TextEditingController(),
-                              validators: [
-                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                              ],
-                              isRequired: true,
-                              disabled: false,
-                              key: 'password'),
-                          DynamicModel('confirmPassword', FormType.password,
-                              controller: TextEditingController(),
-                              validators: [
-                                DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
-                                DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
-                              ],
-                              isRequired: true,
-                              disabled: false,
-                              key: 'confirmPassword'),
-                        ];
-
 
                         return DynamicFormWidget(
                             key: const Key('regFormUsers'),
                             formKey: regFormKeyUser,
-                            dynamicFormsList: regFormUsers,
+                            dynamicFormsList: regFormUsers(genderList,natList),
                             submitBtnLabel: 'login',
                             useResponsiveUi: false);
                       } else {
-
                         List<ItemModel> cityItems = gnState.generals.cities
-                            .map((e) => ItemModel(key: e, value: e)).toList();
-
-                        context.read<DynamicFormCubit>().addMenuItems(
-                            finalList[4], cityItems, '');
+                          .map((e) => ItemModel(key: e, value: e)).toList();
 
                         return DynamicFormWidget(
                           key: const Key('regFormCompany'),
                           formKey: regFormKeyCompany,
-                          dynamicFormsList: finalList,
+                          dynamicFormsList:  regFormCompany(_,cityItems),
                           submitBtnLabel: 'login',
                           useResponsiveUi: false,
                         );
@@ -279,6 +277,7 @@ class RegisterPage extends StatelessWidget {
             ],
           ),
           _registerBtn(),
+          if(Responsive.isMobile(_))
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -336,12 +335,6 @@ class RegisterPage extends StatelessWidget {
             image: AssetImage('assets/imgs/bglarg.png'),
             fit: BoxFit.fitWidth, // Adjust fit as needed
           ),
-          /*color: primaryColor,
-          border: Border.all(
-            color: primaryColor,
-            width: 0.5,
-          ),
-          borderRadius: BorderRadius.circular(12)*/
         ),
         child: Flex(
             direction: Axis.horizontal,
@@ -362,12 +355,17 @@ class RegisterPage extends StatelessWidget {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         const Text(
-                          'If you don’t have an account register You can',
+                          'If you already have an account',
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         TextButton(
-                            onPressed: () {},
-                            child: const Text('Register here !')),
+                            onPressed: () {
+
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(builder: (context) => LoginPage()),(route) => false);
+
+                            },
+                            child: const Text('Login here !')),
                       ],
                     ),
                   ],

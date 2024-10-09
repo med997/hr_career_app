@@ -202,7 +202,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
       if (state is ProfileLoading) {
         return LoadingWidget();
       } else if (state is ProfileFetchedState) {
-        print('ProfileFetchedState');
+
 
         return ListView(
           shrinkWrap: true,

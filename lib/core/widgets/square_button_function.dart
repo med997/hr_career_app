@@ -7,16 +7,22 @@ Widget squareButton(
     onTap:() =>  onTap(),
     child: Container(
       height: 75,
-      width: 105,
+      width: 110,
+
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         color: clr,
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          IconButton(onPressed: onTap, icon: Icon(icn,color: Colors.white,),),
-          Text(iconLabel,style: const TextStyle(color: Colors.white),)
+          IconButton(onPressed: onTap, icon: Icon(icn,color: Colors.white,size: 24,),),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+
+              iconLabel,style:  TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 14),),
+          )
         ],
       ),
     ),

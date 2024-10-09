@@ -19,13 +19,13 @@ class CompanyProfileDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: jobsAppBarFunction(
-         company: company,
-            appbarCompanyDetail: true),
         body: Flex(
           crossAxisAlignment: CrossAxisAlignment.start,
           direction: Axis.vertical,
           children: [
+            CompanyAppBarWidget(
+                company: company,
+                appbarCompanyDetail: true),
             Center(
               child: ToggleBtnWidget(
                 options: [tr("about_us_msg"), tr("jobs_msg"),tr("tenders_msg"), tr("gallery_msg"),],
