@@ -50,27 +50,27 @@ class CompanyAppBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = Responsive.isMobile(context);
+
     if (type == 'APPBAR') {
-      return SafeArea(
-        child: Container(
-         padding: EdgeInsets.only(top: 36,bottom: 12,right: 12,left: 12),
-          decoration:  BoxDecoration(
-              color:isMobile? Colors.black:null,
-              image: isMobile?const DecorationImage(
-                opacity: 0.4,
-                image: AssetImage('assets/imgs/imgCmpProfile.png'),
-                fit: BoxFit.cover, // Adjust fit as needed
-              ):null,
-              borderRadius:isMobile? const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)):
-                  const BorderRadius.all(Radius.circular(30))
-          
-          ),
+      return Container(
+        padding: const EdgeInsets.only(top: 12,bottom: 12,right: 12,left: 12),
+        decoration:  const BoxDecoration(
+            color: Colors.black,
+            image: DecorationImage(
+              opacity: 0.4,
+              image: AssetImage('assets/imgs/imgCmpProfile.png'),
+              fit: BoxFit.cover, // Adjust fit as needed
+            ),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30))
+
+
+        ),
+        child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: isMobile?MainAxisAlignment.start:MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -125,11 +125,12 @@ class CompanyAppBarWidget extends StatelessWidget {
                                 clipBehavior: Clip.hardEdge,
                                 color: Colors.red,
                                 minWidth: 16,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.power_settings_new_outlined,
                                   color: Colors.white,
                                   size: 18,
-                                ));
+                                )
+                            );
                           },
                         ),
                       ],

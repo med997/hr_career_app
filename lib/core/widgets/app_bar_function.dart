@@ -61,6 +61,7 @@ AppBar buildAppBar({
                   child: Wrap(
                     alignment: WrapAlignment.center,
                     direction: Axis.horizontal,
+                    spacing: 6,
                     children: [
                       LanguageButton(clr: primaryColor),
                       BlocConsumer<LoginCubit, LoginState>(
@@ -75,6 +76,23 @@ AppBar buildAppBar({
                           }
                         },
                         builder: (context, state) {
+                  /*        MaterialButton(
+                              onPressed: () {
+                                context.read<LoginCubit>().signOut();
+                              },
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.all(2),
+                              materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                              clipBehavior: Clip.hardEdge,
+                              color: Colors.red,
+                              minWidth: 16,
+                              child: const Icon(
+                                Icons.power_settings_new_outlined,
+                                color: Colors.white,
+                                size: 18,
+                              )
+                          );*/
                           return MaterialButton(
                               onPressed: () {
                                 context.read<LoginCubit>().signOut();
@@ -82,7 +100,7 @@ AppBar buildAppBar({
                               shape: CircleBorder(),
                               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               clipBehavior: Clip.hardEdge,
-                              padding: EdgeInsets.all(4),
+                              padding:EdgeInsets.all(userOrCompany == 'User'? 4:2),
                               color:  userOrCompany == 'User'?null:Colors.red,
                               minWidth: 16,
                               child: Icon(
@@ -90,7 +108,7 @@ AppBar buildAppBar({
                                 color: userOrCompany == 'User'
                                     ? Colors.red
                                     : Colors.white,
-                                size: 22,
+                                size: userOrCompany == 'User'?22:18,
                               ));
                         },
                       ),

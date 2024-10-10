@@ -5,21 +5,25 @@ import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
+import 'package:hr_career_platform/core/util/pick_image_function.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/widgets/company_gallery.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 import '../../../../core/model/dynamic_model.dart';
+import '../../../../core/util/const_val.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
 import '../../../../core/util/validator.dart';
+import '../../../../core/widgets/avatar_network.dart';
 import '../../../../core/widgets/dyn_form_widget.dart';
 import '../../../../core/widgets/map_icon_button.dart';
 import '../../../../core/widgets/sub-title.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';
 import '../../../auth/domain/entities/auth.dart';
 import '../../../general/presentation/bloc/general_cubit.dart';
+import '../../../profile/presentation/bloc/curd_profile_cubit.dart';
 import '../bloc/curd_company_cubit.dart';
 import '../widgets/company_appbar.dart';
 
@@ -49,13 +53,16 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   @override
   Widget build(BuildContext context) {
     bool isEditing = true;
-    double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
     return BlocConsumer<CompanyProfileCubit, CompanyProfileState>(
         listener: (context, state) {
-      if (state is CompanyFetchedState) {
-        context.read<GeneralCubit>().getGeneral();
-      }
-    }, builder: (context, state) {
+          if (state is CompanyFetchedState) {
+            context.read<GeneralCubit>().getGeneral();
+          }
+        }, builder: (context, state) {
       BlocListener<GeneralCubit, GeneralState>(listener: (context, gnState) {});
       if (state is CompanyLoading) {
         return LoadingWidget();
@@ -197,16 +204,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       body: Flex(
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Flexible(
-              flex: 1,
-              fit: FlexFit.loose,
-              child: CompanyAppBarWidget(
+          CompanyAppBarWidget(
                 company: company,
                 withEditing: true,
-              )),
+              ),
           Expanded(
-            flex: 3,
             child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
               builder: (context, state) {
                 switch (state.selectedTab) {
@@ -252,7 +256,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                                 context.read<DynamicFormCubit>().addMenuItems(
                                     companyProfile
                                         .where((element) =>
-                                            element.key == 'nationality')
+                                    element.key == 'nationality')
                                         .first,
                                     nationalityItems,
                                     company.nationality!);
@@ -262,40 +266,36 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                                 dynamicFormsList: companyProfile,
                                 formKey: _formKey,
                                 useResponsiveUi: true,
+                                submitBtn:   Flex(
+                                  direction: Axis.horizontal,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    MaterialButton(
+                                      color: Colors.yellow.shade700,
+                                      minWidth: 40,
+                                      height: 40,
+                                      shape: const CircleBorder(),
+                                      onPressed: () async {
+                                        var updateValue = context
+                                            .read<DynamicFormCubit>()
+                                            .getCurrentValue();
+                                        await context
+                                            .read<CurdCompanyCubit>()
+                                            .updateCompany(updateValue);
+                                        print(updateValue.toString());
+                                      },
+                                      child: const Icon(
+                                        Icons.save_outlined,
+                                        color: Colors.white,
+                                        size: 19,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               );
                             },
                           ),
-                          Wrap(
-                            direction: Axis.horizontal,
-                            alignment: WrapAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: MaterialButton(
-                                  color: Colors.yellow.shade700,
-                                  minWidth: 12,
-                                  height: 40,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  onPressed: () async {
-                                    var updateValue = context
-                                        .read<DynamicFormCubit>()
-                                        .getCurrentValue();
-                                    await context
-                                        .read<CurdCompanyCubit>()
-                                        .updateCompany(updateValue);
-                                    print(updateValue.toString());
-                                  },
-                                  child: const Icon(
-                                    Icons.save_outlined,
-                                    color: Colors.white,
-                                    size: 19,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+
                         ],
                       ),
                     );
@@ -326,121 +326,143 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
     );
   }
 
+
   _buildDesktopWidget(BuildContext context, List<DynamicModel> companyProfile,
       bool isEditing, Company company) {
     return Scaffold(
-      body: Flex(
-        direction: Axis.horizontal,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-              flex: 1,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          children: [
 
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  children: [
-                    CompanyAppBarWidget(
-                      company: company,
-                      withEditing: true,
-                    ),
-                   /* Center(
-                      child: ToggleBtnWidget(
-                        options: [
-                          tr("main_information_msg"),
-                          tr("gallery_msg")
-                        ],
-                      ),
-                    ),*/
-                    SubTitle(
-
-                      title: tr("main_information_msg"),
-                      titleType: SubTitleType.withIcon,
-                      iconButton: IconButton(
-                        onPressed: () {
-                          isEditing = !isEditing;
-                          context
-                              .read<DynamicFormCubit>()
-                              .setDisableFiled(isEditing, context);
-                        },
-                        icon: const Icon(
-                          Icons.edit_road,
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                    BlocBuilder<GeneralCubit, GeneralState>(
-                      builder: (context, gnState) {
-                        if (gnState is GeneralFetchedState) {
-                          print('GeneralFetchedState');
-                          List<ItemModel> nationalityItems = gnState
-                              .generals.nationality
-                              .map((e) => ItemModel(key: e, value: e))
-                              .toList();
-                          context.read<DynamicFormCubit>().addMenuItems(
-                              companyProfile
-                                  .where((element) =>
-                                      element.key == 'nationality')
-                                  .first,
-                              nationalityItems,
-                              company.nationality!);
-                        }
-                        return DynamicFormWidget(
-                          key: const Key('companyProfile'),
-                          dynamicFormsList: companyProfile,
-                          formKey: _formKey,
-                          useResponsiveUi: true,
-                        );
-                      },
-                    ),
-                    Wrap(
-                      direction: Axis.horizontal,
-                      alignment: WrapAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MaterialButton(
-                              color: Colors.yellow.shade700,
-                              minWidth: 12,
-                              height: 40,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                              onPressed: () async {
-                                var updateValue = context
-                                    .read<DynamicFormCubit>()
-                                    .getCurrentValue();
-                                await context
-                                    .read<CurdCompanyCubit>()
-                                    .updateCompany(updateValue);
-                                print(updateValue.toString());
-                              },
-                              child: const Icon(
-                                Icons.save_outlined,
-                                color: Colors.white,
-                                size: 19,
-                              )),
-                        ),
-                      ],
-                    ),
-                  ],
+            SubTitle(
+              title: tr("main_information_msg"),
+              titleType: SubTitleType.withIcon,
+              iconButton: IconButton(
+                onPressed: () {
+                  isEditing = !isEditing;
+                  context
+                      .read<DynamicFormCubit>()
+                      .setDisableFiled(isEditing, context);
+                },
+                icon: const Icon(
+                  Icons.edit_road,
+                  color: primaryColor,
                 ),
-              )),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                children: [
-
-                  CompanyGallery(company)
-                ],
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: BlocBuilder<CurdCompanyCubit, CurdCompanyState>(
+                builder: (context, state) {
+                  if (state is LoadingCurdProfileState) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: LoadingWidget(
+                        width: 2,
+                        progressColor: primaryColor,
+                      ),
+                    );
+                  } else if (state is MessageCurdCompanyState) {
+                    String imageUrl = state.company.companyLogo != null
+                        ? '$BaseStorageUrl${state.company.companyLogo}'
+                        : '';
+                    return AvatarNetwork(
+                      imgUrl: imageUrl,
+                      withBorder: false,
+                      withEditBtn: true,
+                      bgColor: Colors.white,
+                      size: 56,
+                      editClicked: () async {
+                        String? path = await pickImage(context);
+                        if (path != null) {
+                          context.read<CurdCompanyCubit>()
+                              .uploadImageCompany(path, company.id!);
+                        }
+                      },
+                    );
+                  }
+                  String imageUrl = company.companyLogo!.isNotEmpty
+                      ? '$BaseStorageUrl${company.companyLogo!}'
+                      : '';
+                  return AvatarNetwork(
+                    imgUrl: imageUrl,
+                    withBorder: false,
+                    withEditBtn: true,
+                    bgColor: Colors.white,
+                    size: 56,
+                    editClicked: () async {
+                      String? path = await pickImage(context);
+                      if (path != null) {
+                        context.read<CurdCompanyCubit>()
+                            .uploadImageCompany(path, company.id!);
+                      }
+                    },
+                  );
+                },
+              ),
+            ),
+            BlocBuilder<GeneralCubit, GeneralState>(
+              builder: (context, gnState) {
+                if (gnState is GeneralFetchedState) {
+                  print('GeneralFetchedState');
+                  List<ItemModel> nationalityItems = gnState
+                      .generals.nationality
+                      .map((e) => ItemModel(key: e, value: e))
+                      .toList();
+                  context.read<DynamicFormCubit>().addMenuItems(
+                      companyProfile
+                          .where(
+                              (element) => element.key == 'nationality')
+                          .first,
+                      nationalityItems,
+                      company.nationality!);
+                }
+                return DynamicFormWidget(
+                  key: const Key('companyProfile'),
+                  dynamicFormsList: companyProfile,
+                  formKey: _formKey,
+                  useResponsiveUi: true,
+                  submitBtn:  Wrap(
+                    direction: Axis.horizontal,
+                    alignment: WrapAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: MaterialButton(
+                            color: Colors.yellow.shade700,
+                            minWidth: 40,
+                            height: 40,
+                            shape: const CircleBorder(),
+                            onPressed: () async {
+                              var updateValue = context
+                                  .read<DynamicFormCubit>()
+                                  .getCurrentValue();
+                              await context
+                                  .read<CurdCompanyCubit>()
+                                  .updateCompany(updateValue);
+                              print(updateValue.toString());
+                            },
+                            child: const Icon(
+                              Icons.save_outlined,
+                              color: Colors.white,
+                              size: 19,
+                            )),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+
+         /*   SubTitle(
+              title: tr("Gallery"),
+              titleType: SubTitleType.textOnly,
+            ),*/
+            CompanyGallery(company)
+          ],
+        ),
       ),
     );
   }

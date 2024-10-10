@@ -26,7 +26,7 @@ CompanyGallery(Company company) {
     children: [
       SubTitle(
         title: 'Images',
-        titleType: SubTitleType.withShowMore,
+        titleType: SubTitleType.textOnly,
       ),
       SizedBox(
         height: 140,
@@ -86,7 +86,7 @@ CompanyGallery(Company company) {
       ),
       SubTitle(
         title: 'Videos',
-        titleType: SubTitleType.withShowMore,
+        titleType: SubTitleType.textOnly,
       ),
       SizedBox(
         height: 140,
@@ -123,7 +123,7 @@ CompanyGallery(Company company) {
       ),
       SubTitle(
         title: tr("documents_msg"),
-        titleType: SubTitleType.withShowMore,
+        titleType: SubTitleType.textOnly,
       ),
       ListView.builder(
         shrinkWrap: true,

@@ -21,13 +21,12 @@ class DynamicFormWidget extends StatefulWidget {
   final TextEditingController? controller;
   final List<DynamicModel> dynamicFormsList;
   final String submitBtnLabel;
-
-  Function()? onSubmitClicked;
+  Widget? submitBtn;
   final formKey;
 
   DynamicFormWidget(
       {super.key,
-      this.onSubmitClicked,
+      this.submitBtn,
 
       required this.dynamicFormsList,
       required this.formKey,
@@ -117,12 +116,14 @@ class _DynamicFormWidgetState extends State<DynamicFormWidget> {
       child: BlocBuilder<DynamicFormCubit, List<DynamicModel>>(
         builder: (context, state) {
           return Column(
+
             children: [
               ...state.map(
                 (e) {
                   return getWidgetBasedFormType(e, context);
                 },
               ),
+              widget.submitBtn??const SizedBox()
             ],
           );
         },
@@ -149,6 +150,7 @@ class _DynamicFormWidgetState extends State<DynamicFormWidget> {
                     );
                   },
                 ),
+                widget.submitBtn??const SizedBox()
                 // Container(
                 //     decoration:
                 //         BoxDecoration(borderRadius: BorderRadius.circular(18)),

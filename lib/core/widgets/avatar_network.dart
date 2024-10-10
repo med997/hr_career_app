@@ -8,6 +8,7 @@ class AvatarNetwork extends StatelessWidget {
   final bool? withEditBtn;
   final double? redius;
   final Function? editClicked;
+  final double? size;
   final Color? bgColor;
 
   const AvatarNetwork({
@@ -15,6 +16,7 @@ class AvatarNetwork extends StatelessWidget {
     required this.imgUrl,
     required this.withBorder,
     this.bgColor,
+    this.size,
     this.editClicked,
     this.withEditBtn,
     this.redius,
@@ -32,8 +34,8 @@ class AvatarNetwork extends StatelessWidget {
                   side: withBorder
                       ? BorderSide(width: 0.5, color: primaryColor)
                       : BorderSide(width: 0.1, color: Colors.transparent))),
-          height: 38,
-          width: 38,
+          height: size??38,
+          width: size??38,
           child: ClipOval(
             child: SizedBox.fromSize(
               size: Size.fromRadius(redius ?? 48), // Image radius
