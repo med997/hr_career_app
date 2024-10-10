@@ -210,7 +210,15 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                 company: company,
                 withEditing: true,
               ),
-          Expanded(
+          Center(
+            child: ToggleBtnWidget(
+              options: [
+                tr("main_information_msg"),
+                tr("gallery_msg"),
+              ],
+            ),
+          ),
+          Flexible(
             child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
               builder: (context, state) {
                 switch (state.selectedTab) {
@@ -221,14 +229,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         shrinkWrap: true,
                         children: [
-                          Center(
-                            child: ToggleBtnWidget(
-                              options: [
-                                tr("main_information_msg"),
-                                tr("gallery_msg"),
-                              ],
-                            ),
-                          ),
+
                           SubTitle(
                             title: tr("main_information_msg"),
                             titleType: SubTitleType.withIcon,

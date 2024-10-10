@@ -1,9 +1,13 @@
+
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fleather/fleather.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
+import 'package:parchment_to_html/parachment_to_html.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
@@ -17,12 +21,14 @@ class CurdJobCubit extends Cubit<CurdJobState> {
   CurdJobCubit({required this.addJobUserCase, required this.updateJobUseCase}) : super(CurdJobInitial());
 
 
+
   Future<void> updateJob(Map<String,dynamic>? value,Job jobRef) async {
     emit(LoadingCurdJobState());
+
     Job job = Job(
         companyId:jobRef.companyId,
         id: jobRef.id,
-        jobTitle: value!['jobTitle']??jobRef.jobTitle,
+        jobTitle: value!['jobTitle']==null||value['jobTitle']==''?jobRef.jobTitle:value['jobTitle'],
         gender: value['gender']??jobRef.gender,
         office: value['office']??jobRef.office,
         otherApplyLinks: value['otherApplyLinks']??jobRef.otherApplyLinks,
@@ -33,9 +39,12 @@ class CurdJobCubit extends Cubit<CurdJobState> {
         nationalities: value['nationalities']??jobRef.nationalities,
         qualifications: value['qualifications']??jobRef.qualifications,
         jobDesc: (value['jobDesc'] as ParchmentDocument).toPlainText(),
-        jobDescFormated:(value['jobDesc'] as ParchmentDocument).toJson()??jobRef.jobDescFormated,
-        jobReqFormated:(value['jobRequirements'] as ParchmentDocument).toJson()??jobRef.jobReqFormated ,
+        jobDescFormated: (value['jobDesc'] != null && value['jobDesc'] != '')
+            ? (value['jobDesc'] as ParchmentDocument).toJson()
+            :(value['jobDesc'] as ParchmentDocument).toJson(),
+        jobReqFormated:(value['jobRequirements'] as ParchmentDocument).toJson(),
         jobRequirements: (value['jobRequirements'] as ParchmentDocument).toPlainText());
+
 
     final failureOrSuccess = await updateJobUseCase.call(job);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
