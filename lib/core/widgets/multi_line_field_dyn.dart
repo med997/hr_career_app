@@ -17,7 +17,6 @@ Widget getMultiLineFieldWidget(
         onTap: () async {
           final content = await showMultiLineDialog(dynamicModel, context);
           dynamicModel.value = content.toPlainText();
-          print('mmmmmmmmmmmmit.com ' + content);
         },
         controller: TextEditingController(text: dynamicModel.value),
         readOnly: true,

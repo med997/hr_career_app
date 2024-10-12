@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
   final reviewProfileFormKey = GlobalKey<FormState>();
 
   bool isEditing = true;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -352,6 +356,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
                                         element.key == 'qualifications')
                                     .first,
                                 qualificationsItems,
+
                                 job.qualifications!);
                             // context.read<DynamicFormCubit>().addSubFormMenuItems('education','qualifications', qualificationsItems);
                             context.read<DynamicFormCubit>().addMenuItems(
@@ -416,6 +421,13 @@ class CompanyJobDetailsPage extends StatelessWidget {
                                             context
                                                 .read<CurdJobCubit>()
                                                 .updateJob(value, job);
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              const SnackBar(
+                                                content: Text('Job updated successfully ✅'),
+                                                duration: Duration(seconds: 2),
+                                              ),
+                                            );
+
                                           }
                                         : null,
                                     child: const Icon(
