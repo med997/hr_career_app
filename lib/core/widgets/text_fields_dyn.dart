@@ -6,18 +6,17 @@ import 'package:hr_career_platform/core/util/enums.dart';
 
 Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 2.0),
+    padding:  EdgeInsets.only(bottom: dynamicModel.padding??2.0),
     child: Flex(
    mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       direction: Axis.horizontal,
       children: [
         Flexible(
-          child: TextFormField(
-
+          child:  TextFormField(
             key: Key(dynamicModel.controlName),
             enabled: !dynamicModel.disabled,
-            // initialValue: dynamicModel.value,
+
             style: const TextStyle(fontSize: 14),
             controller: dynamicModel.controller,
 
@@ -84,7 +83,6 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
               return null;
             },
             onChanged: (value) {
-
                context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
             }),
         ),

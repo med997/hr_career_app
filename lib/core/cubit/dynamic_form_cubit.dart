@@ -21,6 +21,7 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
   }
 
   void addAllFields(List<DynamicModel> dynamicModel) {
+    emit([]);
     final currentFields = dynamicModel;
     emit(currentFields);
   }
@@ -188,5 +189,23 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
   void replaceAll(List<DynamicModel> dynamicModel) {
     final currentFields =dynamicModel;
     emit(currentFields);
+  }
+
+}
+
+class DisableButtonCubit extends Cubit<bool> {
+
+  DisableButtonCubit() : super(disable);
+
+  static bool get disable => false;
+
+  void disableButton(bool disable) {
+    emit(!disable);
+    print(!disable);
+  }
+
+  void resetButtonState(bool d) {
+    print(d);
+    emit(d);
   }
 }

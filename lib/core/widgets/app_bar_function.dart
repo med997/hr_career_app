@@ -17,12 +17,12 @@ AppBar buildAppBar({
   bool withBackBtn = false,
   required String userOrCompany,
   int? selectedTab,
-
 }) {
   return AppBar(
-
     iconTheme: IconThemeData(color: primaryColor),
     centerTitle: true,
+    titleSpacing: 8,
+
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +40,7 @@ AppBar buildAppBar({
               fullHeader ? "$userName 👋🏻" : userName,
               style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 18,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold),
             ),
           ],
@@ -55,41 +55,76 @@ AppBar buildAppBar({
               )
             else if (selectedTab == 1 && userOrCompany == 'Company')
               appBarButton(primaryColor)
-            else if (selectedTab == 3 && userOrCompany == 'User')
-              Wrap(children:[ LanguageButton(clr: primaryColor),
-                BlocConsumer<LoginCubit, LoginState>(
-                  listener: (context, state) {
-                    if (state is LoginSignOutState) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                            const SplashPage(),
-                          ),
-                              (route) => false);
-                    }
-                  },
-                  builder: (context, state) {
-                    return ElevatedButton(
-                        onPressed: () {
-                          context.read<LoginCubit>().signOut();
+            else if (selectedTab == 3 )
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    direction: Axis.horizontal,
+                    spacing: 6,
+                    children: [
+                      LanguageButton(clr: primaryColor),
+                      BlocConsumer<LoginCubit, LoginState>(
+                        listener: (context, state) {
+                          if (state is LoginSignOutState) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SplashPage(),
+                                ),
+                                    (route) => false);
+                          }
                         },
-                        style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          backgroundColor: Colors.redAccent,
-                        ),
-                        child: const Icon(
-                          Icons.power_settings_new_outlined,
-                          color: Colors.white,
-                          size: 14,
-                        ));
-                  },
-                ),]),
+                        builder: (context, state) {
+                  /*        MaterialButton(
+                              onPressed: () {
+                                context.read<LoginCubit>().signOut();
+                              },
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.all(2),
+                              materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                              clipBehavior: Clip.hardEdge,
+                              color: Colors.red,
+                              minWidth: 16,
+                              child: const Icon(
+                                Icons.power_settings_new_outlined,
+                                color: Colors.white,
+                                size: 18,
+                              )
+                          );*/
+                          return MaterialButton(
+                              onPressed: () {
+                                context.read<LoginCubit>().signOut();
+                              },
+                              shape: CircleBorder(),
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              clipBehavior: Clip.hardEdge,
+                              padding:EdgeInsets.all(userOrCompany == 'User'? 4:2),
+                              color:  userOrCompany == 'User'?null:Colors.red,
+                              minWidth: 16,
+                              child: Icon(
+                                Icons.power_settings_new_outlined,
+                                color: userOrCompany == 'User'
+                                    ? Colors.red
+                                    : Colors.white,
+                                size: userOrCompany == 'User'?22:18,
+                              ));
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+
+
 
             if (fullHeader == true)
-              AvatarNetwork(
-                imgUrl: '',
-                withBorder: false,
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: AvatarNetwork(
+                  imgUrl: '',
+                  withBorder: false,
+                ),
               )
           ],
         )

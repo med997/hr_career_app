@@ -11,7 +11,10 @@ class UpdateCompany {
 
   UpdateCompany(this.companyRepository);
 
-  Future<Either<Failure, Unit>> call(Company company) async {
+  Future<Either<Failure, Company>> call(Company company) async {
     return await companyRepository.updateCompany(company);
+  }
+  Future<Either<Failure, Company>> uploadImage(String path,String id) async {
+    return await companyRepository.uploadImageCompany(path,id);
   }
 }

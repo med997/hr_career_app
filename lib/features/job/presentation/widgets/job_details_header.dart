@@ -7,58 +7,67 @@ import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 
 class JobDetailsHeader extends StatelessWidget {
   final Job job;
-  final FilledButton profileFilledText;
-  final IconButton profileIcoButton;
+  final Widget profileFilledText;
+  final Widget profileIcoButton;
 
-  const JobDetailsHeader({super.key, required this.job, required this.profileFilledText, required this.profileIcoButton});
+  const JobDetailsHeader(
+      {super.key,
+      required this.job,
+      required this.profileFilledText,
+      required this.profileIcoButton});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
+      height: 260,
       width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        image: const DecorationImage(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
           image: AssetImage('assets/imgs/jobDtlHdr.png'),
           fit: BoxFit.fill, // Adjust fit as needed
         ),
       ),
-      child: jobDetailsCard(job,context),
+      child: jobDetailsCard(job, context),
     );
   }
 
   Widget jobDetailsCard(Job job, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0 , vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white24,),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.white24,
+            ),
             margin: EdgeInsets.symmetric(vertical: 12),
             child: ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 2),
 
               title: Text(
-                job.company!.nameAr??'',
+                job.company!.nameAr ?? '',
                 style: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white, fontSize: 14),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 14),
               ),
+
               trailing: Wrap(
                 direction: Axis.horizontal,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  profileIcoButton,
-                  profileFilledText
-                ],
+                spacing: 2,
+alignment: WrapAlignment.center,
+                children: [profileIcoButton, profileFilledText],
               ),
               leading: Wrap(
-
                 crossAxisAlignment: WrapCrossAlignment.center,
                 direction: Axis.horizontal,
                 children: [
                   BackButton(
                     color: Colors.white,
+
                     onPressed: () => Navigator.pop(context),
                   ),
                   CircleAvatar(
@@ -72,15 +81,17 @@ class JobDetailsHeader extends StatelessWidget {
               ),
             ),
           ),
-      Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: Text(
-                textAlign: TextAlign.center,
-                job.jobTitle,
-                style: const TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              textAlign: TextAlign.center,
+              job.jobTitle,
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
-      ),
+          ),
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: CustomChips(
@@ -94,9 +105,12 @@ class JobDetailsHeader extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric( horizontal: 12.0 ,vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              direction: Axis.horizontal,
+              spacing: 4,
+              runSpacing: 4,
               children: [
                 TextWithIcon(
                   icon: const Icon(
@@ -112,10 +126,10 @@ class JobDetailsHeader extends StatelessWidget {
                   icon: const Icon(
                     Icons.location_on_outlined,
                     size: 16,
-                    color: Colors.white,
+                    color: Colors.orangeAccent,
                   ),
                   text: '${job.city},${job.address}',
-                  textColor: Colors.orangeAccent,
+                  textColor: Colors.white,
                 ),
               ],
             ),

@@ -44,14 +44,18 @@ class CurdCompanyCubit extends Cubit<CurdCompanyState> {
     final failureOrSuccess = await updateCompanyUserCase.call(company);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
-
+  Future<void> uploadImageCompany(String file,String id) async {
+    emit(LoadingCurdCompanyState());
+    final failureOrSuccess = await updateCompanyUserCase.uploadImage(file,id);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+  }
   CurdCompanyState _eitherDoneMessageOrErrorState(
-      Either<Failure, Unit> either, String message) {
+      Either<Failure, Company> either, String message) {
     return either.fold(
           (failure) => ErrorCurdCompanyState(
         message: _mapFailureToMessage(failure),
       ),
-          (_) => MessageCurdCompanyState(message: message),
+          (_) => MessageCurdCompanyState(message: message,company: _),
     );
   }
   String _mapFailureToMessage(Failure failure) {

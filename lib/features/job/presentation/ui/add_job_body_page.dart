@@ -7,6 +7,7 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
+import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
@@ -16,6 +17,7 @@ import 'package:hr_career_platform/features/general/presentation/bloc/general_cu
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/curd_job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
+import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 
 import '../../../auth/presentation/bloc/login_cubit.dart';
 
@@ -36,11 +38,15 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
   void initState() {
     super.initState();
     context.read<GeneralCubit>().getGeneral();
+
+      context.read<ProfileCubit>().getUserByUuid(
+          context.read<LoginCubit>().authenticatedUser!.userAuth!.id);
+
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    double width = Responsive.isMobile(context)? MediaQuery.of(context).size.width:300;
     return ListView(
       shrinkWrap: true,
       padding: const EdgeInsets.symmetric(horizontal: 22),
@@ -85,18 +91,6 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                   controller: TextEditingController(text: widget.job?.jobTitle),
                   isRequired: true,
                 ),
-                // DynamicModel(
-                //   'deadlineDate',
-                //   FormType.date,
-                //   key: 'deadlineDate',
-                //   controller: TextEditingController(
-                //       text: widget.job?.deadlineDate.toString()),
-                //   width: width,
-                //   isRequired: true,
-                //   validators: [
-                //     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                //   ],
-                // ),
                 DynamicModel(
                   'otherApplyLinks',
                   FormType.text,
@@ -274,10 +268,7 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                         var value =
                             context.read<DynamicFormCubit>().getCurrentValue();
                         final companyId = context
-                            .read<LoginCubit>()
-                            .authenticatedUser!
-                            .userAuth!
-                            .id;
+                            .read<LoginCubit>().authenticatedUser!.userAuth!.id;
 
                         print('company_id: $companyId ===> $value');
                         context

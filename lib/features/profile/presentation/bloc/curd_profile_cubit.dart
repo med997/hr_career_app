@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
@@ -41,6 +42,12 @@ class CurdProfileCubit extends Cubit<CurdProfileState> {
     );
     final failureOrSuccess = await updateProfileUseCase.call(profile);
     emit(_eitherDoneMessageOrErrorState2(failureOrSuccess, 'updateDone'));
+  }
+
+  Future<void> uploadImageProfile(File file,String id) async {
+    emit(LoadingCurdProfileState());
+    final failureOrSuccess = await updateProfileUseCase.uploadImageProfile(file,id);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
 
   Future<void> updateProfileFcm(Profile profile) async {

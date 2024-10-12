@@ -9,7 +9,7 @@ import 'package:hr_career_platform/features/company/domain/repositories/company_
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/network_info.dart';
 
-typedef DeleteOrUpdateOrAddCompany = Future<Unit> Function();
+typedef DeleteOrUpdateOrAddCompany = Future<Company> Function();
 
 class CompanyRepositoryImpl extends CompanyRepository {
   final CompanyRemoteDatasource companyRemoteDatasource;
@@ -44,21 +44,29 @@ class CompanyRepositoryImpl extends CompanyRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateCompany(Company company) async {
+  Future<Either<Failure, Company>> updateCompany(Company company) async {
     return await _getMessage(() => companyRemoteDatasource.updateCompany(CompanyModel.fromCompany(company)));
   }
 
-  Future<Either<Failure, Unit>> _getMessage(
-      DeleteOrUpdateOrAddCompany deleteOrUpdateOrInsertAccount) async {
+  Future<Either<Failure, Company>> _getMessage(
+      DeleteOrUpdateOrAddCompany deleteOrUpdateOrAddCompany) async {
     if (await networkInfo.isConnected) {
       try {
-        await deleteOrUpdateOrInsertAccount();
-        return const Right(unit);
+        final remoteCompanyProfile = await deleteOrUpdateOrAddCompany();
+        return  Right(remoteCompanyProfile);
       }on ServerException catch (e) {
         return Left(ServerFailure(messageServer:e.message??''));
       }
     } else {
       return Left(OfflineFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, Company>> uploadImageCompany(String path, String id)async {
+    // TODO: implement uploadImageCompany
+    return await _getMessage(() => companyRemoteDatasource.uploadImageCompany(
+        path,id));
+
   }
 }

@@ -27,28 +27,25 @@ class JobDetailsPage extends StatelessWidget {
                 flex: 2,
                 child: JobDetailsHeader(
                   job: job,
-                  profileFilledText: FilledButton(
-                    style: const ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(Colors.black12)),
+                  profileFilledText: MaterialButton(
+                    minWidth: 35,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    padding: EdgeInsets.all(0),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfileDetailPage(company: job.company!)));
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (context) => CompanyProfileDetailPage(
+                                  company: job.company!)));
                     },
-                    child: Text(
-                      tr("profile_msg"),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child:  const Icon(Icons.person, size: 18,color: Colors.white,),
                   ),
-                  profileIcoButton: IconButton(
-                    onPressed: () => {},
-                    icon: const Icon(Icons.visibility_off_outlined, size: 18),
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.orangeAccent.shade400,
-                    hoverColor: Colors.orangeAccent,
-                    iconSize: 18,
-                    splashRadius: 12,
+                  profileIcoButton: MaterialButton(
+                    minWidth: 25,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    padding: EdgeInsets.all(0),
+                    child: const Icon(Icons.visibility_off_outlined, size: 18,color: Colors.orangeAccent,),
+                    onPressed: () {  },
+
                   ),
                 )),
             Expanded(
@@ -67,7 +64,12 @@ class JobDetailsPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>   ApplyNowPage(job: job,)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ApplyNowPage(
+                                  job: job,
+                                )));
                   },
                   child: Text(
                     tr("apply_now_msg"),

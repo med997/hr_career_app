@@ -13,7 +13,7 @@ import '../app_theme.dart';
 Widget getPhoneWidget(DynamicModel dynamicModel,[BuildContext? context]) {
 return
   Padding(
-    padding: const EdgeInsets.only(bottom: 8.0),
+    padding:  EdgeInsets.only(bottom: dynamicModel.padding??8.0),
     child: IntlPhoneField(
       enabled: !dynamicModel.disabled,
 flagsButtonMargin: EdgeInsets.symmetric(vertical: 4),

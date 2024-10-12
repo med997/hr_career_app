@@ -27,22 +27,7 @@ class LoginPage extends StatelessWidget {
   final loginFormKey = GlobalKey<FormState>();
 
   LoginPage({super.key});
-  List<DynamicModel> loginDynForm = [
-    DynamicModel('email', FormType.email,
-        controller:  TextEditingController(),
-        isRequired: true,
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        disabled: false, key: 'email'),
-    DynamicModel('password', FormType.password,
-        controller:  TextEditingController(),
-        isRequired: true,
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        disabled: false, key: 'password'),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,10 +75,8 @@ class LoginPage extends StatelessWidget {
                             ),
                             TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => RegisterPage()),
-                                  );
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                                 },
                                 child: const Text('Register here !')),
                           ],
@@ -121,12 +104,7 @@ class LoginPage extends StatelessWidget {
                   image: AssetImage('assets/imgs/paternPrimary.png'),
                   fit: BoxFit.fitWidth, // Adjust fit as needed
                 ),
-                /*color: primaryColor,
-              border: Border.all(
-                color: primaryColor,
-                width: 0.5,
-              ),
-              borderRadius: BorderRadius.circular(12)*/
+
               ),
             ),
             Padding(
@@ -249,6 +227,22 @@ class LoginPage extends StatelessWidget {
   }
 
   _cardLogin(BuildContext _) {
+    final List<DynamicModel> loginDynForm = [
+      DynamicModel('email', FormType.email,
+          controller:  TextEditingController(),
+          isRequired: true,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          disabled: false, key: 'email'),
+      DynamicModel('password', FormType.password,
+          controller:  TextEditingController(),
+          isRequired: true,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          disabled: false, key: 'password'),
+    ];
     return Container(
       width: 400,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -302,10 +296,8 @@ class LoginPage extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      _,
-                      MaterialPageRoute(builder: (context) => RegisterPage()),
-                    );
+                    Navigator.of(_).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                   },
                   child: const Text('Register')),
             ],

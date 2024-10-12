@@ -27,6 +27,7 @@ class DynamicModel {
   String? error;
   dynamic? controller;
   double? width;
+  double? padding;
   double? hight;
   List<DynamicFormValidator>? validators;
   Widget? action;
@@ -40,6 +41,7 @@ class DynamicModel {
       this.icons,
       this.error,
       this.controller,
+      this.padding,
       this.action,
       this.compareText,
       this.subFormKey,

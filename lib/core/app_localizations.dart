@@ -3,10 +3,11 @@ import 'package:flutter/services.dart';
 
 import 'dart:convert';
 
-final tr = AppLocalizations.instance!.trnslt;
+final tr = AppLocalizations.instance!.getTranslate;
 
 class AppLocalizations {
   final Locale locale;
+
   AppLocalizations(this.locale);
 
   static AppLocalizations? of(BuildContext context) {
@@ -17,19 +18,19 @@ class AppLocalizations {
     Locale('ar'),
     Locale('en')
   ];
+
   // This [delegate] will be called from MaterialApp
   static const LocalizationsDelegate<AppLocalizations> delegate =
-  _AppLocalizationsDelegate();
+      _AppLocalizationsDelegate();
 
   static AppLocalizations? get instance => _AppLocalizationsDelegate.instance;
-
 
   Map<String, String>? _localizedString;
 
   // This method will load the required JSON file according to locale
   Future<bool> load() async {
     String jsonStr =
-    await rootBundle.loadString("locale/${locale.languageCode}.json");
+        await rootBundle.loadString("locale/${locale.languageCode}.json");
 
     Map<String, dynamic> jsonMap = jsonDecode(jsonStr);
 
@@ -41,22 +42,19 @@ class AppLocalizations {
 
   // This method will return the localized string for given key
   String translate(String key) {
-    return _localizedString![key] ?? ' ';
+    return _localizedString![key] ?? key;
   }
 
-  String trnslt(String key) {
-    return AppLocalizations.instance!.translate(key);
+  String getTranslate(String key) {
+    return AppLocalizations.instance!.translate(key).isEmpty
+        ? key
+        : AppLocalizations.instance!.translate(key);
   }
-
-
-
-
 }
 
 class _AppLocalizationsDelegate
     extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
-
 
   @override
   bool isSupported(Locale locale) {

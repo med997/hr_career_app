@@ -11,13 +11,12 @@ import '../util/enums.dart';
 Widget getMultiLineFieldWidget(
     DynamicModel dynamicModel, BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 8.0),
+    padding:  EdgeInsets.only(bottom: dynamicModel.padding??8.0),
     child: TextFormField(
         key: Key(dynamicModel.key),
         onTap: () async {
           final content = await showMultiLineDialog(dynamicModel, context);
           dynamicModel.value = content.toPlainText();
-          print('mmmmmmmmmmmmit.com ' + content);
         },
         controller: TextEditingController(text: dynamicModel.value),
         readOnly: true,

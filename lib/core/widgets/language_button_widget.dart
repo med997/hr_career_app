@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
+import 'package:hr_career_platform/core/util/responsive.dart';
 
 import '../../features/home/presentation/bloc/tab_nav_cubit.dart';
 
@@ -11,9 +12,14 @@ class LanguageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.language, color: clr,),
-      tooltip: 'Choose Language',
+    return MaterialButton(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: CircleBorder(),
+        clipBehavior: Clip.hardEdge,
+        padding: EdgeInsets.all(4),
+
+        minWidth: 16,
+        child: Icon(Icons.language, color: clr,size: 22,),
       onPressed: () {
         _showLanguageDialog(context);
       },
@@ -22,14 +28,16 @@ class LanguageButton extends StatelessWidget {
 
   void _showLanguageDialog(BuildContext context) {
     showDialog(
+
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext _) {
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
           child: Container(
             padding: const EdgeInsets.all(20),
+           width:400,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),

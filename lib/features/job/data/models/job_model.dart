@@ -90,7 +90,6 @@ class JobModel extends Job {
         "category": category,
         "nationalities": nationalities,
         "qualifications": qualifications,
-        "status": status,
         "job_desc": jobDesc,
         "job_requirements": jobRequirements,
         "company_id": companyId,

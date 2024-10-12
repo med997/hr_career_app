@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,176 +39,33 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
   final reviewProfileFormKey = GlobalKey<FormState>();
 
+  bool isEditing = true;
+
+
+
   @override
   Widget build(BuildContext context) {
     context.read<ApplianceCubit>().getAppliance(job.id.toString());
 
-    bool isEditing = false;
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
-        child: BlocConsumer<JobCubit, JobState>(
-          listener: (context, state) {
-            if (state is JobFetchedState) {
-              context.read<GeneralCubit>().getGeneral();
-            }
-          },
+        child: BlocBuilder<JobCubit, JobState>(
           builder: (context, state) {
-            BlocListener<GeneralCubit, GeneralState>(
-                listener: (context, gnState) {});
             if (state is JobLoadingState) {
               return LoadingWidget();
             } else if (state is JobFetchedState) {
-              List<DynamicModel> reviewJobForm = [
-                DynamicModel('jobTitle', FormType.text,
-                    key: 'jobTitle',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    width: width,
-                    controller: TextEditingController(text: job.jobTitle),
-                    isRequired: true,
-                    disabled: isEditing),
-                DynamicModel('otherApplyLinks', FormType.text,
-                    key: 'otherApplyLinks',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller:
-                        TextEditingController(text: job.otherApplyLinks),
-                    width: width,
-                    isRequired: true,
-                    disabled: isEditing),
-                DynamicModel('jobDesc', FormType.multiline,
-                    key: 'jobDesc',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: FleatherController(),
-                    width: width,
-                    isRequired: true,
-                    disabled: isEditing),
-                DynamicModel('jobRequirements', FormType.multiline,
-                    key: 'jobRequirements',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: FleatherController(),
-                    width: width,
-                    isRequired: true,
-                    disabled: isEditing),
-                DynamicModel(
-                  'address',
-                  width: width,
-                  key: 'address',
-                  FormType.text,
-                  controller: TextEditingController(text: job.address),
-                  validators: [
-                    DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                  ],
-                  isRequired: true,
-                  disabled: isEditing,
-                  action: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: MaterialButton(
-                        disabledColor: Colors.grey.shade600,
-                        padding: EdgeInsets.all(4),
-                        onPressed: isEditing == !isEditing ? null : () {},
-                        shape: const CircleBorder(),
-                        color: primaryColor,
-                        child: const Icon(
-                          Icons.location_on_outlined,
-                          color: Colors.white,
-                          size: 18,
-                        )),
-                  ),
-                ),
-                DynamicModel('office', FormType.dropdown,
-                    key: 'office',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController(text: job.office),
-                    width: width,
-                    items: [],
-                    isRequired: true,
-                    disabled: isEditing),
-                DynamicModel('city', FormType.dropdown,
-                    key: 'city',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController(text: job.city),
-                    width: width,
-                    items: [],
-                    isRequired: true,
-                    disabled: isEditing),
-                DynamicModel('qualifications', FormType.dropdown,
-                    key: 'qualifications',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController(text: job.qualifications),
-                    width: width,
-                    items: [],
-                    isRequired: true,
-                    disabled: isEditing),
-                DynamicModel('nationalities', FormType.dropdown,
-                    key: 'nationalities',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController(text: job.nationalities),
-                    width: width,
-                    items: [],
-                    isRequired: true,
-                    disabled: isEditing),
-                DynamicModel('gender', FormType.dropdown,
-                    key: 'gender',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController(text: job.gender),
-                    width: width,
-                    items: [],
-                    isRequired: true,
-                    disabled: isEditing),
-                DynamicModel('category', FormType.dropdown,
-                    key: 'category',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController(text: job.category),
-                    width: width,
-                    items: [],
-                    disabled: isEditing),
-                DynamicModel('timeParts', FormType.dropdown,
-                    key: 'timeParts',
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    width: width,
-                    items: [],
-                    controller: TextEditingController(text: job.timeParts),
-                    isRequired: true,
-                    disabled: isEditing),
-              ];
-
               return Responsive(
                   mobile: _buildMobileWidget(
                     context,
                     isEditing,
-                    reviewJobForm,
                   ),
                   tablet: _buildTabletAndDesktopWidget(
                     context,
                     isEditing,
-                    reviewJobForm,
                   ),
                   desktop: _buildTabletAndDesktopWidget(
                     context,
                     isEditing,
-                    reviewJobForm,
                   ));
             } else
               return SizedBox();
@@ -219,8 +78,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
   _buildMobileWidget(
     BuildContext context,
     isEditing,
-    List<DynamicModel> reviewJobForm,
   ) {
+    double width = MediaQuery.of(context).size.width;
     return Flex(
       mainAxisAlignment: MainAxisAlignment.start,
       direction: Axis.vertical,
@@ -228,15 +87,19 @@ class CompanyJobDetailsPage extends StatelessWidget {
         JobDetailsHeader(
             job: job,
             profileFilledText: FilledButton(
-              style:  ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(job.status=='hidden'?Colors.grey:
-                  job.status=='completed'?primaryTransparent:
-                  primaryColor,)),
+              style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(
+                job.status == 'hidden'
+                    ? Colors.grey
+                    : job.status == 'completed'
+                        ? primaryTransparent
+                        : primaryColor,
+              )),
               onPressed: () {},
               child: Text(
                 job.status.toString(),
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 10,
                   color: Colors.white,
                 ),
               ),
@@ -269,6 +132,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
                               context
                                   .read<DynamicFormCubit>()
                                   .setDisableFiled(isEditing, context);
+                              context
+                                  .read<DisableButtonCubit>()
+                                  .disableButton(isEditing);
                             },
                             icon: const Icon(
                               Icons.edit_road,
@@ -277,6 +143,164 @@ class CompanyJobDetailsPage extends StatelessWidget {
                       ),
                       BlocBuilder<GeneralCubit, GeneralState>(
                         builder: (context, gnState) {
+                          List<DynamicModel> reviewJobForm = [
+                            DynamicModel('jobTitle', FormType.text,
+                                key: 'jobTitle',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                controller:
+                                    TextEditingController(text: job.jobTitle),
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('otherApplyLinks', FormType.text,
+                                key: 'otherApplyLinks',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                controller: TextEditingController(
+                                    text: job.otherApplyLinks),
+                                width: width,
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('jobDesc', FormType.multiline,
+                                key: 'jobDesc',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                controller: FleatherController(),
+                                width: width,
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('jobRequirements', FormType.multiline,
+                                key: 'jobRequirements',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                controller: FleatherController(),
+                                width: width,
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel(
+                              'address',
+                              width: width,
+                              key: 'address',
+                              FormType.text,
+                              controller:
+                                  TextEditingController(text: job.address),
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              isRequired: true,
+                              disabled: isEditing,
+                              action: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4.0),
+                                child: MaterialButton(
+                                    disabledColor: Colors.grey.shade600,
+                                    padding: EdgeInsets.all(4),
+                                    onPressed:
+                                        isEditing == isEditing ? null : () {},
+                                    shape: const CircleBorder(),
+                                    color: primaryColor,
+                                    child: const Icon(
+                                      Icons.location_on_outlined,
+                                      color: Colors.white,
+                                      size: 18,
+                                    )),
+                              ),
+                            ),
+                            DynamicModel('office', FormType.dropdown,
+                                key: 'office',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                controller:
+                                    TextEditingController(text: job.office),
+                                width: width,
+                                items: [],
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('city', FormType.dropdown,
+                                key: 'city',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                controller:
+                                    TextEditingController(text: job.city),
+                                width: width,
+                                items: [],
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('qualifications', FormType.dropdown,
+                                key: 'qualifications',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                controller: TextEditingController(
+                                    text: job.qualifications),
+                                width: width,
+                                items: [],
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('nationalities', FormType.dropdown,
+                                key: 'nationalities',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                controller: TextEditingController(
+                                    text: job.nationalities),
+                                width: width,
+                                items: [],
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('gender', FormType.dropdown,
+                                key: 'gender',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                controller:
+                                    TextEditingController(text: job.gender),
+                                width: width,
+                                items: [],
+                                isRequired: true,
+                                disabled: isEditing),
+                            DynamicModel('category', FormType.dropdown,
+                                key: 'category',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                controller:
+                                    TextEditingController(text: job.category),
+                                width: width,
+                                items: [],
+                                disabled: isEditing),
+                            DynamicModel('timeParts', FormType.dropdown,
+                                key: 'timeParts',
+                                validators: [
+                                  DynamicFormValidator(
+                                      ValidatorType.notEmpty, 'isRequired')
+                                ],
+                                width: width,
+                                items: [],
+                                controller:
+                                    TextEditingController(text: job.timeParts),
+                                isRequired: true,
+                                disabled: isEditing),
+                          ];
+
                           if (gnState is GeneralFetchedState) {
                             print('GeneralFetchedState');
                             List<ItemModel> nationalityItems = gnState
@@ -332,6 +356,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
                                         element.key == 'qualifications')
                                     .first,
                                 qualificationsItems,
+
                                 job.qualifications!);
                             // context.read<DynamicFormCubit>().addSubFormMenuItems('education','qualifications', qualificationsItems);
                             context.read<DynamicFormCubit>().addMenuItems(
@@ -367,34 +392,53 @@ class CompanyJobDetailsPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         direction: Axis.horizontal,
                         children: [
-                          MaterialButton(
-                              color: Colors.yellow.shade700,
-                              minWidth: 12,
-                              height: 40,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                              onPressed: () {
-                                var value = context
-                                    .read<DynamicFormCubit>()
-                                    .getCurrentValue();
-                                final companyId = context
-                                    .read<LoginCubit>()
-                                    .authenticatedUser!
-                                    .userAuth!
-                                    .id;
-
-                                print('company_id: $companyId ===> $value');
+                          BlocBuilder<DisableButtonCubit, bool>(
+                            builder: (context, isEditing) {
+                              if (isEditing == true) {
                                 context
-                                    .read<CurdJobCubit>()
-                                    .updateJob(value, job);
+                                    .read<DisableButtonCubit>()
+                                    .resetButtonState(isEditing);
+                                return MaterialButton(
+                                    color: Colors.yellow.shade700,
+                                    // disabledColor: Colors.grey,
+                                    minWidth: 12,
+                                    height: 40,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(16)),
+                                    onPressed: isEditing
+                                        ? () {
+                                            var value = context
+                                                .read<DynamicFormCubit>()
+                                                .getCurrentValue();
+                                            final companyId = context
+                                                .read<LoginCubit>()
+                                                .authenticatedUser!
+                                                .userAuth!
+                                                .id;
+                                            print(
+                                                'company_id: $companyId ===> $value');
+                                            context
+                                                .read<CurdJobCubit>()
+                                                .updateJob(value, job);
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              const SnackBar(
+                                                content: Text('Job updated successfully ✅'),
+                                                duration: Duration(seconds: 2),
+                                              ),
+                                            );
 
-                                // SnackBar(content: Text('Job updated successfully'),backgroundColor: Colors.green,duration:  Duration(seconds: 2),);
-                              },
-                              child: const Icon(
-                                Icons.save_outlined,
-                                color: Colors.white,
-                                size: 19,
-                              ))
+                                          }
+                                        : null,
+                                    child: const Icon(
+                                      Icons.save_outlined,
+                                      color: Colors.white,
+                                      size: 19,
+                                    ));
+                              }
+                              return SizedBox();
+                            },
+                          ),
                         ],
                       )
                     ],
@@ -419,7 +463,6 @@ class CompanyJobDetailsPage extends StatelessWidget {
                         ],
                       ),
                       const RecentProfile(),
-
                     ],
                   );
                 default:
@@ -434,10 +477,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
   _buildTabletAndDesktopWidget(
     BuildContext context,
-    bool isEditing,
-    List<DynamicModel> reviewJobForm,
+    isEditing,
   ) {
-    bool isEditing = true;
     double width = 400 /*MediaQuery.of(context).size.width*/;
     return Flex(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -502,6 +543,163 @@ class CompanyJobDetailsPage extends StatelessWidget {
                     ),
                     BlocBuilder<GeneralCubit, GeneralState>(
                       builder: (context, gnState) {
+                        List<DynamicModel> reviewJobForm = [
+                          DynamicModel('jobTitle', FormType.text,
+                              key: 'jobTitle',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              width: width,
+                              controller:
+                                  TextEditingController(text: job.jobTitle),
+                              isRequired: true,
+                              disabled: isEditing),
+                          DynamicModel('otherApplyLinks', FormType.text,
+                              key: 'otherApplyLinks',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              controller: TextEditingController(
+                                  text: job.otherApplyLinks),
+                              width: width,
+                              isRequired: true,
+                              disabled: isEditing),
+                          DynamicModel('jobDesc', FormType.multiline,
+                              key: 'jobDesc',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              controller: FleatherController(),
+                              width: width,
+                              isRequired: true,
+                              disabled: isEditing),
+                          DynamicModel('jobRequirements', FormType.multiline,
+                              key: 'jobRequirements',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              controller: FleatherController(),
+                              width: width,
+                              isRequired: true,
+                              disabled: isEditing),
+                          DynamicModel(
+                            'address',
+                            width: width,
+                            key: 'address',
+                            FormType.text,
+                            controller:
+                                TextEditingController(text: job.address),
+                            validators: [
+                              DynamicFormValidator(
+                                  ValidatorType.notEmpty, 'isRequired')
+                            ],
+                            isRequired: true,
+                            disabled: isEditing,
+                            action: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              child: MaterialButton(
+                                  disabledColor: Colors.grey.shade600,
+                                  padding: EdgeInsets.all(4),
+                                  onPressed:
+                                      isEditing == isEditing ? null : () {},
+                                  shape: const CircleBorder(),
+                                  color: primaryColor,
+                                  child: const Icon(
+                                    Icons.location_on_outlined,
+                                    color: Colors.white,
+                                    size: 18,
+                                  )),
+                            ),
+                          ),
+                          DynamicModel('office', FormType.dropdown,
+                              key: 'office',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              controller:
+                                  TextEditingController(text: job.office),
+                              width: width,
+                              items: [],
+                              isRequired: true,
+                              disabled: isEditing),
+                          DynamicModel('city', FormType.dropdown,
+                              key: 'city',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              controller: TextEditingController(text: job.city),
+                              width: width,
+                              items: [],
+                              isRequired: true,
+                              disabled: isEditing),
+                          DynamicModel('qualifications', FormType.dropdown,
+                              key: 'qualifications',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              controller: TextEditingController(
+                                  text: job.qualifications),
+                              width: width,
+                              items: [],
+                              isRequired: true,
+                              disabled: isEditing),
+                          DynamicModel('nationalities', FormType.dropdown,
+                              key: 'nationalities',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              controller: TextEditingController(
+                                  text: job.nationalities),
+                              width: width,
+                              items: [],
+                              isRequired: true,
+                              disabled: isEditing),
+                          DynamicModel('gender', FormType.dropdown,
+                              key: 'gender',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              controller:
+                                  TextEditingController(text: job.gender),
+                              width: width,
+                              items: [],
+                              isRequired: true,
+                              disabled: isEditing),
+                          DynamicModel('category', FormType.dropdown,
+                              key: 'category',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              controller:
+                                  TextEditingController(text: job.category),
+                              width: width,
+                              items: [],
+                              disabled: isEditing),
+                          DynamicModel('timeParts', FormType.dropdown,
+                              key: 'timeParts',
+                              validators: [
+                                DynamicFormValidator(
+                                    ValidatorType.notEmpty, 'isRequired')
+                              ],
+                              width: width,
+                              items: [],
+                              controller:
+                                  TextEditingController(text: job.timeParts),
+                              isRequired: true,
+                              disabled: isEditing),
+                        ];
+
                         if (gnState is GeneralFetchedState) {
                           print('GeneralFetchedState');
                           List<ItemModel> nationalityItems = gnState

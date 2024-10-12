@@ -10,7 +10,7 @@ Widget buildCustomDropDownMenu( BuildContext context,
 ) {
   print('buildCustomDropDownMenu');
   return Padding(
-    padding: EdgeInsets.only(bottom: 28.0),
+    padding:  EdgeInsets.only(bottom: dynModel.padding??28.0),
     child: DropdownMenu(
       key: Key(dynModel.key),
        // initialSelection: dynModel.value,

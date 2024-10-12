@@ -5,6 +5,7 @@ import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
 import 'package:hr_career_platform/core/widgets/documents_widget.dart';
 import 'package:hr_career_platform/core/widgets/success_dialog.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
+import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart';
 
 import '../../../../core/app_localizations.dart';
@@ -46,7 +47,7 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
   void initState() {
     super.initState();
 
-    context.read<ProfileCubit>().getUserByUuid(
+    context.read<CompanyProfileCubit>().getCompanyByUuid(
         context.read<LoginCubit>().authenticatedUser!.userAuth!.id);
   }
 
@@ -238,6 +239,7 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                           ),
                           HeaderProfileWidget(
                             withBox: false,
+                            desc: state.profile.currentJob??'',
                             avatar: state.profile.avatarUrl ?? '',
                             fullName: state.profile.fullName ?? '',
                           ),
@@ -314,9 +316,9 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Confirm',
-                        style: TextStyle(
+                      Text(
+                        tr("confirm_msg"),
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),

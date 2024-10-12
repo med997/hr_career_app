@@ -11,6 +11,7 @@ import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 
 import '../../../job/domain/entities/job.dart';
+import '../../../job/presentation/ui/job_details_page.dart';
 
 class FeaturedJobs extends StatelessWidget {
   FeaturedJobs();
@@ -56,7 +57,7 @@ class FeaturedJobs extends StatelessWidget {
                       width: 0.5,
                     ),
                     borderRadius: BorderRadius.circular(12)),
-                child: featuredJobCard(i));
+                child: featuredJobCard(i,context));
           },
         );
       }).toList(),
@@ -91,75 +92,84 @@ class FeaturedJobs extends StatelessWidget {
                   width: 0.5,
                 ),
                 borderRadius: BorderRadius.circular(12)),
-            child: featuredJobCard(featuredJobs[index])),
+            child: featuredJobCard(featuredJobs[index],context)),
       ),
     );
   }
 
-  Widget featuredJobCard(Job job) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: Flex(
-        direction: Axis.vertical,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
-            title: Text(
-              job.jobTitle,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.white, fontSize: 14),
+  Widget featuredJobCard(Job job,BuildContext context) {
+    return InkWell(
+      onTap:  () => Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => JobDetailsPage(job: job) ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Flex(
+          direction: Axis.vertical,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
+              title: Text(
+                job.jobTitle,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12),
+              ),
+              subtitle: Text(
+                job.company!.nameEn,
+                style: const TextStyle(color: Colors.white, fontSize: 12),
+              ),
+              leading: AvatarNetwork(imgUrl: job.company!.companyLogo??'',withBorder: true,)
             ),
-            subtitle: Text(
-              job.company!.nameEn,
-              style: const TextStyle(color: Colors.white, fontSize: 12),
-            ),
-            leading: AvatarNetwork(imgUrl: job.company!.companyLogo??'',withBorder: true,)
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: CustomChips(
+            CustomChips(
               chipsTitles: [
                 job.category,
                 job.office,
                 job.timeParts,
                 job.nationalities ?? ''
               ],
-              txtSize: 11,
+              txtSize: 12,
               bgColor: Colors.white10,
             ),
-          ),
-          SizedBox(height: 5,),
-          Wrap(
-            direction: Axis.horizontal,
-            spacing: 4,
-
-            crossAxisAlignment: WrapCrossAlignment.start,
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              TextWithIcon(
-                icon: const Icon(
-                  Icons.date_range,
-                  size: 16,
-                  color: Colors.white,
+            const Padding(padding: EdgeInsets.symmetric(vertical: 6)),
+            Flex(
+              direction: Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                    child: TextWithIcon(
+                      icon: const Icon(
+                        Icons.date_range,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                      text: '${job.deadlineDate!.day}/${job.deadlineDate!.month}/${job.deadlineDate!.year}',
+                      textColor: Colors.white,
+                    ),
+                  ),
                 ),
-                text:
-                    '${job.deadlineDate!.day}/${job.deadlineDate!.month}/${job.deadlineDate!.year}',
-                textColor: Colors.white,
-              ),
-              TextWithIcon(
-                icon: const Icon(
-                  Icons.location_on_outlined,
-                  size: 16,
-                  color: Colors.white,
+                Expanded(
+                  flex: 2,
+                  child: TextWithIcon(
+                    icon: const Icon(
+                      Icons.location_on_outlined,
+                      size: 16,
+                      color: Colors.white,
+                    ),
+                    text: '${job.city},${job.address}',
+                    textColor: Colors.white,
+                  ),
                 ),
-                text: '${job.city},${job.address}',
-                textColor: Colors.white,
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
