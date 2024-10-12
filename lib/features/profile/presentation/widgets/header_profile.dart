@@ -63,11 +63,12 @@ class HeaderProfileWidget extends StatelessWidget {
           );
         }else if(state is MessageCurdProfileState){
           String imageUrl =state.profile.avatarUrl!=null? '$BaseStorageUrl${state.profile.avatarUrl}':'';
-          return AvatarNetwork(imgUrl:imageUrl, withBorder: false, withEditBtn: true,
+          return AvatarNetwork(imgUrl:imageUrl, withBorder: false, withEditBtn:editingAvatar ,
           editClicked: ()=> pickImage(context),);
         }
         String imageUrl =avatar.isNotEmpty? '$BaseStorageUrl$avatar':'';
-        return AvatarNetwork(imgUrl: imageUrl, withBorder: false);
+        return AvatarNetwork(imgUrl: imageUrl, withBorder: false , withEditBtn: editingAvatar,
+          editClicked: ()=> pickImage(context),);
                   },
                 ),
         const SizedBox(

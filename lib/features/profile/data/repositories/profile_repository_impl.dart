@@ -46,10 +46,9 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, Profile>> updateProfileFcmToken(Profile profile)async {
+  Future<Either<Failure, Profile>> updateProfileFcmToken(String uuid ,  List<String>? fcmToken)async {
 
-  return await _getMessage(() => profileRemoteDatasource.updateProfileFcmToken(
-      ProfileModel.fromProfile(profile)));
+  return await _getMessage(() => profileRemoteDatasource.updateProfileFcmToken(uuid, fcmToken));
 }
   @override
   Future<Either<Failure, Profile>> uploadImageProfile(File file,String id)async {
@@ -86,7 +85,7 @@ Future<Either<Failure, Profile>> _getMessage(
 
   @override
   Future<Either<Failure, Profile>> updateProfile(Profile profile) async {
-    return await _getMessage(() => profileRemoteDatasource.updateProfileFcmToken(
+    return await _getMessage(() => profileRemoteDatasource.updateProfile(
         ProfileModel.fromProfile(profile)));
   }
 }

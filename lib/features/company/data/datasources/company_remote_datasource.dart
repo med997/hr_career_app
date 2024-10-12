@@ -12,6 +12,7 @@ abstract class CompanyRemoteDatasource {
   Future<CompanyModel> getCompanyByUuid(String uuid);
   Future<CompanyModel> uploadImageCompany(String path,String id);
   Future<CompanyModel> updateCompany(CompanyModel companyModel);
+  Future<CompanyModel> updateCompanyFcmToken(String uuid , String fcmToken);
 }
 
 
@@ -73,6 +74,30 @@ class CompanyRemoteDatasourceImp extends CompanyRemoteDatasource{
       throw ServerException();
     }
   }
+
+  @override
+  Future<CompanyModel> updateCompanyFcmToken(String uuid , String fcmToken) async {
+    try {
+      final data = await client
+          .from('company')
+          .update({'fcm_token':fcmToken})
+          .eq('id', uuid).select().single();
+      final CompanyModel companyUpdate = CompanyModel.fromJson(data);
+      return companyUpdate;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+
+  }
+
 
   @override
   Future<CompanyModel> getCompanyByUuid(String uuid) async {

@@ -12,7 +12,7 @@ import '../models/profile_model.dart';
 abstract class ProfileRemoteDatasource {
   Future<ProfileModel> getUser();
   Future<ProfileModel> getUserByUuid(String uuid);
-  Future<ProfileModel> updateProfileFcmToken(ProfileModel profileModel);
+  Future<ProfileModel> updateProfileFcmToken(String uuid ,  List<String>? fcmToken);
   Future<ProfileModel> updateProfile(ProfileModel profileModel);
   Future<List<ProfileModel>> getAppliance(String profileId);
   Future<ProfileModel> uploadImageProfile(File file,String id);
@@ -22,12 +22,14 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
   final SupabaseClient client;
 
   @override
-  Future<ProfileModel> updateProfileFcmToken(ProfileModel profileModel) async {
+  Future<ProfileModel> updateProfileFcmToken(String uuid ,  List<String>? fcmToken) async {
     try {
       final data = await client
           .from('profiles')
-          .update({ 'fcm_token': profileModel.fcmToken})
-          .eq('id', profileModel.id.toString()).select();
+          .update({ 'fcm_token': fcmToken})
+          .eq('id', uuid)
+
+          .select();
       return ProfileModel.fromJson(data.first);
     } on PostgrestException catch (error) {
       if (kDebugMode) {

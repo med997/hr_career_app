@@ -10,7 +10,7 @@ class DeleteAuthUseCase  {
 
   DeleteAuthUseCase(this.repository);
 
-  Future<Either<Failure, Unit>> call() async {
-    return await repository.signOut();
+  Future<Either<Failure, Unit>> call(String fcmToken) async {
+    return await repository.signOut(fcmToken);
   }
 }

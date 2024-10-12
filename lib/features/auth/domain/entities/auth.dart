@@ -11,14 +11,17 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class Auth extends Equatable {
   final String email;
   final String password;
+  final List<String>  fcmToken;
   final User? userAuth;
   final UsrType userType;
   final Profile? profile;
   final Company? company;
 
-  Auth({required this.email,
+  const Auth({
+    required this.email,
     required this.password,
     required this.userType,
+     this.fcmToken = const[],
     this.profile, this.company,
     this.userAuth});
 

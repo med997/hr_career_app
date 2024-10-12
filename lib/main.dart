@@ -41,13 +41,8 @@ import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-
-
-
   if (!kIsWeb) {
     await setupFlutterNotifications();
   }
@@ -126,6 +121,17 @@ void main() async {
     ],
     child: const MyApp(),
   ));
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    if (kDebugMode) {
+      print('Handling a foreground message: ${message.messageId}');
+      print('Message data: ${message.data}');
+      print('Message notification: ${message.notification?.title}');
+      print('Message notification: ${message.notification?.body}');
+    }
+
+    showFlutterNotification(message);
+  });
+
 }
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {

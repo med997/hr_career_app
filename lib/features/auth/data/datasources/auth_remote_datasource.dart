@@ -1,23 +1,11 @@
-/*
-final AuthResponse res = await supabase.auth.signUp(
-email: 'example@email.com',
-password: 'example-password',
-);
-final Session? session = res.session;
-final User? user = res.user;*/
-
-import 'dart:math';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get_it/get_it.dart';
 import 'package:hr_career_platform/core/error/exceptions.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/data/models/auth_model.dart';
 import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
 import 'package:hr_career_platform/features/company/data/models/company_model.dart';
 import 'package:hr_career_platform/features/profile/data/models/profile_model.dart';
-import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/strings/failures.dart';
@@ -27,8 +15,9 @@ abstract class AuthRemoteDatasource {
 
   Future<AuthModel> signup(Auth authModel);
 
-  Future<AuthModel> login(Auth authModel);
-  Future<Unit> signOut();
+  Future<AuthModel> login(Auth authModel, String? fcmToken);
+
+  Future<Unit> signOut(UsrType usrType, String id, String fcmToken);
 
   Future<AuthModel> getCurrentUserData();
 }
@@ -42,7 +31,7 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
   Session? get currentUserSession => supBase.auth.currentSession;
 
   @override
-  Future<AuthModel> login(Auth authModel) async {
+  Future<AuthModel> login(Auth authModel, String? fcmToken) async {
     try {
       final AuthModel authModelData;
       final res = await supBase.auth.signInWithPassword(
@@ -51,21 +40,34 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
       );
       final User? user = res.user;
       print(user.toString());
-      UsrType usrType = user!.userMetadata!['userType']=="user"?UsrType.user:UsrType.company;
+      UsrType usrType = user!.userMetadata!['userType'] == "user"
+          ? UsrType.user
+          : UsrType.company;
       if (usrType == UsrType.company) {
         authModelData = AuthModel(
             userType: usrType,
             email: user.email ?? '',
             password: '',
+            fcmToken: [fcmToken ?? ''],
             userAuth: user,
-            company: CompanyModel.fromJson(user.userMetadata??{}));
+            company: CompanyModel.fromJson(user.userMetadata ?? {}));
       } else {
+        Map<String, dynamic> param = {
+          'p_profile_id': user.id,
+          "p_new_token": fcmToken
+        };
+        final data = await supBase
+            .rpc('update_fcm_token_profile', params: param)
+            .select()
+            .single();
+
         authModelData = AuthModel(
             userType: usrType,
             email: user.email ?? '',
             password: '',
+            fcmToken: [fcmToken ?? ''],
             userAuth: user,
-            profile: ProfileModel.fromJson(user.userMetadata??{}));
+            profile: ProfileModel.fromJson(data));
       }
       return authModelData;
     } on AuthException catch (error) {
@@ -77,19 +79,19 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
       if (kDebugMode) {
         print(e);
       }
-      throw ServerException(message: 'Something Wrong');
+      throw const ServerException(message: 'Something Wrong');
     }
   }
 
   @override
   Future<AuthModel> signup(Auth authModel) async {
-
     try {
       final AuthResponse data;
       final AuthModel authModelData;
       final User user;
       if (authModel.userType == UsrType.user) {
         ProfileModel model = ProfileModel.fromProfile(authModel.profile);
+        print('====> ${model.toJson()}');
         Map<String, String> userTypeMap = {'userType': UsrType.user.name};
         data = await supBase.auth.signUp(
           email: authModel.email.trim(),
@@ -100,6 +102,7 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         authModelData = AuthModel(
             userType: UsrType.user,
             email: user.email ?? '',
+            fcmToken: model.fcmToken,
             password: '',
             userAuth: user,
             profile: ProfileModel.fromJson(user.userMetadata ?? {}));
@@ -116,9 +119,9 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         );
         user = data.user!;
         print(model.toJson());
-        print( CompanyModel.fromJson(user.userMetadata ?? {}));
+        print(CompanyModel.fromJson(user.userMetadata ?? {}));
         authModelData = AuthModel(
-            userType:UsrType.company,
+            userType: UsrType.company,
             email: user.email ?? '',
             password: '',
             userAuth: user,
@@ -151,10 +154,12 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         User? user = currentUserSession!.user;
 
         AuthModel authModelData;
-        UsrType usrType = user.userMetadata!['userType'] == "user" ? UsrType
-            .user : UsrType.company;
+        UsrType usrType = user.userMetadata!['userType'] == "user"
+            ? UsrType.user
+            : UsrType.company;
+        List<String>? fcmToken = user.userMetadata!['fcm_token'];
         print('getCurrentUserData');
-        print(usrType.toString());
+        print(fcmToken![0].toString());
         if (usrType == UsrType.company) {
           authModelData = AuthModel(
               userType: usrType,
@@ -166,15 +171,15 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
           authModelData = AuthModel(
               userType: usrType,
               email: user.email ?? '',
+              fcmToken: fcmToken,
               password: '',
               userAuth: user,
               profile: ProfileModel.fromJson(user.userMetadata ?? {}));
         }
         return authModelData;
-      }else{
+      } else {
         throw const AuthException(AUTH_FAILURE_MESSAGE);
       }
-
     } on AuthException catch (e) {
       if (kDebugMode) {
         print(e);
@@ -189,11 +194,20 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
   }
 
   @override
-  Future<Unit> signOut() async{
+  Future<Unit> signOut(UsrType usrType, String id, String fcmToken) async {
     try {
-    await supBase.auth.signOut();
-    return Future.value(unit);
+      Map<String, dynamic> param = {
+        'p_profile_id': id,
+        "p_token": fcmToken
+      };
+      if (usrType == UsrType.user){
+       await supBase.rpc('delete_fcm_token_profile', params: param).select().single();
+      }else{
+        await supBase.rpc('delete_fcm_token_company', params: param).select().single();
+      }
 
+        await supBase.auth.signOut();
+      return Future.value(unit);
     } on AuthException catch (error) {
       if (kDebugMode) {
         print(error);

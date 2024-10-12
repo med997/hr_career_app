@@ -14,6 +14,7 @@ class Company extends Equatable {
   final List<dynamic>? locations;
   final String? createdAt;
   final String? govRegNo;
+  final List<String>? fcmToken;
   final String? headOffice;
   final dynamic imagesPath;
   final String? nationality;
@@ -31,6 +32,7 @@ class Company extends Equatable {
     required this.address,
     required this.nameEn,
      this.nameAr,
+     this.fcmToken,
      this.govRegNo,
     this.companyLogo,
      this.website,
@@ -46,7 +48,6 @@ class Company extends Equatable {
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 
 }

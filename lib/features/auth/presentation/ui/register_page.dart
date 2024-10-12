@@ -22,7 +22,8 @@ import '../widget/login_ana_register_appbar_functhion.dart';
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
-  List<DynamicModel> regFormCompany(BuildContext context,List<ItemModel> ciyItems) {
+  List<DynamicModel> regFormCompany(
+      BuildContext context, List<ItemModel> ciyItems) {
     return [
       DynamicModel('companyNameEn', FormType.text,
           controller: TextEditingController(),
@@ -86,7 +87,6 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
       DynamicModel('city', FormType.dropdown,
-
           items: ciyItems,
           controller: TextEditingController(),
           validators: [
@@ -130,8 +130,10 @@ class RegisterPage extends StatelessWidget {
           key: 'confirmPassword'),
     ];
   }
-   List<DynamicModel> regFormUsers(List<ItemModel> genderItems,List<ItemModel> natList) {
-    return    [
+
+  List<DynamicModel> regFormUsers(
+      List<ItemModel> genderItems, List<ItemModel> natList) {
+    return [
       DynamicModel('fullName', FormType.text,
           controller: TextEditingController(),
           validators: [
@@ -210,98 +212,183 @@ class RegisterPage extends StatelessWidget {
     ];
   }
 
+  final userDynForm = [
+    DynamicModel('fullName', FormType.text,
+        controller: TextEditingController(),
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        isRequired: true,
+        disabled: false,
+        key: 'fullName'),
+    DynamicModel('fullNameAr', FormType.text,
+        controller: TextEditingController(),
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        isRequired: true,
+        disabled: false,
+        key: 'fullNameAr'),
+    DynamicModel('email', FormType.email,
+        controller: TextEditingController(),
+        isRequired: true,
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        disabled: false,
+        key: 'email'),
+    DynamicModel('phone', FormType.phone,
+        controller: TextEditingController(),
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        isRequired: true,
+        disabled: false,
+        key: 'phone'),
+    DynamicModel('currentJob', FormType.text,
+        controller: TextEditingController(),
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        isRequired: true,
+        disabled: false,
+        key: 'currentJob'),
+    DynamicModel('gender', FormType.dropdown,
+        items: [],
+        controller: TextEditingController(),
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        isRequired: true,
+        disabled: false,
+        key: 'gender'),
+    DynamicModel('nationality', FormType.dropdown,
+        items: [],
+        controller: TextEditingController(),
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        isRequired: true,
+        disabled: false,
+        key: 'nationality'),
+    DynamicModel('password', FormType.password,
+        controller: TextEditingController(),
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+        ],
+        isRequired: true,
+        disabled: false,
+        key: 'password'),
+    DynamicModel('confirmPassword', FormType.password,
+        controller: TextEditingController(),
+        validators: [
+          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
+          DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
+        ],
+        isRequired: true,
+        disabled: false,
+        key: 'confirmPassword'),
+  ];
   final regFormKeyUser = GlobalKey<FormState>();
   final regFormKeyCompany = GlobalKey<FormState>();
 
   _cardRegister(BuildContext _) {
-    _.read<GeneralCubit>().getGeneral();
-
     return Container(
-      height: 500,
-      width: 400,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-      margin: EdgeInsets.only(
-          left: 28, right: 28, top: MediaQuery.of(_).size.height * 0.2),
-      decoration: BoxDecoration(
-          color: bgColor, borderRadius: BorderRadius.circular(18)),
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        children: [
-          Center(child: ToggleBtnWidget()),
-          const SizedBox(
-            height: 8,
-          ),
-          Wrap(
-            alignment: WrapAlignment.center,
+        height: 500,
+        width: 400,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+        margin: EdgeInsets.only(
+            left: 28, right: 28, top: MediaQuery.of(_).size.height * 0.2),
+        decoration: BoxDecoration(
+            color: bgColor, borderRadius: BorderRadius.circular(18)),
+        child: ListView(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             children: [
+              Center(child: ToggleBtnWidget()),
+              const SizedBox(
+                height: 8,
+              ),
               Center(
-                child: BlocBuilder<GeneralCubit, GeneralState>(
-                  builder: (context, gnState) {
-                    if (gnState is GeneralFetchedState) {
-                  return  BlocBuilder<ToggleBtnCubit, ToggleBtnState>(builder: (context, state) {
-                      if (state.selectedTab == 0) {
-                        List<ItemModel> genderList = gnState.generals.gender
-                            .map((e) => ItemModel(key: e, value: e)).toList();
-                        List<ItemModel> natList = gnState.generals.nationality
-                            .map((e) => ItemModel(key: e, value: e)).toList();
-
-
-                        return DynamicFormWidget(
-                            key: const Key('regFormUsers'),
-                            formKey: regFormKeyUser,
-                            dynamicFormsList: regFormUsers(genderList,natList),
-                            submitBtnLabel: 'login',
-                            useResponsiveUi: false);
-                      } else {
-                        List<ItemModel> cityItems = gnState.generals.cities
-                          .map((e) => ItemModel(key: e, value: e)).toList();
-
-                        return DynamicFormWidget(
-                          key: const Key('regFormCompany'),
-                          formKey: regFormKeyCompany,
-                          dynamicFormsList:  regFormCompany(_,cityItems),
+                child: BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                  builder: (context, state) {
+                    if (state.selectedTab == 0) {
+                      return DynamicFormWidget(
+                          key: const Key('regFormUsers'),
+                          formKey: regFormKeyUser,
+                          dynamicFormsList: userDynForm,
                           submitBtnLabel: 'login',
-                          useResponsiveUi: false,
-                        );
-                      }
-
-                    },);
-
+                          useResponsiveUi: false);
+                    } else {
+                      return DynamicFormWidget(
+                        key: const Key('regFormCompany'),
+                        formKey: regFormKeyCompany,
+                        dynamicFormsList: regFormCompany(_, []),
+                        submitBtnLabel: 'login',
+                        useResponsiveUi: false,
+                      );
                     }
-                    return const SizedBox();
                   },
                 ),
               ),
-            ],
-          ),
-          _registerBtn(),
-          if(Responsive.isMobile(_))
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Have an account?',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
+              BlocBuilder<GeneralCubit, GeneralState>(
+                builder: (context, gnState) {
+                  if (gnState is GeneralFetchedState) {
+                    int tabSelected = (context.read<ToggleBtnCubit>().state as ToggleBtnChangedState).selectedTab;
+                    if(tabSelected ==0){
+                      List<ItemModel> genderList = gnState.generals.gender
+                          .map((e) => ItemModel(key: e, value: e))
+                          .toList();
+                      List<ItemModel> natList = gnState.generals.nationality
+                          .map((e) => ItemModel(key: e, value: e))
+                          .toList();
+                      context
+                          .read<DynamicFormCubit>()
+                          .addMenuItems2('nationality', natList, '');
+                      context
+                          .read<DynamicFormCubit>()
+                          .addMenuItems2('gender', genderList, '');
+                    }else if(tabSelected==1){
+                      List<ItemModel> cityItems = gnState.generals.cities
+                          .map((e) => ItemModel(key: e, value: e))
+                          .toList();
+                      context
+                          .read<DynamicFormCubit>()
+                          .addMenuItems2('city', cityItems, '');
+
+                    }
+                    return const SizedBox();
+                  }
+                  return const SizedBox();
+                },
               ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(_).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => LoginPage()),(route) => false);
-                  },
-                  child: const Text(
-                    'Login',
-                    style: TextStyle(color: primaryColor),
-                  )),
-            ],
-          ),
-        ],
-      ),
-    );
+              _registerBtn(),
+              if (Responsive.isMobile(_))
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Have an account?',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(_).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                              (route) => false);
+                        },
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(color: primaryColor),
+                        )),
+                  ],
+                ),
+            ]));
   }
 
   Widget _buildMobileRegPage(BuildContext _) {
@@ -315,7 +402,6 @@ class RegisterPage extends StatelessWidget {
                 image: AssetImage('assets/imgs/image10.png'),
                 fit: BoxFit.fitWidth, // Adjust fit as needed
               ),
-
             ),
           ),
           Padding(
@@ -360,10 +446,10 @@ class RegisterPage extends StatelessWidget {
                         ),
                         TextButton(
                             onPressed: () {
-
                               Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(builder: (context) => LoginPage()),(route) => false);
-
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()),
+                                  (route) => false);
                             },
                             child: const Text('Login here !')),
                       ],
@@ -402,16 +488,19 @@ class RegisterPage extends StatelessWidget {
                 final value =
                     context.read<DynamicFormCubit>().getCurrentValue();
                 print(value);
-                final selectedTab =context.read<ToggleBtnCubit>().state.selectedTab;
-                if(selectedTab==0){
+                final selectedTab =
+                    context.read<ToggleBtnCubit>().state.selectedTab;
+                if (selectedTab == 0) {
                   if (regFormKeyUser.currentState!.validate()) {
                     context.read<RegisterCubit>().registerUser(
-                        context.read<ToggleBtnCubit>().state.selectedTab, value);
+                        context.read<ToggleBtnCubit>().state.selectedTab,
+                        value);
                   }
-                }else{
+                } else {
                   if (regFormKeyCompany.currentState!.validate()) {
                     context.read<RegisterCubit>().registerUser(
-                        context.read<ToggleBtnCubit>().state.selectedTab, value);
+                        context.read<ToggleBtnCubit>().state.selectedTab,
+                        value);
                   }
                 }
               },

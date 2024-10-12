@@ -18,17 +18,17 @@ class Profile extends Equatable {
   final String? resumeUrl;
   final String? documentsUrl;
   final String? major;
-  final String? fcmToken;
+  final List<String> fcmToken;
   final List<String>? skils;
   final List<dynamic> experience;
   final List<dynamic> education;
 
-  Profile({
+  const Profile({
     this.id,
     this.updatedAt,
     this.username,
     this.fullName,
-    this.fcmToken,
+    this.fcmToken= const[],
     this.avatarUrl,
     this.fullNameAr,
     this.nationality,

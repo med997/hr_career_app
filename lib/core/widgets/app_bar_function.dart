@@ -76,23 +76,6 @@ AppBar buildAppBar({
                           }
                         },
                         builder: (context, state) {
-                  /*        MaterialButton(
-                              onPressed: () {
-                                context.read<LoginCubit>().signOut();
-                              },
-                              shape: CircleBorder(),
-                              padding: EdgeInsets.all(2),
-                              materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                              clipBehavior: Clip.hardEdge,
-                              color: Colors.red,
-                              minWidth: 16,
-                              child: const Icon(
-                                Icons.power_settings_new_outlined,
-                                color: Colors.white,
-                                size: 18,
-                              )
-                          );*/
                           return MaterialButton(
                               onPressed: () {
                                 context.read<LoginCubit>().signOut();

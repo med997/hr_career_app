@@ -49,6 +49,11 @@ class CurdCompanyCubit extends Cubit<CurdCompanyState> {
     final failureOrSuccess = await updateCompanyUserCase.uploadImage(file,id);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
+  Future<void>  updateCompanyFcmToken(String uuid , String fcmToken) async {
+    emit(LoadingCurdCompanyState());
+    final failureOrSuccess = await updateCompanyUserCase.updateCompanyFcmToken(uuid,fcmToken);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+  }
   CurdCompanyState _eitherDoneMessageOrErrorState(
       Either<Failure, Company> either, String message) {
     return either.fold(

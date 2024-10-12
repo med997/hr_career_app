@@ -44,12 +44,13 @@ class _DynamicFormWidgetState extends State<DynamicFormWidget> {
   @override
   void initState() {
     super.initState();
+    context.read<DynamicFormCubit>().addAllFields(widget.dynamicFormsList);
   }
 
   @override
   Widget build(BuildContext context) {
 
-    context.read<DynamicFormCubit>().addAllFields(widget.dynamicFormsList);
+
     return Responsive(
       mobile: _mobileDynamicFormBuilder(context),
       desktop: widget.useResponsiveUi

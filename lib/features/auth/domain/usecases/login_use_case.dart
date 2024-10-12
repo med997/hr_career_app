@@ -10,7 +10,7 @@ class LoginUseCase {
   LoginUseCase(this.repository);
 
 
-  Future<Either<Failure, Auth>> call(Auth auth) async {
-    return await repository.login(auth);
+  Future<Either<Failure, Auth>> call(Auth auth,String? fcmToken) async {
+    return await repository.login(auth,fcmToken);
   }
 }

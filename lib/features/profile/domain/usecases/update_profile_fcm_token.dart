@@ -10,7 +10,7 @@ class UpdateProfileFcmToken {
 
   UpdateProfileFcmToken(this.profileRepository);
 
-  Future<Either<Failure, Profile>> updateFcmToken(Profile profile) async {
-    return await profileRepository.updateProfileFcmToken(profile);
+  Future<Either<Failure, Profile>> updateFcmToken(String uuid , List<String>? fcmToken) async {
+    return await profileRepository.updateProfileFcmToken(uuid, fcmToken);
   }
 }

@@ -29,7 +29,7 @@ Widget buildCustomDropDownMenu( BuildContext context,
       ).toList(),
 
       onSelected: (value) {
-       dynModel.controller!.text = value!;
+
         context.read<DynamicFormCubit>().updateFieldValue(dynModel);
       },
     ),
