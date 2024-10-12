@@ -8,7 +8,7 @@ class UpdateProfileUseCase {
 
   UpdateProfileUseCase(this.profileRepository);
 
-  Future<Either<Failure, Profile>> updateProfile(Profile profile) async {
+  Future<Either<Failure, Unit>> call(Profile profile) async {
     return await profileRepository.updateProfile(profile);
   }
 }

@@ -21,8 +21,8 @@ class ErrorCurdProfileState extends CurdProfileState {
 
 class MessageCurdProfileState extends CurdProfileState {
   final String message;
-  final Profile profile;
-  const MessageCurdProfileState({required this.message , required this.profile,});
+  final Profile? profile;
+  const MessageCurdProfileState({required this.message ,  this.profile,});
   @override
   List<Object> get props => [message];
 }

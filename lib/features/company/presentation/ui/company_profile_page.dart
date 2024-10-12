@@ -49,13 +49,12 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   Widget build(BuildContext context) {
     bool isEditing = true;
     double width = MediaQuery.of(context).size.width;
-    return BlocConsumer<CompanyProfileCubit, CompanyProfileState>(
-        listener: (context, state) {
+    return BlocConsumer<CompanyProfileCubit, CompanyProfileState>
+      (listener: (context, state) {
       if (state is CompanyFetchedState) {
         context.read<GeneralCubit>().getGeneral();
       }
     }, builder: (context, state) {
-      BlocListener<GeneralCubit, GeneralState>(listener: (context, gnState) {});
       if (state is CompanyLoading) {
         return LoadingWidget();
       } else if (state is CompanyFetchedState) {
@@ -236,6 +235,10 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                               .generals.nationality
                               .map((e) => ItemModel(key: e, value: e))
                               .toList();
+                          // List<ItemModel> sizeItems = gnState
+                          //     .generals.
+                          //     .map((e) => ItemModel(key: e, value: e))
+                          //     .toList();
                           context.read<DynamicFormCubit>().addMenuItems(
                               companyProfile
                                   .where(

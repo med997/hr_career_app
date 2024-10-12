@@ -131,7 +131,8 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ])
     ];
     print('build');
-    return BlocConsumer<ProfileCubit, ProfileState>(listener: (context, state) {
+    return BlocConsumer<ProfileCubit, ProfileState>
+      (listener: (context, state) {
       if (state is ProfileFetchedState) {
         context.read<GeneralCubit>().getGeneral();
       }
@@ -414,14 +415,13 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8)),
                                 onPressed: () async {
-                                  final updateValue = context
+                                  var updateValue = context
                                       .read<DynamicFormCubit>()
                                       .getCurrentValue();
-                                  print(updateValue);
                                   await context
                                       .read<CurdProfileCubit>()
                                       .updateProfile(updateValue);
-                                  print(updateValue);
+                                  print(updateValue.toString());
                                 },
                                 child: Wrap(
                                   spacing: 4,

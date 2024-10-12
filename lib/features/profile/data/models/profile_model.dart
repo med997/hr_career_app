@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
+
+
+List<ProfileModel> profileFromJson(String str) =>
+    List<ProfileModel>.from(json.decode(str).map((x) => ProfileModel.fromJson(x)));
 
 class ProfileModel extends Profile {
   ProfileModel({
@@ -24,7 +30,7 @@ class ProfileModel extends Profile {
       super.gender});
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
-      id: json["id"]??'',
+      id: json["id"]?? '0',
       updatedAt: json["updated_at"]??'',
       username: json["username"]??'',
       fullName: json["full_name"],
@@ -42,7 +48,6 @@ class ProfileModel extends Profile {
       documentsUrl: json["documents_url"]??'',
       major: json["major"]??'',
       skils: List<String>.from(json["skils"]!=null? json["skils"].map((x) => x):[]),
-
       education: List<dynamic>.from(json["education"]!=null? json["education"].map((x) => x):[]),
       experience: List<dynamic>.from(json["experience"]!=null? json["experience"].map((x) => x):[]),
   );

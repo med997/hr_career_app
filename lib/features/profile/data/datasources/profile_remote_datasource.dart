@@ -12,7 +12,7 @@ abstract class ProfileRemoteDatasource {
   Future<ProfileModel> getUser();
   Future<ProfileModel> getUserByUuid(String uuid);
   Future<ProfileModel> updateProfileFcmToken(ProfileModel profileModel);
-  Future<ProfileModel> updateProfile(ProfileModel profileModel);
+  Future<Unit> updateProfile(ProfileModel profileModel);
   Future<List<ProfileModel>> getAppliance(String profileId);
 }
 
@@ -106,14 +106,13 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
   }
 
   @override
-  Future<ProfileModel> updateProfile(ProfileModel profileModel) async{
+  Future<Unit> updateProfile(ProfileModel profileModel) async{
     try {
       final data = await client
           .from('profiles')
           .update(profileModel.toJson())
-          .eq('id', profileModel.id.toString()).select().single();
-      final ProfileModel profileUpdate = ProfileModel.fromJson(data);
-      return profileUpdate;
+          .eq('id', profileModel.id.toString());
+      return Future.value(unit);
     } on PostgrestException catch (error) {
       if (kDebugMode) {
         print(error);

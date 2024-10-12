@@ -28,19 +28,19 @@ class CurdProfileCubit extends Cubit<CurdProfileState> {
     emit(LoadingCurdProfileState());
     Profile profile = Profile(
       id: value['id'],
-      address: value['address'] ?? '',
-      phone: value['phone'] ?? '',
-      currentJob: value['currentJob'] ?? '',
-      fullName: value['fullName'] ?? '',
-      secondaryPhone: value['secondaryPhone'] ?? '',
-      gender: value['gender'] ?? '',
-      fullNameAr: value['fullNameAr'] ?? '',
-      major: value['major'] ?? '',
-      dob: value['dob'] ?? '',
-      email: value['email'] ?? '',
+      address: value['address'] ,
+      phone: value['phone'] ,
+      currentJob: value['currentJob'] ,
+      fullName: value['fullName'] ,
+      secondaryPhone: value['secondaryPhone'] ,
+      gender: value['gender'] ,
+      fullNameAr: value['fullNameAr'] ,
+      major: value['major'] ,
+      dob: value['dob'],
+      email: value['email'],
     );
-    final failureOrSuccess = await updateProfileUseCase.updateProfile(profile);
-    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+    final failureOrSuccess = await updateProfileUseCase.call(profile);
+    emit(_eitherDoneMessageOrErrorState2(failureOrSuccess, 'updateDone'));
   }
 
   Future<void> updateProfileFcm(Profile profile) async {
@@ -61,6 +61,16 @@ class CurdProfileCubit extends Cubit<CurdProfileState> {
         message: _mapFailureToMessage(failure),
       ),
       (profile) => MessageCurdProfileState(message: message, profile: profile),
+    );
+  }
+
+  CurdProfileState _eitherDoneMessageOrErrorState2(
+      Either<Failure, Unit> either, String message) {
+    return either.fold(
+      (failure) => ErrorCurdProfileState(
+        message: _mapFailureToMessage(failure),
+      ),
+      (_) => MessageCurdProfileState(message: message,),
     );
   }
 
