@@ -8,7 +8,9 @@ abstract class ProfileRepository {
   Future<Either<Failure, Profile>> getUserProfile();
   Future<Either<Failure, Profile>>  getUserByUuid(String uuid);
   Future<Either<Failure, Profile>>  updateProfileFcmToken(String uuid ,  List<String>? fcmToken);
-  Future<Either<Failure, Profile>>  updateProfile(Profile profile);
+  Future<Either<Failure, Profile>>  updateProfile(Map<String, dynamic>? value,String id);
+  Future<Either<Failure, Profile>>  updateProfileExp(Map<String, dynamic>? value,String id);
+  Future<Either<Failure, Profile>>  updateProfileEdc(Map<String, dynamic>? value,String id);
   Future<Either<Failure, List<Profile>>> getAppliance(String profileId);
   Future<Either<Failure, Profile>> uploadImageProfile(File file,String id);
 }

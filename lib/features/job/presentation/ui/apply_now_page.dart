@@ -208,7 +208,7 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                       (e) => educationWidget(
                           dateText: '${e['from_date']}-${e['to_date']}',
                           locationText: e['where'].toString(),
-                          infoText: e['title'].toString()),
+                          infoText: e['title'].toString(), qualifications: e['qualifications'].toString()),
                     ), //*
                   ],
                 ),

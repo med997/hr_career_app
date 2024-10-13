@@ -10,8 +10,14 @@ class UpdateProfileUseCase {
 
   UpdateProfileUseCase(this.profileRepository);
 
-  Future<Either<Failure, Unit>> call(Profile profile) async {
-    return await profileRepository.updateProfile(profile);
+  Future<Either<Failure, Profile>> updateProfile(Map<String, dynamic>? value,String id) async {
+    return await profileRepository.updateProfile(value,id);
+  }
+  Future<Either<Failure, Profile>> updateProfileExp(Map<String, dynamic>? value,String id) async {
+    return await profileRepository.updateProfileExp(value,id);
+  }
+  Future<Either<Failure, Profile>> updateProfileEdc(Map<String, dynamic>? value,String id) async {
+    return await profileRepository.updateProfileEdc(value,id);
   }
   Future<Either<Failure, Profile>> uploadImageProfile(File file,String id) async {
     return await profileRepository.uploadImageProfile(file, id);

@@ -6,7 +6,8 @@ import '../../../../core/widgets/text_with_icon.dart';
 Widget educationWidget(
     {required String dateText,
     required String locationText,
-    required String infoText}) {
+    required String infoText,
+      required String qualifications}) {
   return Wrap(
     spacing: 8.0,
     runSpacing: 4.0,
@@ -36,6 +37,14 @@ Widget educationWidget(
             size: 16,
           ),
           text: infoText,
+          textColor: primaryTransparent.withOpacity(0.6)),
+      TextWithIcon(
+          icon: const Icon(
+            Icons.grade,
+            size: 16,
+            color: primaryColor,
+          ),
+          text:qualifications,
           textColor: primaryTransparent.withOpacity(0.6)),
       Divider(
         color: Colors.transparent.withOpacity(0.1),

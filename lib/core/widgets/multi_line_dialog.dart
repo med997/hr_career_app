@@ -15,12 +15,12 @@ Future<dynamic> showMultiLineDialog(
     builder: (BuildContext contextDialog) {
       return AlertDialog(
         contentPadding: EdgeInsets.all(2),
-        title: FleatherToolbar.basic(controller: dynamicModel.controller),
+        title: FleatherToolbar.basic(controller: dynamicModel.controllerFlt!),
         content: SizedBox(
           height: MediaQuery.of(context).size.height * 0.80,
           width: MediaQuery.of(context).size.width,
           child: FleatherEditor(
-            controller: dynamicModel.controller,
+            controller: dynamicModel.controllerFlt!,
             scrollable: true,
             expands: true,
           ),

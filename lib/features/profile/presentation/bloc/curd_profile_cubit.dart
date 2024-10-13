@@ -23,27 +23,23 @@ class CurdProfileCubit extends Cubit<CurdProfileState> {
       {required this.updateProfileFcmToken, required this.updateProfileUseCase})
       : super(CurdProfileInitial());
 
-  Future<void> updateProfile(Map<String, dynamic>? value) async {
-    if (value!['id'] == null) {
-      emit(const ErrorCurdProfileState(message: "ID cannot be null"));
-      return;
-    }
+  Future<void> updateProfile(Map<String, dynamic>? value,String id) async {
+
     emit(LoadingCurdProfileState());
-    Profile profile = Profile(
-      id: value['id'],
-      address: value['address'] ,
-      phone: value['phone'] ,
-      currentJob: value['currentJob'] ,
-      fullName: value['fullName'] ,
-      secondaryPhone: value['secondaryPhone'] ,
-      gender: value['gender'] ,
-      fullNameAr: value['fullNameAr'] ,
-      major: value['major'] ,
-      dob: value['dob'],
-      email: value['email'],
-    );
-    final failureOrSuccess = await updateProfileUseCase.call(profile);
-    emit(_eitherDoneMessageOrErrorState2(failureOrSuccess, 'updateDone'));
+    final failureOrSuccess = await updateProfileUseCase.updateProfile(value,id);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+  }
+  Future<void> updateProfileExp(Map<String, dynamic>? value,String id) async {
+    emit(LoadingCurdProfileState());
+
+    final failureOrSuccess = await updateProfileUseCase.updateProfileExp(value, id);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+  }
+  Future<void> updateProfileEdc(Map<String, dynamic>? value,String id) async {
+    emit(LoadingCurdProfileState());
+
+    final failureOrSuccess = await updateProfileUseCase.updateProfileExp(value, id);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
 
   Future<void> uploadImageProfile(File file,String id) async {
@@ -70,16 +66,6 @@ class CurdProfileCubit extends Cubit<CurdProfileState> {
         message: _mapFailureToMessage(failure),
       ),
       (profile) => MessageCurdProfileState(message: message, profile: profile),
-    );
-  }
-
-  CurdProfileState _eitherDoneMessageOrErrorState2(
-      Either<Failure, Unit> either, String message) {
-    return either.fold(
-      (failure) => ErrorCurdProfileState(
-        message: _mapFailureToMessage(failure),
-      ),
-      (_) => MessageCurdProfileState(message: message,),
     );
   }
 

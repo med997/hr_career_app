@@ -64,6 +64,7 @@ class ProfileModel extends Profile {
       documentsUrl: profile.documentsUrl ?? '',
       major: profile.major ?? '',
       skils: profile.skils ,
+      experience: profile.experience ,
 
       // Provide default empty list
       username: profile.username,

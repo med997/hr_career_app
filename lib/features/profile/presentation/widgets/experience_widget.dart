@@ -33,6 +33,7 @@ import '../../../../core/widgets/text_with_icon.dart';
             ),
             text:infoText,
             textColor: primaryTransparent.withOpacity(0.6)),
+
         Divider(
           color: Colors.transparent.withOpacity(0.1),
           thickness: 0.8,
