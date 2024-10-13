@@ -118,6 +118,16 @@ class LoginPage extends StatelessWidget {
     );
   }
 
+  doLogin(BuildContext context){
+    final value =
+    context.read<DynamicFormCubit>().getCurrentValue();
+    print(value);
+    if (loginFormKey.currentState!.validate()) {
+      context.read<LoginCubit>().loginUser(
+          context.read<ToggleBtnCubit>().state.selectedTab,
+          value);
+    }
+  }
   _loginBtn() {
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
@@ -154,14 +164,7 @@ class LoginPage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () {
-                        final value =
-                            context.read<DynamicFormCubit>().getCurrentValue();
-                        print(value);
-                        if (loginFormKey.currentState!.validate()) {
-                          context.read<LoginCubit>().loginUser(
-                              context.read<ToggleBtnCubit>().state.selectedTab,
-                              value);
-                        }
+                        doLogin(context);
                       },
                       enableFeedback: false,
                       child: Row(
@@ -241,6 +244,10 @@ class LoginPage extends StatelessWidget {
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
+          inputAction: TextInputAction.go,
+          onSubmit: () {
+            doLogin(_);
+          },
           disabled: false, key: 'password'),
     ];
     return Container(

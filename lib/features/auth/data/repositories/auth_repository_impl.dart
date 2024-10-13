@@ -48,10 +48,10 @@ class AuthRepositoryImpl extends AuthRepository {
         final  remote = await deleteOrUpdateOrAddAuth();
        authLocalDataSource.cacheAuths(AuthModel.fromAuth(remote));
         return Right(remote);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(messageServer: e.message ?? ''));
       }on EmptyCacheException {
         return Left(EmptyCacheFailure());
+      } on ServerException catch (e) {
+        return Left(ServerFailure(messageServer: e.message ?? ''));
       }
     } else {
       return Left(OfflineFailure());
@@ -59,7 +59,13 @@ class AuthRepositoryImpl extends AuthRepository {
   }
   @override
   Future<Either<Failure, Auth>> getCurrentUser() async {
-    return await _getMessage(() => authLocalDataSource.getCachedAuths());
+    try {
+      final  remote = await  authLocalDataSource.getCachedAuths();
+      return Right(remote);
+    }on EmptyCacheException {
+      return Left(EmptyCacheFailure());
+    }
+
     /* try {
       final authModel = await authLocalDataSource.getCachedAuths();
       return Right(authModel);

@@ -34,6 +34,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     context.read<LoginCubit>().checkLoginStatus();
+    context.read<LoginCubit>().checkLoginStatus();
   }
 
   Future<String?> getFcmToken() async {
@@ -64,8 +65,7 @@ class _SplashPageState extends State<SplashPage> {
                 (route) => false);
 
           } else if (state.auth.userType == UsrType.company) {
-            /* context.read<CurdCompanyCubit>().updateCompanyFcmToken(
-              state.auth.userAuth!.id, getFcmToken());*/
+
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(

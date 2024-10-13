@@ -59,7 +59,7 @@ void main() async {
         create: (context) => di.sl<RegisterCubit>(),
       ),
       BlocProvider(
-        create: (context) => di.sl<TabNavCubit>(),
+        create: (context) => di.sl<TabNavCubit>()..changeTab(0),
       ),
       BlocProvider(
         create: (context) => di.sl<LoginCubit>(),

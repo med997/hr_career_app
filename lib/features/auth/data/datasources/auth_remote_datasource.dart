@@ -16,6 +16,7 @@ abstract class AuthRemoteDatasource {
   Future<AuthModel> signup(Auth authModel);
 
   Future<AuthModel> login(Auth authModel, String? fcmToken);
+  Future<Unit> signupWithOtp(String token);
 
   Future<Unit> signOut(UsrType usrType, String id, String fcmToken);
 
@@ -43,24 +44,29 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
       UsrType usrType = user!.userMetadata!['userType'] == "user"
           ? UsrType.user
           : UsrType.company;
+
+      Map<String, dynamic> param = {
+        'p_profile_id': user.id,
+        "p_new_token": fcmToken
+      };
       if (usrType == UsrType.company) {
+        final data = await supBase
+            .rpc('update_fcm_token_company', params: param)
+            .select()
+            .single();
         authModelData = AuthModel(
             userType: usrType,
             email: user.email ?? '',
             password: '',
             fcmToken: [fcmToken ?? ''],
             userAuth: user,
-            company: CompanyModel.fromJson(user.userMetadata ?? {}));
+            company: CompanyModel.fromJson(data));
       } else {
-        Map<String, dynamic> param = {
-          'p_profile_id': user.id,
-          "p_new_token": fcmToken
-        };
+
         final data = await supBase
             .rpc('update_fcm_token_profile', params: param)
             .select()
             .single();
-
         authModelData = AuthModel(
             userType: usrType,
             email: user.email ?? '',
@@ -123,6 +129,7 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         authModelData = AuthModel(
             userType: UsrType.company,
             email: user.email ?? '',
+            fcmToken: model.fcmToken,
             password: '',
             userAuth: user,
             company: CompanyModel.fromJson(user.userMetadata ?? {}));
@@ -145,6 +152,26 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
     }
   }
 
+  @override
+  Future<Unit> signupWithOtp(String token) async {
+    try {
+      await supBase.auth.verifyOTP(
+    type: OtpType.signup,
+    token: token
+    );
+    return Future.value(unit);
+    } on AuthException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: error.message);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw const ServerException(message: 'Something Wrong');
+    }
+  }
   @override
   Future<AuthModel> getCurrentUserData() async {
     try {

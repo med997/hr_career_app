@@ -6,6 +6,7 @@ import 'package:hr_career_platform/features/company/data/models/company_model.da
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:path/path.dart' as p;
 import '../../../../core/error/exceptions.dart';
+import '../../../../core/util/file_ext_from_byte_fun.dart';
 
 abstract class CompanyRemoteDatasource {
   Future<CompanyModel> getCompany();
@@ -25,13 +26,26 @@ class CompanyRemoteDatasourceImp extends CompanyRemoteDatasource{
   @override
   Future<CompanyModel> uploadImageCompany(String path,String id) async{
     try {
-      final File file = File(path);
-      final avatarFile =file;
-      final String uploadedFile= await client.storage.from('company_logo').upload(
-        'public/${id}-${DateTime.now().millisecondsSinceEpoch}${p.extension(file.path)}',
-        avatarFile,
-      );
 
+      final avatarFile;
+      final String uploadedFile;
+      if(kIsWeb){
+        List<int> list = path.codeUnits;
+       final  Uint8List avatarFile = Uint8List.fromList(list);
+        String extName = getFileExtension(avatarFile)??'png';
+        uploadedFile = await client.storage.from('company_logo').uploadBinary(
+          'public/$id-${DateTime.now().millisecondsSinceEpoch}.$extName',
+          avatarFile,
+        );
+
+      }else{
+        avatarFile  = File(path);;
+        uploadedFile = await client.storage.from('company_logo').upload(
+          'public/${id}-${DateTime.now().millisecondsSinceEpoch}${p.extension(avatarFile.path)}',
+          avatarFile,
+        );
+
+      }
       final data = await client
           .from('company')
           .update({'company_logo':uploadedFile.isNotEmpty?uploadedFile:''})

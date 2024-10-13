@@ -293,6 +293,7 @@ class RegisterPage extends StatelessWidget {
   final regFormKeyCompany = GlobalKey<FormState>();
 
   _cardRegister(BuildContext _) {
+    List<ItemModel> cityItems=[];
     return Container(
         height: 500,
         width: 400,
@@ -324,7 +325,7 @@ class RegisterPage extends StatelessWidget {
                       return DynamicFormWidget(
                         key: const Key('regFormCompany'),
                         formKey: regFormKeyCompany,
-                        dynamicFormsList: regFormCompany(_, []),
+                        dynamicFormsList: regFormCompany(_, cityItems),
                         submitBtnLabel: 'login',
                         useResponsiveUi: false,
                       );
@@ -335,12 +336,11 @@ class RegisterPage extends StatelessWidget {
               BlocBuilder<GeneralCubit, GeneralState>(
                 builder: (context, gnState) {
                   if (gnState is GeneralFetchedState) {
-                    int tabSelected = (context.read<ToggleBtnCubit>().state as ToggleBtnChangedState).selectedTab;
-                    if(tabSelected ==0){
-                      List<ItemModel> genderList = gnState.generals.gender
+
+                     final List<ItemModel> genderList = gnState.generals.gender
                           .map((e) => ItemModel(key: e, value: e))
                           .toList();
-                      List<ItemModel> natList = gnState.generals.nationality
+                     final  List<ItemModel> natList = gnState.generals.nationality
                           .map((e) => ItemModel(key: e, value: e))
                           .toList();
                       context
@@ -349,15 +349,13 @@ class RegisterPage extends StatelessWidget {
                       context
                           .read<DynamicFormCubit>()
                           .addMenuItems2('gender', genderList, '');
-                    }else if(tabSelected==1){
-                      List<ItemModel> cityItems = gnState.generals.cities
+
+                        cityItems = gnState.generals.cities
                           .map((e) => ItemModel(key: e, value: e))
                           .toList();
-                      context
-                          .read<DynamicFormCubit>()
-                          .addMenuItems2('city', cityItems, '');
 
-                    }
+
+
                     return const SizedBox();
                   }
                   return const SizedBox();

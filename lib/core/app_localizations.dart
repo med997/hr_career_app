@@ -31,9 +31,7 @@ class AppLocalizations {
   Future<bool> load() async {
     String jsonStr =
         await rootBundle.loadString("locale/${locale.languageCode}.json");
-
     Map<String, dynamic> jsonMap = jsonDecode(jsonStr);
-
     _localizedString =
         jsonMap.map((key, value) => MapEntry(key, value.toString()));
 
@@ -44,7 +42,6 @@ class AppLocalizations {
   String translate(String key) {
     return _localizedString![key] ?? key;
   }
-
   String getTranslate(String key) {
     return AppLocalizations.instance!.translate(key).isEmpty
         ? key

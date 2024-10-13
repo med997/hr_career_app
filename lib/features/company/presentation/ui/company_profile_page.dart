@@ -305,14 +305,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 16),
                       children: [
-                        Center(
-                          child: ToggleBtnWidget(
-                            options: [
-                              tr("main_information_msg"),
-                              tr("gallery_msg"),
-                            ],
-                          ),
-                        ),
+
                         CompanyGallery(company),
                       ],
                     );

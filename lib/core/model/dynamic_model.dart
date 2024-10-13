@@ -17,6 +17,7 @@ class DynamicModel {
   bool isRequired;
    Widget? subFormHeader;
    Widget? subFormFooter;
+   Function? onSubmit;
   String? compareText;
   Icon? icons;
   bool disabled;
@@ -24,6 +25,7 @@ class DynamicModel {
   List<List<DynamicModel>>? listSubDynamicModel;
   GlobalKey<FormState>? subFormKey;
   bool?  subIsResponsive;
+  TextInputAction? inputAction;
   String? error;
   dynamic? controller;
   double? width;
@@ -42,9 +44,11 @@ class DynamicModel {
       this.error,
       this.controller,
       this.padding,
+      this.inputAction,
       this.action,
       this.compareText,
       this.subFormKey,
+      this.onSubmit,
       this.subFormHeader,
       this.subFormFooter,
       this.listSubDynamicModel,
