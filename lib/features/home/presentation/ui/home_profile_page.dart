@@ -90,17 +90,22 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                       .generals.nationality
                       .map((e) => ItemModel(key: e, value: e))
                       .toList();
-                  List<ItemModel> qualificationsItems = gnState
+                  final List<ItemModel> qualificationsItems = gnState
                       .generals.qualifications
                       .map((e) => ItemModel(key: e, value: e))
                       .toList();
                   final List<ItemModel> genderItems = gnState.generals.gender
                       .map((e) => ItemModel(key: e, value: e))
                       .toList();
+                  final List<ItemModel> statusItems = gnState.generals.status
+                      .map((e) => ItemModel(key: e, value: e))
+                      .toList();
                   context.read<DynamicFormCubit>().addMenuItems2(
                       'gender', genderItems, state.profile.gender!);
                   context.read<DynamicFormCubit>().addMenuItems2('nationality',
                       nationalityItems, state.profile.nationality!);
+                  context.read<DynamicFormCubit>().addMenuItems2('status',
+                      statusItems, state.profile.status!);
                   context.read<DynamicFormCubit>().addSubFormMenuItems(
                       'education', 'qualifications', qualificationsItems);
                 }
@@ -368,15 +373,17 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                   final updateValue = context
                       .read<DynamicFormCubit>()
                       .getCurrentValue();
-                  final infoValue = Map.from(updateValue.map((key, value) {
-                    return MapEntry(key, value);
-
-                  },));
-                  print(infoValue);
-                  /*
+                  final infoValue = Map<String, dynamic>.from(updateValue)
+                    ..removeWhere((key, value) =>
+                    key == 'experience' || key == 'education' || key == 'pdfName');
+                  // final infoValue = Map.from(updateValue.map((key, value) {
+                  //   return MapEntry(key, value);
+                  //
+                  // },
+                                    print('mainInformation : ${infoValue}');
                   await context
                       .read<CurdProfileCubit>()
-                      .updateProfile(infoValue, profile.id!);*/
+                      .updateProfile(infoValue, profile.id!);
                 },
                 child: BlocBuilder<CurdProfileCubit, CurdProfileState>(
                   builder: (context, state) {
@@ -490,6 +497,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
             ],
           ),
           subFormFooter: MaterialButton(
+              key: Key('btnEdc'),
               color: Colors.yellow.shade700,
               // disabledColor: Colors.grey,
               minWidth: 40,
@@ -499,7 +507,6 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                 final updateValue = context
                     .read<DynamicFormCubit>()
                     .getCurrentValue()['education'];
-
                 final edcValue = {
                   'education': [...profile.education, updateValue]
                 };
