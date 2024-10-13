@@ -62,7 +62,7 @@ class HeaderProfileWidget extends StatelessWidget {
             child: LoadingWidget(width: 2,progressColor: primaryColor,),
           );
         }else if(state is MessageCurdProfileState){
-          String imageUrl =state.profile.avatarUrl!=null? '$BaseStorageUrl${state.profile.avatarUrl}':'';
+          String imageUrl =state.profile!.avatarUrl!=null? '$BaseStorageUrl${state.profile!.avatarUrl}':'';
           return AvatarNetwork(imgUrl:imageUrl, withBorder: false, withEditBtn: true,
           editClicked: ()=> pickImage(context),);
         }
