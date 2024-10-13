@@ -65,7 +65,6 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
       throw ServerException();
     }
   }
-
   @override
   Future<ProfileModel> getUserByUuid(String uuid)async {
 
