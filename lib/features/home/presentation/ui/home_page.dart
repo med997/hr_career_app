@@ -1,25 +1,18 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
-import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
-import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
-import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_job_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/home_profile_page.dart';
 import 'package:hr_career_platform/features/home/presentation/ui/search_page.dart';
-import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 
 import '../../../../core/app_localizations.dart';
 import '../../../../core/util/const_val.dart';
 import '../../../../core/widgets/notification_page.dart';
 import '../../../auth/domain/entities/auth.dart';
-import '../../../company/presentation/ui/company_profile_page.dart';
-import 'company_job_page.dart';
-import 'company_tenders_page.dart';
+
 
 class HomePage extends StatelessWidget {
   final Auth auth;
@@ -113,12 +106,10 @@ class HomePage extends StatelessWidget {
   Widget _navPageBody(int selectedTab,BuildContext context) {
     switch (selectedTab) {
       case 0:
-
         return HomeJobPage();
       case 1:
         return SizedBox();
         case 2:
-
         return const SearchPage();
       case 3:
         return HomeProfilePage(auth: auth,);

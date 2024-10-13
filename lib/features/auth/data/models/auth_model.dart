@@ -8,16 +8,32 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 
 class AuthModel extends Auth{
-  AuthModel({required super.email, required super.userType,
-      required super.password,   super.profile, super.company, super.userAuth});
+  AuthModel({
+    required super.email,
+    required super.userType,
+    required super.password,
+    super.profile,
+    super.fcmToken,
+    super.company,
+    super.userAuth});
 
   factory AuthModel.fromJson(Map<String, dynamic> json) => AuthModel(
     email: json["email"],
     password: json["password"]!=null?json['password']:'',
     userType: json["userType"],
+    fcmToken: json["fcm_token"],
     userAuth: json['user']!=null?  User.fromJson(json['user']):null,
     profile:ProfileModel.fromJson(json["profile"]),
     company:CompanyModel.fromJson(json["company"]),
+  );
+  factory AuthModel.fromAuth(Auth auth) => AuthModel(
+    email: auth.email,
+    password: auth.password ?? '',
+    userType: auth.userType,
+    fcmToken: auth.fcmToken,
+    userAuth: auth.userAuth,
+    profile:auth.profile,
+    company:auth.company,
   );
 
   Map<String, dynamic> toJson() => {

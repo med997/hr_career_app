@@ -21,7 +21,6 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
   }
 
   void addAllFields(List<DynamicModel> dynamicModel) {
-    emit([]);
     final currentFields = dynamicModel;
     emit(currentFields);
   }

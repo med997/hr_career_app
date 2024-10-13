@@ -16,6 +16,7 @@ Future<dynamic> showDatePickerDialog(BuildContext context) {
             height: 300,
             width: 300,
             child: DatePicker(
+              padding:EdgeInsets.all(8) ,
               centerLeadingDate: true,
               onDateSelected: (dateSelected) {
                 Navigator.pop(contextDialog,dateSelected);

@@ -16,9 +16,14 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
           child:  TextFormField(
             key: Key(dynamicModel.controlName),
             enabled: !dynamicModel.disabled,
-
-            style: const TextStyle(fontSize: 14),
+              textInputAction:dynamicModel.inputAction?? TextInputAction.next,
+              style: const TextStyle(fontSize: 14),
             controller: dynamicModel.controller,
+            onSaved: (newValue) {
+              dynamicModel.onSubmit??
+                  dynamicModel.onSubmit!();
+            },
+
 
             obscureText: dynamicModel.formType == FormType.password,
             decoration: InputDecoration(
@@ -83,6 +88,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
               return null;
             },
             onChanged: (value) {
+              // (dynamicModel.controller as TextEditingController).text=value;
                context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
             }),
         ),

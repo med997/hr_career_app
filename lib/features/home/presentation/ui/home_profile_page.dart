@@ -198,9 +198,11 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
       }
     },
         builder: (context, state) {
+
       if (state is ProfileLoading) {
         return LoadingWidget();
       } else if (state is ProfileFetchedState) {
+
         return ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -208,6 +210,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
             HeaderProfileWidget(
               desc: state.profile.currentJob!??'',
               withBox: true,
+              editingAvatar: true,
               uuid: state.profile.id,
               avatar: state.profile.avatarUrl ?? '',
               fullName: state.profile.fullName ?? '',

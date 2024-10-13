@@ -6,12 +6,14 @@ import 'package:hr_career_platform/features/company/data/models/company_model.da
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:path/path.dart' as p;
 import '../../../../core/error/exceptions.dart';
+import '../../../../core/util/file_ext_from_byte_fun.dart';
 
 abstract class CompanyRemoteDatasource {
   Future<CompanyModel> getCompany();
   Future<CompanyModel> getCompanyByUuid(String uuid);
   Future<CompanyModel> uploadImageCompany(String path,String id);
   Future<CompanyModel> updateCompany(CompanyModel companyModel);
+  Future<CompanyModel> updateCompanyFcmToken(String uuid , String fcmToken);
 }
 
 
@@ -24,13 +26,26 @@ class CompanyRemoteDatasourceImp extends CompanyRemoteDatasource{
   @override
   Future<CompanyModel> uploadImageCompany(String path,String id) async{
     try {
-      final File file = File(path);
-      final avatarFile =file;
-      final String uploadedFile= await client.storage.from('company_logo').upload(
-        'public/${id}-${DateTime.now().millisecondsSinceEpoch}${p.extension(file.path)}',
-        avatarFile,
-      );
 
+      final avatarFile;
+      final String uploadedFile;
+      if(kIsWeb){
+        List<int> list = path.codeUnits;
+       final  Uint8List avatarFile = Uint8List.fromList(list);
+        String extName = getFileExtension(avatarFile)??'png';
+        uploadedFile = await client.storage.from('company_logo').uploadBinary(
+          'public/$id-${DateTime.now().millisecondsSinceEpoch}.$extName',
+          avatarFile,
+        );
+
+      }else{
+        avatarFile  = File(path);;
+        uploadedFile = await client.storage.from('company_logo').upload(
+          'public/${id}-${DateTime.now().millisecondsSinceEpoch}${p.extension(avatarFile.path)}',
+          avatarFile,
+        );
+
+      }
       final data = await client
           .from('company')
           .update({'company_logo':uploadedFile.isNotEmpty?uploadedFile:''})
@@ -73,6 +88,30 @@ class CompanyRemoteDatasourceImp extends CompanyRemoteDatasource{
       throw ServerException();
     }
   }
+
+  @override
+  Future<CompanyModel> updateCompanyFcmToken(String uuid , String fcmToken) async {
+    try {
+      final data = await client
+          .from('company')
+          .update({'fcm_token':fcmToken})
+          .eq('id', uuid).select().single();
+      final CompanyModel companyUpdate = CompanyModel.fromJson(data);
+      return companyUpdate;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+
+  }
+
 
   @override
   Future<CompanyModel> getCompanyByUuid(String uuid) async {

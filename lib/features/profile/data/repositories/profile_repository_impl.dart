@@ -10,7 +10,6 @@ import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/network_info.dart';
 import '../models/profile_model.dart';
 typedef DeleteOrUpdateOrAddProfile = Future<Profile> Function();
-typedef DeleteOrUpdateOrAddProfile2 = Future<Unit> Function();
 class ProfileRepositoryImpl extends ProfileRepository {
   final ProfileRemoteDatasource profileRemoteDatasource;
   final NetworkInfo networkInfo;
@@ -47,10 +46,9 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, Profile>> updateProfileFcmToken(Profile profile)async {
+  Future<Either<Failure, Profile>> updateProfileFcmToken(String uuid ,  List<String>? fcmToken)async {
 
-  return await _getMessage(() => profileRemoteDatasource.updateProfileFcmToken(
-      ProfileModel.fromProfile(profile)));
+  return await _getMessage(() => profileRemoteDatasource.updateProfileFcmToken(uuid, fcmToken));
 }
   @override
   Future<Either<Failure, Profile>> uploadImageProfile(File file,String id)async {
@@ -63,20 +61,6 @@ Future<Either<Failure, Profile>> _getMessage(
     try {
       final response =await deleteOrUpdateOrAddProfile();
       return  Right(response);
-    }on ServerException catch (e) {
-      return Left(ServerFailure(messageServer:e.message??''));
-    }
-  } else {
-    return Left(OfflineFailure());
-  }
-}
-
-Future<Either<Failure, Unit>> _getMessage2(
-    DeleteOrUpdateOrAddProfile2 deleteOrUpdateOrAddProfile) async {
-  if (await networkInfo.isConnected) {
-    try {
-      await deleteOrUpdateOrAddProfile();
-      return  Right(unit);
     }on ServerException catch (e) {
       return Left(ServerFailure(messageServer:e.message??''));
     }
@@ -100,8 +84,8 @@ Future<Either<Failure, Unit>> _getMessage2(
   }
 
   @override
-  Future<Either<Failure, Unit>> updateProfile(Profile profile) async {
-    return await _getMessage2(() => profileRemoteDatasource.updateProfile(
+  Future<Either<Failure, Profile>> updateProfile(Profile profile) async {
+    return await _getMessage(() => profileRemoteDatasource.updateProfile(
         ProfileModel.fromProfile(profile)));
   }
 }

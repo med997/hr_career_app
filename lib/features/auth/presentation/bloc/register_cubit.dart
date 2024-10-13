@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/signup_use_case.dart';
@@ -12,6 +14,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
+import '../../../../core/util/const_val.dart';
 
 part 'register_state.dart';
 
@@ -25,19 +28,32 @@ class RegisterCubit extends Cubit<RegisterState> {
 
     UsrType usrType = selectedIndex == 0 ? UsrType.user : UsrType.company;
     Auth auth;
+
+    String fcmToken;
+    if(!kIsWeb){
+      fcmToken = await FirebaseMessaging.instance.getToken()??'';
+    }else{
+      fcmToken = await FirebaseMessaging.instance.getToken(vapidKey:FcmWebKeyPair)??'';
+    }
+      print(fcmToken);
     if (usrType == UsrType.user) {
+      print(usrType);
       auth = Auth(
           userType:UsrType.user ,
           email: value!['email'],
           password: value['password'],
           profile: Profile(
               fullName: value['fullName'],
+              fcmToken: [fcmToken],
               fullNameAr: value['fullNameAr'],
               currentJob: value['currentJob'],
               gender: value['gender'],
               nationality: value['nationality'],
               phone: value['phone'],
-              email: value['email']));
+              email: value['email'])
+
+      );
+      print(auth.profile!.fcmToken);
     } else {
 
        auth = Auth(
@@ -50,7 +66,8 @@ class RegisterCubit extends Cubit<RegisterState> {
                phone: value['phone'],
                email: value['email'],
                city: value['city'],
-             govRegNo: value['govRegNo'],
+             fcmToken: [fcmToken],
+               govRegNo: value['govRegNo'],
                address: value['address'],),);
      }
 

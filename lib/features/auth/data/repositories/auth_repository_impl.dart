@@ -9,6 +9,8 @@ import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
 import 'package:hr_career_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+typedef DeleteOrUpdateOrAddAuth = Future<Auth> Function();
+
 class AuthRepositoryImpl extends AuthRepository {
   final AuthRemoteDatasource authRemoteDatasource;
   final AuthLocalDataSource authLocalDataSource;
@@ -18,45 +20,58 @@ class AuthRepositoryImpl extends AuthRepository {
       {required this.authLocalDataSource, required this.authRemoteDatasource, required this.networkInfo});
 
   @override
-  Future<Either<Failure, Auth>> login(Auth auth) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final response = await authRemoteDatasource.login(auth);
-        authLocalDataSource.cacheAuths(response);
-        return Right(response);
-      } on ServerException catch (err) {
-        return Left(ServerFailure(messageServer: err.message));
-      } catch (e) {
-        return Left(OfflineFailure());
-      }
-    } else {
-      return Left(OfflineFailure());
-    }
+  Future<Either<Failure, Auth>> login(Auth auth,String? fcmToken) async {
+    return await _getMessage(() => authRemoteDatasource.login(auth,fcmToken));
+
   }
 
   @override
   Future<Either<Failure, Auth>> signup(Auth auth) async {
     if (await networkInfo.isConnected) {
       try {
-        final response = await authRemoteDatasource.signup(auth);
-        authLocalDataSource.cacheAuths(response);
-        return Right(response);
-      } on ServerException {
-        return Left(ServerFailure());
+        final  remote = await authRemoteDatasource.signup(auth);
+        //authLocalDataSource.cacheAuths(AuthModel.fromAuth(remote));
+        return Right(remote);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(messageServer: e.message ?? ''));
+      }on EmptyCacheException {
+        return Left(EmptyCacheFailure());
       }
     } else {
       return Left(OfflineFailure());
     }
   }
-
+  Future<Either<Failure, Auth>> _getMessage(
+      DeleteOrUpdateOrAddAuth deleteOrUpdateOrAddAuth) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final  remote = await deleteOrUpdateOrAddAuth();
+       authLocalDataSource.cacheAuths(AuthModel.fromAuth(remote));
+        return Right(remote);
+      }on EmptyCacheException {
+        return Left(EmptyCacheFailure());
+      } on ServerException catch (e) {
+        return Left(ServerFailure(messageServer: e.message ?? ''));
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
   @override
   Future<Either<Failure, Auth>> getCurrentUser() async {
     try {
+      final  remote = await  authLocalDataSource.getCachedAuths();
+      return Right(remote);
+    }on EmptyCacheException {
+      return Left(EmptyCacheFailure());
+    }
+
+    /* try {
       final authModel = await authLocalDataSource.getCachedAuths();
       return Right(authModel);
     } on EmptyCacheException {
       return Left(EmptyCacheFailure());
-      /*if (await networkInfo.isConnected) {
+     if (await networkInfo.isConnected) {
         try {
           final response = await authRemoteDatasource.getCurrentUserData();
           authLocalDataSource.cacheAuths(response);
@@ -71,14 +86,15 @@ class AuthRepositoryImpl extends AuthRepository {
         }
       } else {
         return Left(OfflineFailure());
-      }*/
-    }
+      }
+    }*/
   }
 
   @override
-  Future<Either<Failure, Unit>> signOut() async {
+  Future<Either<Failure, Unit>> signOut(String fcmToken) async {
     try {
-      await authRemoteDatasource.signOut();
+      final accountLoginIn = await authLocalDataSource.getCachedAuths();
+      await authRemoteDatasource.signOut(accountLoginIn.userType,accountLoginIn.userAuth!.id,fcmToken );
       await authLocalDataSource.clearCachedAuths();
       return const Right(unit);
     } catch (e) {

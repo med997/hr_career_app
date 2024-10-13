@@ -1,9 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/error/failures.dart';
 import 'package:hr_career_platform/core/strings/failures.dart';
+import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/delete_auth.dart';
@@ -41,9 +44,14 @@ class LoginCubit extends Cubit<LoginState> {
           email: value!['email'],
           password: value['password']);
     }
+    String? fcmToken;
+    if(!kIsWeb){
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    }else{
+      fcmToken = await FirebaseMessaging.instance.getToken(vapidKey:FcmWebKeyPair);
+    }
 
-    final failureOrSuccess = await loginUseCase.call(auth);
-
+    final failureOrSuccess = await loginUseCase.call(auth,fcmToken);
     emit(_mapFailureOrAuthToState(failureOrSuccess));
   }
 
@@ -58,7 +66,6 @@ class LoginCubit extends Cubit<LoginState> {
           (auth) {
             authenticatedUser = auth;
             return SuccessLoginUser(auth: auth);
-
             } ,
     );
   }
@@ -89,7 +96,13 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> signOut() async {
-    final failureOrAuth = await deleteAuthUseCase.call();
+    String? fcmToken;
+    if(!kIsWeb){
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    }else{
+      fcmToken = await FirebaseMessaging.instance.getToken(vapidKey:FcmWebKeyPair);
+    }
+    final failureOrAuth = await deleteAuthUseCase.call(fcmToken!);
     emit(_signOutCheckState(failureOrAuth));
   }
 

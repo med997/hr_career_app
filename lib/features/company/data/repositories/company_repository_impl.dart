@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:hr_career_platform/core/error/failures.dart';
 import 'package:hr_career_platform/features/company/data/datasources/company_remote_datasource.dart';
@@ -15,12 +14,15 @@ class CompanyRepositoryImpl extends CompanyRepository {
   final CompanyRemoteDatasource companyRemoteDatasource;
   final NetworkInfo networkInfo;
 
-  CompanyRepositoryImpl({required this.networkInfo,required this.companyRemoteDatasource});
+  CompanyRepositoryImpl(
+      {required this.networkInfo, required this.companyRemoteDatasource});
+
   @override
   Future<Either<Failure, Company>> getCompanyByUuid(String uuid) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteCompany = await companyRemoteDatasource.getCompanyByUuid(uuid);
+        final remoteCompany =
+            await companyRemoteDatasource.getCompanyByUuid(uuid);
         return Right(remoteCompany);
       } on ServerException {
         return Left(ServerFailure());
@@ -29,6 +31,7 @@ class CompanyRepositoryImpl extends CompanyRepository {
       return Left(OfflineFailure());
     }
   }
+
   @override
   Future<Either<Failure, Company>> getCompanyProfile() async {
     if (await networkInfo.isConnected) {
@@ -45,7 +48,8 @@ class CompanyRepositoryImpl extends CompanyRepository {
 
   @override
   Future<Either<Failure, Company>> updateCompany(Company company) async {
-    return await _getMessage(() => companyRemoteDatasource.updateCompany(CompanyModel.fromCompany(company)));
+    return await _getMessage(() => companyRemoteDatasource
+        .updateCompany(CompanyModel.fromCompany(company)));
   }
 
   Future<Either<Failure, Company>> _getMessage(
@@ -53,9 +57,9 @@ class CompanyRepositoryImpl extends CompanyRepository {
     if (await networkInfo.isConnected) {
       try {
         final remoteCompanyProfile = await deleteOrUpdateOrAddCompany();
-        return  Right(remoteCompanyProfile);
-      }on ServerException catch (e) {
-        return Left(ServerFailure(messageServer:e.message??''));
+        return Right(remoteCompanyProfile);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(messageServer: e.message ?? ''));
       }
     } else {
       return Left(OfflineFailure());
@@ -63,10 +67,16 @@ class CompanyRepositoryImpl extends CompanyRepository {
   }
 
   @override
-  Future<Either<Failure, Company>> uploadImageCompany(String path, String id)async {
-    // TODO: implement uploadImageCompany
-    return await _getMessage(() => companyRemoteDatasource.uploadImageCompany(
-        path,id));
+  Future<Either<Failure, Company>> uploadImageCompany(
+      String path, String id) async {
+    return await _getMessage(
+        () => companyRemoteDatasource.uploadImageCompany(path, id));
+  }
 
+  @override
+  Future<Either<Failure, Company>> updateCompanyFcmToken(
+      String uuid, String fcmToken) async {
+    return await _getMessage(
+        () => companyRemoteDatasource.updateCompanyFcmToken(uuid, fcmToken));
   }
 }

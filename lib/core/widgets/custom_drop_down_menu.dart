@@ -16,6 +16,7 @@ Widget buildCustomDropDownMenu( BuildContext context,
        // initialSelection: dynModel.value,
       controller: dynModel.controller,
       enabled: !dynModel.disabled,
+
       width: dynModel.width ,
       expandedInsets: EdgeInsets.zero,
       trailingIcon: Transform.translate(
@@ -29,7 +30,7 @@ Widget buildCustomDropDownMenu( BuildContext context,
       ).toList(),
 
       onSelected: (value) {
-       dynModel.controller!.text = value!;
+
         context.read<DynamicFormCubit>().updateFieldValue(dynModel);
       },
     ),

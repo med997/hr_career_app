@@ -9,6 +9,7 @@ import 'package:hr_career_platform/core/widgets/language_button_widget.dart';
 
 import '../../features/auth/presentation/bloc/login_cubit.dart';
 import '../splash_page.dart';
+import '../util/const_val.dart';
 
 AppBar buildAppBar({
   required String userName,
@@ -18,6 +19,9 @@ AppBar buildAppBar({
   required String userOrCompany,
   int? selectedTab,
 }) {
+  String imageUrl = img.isNotEmpty
+      ? '$BaseStorageUrl$img'
+      : '';
   return AppBar(
     iconTheme: IconThemeData(color: primaryColor),
     centerTitle: true,
@@ -76,23 +80,6 @@ AppBar buildAppBar({
                           }
                         },
                         builder: (context, state) {
-                  /*        MaterialButton(
-                              onPressed: () {
-                                context.read<LoginCubit>().signOut();
-                              },
-                              shape: CircleBorder(),
-                              padding: EdgeInsets.all(2),
-                              materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                              clipBehavior: Clip.hardEdge,
-                              color: Colors.red,
-                              minWidth: 16,
-                              child: const Icon(
-                                Icons.power_settings_new_outlined,
-                                color: Colors.white,
-                                size: 18,
-                              )
-                          );*/
                           return MaterialButton(
                               onPressed: () {
                                 context.read<LoginCubit>().signOut();
@@ -122,7 +109,7 @@ AppBar buildAppBar({
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: AvatarNetwork(
-                  imgUrl: '',
+                  imgUrl: imageUrl,
                   withBorder: false,
                 ),
               )

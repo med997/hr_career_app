@@ -94,7 +94,7 @@ Widget verificationCard () {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Text(
-          "Jobizz",
+          "OTP code",
           style: TextStyle(
               fontSize: 24,
               color: primaryColor,
@@ -107,7 +107,7 @@ Widget verificationCard () {
         ),
         const SizedBox(height: 20),
         const Text(
-          "Enter your verification code from your email or phone number that we've sent",
+          "Enter your verification code from your email that we've sent",
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16, color: Colors.grey),
         ),
