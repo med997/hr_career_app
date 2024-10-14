@@ -13,7 +13,9 @@ abstract class ProfileRemoteDatasource {
   Future<ProfileModel> getUser();
   Future<ProfileModel> getUserByUuid(String uuid);
   Future<ProfileModel> updateProfileFcmToken(String uuid ,  List<String>? fcmToken);
-  Future<ProfileModel> updateProfile(ProfileModel profileModel);
+  Future<ProfileModel> updateProfile(Map<String, dynamic>? value,String id);
+  Future<ProfileModel> updateProfileExp(Map<String, dynamic>? value,String id);
+  Future<ProfileModel> updateProfileEdc(Map<String, dynamic>? value,String id);
   Future<List<ProfileModel>> getAppliance(String profileId);
   Future<ProfileModel> uploadImageProfile(File file,String id);
 }
@@ -63,7 +65,6 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
       throw ServerException();
     }
   }
-
   @override
   Future<ProfileModel> getUserByUuid(String uuid)async {
 
@@ -110,12 +111,33 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
   }
 
   @override
-  Future<ProfileModel> updateProfile(ProfileModel profileModel) async{
+  Future<ProfileModel> updateProfile(Map<String, dynamic>? value,String id) async{
     try {
       final data = await client
           .from('profiles')
-          .update(profileModel.toJson())
-          .eq('id', profileModel.id.toString()).select().single();
+          .update(value!)
+          .eq('id', id.toString()).select().single();
+      final ProfileModel profileUpdate = ProfileModel.fromJson(data);
+      return profileUpdate;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+  }
+  @override
+  Future<ProfileModel> updateProfileExp(Map<String, dynamic>? value,String id) async{
+    try {
+      final data = await client
+          .from('profiles')
+          .update(value!)
+          .eq('id',id).select().single();
       final ProfileModel profileUpdate = ProfileModel.fromJson(data);
       return profileUpdate;
     } on PostgrestException catch (error) {
@@ -152,6 +174,28 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
         print(error);
       }
       throw ServerException(message: '${error.message} - ${error.message}');
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<ProfileModel> updateProfileEdc(Map<String, dynamic>? value, String id) async {
+    try {
+      final data = await client
+          .from('profiles')
+          .update(value!)
+          .eq('id',id).select().single();
+      final ProfileModel profileUpdate = ProfileModel.fromJson(data);
+      return profileUpdate;
     } on PostgrestException catch (error) {
       if (kDebugMode) {
         print(error);

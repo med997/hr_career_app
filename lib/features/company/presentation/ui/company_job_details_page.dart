@@ -107,7 +107,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
-          controller: FleatherController(document: documentDesc),
+          controllerFlt: FleatherController(document: documentDesc),
           width: width,
           isRequired: true,
           disabled: isEditing),
@@ -116,7 +116,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
-          controller: FleatherController(document: documentReq),
+          controllerFlt: FleatherController(document: documentReq),
           width: width,
           isRequired: true,
           disabled: isEditing),

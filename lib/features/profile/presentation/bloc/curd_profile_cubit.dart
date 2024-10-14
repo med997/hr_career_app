@@ -23,26 +23,22 @@ class CurdProfileCubit extends Cubit<CurdProfileState> {
       {required this.updateProfileFcmToken, required this.updateProfileUseCase})
       : super(CurdProfileInitial());
 
-  Future<void> updateProfile(Map<String, dynamic>? value) async {
-    if (value!['id'] == null) {
-      emit(const ErrorCurdProfileState(message: "ID cannot be null"));
-      return;
-    }
+  Future<void> updateProfile(Map<String, dynamic>? value,String id) async {
+
     emit(LoadingCurdProfileState());
-    Profile profile = Profile(
-      id: value['id'],
-      address: value['address'] ?? '',
-      phone: value['phone'] ?? '',
-      currentJob: value['currentJob'] ?? '',
-      fullName: value['fullName'] ?? '',
-      secondaryPhone: value['secondaryPhone'] ?? '',
-      gender: value['gender'] ?? '',
-      fullNameAr: value['fullNameAr'] ?? '',
-      major: value['major'] ?? '',
-      dob: value['dob'] ?? '',
-      email: value['email'] ?? '',
-    );
-    final failureOrSuccess = await updateProfileUseCase.updateProfile(profile);
+    final failureOrSuccess = await updateProfileUseCase.updateProfile(value,id);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+  }
+  Future<void> updateProfileExp(Map<String, dynamic>? value,String id) async {
+    emit(LoadingCurdProfileState());
+
+    final failureOrSuccess = await updateProfileUseCase.updateProfileExp(value, id);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+  }
+  Future<void> updateProfileEdc(Map<String, dynamic>? value,String id) async {
+    emit(LoadingCurdProfileState());
+
+    final failureOrSuccess = await updateProfileUseCase.updateProfileExp(value, id);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
 

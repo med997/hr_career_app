@@ -22,6 +22,7 @@ class Profile extends Equatable {
   final List<String>? skils;
   final List<dynamic> experience;
   final List<dynamic> education;
+  final String? status;
 
   const Profile({
     this.id,
@@ -37,7 +38,7 @@ class Profile extends Equatable {
     this.secondaryPhone,
     this.education= const[],
     this.experience= const[],
-     this.currentJob,
+    this.currentJob,
     required this.phone,
     required this.email,
     this.gender,
@@ -45,6 +46,7 @@ class Profile extends Equatable {
     this.documentsUrl,
     this.major,
     this.skils,
+    this.status
   });
 
   @override

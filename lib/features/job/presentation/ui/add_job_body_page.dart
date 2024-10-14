@@ -110,7 +110,7 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                   validators: [
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
-                  controller: FleatherController(),
+                  controllerFlt: FleatherController(),
                   width: width,
                   isRequired: true,
                 ),
@@ -121,7 +121,7 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                   validators: [
                     DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
                   ],
-                  controller: FleatherController(),
+                  controllerFlt: FleatherController(),
                   width: width,
                   isRequired: true,
                 ),

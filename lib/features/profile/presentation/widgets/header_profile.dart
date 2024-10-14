@@ -62,7 +62,7 @@ class HeaderProfileWidget extends StatelessWidget {
             child: LoadingWidget(width: 2,progressColor: primaryColor,),
           );
         }else if(state is MessageCurdProfileState){
-          String imageUrl =state.profile.avatarUrl!=null? '$BaseStorageUrl${state.profile.avatarUrl}':'';
+          String imageUrl =state.profile!.avatarUrl!=null? '$BaseStorageUrl${state.profile!.avatarUrl}':'';
           return AvatarNetwork(imgUrl:imageUrl, withBorder: false, withEditBtn:editingAvatar ,
           editClicked: ()=> pickImage(context),);
         }
@@ -85,72 +85,72 @@ class HeaderProfileWidget extends StatelessWidget {
           desc,
           style: const TextStyle(color: Colors.grey),
         ),
-        if (withBox == true)
-          Container(
-            height: 60,
-            margin: EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: Responsive.isMobile(context) ? 32 : 65),
-            decoration: BoxDecoration(
-                border: Border.all(
-                    color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.white),
-            child: const Flex(
-              direction: Axis.horizontal,
-              children: [
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.tight,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '27',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text('applied')
-                    ],
-                  ),
-                ),
-                VerticalDivider(),
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.tight,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '19',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text('viewed')
-                    ],
-                  ),
-                ),
-                VerticalDivider(),
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.tight,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '14',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text('interview')
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
-        else
-          const SizedBox(),
+        // if (withBox == true)
+          // Container(
+          //   height: 60,
+          //   margin: EdgeInsets.symmetric(
+          //       vertical: 12,
+          //       horizontal: Responsive.isMobile(context) ? 32 : 65),
+          //   decoration: BoxDecoration(
+          //       border: Border.all(
+          //           color: Colors.blueGrey.withOpacity(0.5), width: 0.5),
+          //       borderRadius: BorderRadius.circular(12),
+          //       color: Colors.white),
+          //   child: const Flex(
+          //     direction: Axis.horizontal,
+          //     children: [
+          //       Flexible(
+          //         flex: 1,
+          //         fit: FlexFit.tight,
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Text(
+          //               '27',
+          //               style: TextStyle(fontWeight: FontWeight.bold),
+          //             ),
+          //             Text('applied')
+          //           ],
+          //         ),
+          //       ),
+          //       VerticalDivider(),
+          //       Flexible(
+          //         flex: 1,
+          //         fit: FlexFit.tight,
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Text(
+          //               '19',
+          //               style: TextStyle(fontWeight: FontWeight.bold),
+          //             ),
+          //             Text('viewed')
+          //           ],
+          //         ),
+          //       ),
+          //       VerticalDivider(),
+          //       Flexible(
+          //         flex: 1,
+          //         fit: FlexFit.tight,
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Text(
+          //               '14',
+          //               style: TextStyle(fontWeight: FontWeight.bold),
+          //             ),
+          //             Text('interview')
+          //           ],
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // )
+        // else
+        //   const SizedBox(),
       ],
     );
   }

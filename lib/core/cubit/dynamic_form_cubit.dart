@@ -24,8 +24,7 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     final currentFields = dynamicModel;
     emit(currentFields);
   }
-  void setDisableFiled(bool disabled,  BuildContext?  context
-      ) {
+  void setDisableFiled(bool disabled,  BuildContext?  context) {
     final currentFields = state.map((field) {
       field.disabled = disabled;
       if (field.controlName =='address'){
@@ -69,6 +68,9 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
         if(field.key =='confirmPassword') {
           dynamicModel.compareText=getCurrentValue()['password'];
         }
+        if(dynamicModel.formType ==FormType.subDynForm){
+          print('${dynamicModel.key} value: ${dynamicModel.controller!.value.text}');
+        }
         print('${dynamicModel.key} value: ${(dynamicModel.controller as TextEditingController).value.text}');
         return dynamicModel;
       }
@@ -97,8 +99,10 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
       if (field.key ==  key) {
         final dynamicModel = field;
         dynamicModel.items= itemModels;
+        if(selectedItem.isNotEmpty){
+          dynamicModel.controller!.text=selectedItem;
+        }
 
-        dynamicModel.controller!.text= selectedItem;
         print('${field.key} ${selectedItem}');
         return dynamicModel;
       }
@@ -147,13 +151,16 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
       }else if (field.formType== FormType.color){
         formData[field.controlName]= field.controller!.value.text;
       }else if (field.formType== FormType.multiline){
-        formData[field.controlName]= field.controller.document;
+        formData[field.controlName]= field.controllerFlt!.document;
       }else if(field.formType==FormType.subDynForm){
         final Map<String,dynamic> data ={} ;
         for (var e in field.subDynamicModel!) {
+
           data[e.controlName]=e.controller!.value.text;
+          print(data);
         }
         formData[field.controlName]= data;
+        print(formData);
       }else if(field.formType==FormType.listSubDynForm){
 
         final List<Map<String,dynamic>> dataList =[] ;

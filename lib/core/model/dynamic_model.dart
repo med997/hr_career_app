@@ -1,5 +1,7 @@
+import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../util/enums.dart';
 import '../util/validator.dart';
@@ -27,7 +29,8 @@ class DynamicModel {
   bool?  subIsResponsive;
   TextInputAction? inputAction;
   String? error;
-  dynamic? controller;
+  TextEditingController? controller;
+  FleatherController? controllerFlt;
   double? width;
   double? padding;
   double? hight;
@@ -43,6 +46,7 @@ class DynamicModel {
       this.icons,
       this.error,
       this.controller,
+      this.controllerFlt,
       this.padding,
       this.inputAction,
       this.action,

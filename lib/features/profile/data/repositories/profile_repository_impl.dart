@@ -32,7 +32,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, Profile>> getUserByUuid(String uuid)  async {
+  Future<Either<Failure, Profile>> getUserByUuid(String uuid) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteProfile = await profileRemoteDatasource.getUserByUuid(uuid);
@@ -46,46 +46,67 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, Profile>> updateProfileFcmToken(String uuid ,  List<String>? fcmToken)async {
-
-  return await _getMessage(() => profileRemoteDatasource.updateProfileFcmToken(uuid, fcmToken));
-}
-  @override
-  Future<Either<Failure, Profile>> uploadImageProfile(File file,String id)async {
-  return await _getMessage(() => profileRemoteDatasource.uploadImageProfile(file,id));
-}
-
-Future<Either<Failure, Profile>> _getMessage(
-    DeleteOrUpdateOrAddProfile deleteOrUpdateOrAddProfile) async {
-  if (await networkInfo.isConnected) {
-    try {
-      final response =await deleteOrUpdateOrAddProfile();
-      return  Right(response);
-    }on ServerException catch (e) {
-      return Left(ServerFailure(messageServer:e.message??''));
-    }
-  } else {
-    return Left(OfflineFailure());
+  Future<Either<Failure, Profile>> updateProfileFcmToken(String uuid,
+      List<String>? fcmToken) async {
+    return await _getMessage(() =>
+        profileRemoteDatasource.updateProfileFcmToken(uuid, fcmToken));
   }
-}
 
   @override
-  Future<Either<Failure, List<Profile>>> getAppliance(String profileId) async{
+  Future<Either<Failure, Profile>> uploadImageProfile(File file,
+      String id) async {
+    return await _getMessage(() =>
+        profileRemoteDatasource.uploadImageProfile(file, id));
+  }
+
+  Future<Either<Failure, Profile>> _getMessage(
+      DeleteOrUpdateOrAddProfile deleteOrUpdateOrAddProfile) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteAppliance = await profileRemoteDatasource.getAppliance(profileId);
-        return Right(remoteAppliance);
-      } on ServerException {
-        return Left(ServerFailure());
+        final response = await deleteOrUpdateOrAddProfile();
+        return Right(response);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(messageServer: e.message ?? ''));
       }
-    }else{
+    } else {
       return Left(OfflineFailure());
     }
   }
 
   @override
-  Future<Either<Failure, Profile>> updateProfile(Profile profile) async {
-    return await _getMessage(() => profileRemoteDatasource.updateProfile(
-        ProfileModel.fromProfile(profile)));
+  Future<Either<Failure, List<Profile>>> getAppliance(String profileId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteAppliance = await profileRemoteDatasource.getAppliance(
+            profileId);
+        return Right(remoteAppliance);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Profile>> updateProfile(Map<String, dynamic>? value,String id) async {
+    return await _getMessage(() =>
+        profileRemoteDatasource.updateProfile(
+            value,id));
+  }
+
+  @override
+  Future<Either<Failure, Profile>> updateProfileExp(Map<String, dynamic>? value,
+      String id) async {
+    return await _getMessage(() =>
+        profileRemoteDatasource.updateProfileExp(
+            value, id));
+  }
+
+  @override
+  Future<Either<Failure, Profile>> updateProfileEdc(Map<String, dynamic>? value, String id) async{
+    return await _getMessage(() =>
+        profileRemoteDatasource.updateProfileEdc(
+            value, id));
   }
 }

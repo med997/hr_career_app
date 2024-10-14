@@ -8,13 +8,13 @@ import '../cubit/dynamic_form_cubit.dart';
 Widget buildCustomDropDownMenu( BuildContext context,
   DynamicModel dynModel,
 ) {
-  print('buildCustomDropDownMenu');
+
   return Padding(
     padding:  EdgeInsets.only(bottom: dynModel.padding??28.0),
     child: DropdownMenu(
       key: Key(dynModel.key),
        // initialSelection: dynModel.value,
-      controller: dynModel.controller,
+      controller: dynModel.controller!,
       enabled: !dynModel.disabled,
 
       width: dynModel.width ,

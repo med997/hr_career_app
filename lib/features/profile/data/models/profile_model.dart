@@ -21,7 +21,9 @@ class ProfileModel extends Profile {
       super.education,
       super.experience,
       required super.email,
-      super.gender});
+      super.gender,
+      super.status,
+      super.address});
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
         id: json["id"] ?? '',
@@ -43,11 +45,12 @@ class ProfileModel extends Profile {
         skils: List<String>.from(
             json["skils"] != null ? json["skils"].map((x) => x) : []),
         fcmToken:    json["fcm_token"]!=null?  List<String>.from(json["fcm_token"].map((x) => x)):[],
-
         education: List<dynamic>.from(
             json["education"] != null ? json["education"].map((x) => x) : []),
         experience: List<dynamic>.from(
             json["experience"] != null ? json["experience"].map((x) => x) : []),
+        status: json["status"] ?? '',
+        address: json["address"] ?? '',
       );
 
   factory ProfileModel.fromProfile(Profile? profile) {
@@ -64,6 +67,7 @@ class ProfileModel extends Profile {
       documentsUrl: profile.documentsUrl ?? '',
       major: profile.major ?? '',
       skils: profile.skils ,
+      experience: profile.experience ,
 
       // Provide default empty list
       username: profile.username,
@@ -73,6 +77,8 @@ class ProfileModel extends Profile {
       dob: profile.dob,
       email: profile.email,
       gender: profile.gender ?? '',
+      address: profile.address ?? '',
+      status: profile.status ??''
     );
   }
 
@@ -94,6 +100,8 @@ class ProfileModel extends Profile {
         "resume_url": resumeUrl,
         "documents_url": documentsUrl,
         "major": major,
-        //"skils": List<dynamic>.from(skils!.map((x) => x)),
+        "status": status,
+        "address":address
+          //"skils": List<dynamic>.from(skils!.map((x) => x)),
       };
 }

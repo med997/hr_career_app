@@ -16,10 +16,13 @@ Widget getDatePickerWidget(DynamicModel dynamicModel, BuildContext context) {
         onTap: () async{
           DateTime dateTime= await showDatePickerDialog(context);
           dynamicModel.controller!.text = dateTime.toString();
+          context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
         } ,
+
+        key: Key(dynamicModel.key),
         readOnly: true,
         enabled: !dynamicModel.disabled,
-        controller: dynamicModel.controller,
+        controller:dynamicModel.controller,
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(
           helperText: dynamicModel.helperText ?? '',
@@ -45,7 +48,7 @@ Widget getDatePickerWidget(DynamicModel dynamicModel, BuildContext context) {
         },
 
         onChanged: (value) {
-          print(value);
+
           context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
 
         }),
