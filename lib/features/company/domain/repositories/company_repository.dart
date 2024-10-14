@@ -9,5 +9,5 @@ abstract class CompanyRepository {
   Future<Either<Failure, Company>> getCompanyByUuid(String uuid);
   Future<Either<Failure, Company>> updateCompany(Company company);
   Future<Either<Failure, Company>> updateCompanyFcmToken(String uuid , String fcmToken);
-  Future<Either<Failure, Company>> uploadImageCompany(String path,String id);
+  Future<Either<Failure, Company>> uploadImageCompany(dynamic path,String id);
 }
