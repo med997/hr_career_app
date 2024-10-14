@@ -1,15 +1,10 @@
 import 'dart:io';
-import 'dart:js_interop';
-import 'dart:typed_data';
-
-import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hr_career_platform/features/company/data/models/company_model.dart';
-import 'package:mime/mime.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:path/path.dart' as p;
 import '../../../../core/error/exceptions.dart';
-import '../../../../core/util/file_ext_from_byte_fun.dart';
 
 abstract class CompanyRemoteDatasource {
   Future<CompanyModel> getCompany();
@@ -114,7 +109,6 @@ class CompanyRemoteDatasourceImp extends CompanyRemoteDatasource{
 
   }
 
-
   @override
   Future<CompanyModel> getCompanyByUuid(String uuid) async {
     try {
@@ -155,4 +149,5 @@ class CompanyRemoteDatasourceImp extends CompanyRemoteDatasource{
     }
 
   }
+
 }

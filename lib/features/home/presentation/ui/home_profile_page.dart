@@ -18,6 +18,7 @@ import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profi
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 
 import '../../../../core/util/responsive.dart';
+import '../../../general/domain/entities/general.dart';
 import '../../../profile/presentation/widgets/education_widget.dart';
 import '../../../profile/presentation/widgets/experience_widget.dart';
 import '../../../profile/presentation/widgets/header_profile.dart';
@@ -47,11 +48,8 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
   Widget build(BuildContext context) {
     var isEditing = false;
     double width = MediaQuery.of(context).size.width;
-    return BlocConsumer<ProfileCubit, ProfileState>(listener: (context, state) {
-      if (state is ProfileFetchedState) {
-        context.read<GeneralCubit>().getGeneral();
-      }
-    }, builder: (context, state) {
+    return BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
       if (state is ProfileLoading) {
         return LoadingWidget();
       } else if (state is ProfileFetchedState) {
@@ -83,35 +81,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                   )),
             ),
             _getMainInfProfileForm(state.profile, width, context),
-            BlocBuilder<GeneralCubit, GeneralState>(
-              builder: (context, gnState) {
-                if (gnState is GeneralFetchedState) {
-                  final List<ItemModel> nationalityItems = gnState
-                      .generals.nationality
-                      .map((e) => ItemModel(key: e, value: e))
-                      .toList();
-                  final List<ItemModel> qualificationsItems = gnState
-                      .generals.qualifications
-                      .map((e) => ItemModel(key: e, value: e))
-                      .toList();
-                  final List<ItemModel> genderItems = gnState.generals.gender
-                      .map((e) => ItemModel(key: e, value: e))
-                      .toList();
-                  final List<ItemModel> statusItems = gnState.generals.status
-                      .map((e) => ItemModel(key: e, value: e))
-                      .toList();
-                  context.read<DynamicFormCubit>().addMenuItems2(
-                      'gender', genderItems, state.profile.gender!);
-                  context.read<DynamicFormCubit>().addMenuItems2('nationality',
-                      nationalityItems, state.profile.nationality!);
-                  context.read<DynamicFormCubit>().addMenuItems2('status',
-                      statusItems, state.profile.status!);
-                  context.read<DynamicFormCubit>().addSubFormMenuItems(
-                      'education', 'qualifications', qualificationsItems);
-                }
-                return const SizedBox();
-              },
-            ),
+
           ],
         );
       } else {
@@ -122,6 +92,22 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
 
   Widget _getMainInfProfileForm(
       Profile profile, double width, BuildContext context) {
+    General? generals= context.read<GeneralCubit>().general;
+     List<ItemModel> nationalityItems=[];
+     List<ItemModel> qualificationsItems=[];
+     List<ItemModel> genderItems=[];
+    if(generals!=null){
+      nationalityItems = generals.nationality
+          .map((e) => ItemModel(key: e, value: e))
+          .toList();
+     qualificationsItems = generals.qualifications
+          .map((e) => ItemModel(key: e, value: e))
+          .toList();
+    genderItems = generals.gender
+          .map((e) => ItemModel(key: e, value: e))
+          .toList();
+
+    }
     final List<DynamicModel> profileExp = [
       DynamicModel('from_date', FormType.date,
           icons: Icon(
@@ -224,7 +210,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           key: 'studyGrade'),
       DynamicModel('qualifications', FormType.dropdown,
           controller: TextEditingController(),
-          items: [],
+          items: qualificationsItems,
           // disabled: !state.isDisabled,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -300,22 +286,22 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ]),
       DynamicModel('nationality', FormType.dropdown,
-          items: [],
+          items: nationalityItems,
           disabled: true,
           key: 'nationality',
-          controller: TextEditingController(),
+          controller: TextEditingController(text: profile.nationality??''),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ]),
-      DynamicModel('status', FormType.dropdown,
+    /*  DynamicModel('status', FormType.dropdown,
           key: 'status',
           disabled: true,
           controller: TextEditingController(),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ]),
+          ]),*/
       DynamicModel('phone', FormType.phone,
           key: 'phone',
           disabled: true,
@@ -350,9 +336,9 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ]),
       DynamicModel('gender', FormType.dropdown,
           key: 'gender',
-          items: [],
+          items: genderItems,
           disabled: true,
-          controller: TextEditingController(),
+          controller: TextEditingController(text: profile.gender??''),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -376,10 +362,6 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                   final infoValue = Map<String, dynamic>.from(updateValue)
                     ..removeWhere((key, value) =>
                     key == 'experience' || key == 'education' || key == 'pdfName');
-                  // final infoValue = Map.from(updateValue.map((key, value) {
-                  //   return MapEntry(key, value);
-                  //
-                  // },
                                     print('mainInformation : ${infoValue}');
                   await context
                       .read<CurdProfileCubit>()

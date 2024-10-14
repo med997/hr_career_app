@@ -7,11 +7,8 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profile_cubit.dart';
-
-import '../../../../core/app_localizations.dart';
-import '../../../../core/util/responsive.dart';
 import '../../../../core/widgets/avatar_network.dart';
-import '../bloc/profile_cubit.dart';
+
 
 class HeaderProfileWidget extends StatelessWidget {
   const HeaderProfileWidget({

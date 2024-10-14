@@ -5,4 +5,5 @@ import '../../../../core/error/failures.dart';
 
 abstract class GeneralRepository {
   Future<Either<Failure, General>> getGeneral();
+  Future<Either<Failure, General>> getGeneralLocal();
 }

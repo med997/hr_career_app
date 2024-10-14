@@ -14,12 +14,14 @@ class GeneralModel extends General {
       required super.companyMajor,
       required super.qualifications,
       required super.jobClassification,
-      required super.status});
+      // required super.status
+
+      });
 
   factory GeneralModel.fromJson(Map<String, dynamic> json) => GeneralModel(
       cities: List<String>.from(json["cities"].map((x) => x)),
       gender: List<String>.from(json["gender"].map((x) => x)),
-      status: List<String>.from(json["status"].map((x) => x)),
+      // status: List<String>.from(json["status"].map((x) => x)),
       pkgType: List<String>.from(json["pkg_type"].map((x) => x)),
       continents: List<String>.from(json["continents"].map((x) => x)),
       jobStatus: List<String>.from(json["job_status"].map((x) => x)),
@@ -34,7 +36,7 @@ class GeneralModel extends General {
   Map<String, dynamic> toJson() => {
       "cities": List<dynamic>.from(cities.map((x) => x)),
       "gender": List<dynamic>.from(gender.map((x) => x)),
-      "status": List<dynamic>.from(status.map((x) => x)),
+      // "status": List<dynamic>.from(status.map((x) => x)),
       "pkg_type": List<dynamic>.from(pkgType.map((x) => x)),
       "continents": List<dynamic>.from(continents.map((x) => x)),
       "job_status": List<dynamic>.from(jobStatus.map((x) => x)),
