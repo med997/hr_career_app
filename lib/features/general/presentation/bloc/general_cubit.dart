@@ -10,6 +10,7 @@ part 'general_state.dart';
 
 class GeneralCubit extends Cubit<GeneralState> {
   final GetGeneralUseCase getGeneralUseCase;
+  General? general;
 
   GeneralCubit({required this.getGeneralUseCase}) : super(GeneralInitial());
 
@@ -19,12 +20,12 @@ class GeneralCubit extends Cubit<GeneralState> {
     emit(_mapFailureOrGeneralToState(failureOrSuccess));
   }
 
+
   GeneralState _mapFailureOrGeneralToState(Either<Failure, General> either) {
     return either.fold(
       (failure) => GeneralErrorState(msg: _mapFailureToMessage(failure)),
       (generals) {
-        print(generals.companyMajor.toString());
-        print(generals.cities.toString());
+        general = generals;
         return GeneralFetchedState(generals: generals);},
     );
   }

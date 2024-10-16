@@ -11,4 +11,7 @@ class GetGeneralUseCase {
   Future<Either<Failure, General>> call() async {
     return await repository.getGeneral();
   }
+  Future<Either<Failure, General>> callLocal() async {
+    return await repository.getGeneralLocal();
+  }
 }

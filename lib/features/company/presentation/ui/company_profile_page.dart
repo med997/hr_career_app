@@ -208,6 +208,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
         children: [
           CompanyAppBarWidget(
                 company: company,
+                appbarCompanyDetail: true,
                 withEditing: true,
               ),
           Center(
@@ -238,7 +239,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                                 isEditing = !isEditing;
                                 context
                                     .read<DynamicFormCubit>()
-                                    .setDisableFiled(isEditing, context);
+                                    .setDisableFiled(isEditing);
                               },
                               icon: const Icon(
                                 Icons.edit_road,
@@ -336,9 +337,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
               iconButton: IconButton(
                 onPressed: () {
                   isEditing = !isEditing;
-                  context
-                      .read<DynamicFormCubit>()
-                      .setDisableFiled(isEditing, context);
+                  context.read<DynamicFormCubit>().setDisableFiled(isEditing);
                 },
                 icon: const Icon(
                   Icons.edit_road,
@@ -350,7 +349,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
               padding: const EdgeInsets.only(bottom: 16.0),
               child: BlocBuilder<CurdCompanyCubit, CurdCompanyState>(
                 builder: (context, state) {
-                  if (state is LoadingCurdProfileState) {
+                  if (state is LoadingCurdCompanyState) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: LoadingWidget(
@@ -369,7 +368,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                       bgColor: Colors.white,
                       size: 56,
                       editClicked: () async {
-                        String? path = await pickImage(context);
+                        dynamic path = await pickImage(context);
                         if (path != null) {
                           context.read<CurdCompanyCubit>()
                               .uploadImageCompany(path, company.id!);
@@ -387,7 +386,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                     bgColor: Colors.white,
                     size: 56,
                     editClicked: () async {
-                      String? path = await pickImage(context);
+                      dynamic path = await pickImage(context);
                       if (path != null) {
                         context.read<CurdCompanyCubit>()
                             .uploadImageCompany(path, company.id!);

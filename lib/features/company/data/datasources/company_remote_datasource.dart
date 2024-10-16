@@ -1,17 +1,15 @@
 import 'dart:io';
-
-import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hr_career_platform/features/company/data/models/company_model.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:path/path.dart' as p;
 import '../../../../core/error/exceptions.dart';
-import '../../../../core/util/file_ext_from_byte_fun.dart';
 
 abstract class CompanyRemoteDatasource {
   Future<CompanyModel> getCompany();
   Future<CompanyModel> getCompanyByUuid(String uuid);
-  Future<CompanyModel> uploadImageCompany(String path,String id);
+  Future<CompanyModel> uploadImageCompany(dynamic path,String id);
   Future<CompanyModel> updateCompany(CompanyModel companyModel);
   Future<CompanyModel> updateCompanyFcmToken(String uuid , String fcmToken);
 }
@@ -24,17 +22,16 @@ class CompanyRemoteDatasourceImp extends CompanyRemoteDatasource{
 
   CompanyRemoteDatasourceImp({required this.client});
   @override
-  Future<CompanyModel> uploadImageCompany(String path,String id) async{
+  Future<CompanyModel> uploadImageCompany(dynamic path,String id) async{
     try {
 
       final avatarFile;
       final String uploadedFile;
       if(kIsWeb){
-        List<int> list = path.codeUnits;
-       final  Uint8List avatarFile = Uint8List.fromList(list);
-        String extName = getFileExtension(avatarFile)??'png';
+
+      avatarFile= path;
         uploadedFile = await client.storage.from('company_logo').uploadBinary(
-          'public/$id-${DateTime.now().millisecondsSinceEpoch}.$extName',
+          'public/$id-${DateTime.now().millisecondsSinceEpoch}.png',
           avatarFile,
         );
 
@@ -112,7 +109,6 @@ class CompanyRemoteDatasourceImp extends CompanyRemoteDatasource{
 
   }
 
-
   @override
   Future<CompanyModel> getCompanyByUuid(String uuid) async {
     try {
@@ -153,4 +149,5 @@ class CompanyRemoteDatasourceImp extends CompanyRemoteDatasource{
     }
 
   }
+
 }

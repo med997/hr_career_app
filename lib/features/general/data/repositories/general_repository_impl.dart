@@ -12,7 +12,9 @@ class GeneralRepositoryImpl extends GeneralRepository{
   final GeneralLocalDataSource generalLocaleDataSource;
   final NetworkInfo networkInfo;
 
-  GeneralRepositoryImpl({required this.generalLocaleDataSource, required this.generalRemoteDataSource, required this.networkInfo});
+  GeneralRepositoryImpl({required this.generalLocaleDataSource,
+    required this.generalRemoteDataSource,
+    required this.networkInfo});
   @override
   Future<Either<Failure, General>> getGeneral() async {
     try{
@@ -33,6 +35,12 @@ class GeneralRepositoryImpl extends GeneralRepository{
       }
     }
 
+  }
+
+  @override
+  Future<Either<Failure, General>> getGeneralLocal() async {
+    final localeGeneral = await generalLocaleDataSource.getCachedGenerals();
+    return Right(localeGeneral);
   }
 
 }

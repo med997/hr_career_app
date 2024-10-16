@@ -68,7 +68,7 @@ class CompanyRepositoryImpl extends CompanyRepository {
 
   @override
   Future<Either<Failure, Company>> uploadImageCompany(
-      String path, String id) async {
+      dynamic path, String id) async {
     return await _getMessage(
         () => companyRemoteDatasource.uploadImageCompany(path, id));
   }

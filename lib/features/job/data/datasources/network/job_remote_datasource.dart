@@ -11,6 +11,7 @@ abstract class JobRemoteDataSource {
   Future<List<JobModel>> getLastJobs();
 
   Future<JobModel> updateJob(JobModel jobModel);
+  Future<int> updateApplyJobState(int applianceId,String applyState);
 
   Future<JobModel> addJob(JobModel jobModel);
   Future<int> addApplianceJob(int jobId, String profileId);
@@ -122,7 +123,29 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
       if (kDebugMode) {
         print(error);
       }
-      throw ServerException(message: '${error.message} - ${error.code}');
+      throw ServerException(message: '${error.details} - ${error.code} -');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+
+  }
+  @override
+  Future<int> updateApplyJobState(int id,String applyState) async {
+    try {
+      Map<String,dynamic> param={'apply_state':applyState};
+      final data = await supBase
+          .from('appliance_jobs').update(param).eq('id', id).select().single();
+      print(data);
+      final int applianceId =data['id'];
+      return applianceId;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.details} - ${error.code} -');
     }  catch (e) {
       if (kDebugMode) {
         print(e);

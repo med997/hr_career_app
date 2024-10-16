@@ -19,6 +19,10 @@ class LocationWidget extends StatelessWidget {
           apiKey: "AIzaSyB3WewDbc4RDT5KQDeZQ1wRncc9Xp0IPAI",
           hasLocationPermission: true,
           popOnNextButtonTaped: false,
+          backButton: BackButton(onPressed: () {
+            Navigator.pop(context);
+          },),
+
           hideMapTypeButton: true,
 
           currentLatLng: const LatLng(15.3318817, 43.0049128),

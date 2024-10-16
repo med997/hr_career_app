@@ -98,6 +98,11 @@ class _DynamicFormWidgetState extends State<DynamicFormWidget> {
 
       case FormType.autoComplete:
         return SizedBox();
+      case FormType.txtWithWidget:
+        return Column(children: [
+        SizedBox(width: dynModel.width, child: getTextWidget(dynModel, context)),
+         if(!dynModel.disabled) dynModel.subFormFooter!
+        ],);
       case FormType.rTE:
         return SizedBox();
       case FormType.subDynForm:
@@ -116,8 +121,8 @@ class _DynamicFormWidgetState extends State<DynamicFormWidget> {
       key: widget.formKey,
       child: BlocBuilder<DynamicFormCubit, List<DynamicModel>>(
         builder: (context, state) {
-          return Column(
-
+          return Flex(
+            direction: Axis.vertical,
             children: [
               ...state.map(
                 (e) {

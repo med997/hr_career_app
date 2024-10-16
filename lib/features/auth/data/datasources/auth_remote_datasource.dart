@@ -16,10 +16,10 @@ abstract class AuthRemoteDatasource {
   Future<AuthModel> signup(Auth authModel);
 
   Future<AuthModel> login(Auth authModel, String? fcmToken);
-  Future<Unit> signupWithOtp(String token);
+  Future<Unit> signupWithOtp(String token,String email);
 
   Future<Unit> signOut(UsrType usrType, String id, String fcmToken);
-
+  Future<Unit> resendOtp(String email);
   Future<AuthModel> getCurrentUserData();
 }
 
@@ -62,11 +62,11 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
             userAuth: user,
             company: CompanyModel.fromJson(data));
       } else {
-
         final data = await supBase
             .rpc('update_fcm_token_profile', params: param)
             .select()
             .single();
+
         authModelData = AuthModel(
             userType: usrType,
             email: user.email ?? '',
@@ -153,12 +153,33 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
   }
 
   @override
-  Future<Unit> signupWithOtp(String token) async {
+  Future<Unit> signupWithOtp(String token,String email) async {
     try {
       await supBase.auth.verifyOTP(
     type: OtpType.signup,
+    email: email,
     token: token
     );
+    return Future.value(unit);
+    } on AuthException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: error.message);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw const ServerException(message: 'Something Wrong');
+    }
+  }
+  @override
+  Future<Unit> resendOtp(String email) async {
+    try {
+       await supBase.auth.resend(
+        type: OtpType.signup,
+        email: email,
+      );
     return Future.value(unit);
     } on AuthException catch (error) {
       if (kDebugMode) {

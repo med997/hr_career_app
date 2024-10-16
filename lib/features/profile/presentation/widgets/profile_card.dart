@@ -2,7 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
+import 'package:hr_career_platform/features/job/presentation/bloc/curd_appliance_job_cubit.dart';
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 
 import '../../../../core/util/enums.dart';
@@ -17,10 +20,6 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return profileCard();
-  }
-
-  Widget profileCard() {
     double width = columnWidth ?? 320;
     return Container(
       height: 60,
@@ -46,7 +45,7 @@ class ProfileCard extends StatelessWidget {
             fontSize: 14,
           ),
         ),
-        trailing: popOptionMenuApplianceState(),
+        trailing: popOptionMenuApplianceState(context),
         subtitle: Wrap(
           crossAxisAlignment: WrapCrossAlignment.start,
           spacing: 4,
@@ -85,9 +84,12 @@ class ProfileCard extends StatelessWidget {
     );
   }
 
-  popOptionMenuApplianceState() {
+
+  popOptionMenuApplianceState(BuildContext context) {
     return PopupMenuButton<ApplianceStateItem>(
-      onSelected: (ApplianceStateItem item) {},
+      onSelected: (ApplianceStateItem item) {
+        context.read<CurdApplianceJobCubit>().updateApplianceJob(profile.applianceId!, item.name);
+      },
       itemBuilder: (BuildContext context) =>
           <PopupMenuEntry<ApplianceStateItem>>[
         const PopupMenuItem<ApplianceStateItem>(

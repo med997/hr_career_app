@@ -24,6 +24,8 @@ class CompanyAppBarWidget extends StatelessWidget {
   final Company company;
   final String type;
   final bool withEditing;
+  final bool withBackBtn;
+  final bool withContactsBtn;
 
   final bool appbarCompanyDetail;
 
@@ -32,6 +34,8 @@ class CompanyAppBarWidget extends StatelessWidget {
       required this.company,
       this.type = 'APPBAR',
       this.appbarCompanyDetail = false,
+      this.withContactsBtn = false,
+      this.withBackBtn = false,
       this.withEditing = false});
 
   void pickImage(BuildContext context) async {
@@ -72,7 +76,8 @@ class CompanyAppBarWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
+              if (appbarCompanyDetail == true)
+                Container(
                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                     color: primaryColor.withOpacity(0.8),
@@ -83,10 +88,7 @@ class CompanyAppBarWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (appbarCompanyDetail == true)
-                      const BackButton(
-                        color: Colors.white,
-                      ),
+
                     Text(
                       tr("profile_msg"),
                       style: const TextStyle(
@@ -139,6 +141,10 @@ class CompanyAppBarWidget extends StatelessWidget {
                 ),
               ),
               ListTile(
+
+                trailing: withBackBtn?const BackButton(
+              color: Colors.white,
+              ):null,
                 leading: BlocBuilder<CurdCompanyCubit, CurdCompanyState>(
                   builder: (context, state) {
                     if (state is LoadingCurdProfileState) {
@@ -200,8 +206,8 @@ class CompanyAppBarWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              appbarCompanyDetail == true
-                  ? Wrap(
+            if(withContactsBtn)
+                  Wrap(
                       alignment: WrapAlignment.start,
                       runAlignment: WrapAlignment.start,
                       spacing: 15,
@@ -237,7 +243,7 @@ class CompanyAppBarWidget extends StatelessWidget {
                         ),
                       ],
                     )
-                  : const SizedBox(),
+
             ],
           ),
         ),
@@ -356,7 +362,7 @@ class CompanyAppBarWidget extends StatelessWidget {
                         },
                       ),
                       CircularIconButton(
-                        icon: Icons.send_outlined,
+                        icon: Icons.navigation_rounded,
                         onPressed: () {
                           MapUtils.navToMap(-3.823216, -38.481700);
                         },
@@ -386,9 +392,11 @@ class CircularIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton.filled(
         iconSize: 20,
+
         onPressed: onPressed,
         icon: Icon(
           icon,
+
           color: Colors.white,
         ),
         style: IconButton.styleFrom(

@@ -4,7 +4,7 @@ enum NavItem { homePage, postPage, settingPage }
 
 enum Lang { ar, en }
 
-enum FormType { text, number, password, phone,email, date, color,
+enum FormType { text, number, password, phone,email, date, color, txtWithWidget,
   multiline, dropdown, autoComplete, rTE, subDynForm,listSubDynForm }
 
 enum UsrType { user,company }

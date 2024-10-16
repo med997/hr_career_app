@@ -23,6 +23,8 @@ class Profile extends Equatable {
   final List<dynamic> experience;
   final List<dynamic> education;
   final String? status;
+  final String? applyState;
+  final int? applianceId;
 
   const Profile({
     this.id,
@@ -33,6 +35,9 @@ class Profile extends Equatable {
     this.avatarUrl,
     this.fullNameAr,
     this.nationality,
+    this.applianceId,
+    this.applyState,
+
     this.dob,
     this.address,
     this.secondaryPhone,

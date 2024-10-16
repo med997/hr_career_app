@@ -14,7 +14,7 @@ class UpdateCompany {
   Future<Either<Failure, Company>> call(Company company) async {
     return await companyRepository.updateCompany(company);
   }
-  Future<Either<Failure, Company>> uploadImage(String path,String id) async {
+  Future<Either<Failure, Company>> uploadImage(dynamic path,String id) async {
     return await companyRepository.uploadImageCompany(path,id);
   }
   Future<Either<Failure, Company>> updateCompanyFcmToken(String uuid , String fcmToken)async {

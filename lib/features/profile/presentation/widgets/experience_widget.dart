@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/widgets/text_with_icon.dart';
 
-  Widget experienceWidget ({required String dateText, required String locationText,required String infoText}){
+  Widget experienceWidget ({required String fromDateText,required String toDateText, required String locationText,required String infoText}){
+    final DateTime fromDate = DateTime.parse(fromDateText);
+    final toDate = DateTime.parse(toDateText);
     return Wrap(
       spacing: 8.0,
       runSpacing: 4.0,
@@ -14,7 +16,7 @@ import '../../../../core/widgets/text_with_icon.dart';
             color: primaryColor,
             size: 16,
           ),
-          text: dateText,
+          text: '${fromDate.year}/${fromDate.month} - ${toDate.year}/${toDate.month} ',
           textColor: primaryTransparent.withOpacity(0.6),
         ),
         TextWithIcon(

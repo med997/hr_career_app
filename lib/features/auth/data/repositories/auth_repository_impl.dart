@@ -20,35 +20,35 @@ class AuthRepositoryImpl extends AuthRepository {
       {required this.authLocalDataSource, required this.authRemoteDatasource, required this.networkInfo});
 
   @override
-  Future<Either<Failure, Auth>> login(Auth auth,String? fcmToken) async {
-    return await _getMessage(() => authRemoteDatasource.login(auth,fcmToken));
-
+  Future<Either<Failure, Auth>> login(Auth auth, String? fcmToken) async {
+    return await _getMessage(() => authRemoteDatasource.login(auth, fcmToken));
   }
 
   @override
   Future<Either<Failure, Auth>> signup(Auth auth) async {
     if (await networkInfo.isConnected) {
       try {
-        final  remote = await authRemoteDatasource.signup(auth);
+        final remote = await authRemoteDatasource.signup(auth);
         //authLocalDataSource.cacheAuths(AuthModel.fromAuth(remote));
         return Right(remote);
       } on ServerException catch (e) {
         return Left(ServerFailure(messageServer: e.message ?? ''));
-      }on EmptyCacheException {
+      } on EmptyCacheException {
         return Left(EmptyCacheFailure());
       }
     } else {
       return Left(OfflineFailure());
     }
   }
+
   Future<Either<Failure, Auth>> _getMessage(
       DeleteOrUpdateOrAddAuth deleteOrUpdateOrAddAuth) async {
     if (await networkInfo.isConnected) {
       try {
-        final  remote = await deleteOrUpdateOrAddAuth();
-       authLocalDataSource.cacheAuths(AuthModel.fromAuth(remote));
+        final remote = await deleteOrUpdateOrAddAuth();
+        authLocalDataSource.cacheAuths(AuthModel.fromAuth(remote));
         return Right(remote);
-      }on EmptyCacheException {
+      } on EmptyCacheException {
         return Left(EmptyCacheFailure());
       } on ServerException catch (e) {
         return Left(ServerFailure(messageServer: e.message ?? ''));
@@ -57,12 +57,13 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(OfflineFailure());
     }
   }
+
   @override
   Future<Either<Failure, Auth>> getCurrentUser() async {
     try {
-      final  remote = await  authLocalDataSource.getCachedAuths();
+      final remote = await authLocalDataSource.getCachedAuths();
       return Right(remote);
-    }on EmptyCacheException {
+    } on EmptyCacheException {
       return Left(EmptyCacheFailure());
     }
 
@@ -94,8 +95,30 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, Unit>> signOut(String fcmToken) async {
     try {
       final accountLoginIn = await authLocalDataSource.getCachedAuths();
-      await authRemoteDatasource.signOut(accountLoginIn.userType,accountLoginIn.userAuth!.id,fcmToken );
+      await authRemoteDatasource.signOut(
+          accountLoginIn.userType, accountLoginIn.userAuth!.id, fcmToken);
       await authLocalDataSource.clearCachedAuths();
+      return const Right(unit);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> signupWithOtp(String token,
+      String email) async {
+    try {
+      await authRemoteDatasource.signupWithOtp(token, email);
+      return const Right(unit);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> resendOtp(String email) async {
+    try {
+      await authRemoteDatasource.resendOtp(email);
       return const Right(unit);
     } catch (e) {
       return Left(ServerFailure());

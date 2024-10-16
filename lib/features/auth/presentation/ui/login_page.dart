@@ -18,6 +18,7 @@ import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubi
 import 'package:hr_career_platform/features/auth/presentation/ui/register_page.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/verification_page.dart';
 import 'package:hr_career_platform/features/auth/presentation/widget/login_ana_register_appbar_functhion.dart';
+import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../home/presentation/ui/company_home_page.dart';
@@ -132,6 +133,7 @@ class LoginPage extends StatelessWidget {
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is SuccessLoginUser) {
+          context.read<TabNavCubit>().changeTab(0);
           if (state.auth.userType == UsrType.user) {
             Navigator.pushAndRemoveUntil(
                 context,
@@ -147,6 +149,14 @@ class LoginPage extends StatelessWidget {
                 ),
                 (route) => false);
           }
+        }else if(state is ErrLoginUser){
+          if(state.msg.contains('Email not confirmed')){
+            final value =
+            context.read<DynamicFormCubit>().getCurrentValue()['email'];
+             Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => VerificationPage(email: value)));
+          }
+          
         }
       },
       builder: (context, state) {
@@ -279,8 +289,7 @@ class LoginPage extends StatelessWidget {
           _asGustBtn(),
            Center(
             child: TextButton(onPressed: () {
-              Navigator.of(_).push(MaterialPageRoute(
-                  builder: (context) => const VerificationPage()));
+             
             },
             child: const Text(
               'Forget Password?',

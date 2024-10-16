@@ -27,6 +27,7 @@ import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
 import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 
+import 'features/auth/presentation/bloc/verification_cubit.dart';
 import 'features/general/presentation/bloc/general_cubit.dart';
 import 'features/home/presentation/ui/company_home_page.dart';
 import 'features/job/presentation/bloc/curd_job_cubit.dart';
@@ -95,10 +96,13 @@ void main() async {
         create: (context) => di.sl<LocationCubit>(),
       ),
       BlocProvider(
+        create: (context) => di.sl<VerificationCubit>(),
+      ),
+      BlocProvider(
         create: (context) => di.sl<CurdJobCubit>(),
       ),
       BlocProvider(
-        create: (context) => di.sl<CurdApplianceJobCubit>(),
+        create: (context) => di.sl<CurdApplianceJobCubit>()
       ),
       BlocProvider(
         create: (context) => di.sl<CompanyProfileCubit>(),
@@ -161,11 +165,12 @@ class _MyAppState extends State<MyApp> {
           locale: state.locale,
           debugShowCheckedModeBanner: false,
           supportedLocales: const [
+
             Locale('en'),
             Locale('ar'),
           ],
           localizationsDelegates: const [
-            FleatherLocalizations.delegate,
+            // FleatherLocalizations.delegate,
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

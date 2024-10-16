@@ -10,5 +10,7 @@ abstract class AuthRepository {
   Future<Either<Failure, Auth>> signup(Auth auth);
   Future<Either<Failure, Auth>> login(Auth auth,String? fcmToken);
   Future<Either<Failure, Auth>> getCurrentUser();
+  Future<Either<Failure, Unit>>  signupWithOtp(String token,String email);
+  Future<Either<Failure, Unit>>    resendOtp(String email) ;
   Future<Either<Failure, Unit>>  signOut(String fcmToken);
 }

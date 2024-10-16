@@ -270,7 +270,7 @@ class JobCard extends StatelessWidget {
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: job.nationalities??'All'),
+                    text: job.applianceNo.toString()),
               ],
             ),
           ),

@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
+
 String? getFileExtension(Uint8List data) {
   if (data.length < 4) return null; // Not enough data
 
@@ -17,4 +19,20 @@ String? getFileExtension(Uint8List data) {
   }
 
   return null; // Unknown type
+}
+String getBase64FileExtension(String base64String) {
+  switch (base64String.characters.first) {
+    case '/':
+      return 'jpeg';
+    case 'i':
+      return 'png';
+    case 'R':
+      return 'gif';
+    case 'U':
+      return 'webp';
+    case 'J':
+      return 'pdf';
+    default:
+      return 'unknown';
+  }
 }

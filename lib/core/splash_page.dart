@@ -10,9 +10,7 @@ import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/widgets/err_widget.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
-import 'package:hr_career_platform/features/company/presentation/bloc/curd_company_cubit.dart';
-import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
-import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profile_cubit.dart';
+import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 
 import '../features/auth/presentation/bloc/login_cubit.dart';
 import '../features/auth/presentation/widget/login_ana_register_appbar_functhion.dart';
@@ -34,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     context.read<LoginCubit>().checkLoginStatus();
-    context.read<LoginCubit>().checkLoginStatus();
+    context.read<GeneralCubit>().getGeneral();
   }
 
   Future<String?> getFcmToken() async {
@@ -54,7 +52,6 @@ class _SplashPageState extends State<SplashPage> {
         (listener: (contextState, state) async {
         if (state is CurrentUserStatus) {
           if (state.auth.userType == UsrType.user ) {
-
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(

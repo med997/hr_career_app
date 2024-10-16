@@ -9,11 +9,12 @@ enum SubTitleType { textOnly, withIcon, withShowMore }
 class SubTitle extends StatelessWidget {
   String title;
   Icon? icon;
+  double? txtSize;
   IconButton? iconButton;
   SubTitleType titleType = SubTitleType.textOnly;
   Function? onShowMoreClicked;
 
-  SubTitle({required this.title, this.icon,this.iconButton, required this.titleType, this.onShowMoreClicked });
+  SubTitle({required this.title, this.icon, this.txtSize,this.iconButton, required this.titleType, this.onShowMoreClicked });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class SubTitle extends StatelessWidget {
           Text(
             title,
             style:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: primaryColor),
+                 TextStyle(fontWeight: FontWeight.bold, fontSize: txtSize?? 14, color: primaryColor),
           ),
           if (titleType == SubTitleType.withIcon)
             Center(child: icon ?? iconButton)
