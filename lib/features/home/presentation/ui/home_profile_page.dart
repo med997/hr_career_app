@@ -35,6 +35,8 @@ class HomeProfilePage extends StatefulWidget {
 class _HomeProfilePageState extends State<HomeProfilePage> {
   final mainInfoFormKey = GlobalKey<FormState>();
   final expFormKey = GlobalKey<FormState>();
+  final edcFormKey = GlobalKey<FormState>();
+  final pdfFormKey = GlobalKey<FormState>();
   double defaultWidth = 300;
 
   @override
@@ -60,7 +62,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           children: [
             HeaderProfileWidget(
-              desc: state.profile.currentJob! ?? '',
+              desc: state.profile.currentJob!,
               withBox: true,
               editingAvatar: true,
               uuid: state.profile.id,
@@ -82,7 +84,6 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                     color: primaryColor,
                   )),
             ),
-            _getMainInfProfileForm(state.profile, width, context),
             BlocBuilder<GeneralCubit, GeneralState>(
               builder: (context, gnState) {
                 if (gnState is GeneralFetchedState) {
@@ -100,14 +101,17 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                   final List<ItemModel> statusItems = gnState.generals.status
                       .map((e) => ItemModel(key: e, value: e))
                       .toList();
-                  context.read<DynamicFormCubit>().addMenuItems2(
-                      'gender', genderItems, state.profile.gender!);
-                  context.read<DynamicFormCubit>().addMenuItems2('nationality',
-                      nationalityItems, state.profile.nationality!);
-                  context.read<DynamicFormCubit>().addMenuItems2('status',
-                      statusItems, state.profile.status!);
-                  context.read<DynamicFormCubit>().addSubFormMenuItems(
-                      'education', 'qualifications', qualificationsItems);
+                  // context.read<DynamicFormCubit>().addMenuItems2(
+                  //     'gender', genderItems, state.profile.gender!);
+                  // context.read<DynamicFormCubit>().addMenuItems2('nationality',
+                  //     nationalityItems, state.profile.nationality!);
+                  // context.read<DynamicFormCubit>().addMenuItems2('status',
+                  // //     statusItems, state.profile.status!);
+                  // context.read<DynamicFormCubit>().addSubFormMenuItems(
+                  //     'education', 'qualifications', qualificationsItems);
+
+                  return _getMainInfProfileForm(state.profile, width, context,
+                      nationalityItems, statusItems, genderItems,qualificationsItems);
                 }
                 return const SizedBox();
               },
@@ -121,7 +125,13 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
   }
 
   Widget _getMainInfProfileForm(
-      Profile profile, double width, BuildContext context) {
+      Profile profile,
+      double width,
+      BuildContext context,
+      List<ItemModel> nationalityItem,
+      statusItem,
+      genderItem,
+      qualificationsItem ) {
     final List<DynamicModel> profileExp = [
       DynamicModel('from_date', FormType.date,
           icons: Icon(
@@ -224,7 +234,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           key: 'studyGrade'),
       DynamicModel('qualifications', FormType.dropdown,
           controller: TextEditingController(),
-          items: [],
+          items: qualificationsItem,
           // disabled: !state.isDisabled,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -300,10 +310,10 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ]),
       DynamicModel('nationality', FormType.dropdown,
-          items: [],
+          items: nationalityItem,
           disabled: true,
           key: 'nationality',
-          controller: TextEditingController(),
+          controller: TextEditingController(text: profile.nationality),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -311,7 +321,8 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
       DynamicModel('status', FormType.dropdown,
           key: 'status',
           disabled: true,
-          controller: TextEditingController(),
+          items: statusItem,
+          controller: TextEditingController(text: profile.status),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -350,9 +361,9 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ]),
       DynamicModel('gender', FormType.dropdown,
           key: 'gender',
-          items: [],
+          items: genderItem,
           disabled: true,
-          controller: TextEditingController(),
+          controller: TextEditingController(text: profile.gender),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -360,7 +371,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
       DynamicModel('current_job', FormType.text,
           disabled: true,
           action: Padding(
-            padding: const EdgeInsets.symmetric(horizontal:4),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: MaterialButton(
                 color: Colors.yellow.shade700,
                 key: Key('btnMainInf'),
@@ -370,17 +381,18 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                 height: 40,
                 shape: const CircleBorder(),
                 onPressed: () async {
-                  final updateValue = context
-                      .read<DynamicFormCubit>()
-                      .getCurrentValue();
+                  final updateValue =
+                      context.read<DynamicFormCubit>().getCurrentValue();
                   final infoValue = Map<String, dynamic>.from(updateValue)
                     ..removeWhere((key, value) =>
-                    key == 'experience' || key == 'education' || key == 'pdfName');
+                        key == 'experience' ||
+                        key == 'education' ||
+                        key == 'pdfName');
                   // final infoValue = Map.from(updateValue.map((key, value) {
                   //   return MapEntry(key, value);
                   //
                   // },
-                                    print('mainInformation : ${infoValue}');
+                  print('mainInformation : ${infoValue}');
                   await context
                       .read<CurdProfileCubit>()
                       .updateProfile(infoValue, profile.id!);
@@ -428,7 +440,6 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                 final updateValue = context
                     .read<DynamicFormCubit>()
                     .getCurrentValue()['experience'];
-
                 final expValue = {
                   'experience': [...profile.experience, updateValue]
                 };
@@ -471,6 +482,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               ),
             ],
           ),
+          subFormKey: expFormKey,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ]),
@@ -535,6 +547,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                 },
               )),
           subDynamicModel: profileEdc,
+          subFormKey: edcFormKey,
           width: Responsive.isMobile(context) ? width : width,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -550,6 +563,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               ),
             ],
           ),
+          subFormKey: pdfFormKey,
           subFormFooter: const SizedBox(),
           controller: TextEditingController(),
           subDynamicModel: profileUpl,
