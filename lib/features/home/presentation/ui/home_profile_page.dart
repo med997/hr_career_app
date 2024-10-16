@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_localizations.dart';
@@ -18,6 +19,7 @@ import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profi
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 
 import '../../../../core/util/responsive.dart';
+import '../../../../core/widgets/map_icon_button.dart';
 import '../../../general/domain/entities/general.dart';
 import '../../../profile/presentation/widgets/education_widget.dart';
 import '../../../profile/presentation/widgets/experience_widget.dart';
@@ -44,12 +46,12 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
     context.read<ProfileCubit>().getUserByUuid(widget.auth.userAuth!.id);
   }
 
+  var isDisable = true;
+
   @override
   Widget build(BuildContext context) {
-    var isEditing = false;
     double width = MediaQuery.of(context).size.width;
-    return BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
+    return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
       if (state is ProfileLoading) {
         return LoadingWidget();
       } else if (state is ProfileFetchedState) {
@@ -70,10 +72,8 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               titleType: SubTitleType.withIcon,
               iconButton: IconButton(
                   onPressed: () {
-                    isEditing = !isEditing;
-                    context
-                        .read<DynamicFormCubit>()
-                        .setDisableFiled(isEditing, context);
+                    isDisable = !isDisable;
+                    context.read<DynamicFormCubit>().setDisableFiled(isDisable);
                   },
                   icon: const Icon(
                     Icons.edit_road,
@@ -81,7 +81,6 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                   )),
             ),
             _getMainInfProfileForm(state.profile, width, context),
-
           ],
         );
       } else {
@@ -92,21 +91,18 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
 
   Widget _getMainInfProfileForm(
       Profile profile, double width, BuildContext context) {
-    General? generals= context.read<GeneralCubit>().general;
-     List<ItemModel> nationalityItems=[];
-     List<ItemModel> qualificationsItems=[];
-     List<ItemModel> genderItems=[];
-    if(generals!=null){
-      nationalityItems = generals.nationality
+    General? generals = context.read<GeneralCubit>().general;
+    List<ItemModel> nationalityItems = [];
+    List<ItemModel> qualificationsItems = [];
+    List<ItemModel> genderItems = [];
+    if (generals != null) {
+      nationalityItems =
+          generals.nationality.map((e) => ItemModel(key: e, value: e)).toList();
+      qualificationsItems = generals.qualifications
           .map((e) => ItemModel(key: e, value: e))
           .toList();
-     qualificationsItems = generals.qualifications
-          .map((e) => ItemModel(key: e, value: e))
-          .toList();
-    genderItems = generals.gender
-          .map((e) => ItemModel(key: e, value: e))
-          .toList();
-
+      genderItems =
+          generals.gender.map((e) => ItemModel(key: e, value: e)).toList();
     }
     final List<DynamicModel> profileExp = [
       DynamicModel('from_date', FormType.date,
@@ -139,7 +135,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ],
           key: 'toExp'),
       DynamicModel('where', FormType.text,
-          padding: widget.subFieldSpace,
+          padding: 1,
           icons: Icon(
             Icons.location_on_outlined,
             color: primaryColor.withOpacity(0.7),
@@ -153,14 +149,14 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ],
           key: 'whereExp'),
       DynamicModel('title', FormType.text,
-          padding: widget.subFieldSpace,
+          action: _addExpBtn(context, profile),
           icons: Icon(
             Icons.info_outline_rounded,
             color: primaryColor.withOpacity(0.7),
             size: 18,
           ),
           width:
-              Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
+              Responsive.isMobile(context) ? (width / 2 * 0.98) : defaultWidth,
           controller: TextEditingController(),
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -174,6 +170,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
             color: primaryColor.withOpacity(0.7),
             size: 18,
           ),
+          padding: 0,
           width:
               Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
           controller: TextEditingController(),
@@ -182,6 +179,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ],
           key: 'from'),
       DynamicModel('to_date', FormType.date,
+          padding: 0,
           icons: Icon(
             Icons.date_range_outlined,
             color: primaryColor.withOpacity(0.7),
@@ -196,6 +194,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ],
           key: 'to'),
       DynamicModel('studyGrade', FormType.text,
+          padding: 0,
           controller: TextEditingController(),
           icons: Icon(
             Icons.info_outline_rounded,
@@ -209,6 +208,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ],
           key: 'studyGrade'),
       DynamicModel('qualifications', FormType.dropdown,
+          padding: 0,
           controller: TextEditingController(),
           items: qualificationsItems,
           // disabled: !state.isDisabled,
@@ -219,12 +219,14 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               Responsive.isMobile(context) ? (width / 2 * 0.8) : defaultWidth,
           key: 'qualifications'),
       DynamicModel('where', FormType.text,
+          padding: 0,
           controller: TextEditingController(),
           icons: Icon(
             Icons.location_on_outlined,
             color: primaryColor.withOpacity(0.7),
             size: 18,
           ),
+          action: _addEduBtn(context, profile),
           width: Responsive.isMobile(context) ? width * 0.91 : defaultWidth,
 
           // disabled: !state.isDisabled,
@@ -235,7 +237,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
     ];
     final List<DynamicModel> profileUpl = [
       DynamicModel('pdfName', FormType.text,
-          disabled: true,
+          disabled: isDisable,
           key: 'pdfName',
           controller: TextEditingController(),
           width: Responsive.isMobile(context) ? width : defaultWidth,
@@ -262,7 +264,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
     ];
     final List<DynamicModel> profileInfo = [
       DynamicModel('full_name', FormType.text,
-          disabled: true,
+          disabled: isDisable,
           controller: TextEditingController(text: profile.fullName),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
@@ -271,7 +273,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           key: 'fullName'),
       DynamicModel('full_name_ar', FormType.text,
           key: 'fullNameAr',
-          disabled: true,
+          disabled: isDisable,
           controller: TextEditingController(text: profile.fullNameAr),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
@@ -279,7 +281,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ]),
       DynamicModel('dob', FormType.date,
           key: 'dob',
-          disabled: true,
+          disabled: isDisable,
           controller: TextEditingController(text: profile.dob.toString()),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
@@ -287,14 +289,14 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ]),
       DynamicModel('nationality', FormType.dropdown,
           items: nationalityItems,
-          disabled: true,
+          disabled: isDisable,
           key: 'nationality',
-          controller: TextEditingController(text: profile.nationality??''),
+          controller: TextEditingController(text: profile.nationality ?? ''),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ]),
-    /*  DynamicModel('status', FormType.dropdown,
+      /*  DynamicModel('status', FormType.dropdown,
           key: 'status',
           disabled: true,
           controller: TextEditingController(),
@@ -304,14 +306,14 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ]),*/
       DynamicModel('phone', FormType.phone,
           key: 'phone',
-          disabled: true,
+          disabled: isDisable,
           controller: TextEditingController(text: profile.phone),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ]),
       DynamicModel('secondary_phone', FormType.phone,
-          disabled: true,
+          disabled: isDisable,
           controller: TextEditingController(text: profile.secondaryPhone),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
@@ -328,8 +330,9 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ]),
       DynamicModel('address', FormType.text,
           key: 'address',
-          disabled: true,
+          disabled: isDisable,
           controller: TextEditingController(text: profile.address),
+          action: _addressActionBtn(context),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
@@ -337,58 +340,17 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
       DynamicModel('gender', FormType.dropdown,
           key: 'gender',
           items: genderItems,
-          disabled: true,
-          controller: TextEditingController(text: profile.gender??''),
+          disabled: isDisable,
+          controller: TextEditingController(text: profile.gender ?? ''),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ]),
-      DynamicModel('current_job', FormType.text,
-          disabled: true,
-          action: Padding(
-            padding: const EdgeInsets.symmetric(horizontal:4),
-            child: MaterialButton(
-                color: Colors.yellow.shade700,
-                key: Key('btnMainInf'),
-                // disabledColor: Colors.grey,
-                minWidth: 40,
-                padding: EdgeInsets.all(4),
-                height: 40,
-                shape: const CircleBorder(),
-                onPressed: () async {
-                  final updateValue = context
-                      .read<DynamicFormCubit>()
-                      .getCurrentValue();
-                  final infoValue = Map<String, dynamic>.from(updateValue)
-                    ..removeWhere((key, value) =>
-                    key == 'experience' || key == 'education' || key == 'pdfName');
-                                    print('mainInformation : ${infoValue}');
-                  await context
-                      .read<CurdProfileCubit>()
-                      .updateProfile(infoValue, profile.id!);
-                },
-                child: BlocBuilder<CurdProfileCubit, CurdProfileState>(
-                  builder: (context, state) {
-                    if (state is LoadingCurdProfileState) {
-                      return const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 3,
-                        ),
-                      );
-                    } else {
-                      return const Icon(
-                        Icons.save_outlined,
-                        color: Colors.white,
-                        size: 19,
-                      );
-                    }
-                  },
-                )),
-          ),
+      DynamicModel('current_job', FormType.txtWithWidget,
+          disabled: isDisable,
+          padding: 0,
           key: 'currentJob',
+          subFormFooter: _updateMainInfBtn(context, profile),
           controller: TextEditingController(text: profile.currentJob),
           width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
@@ -398,56 +360,19 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           key: 'experience',
           subDynamicModel: profileExp,
           width: width,
-          subFormFooter: MaterialButton(
-              color: Colors.yellow.shade700,
-              key: Key('btnExp'),
-              // disabledColor: Colors.grey,
-              minWidth: 40,
-              padding: EdgeInsets.all(4),
-              height: 40,
-              shape: const CircleBorder(),
-              onPressed: () async {
-                final updateValue = context
-                    .read<DynamicFormCubit>()
-                    .getCurrentValue()['experience'];
-
-                final expValue = {
-                  'experience': [...profile.experience, updateValue]
-                };
-                await context
-                    .read<CurdProfileCubit>()
-                    .updateProfileExp(expValue, profile.id!);
-              },
-              child: BlocBuilder<CurdProfileCubit, CurdProfileState>(
-                builder: (context, state) {
-                  if (state is LoadingCurdProfileState) {
-                    return const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 3,
-                      ),
-                    );
-                  } else {
-                    return const Icon(
-                      Icons.save_outlined,
-                      color: Colors.white,
-                      size: 19,
-                    );
-                  }
-                },
-              )),
+          subFormFooter: const SizedBox(),
           subFormHeader: Flex(
             direction: Axis.vertical,
             children: [
               SubTitle(
                 title: tr("experience_msg"),
+                txtSize: 16,
                 titleType: SubTitleType.textOnly,
               ),
               ...profile.experience.map(
                 (e) => experienceWidget(
-                    dateText: '${e['from_date']}-${e['to_date']}',
+                    fromDateText: e['from_date'].toString(),
+                    toDateText: e['to_date'].toString(),
                     locationText: e['where'].toString(),
                     infoText: e['title'].toString()),
               ),
@@ -458,18 +383,30 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ]),
       DynamicModel('education', FormType.subDynForm,
           key: 'education',
+          subFormFooter: const SizedBox(),
           subFormHeader: Flex(
             direction: Axis.vertical,
             children: [
               SubTitle(
                 title: tr("education_msg"),
+                txtSize: 16,
                 titleType: SubTitleType.textOnly,
               ),
               ...profile.education.map(
                 (e) => BlocBuilder<CurdProfileCubit, CurdProfileState>(
                   builder: (context, state) {
+                    if (state is MessageCurdProfileState) {
+                      final education = state.profile!.education;
+                      education.map((e) => educationWidget(
+                          fromDateText:e['from_date'].toString() ,
+                          toDateText: e['to_date'].toString(),
+                          locationText: e['where'].toString(),
+                          infoText: e['studyGrade'].toString(),
+                          qualifications: e['qualifications'].toString()));
+                    }
                     return educationWidget(
-                        dateText: '${e['from_date']}-${e['to_date']}',
+                        fromDateText:e['from_date'].toString() ,
+                        toDateText: e['to_date'].toString(),
                         locationText: e['where'].toString(),
                         infoText: e['studyGrade'].toString(),
                         qualifications: e['qualifications'].toString());
@@ -478,46 +415,8 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               ),
             ],
           ),
-          subFormFooter: MaterialButton(
-              key: Key('btnEdc'),
-              color: Colors.yellow.shade700,
-              // disabledColor: Colors.grey,
-              minWidth: 40,
-              height: 40,
-              shape: const CircleBorder(),
-              onPressed: () async {
-                final updateValue = context
-                    .read<DynamicFormCubit>()
-                    .getCurrentValue()['education'];
-                final edcValue = {
-                  'education': [...profile.education, updateValue]
-                };
-                await context
-                    .read<CurdProfileCubit>()
-                    .updateProfileExp(edcValue, profile.id!);
-              },
-              child: BlocBuilder<CurdProfileCubit, CurdProfileState>(
-                builder: (context, state) {
-                  if (state is LoadingCurdProfileState) {
-                    return const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 3,
-                      ),
-                    );
-                  } else {
-                    return const Icon(
-                      Icons.save_outlined,
-                      color: Colors.white,
-                      size: 19,
-                    );
-                  }
-                },
-              )),
           subDynamicModel: profileEdc,
-          width: Responsive.isMobile(context) ? width : width,
+          width: width,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ]),
@@ -546,6 +445,188 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
       dynamicFormsList: profileInfo,
       formKey: mainInfoFormKey,
       useResponsiveUi: true,
+    );
+  }
+
+  _addressActionBtn(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: MaterialButton(
+          disabledColor: Colors.grey.shade600,
+          padding: const EdgeInsets.all(4),
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(
+              builder: (context) => LocationWidget(),
+            ))
+                .then((value) {
+              context
+                  .read<DynamicFormCubit>()
+                  .updateValueOnly('address', value[0].toString());
+
+              print(value[0]);
+              print(value[1]);
+            });
+          },
+          shape: const CircleBorder(),
+          color: primaryColor,
+          child: const Icon(
+            Icons.location_on_outlined,
+            color: Colors.white,
+            size: 18,
+          )),
+    );
+  }
+
+  _updateMainInfBtn(BuildContext context, Profile profile) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 8),
+      child: MaterialButton(
+        color: primaryColor,
+        key: const Key('btnMainInf'),
+        // disabledColor: Colors.grey,
+        minWidth: 300,
+        height: 35,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        onPressed: () async {
+          final updateValue =
+              context.read<DynamicFormCubit>().getCurrentValue();
+          final infoValue = Map<String, dynamic>.from(updateValue)
+            ..removeWhere((key, value) =>
+                key == 'experience' ||
+                key == 'email' ||
+                key == 'education' ||
+                key == 'pdfName');
+          if (kDebugMode) {
+            print('mainInformation : ${infoValue}');
+          }
+          await context
+              .read<CurdProfileCubit>()
+              .updateProfile(infoValue, profile.id!);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'UpdateMainInf',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            BlocBuilder<CurdProfileCubit, CurdProfileState>(
+              builder: (context, state) {
+                if (state is LoadingCurdProfileState) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: FittedBox(
+                        child: LoadingWidget(
+                      progressColor: Colors.white,
+                    )),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _addExpBtn(BuildContext context, Profile profile) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: MaterialButton(
+          color: Colors.yellow.shade700,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          key: const Key('btnExp'),
+          minWidth: 30,
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          height: 26,
+          shape: const CircleBorder(),
+          onPressed: () {
+            final updateValue = context
+                .read<DynamicFormCubit>()
+                .getCurrentValue()['experience'];
+
+            final expValue = {
+              'experience': [...profile.experience, updateValue]
+            };
+            context
+                .read<CurdProfileCubit>()
+                .updateProfileExp(expValue, profile.id!);
+            context.read<DynamicFormCubit>().resetDynModelByKey('experience');
+          },
+          child: Center(
+            child: BlocBuilder<CurdProfileCubit, CurdProfileState>(
+              builder: (context, state) {
+                if (state is LoadingExpProfileState) {
+                  return const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 3,
+                    ),
+                  );
+                } else {
+                  return const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 16,
+                  );
+                }
+              },
+            ),
+          )),
+    );
+  }
+
+  _addEduBtn(BuildContext context, Profile profile) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: MaterialButton(
+          color: Colors.yellow.shade700,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          key: const Key('btnEdu'),
+          minWidth: 30,
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          height: 26,
+          shape: const CircleBorder(),
+          onPressed: () async {
+            final updateValue =
+                context.read<DynamicFormCubit>().getCurrentValue()['education'];
+            final edcValue = {
+              'education': [...profile.education, updateValue]
+            };
+            await context
+                .read<CurdProfileCubit>()
+                .updateProfileEdc(edcValue, profile.id!);
+            context.read<DynamicFormCubit>().resetDynModelByKey('education');
+          },
+          child: Center(
+            child: BlocBuilder<CurdProfileCubit, CurdProfileState>(
+              builder: (context, state) {
+                if (state is LoadingEduProfileState) {
+                  return const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 3,
+                    ),
+                  );
+                } else {
+                  return const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 16,
+                  );
+                }
+              },
+            ),
+          )),
     );
   }
 }

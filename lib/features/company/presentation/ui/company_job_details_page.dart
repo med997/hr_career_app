@@ -367,7 +367,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
                               isEditing = !isEditing;
                               context
                                   .read<DynamicFormCubit>()
-                                  .setDisableFiled(isEditing, context);
+                                  .setDisableFiled(isEditing);
                               context
                                   .read<DisableButtonCubit>()
                                   .disableButton(isEditing);
@@ -529,7 +529,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
                             isEditing = !isEditing;
                             context
                                 .read<DynamicFormCubit>()
-                                .setDisableFiled(isEditing, context);
+                                .setDisableFiled(isEditing);
                           },
                           icon: const Icon(
                             Icons.edit_road,

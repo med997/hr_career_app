@@ -18,7 +18,7 @@ Widget getMultiLineFieldWidget(
           final content = await showMultiLineDialog(dynamicModel, context);
           dynamicModel.value = content.toPlainText();
         },
-        controller: TextEditingController(text: (dynamicModel.controller as FleatherController).document.toPlainText()),
+        controller: TextEditingController(text: (dynamicModel.controllerFlt as FleatherController).document.toPlainText()),
         readOnly: true,
         enabled: !dynamicModel.disabled,
         style: const TextStyle(fontSize: 14),

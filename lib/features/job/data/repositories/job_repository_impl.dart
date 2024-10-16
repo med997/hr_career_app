@@ -82,8 +82,8 @@ class JobRepositoryImpl extends JobRepository {
           nationalities!,
         );
         return Right(remoteJob);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch (e){
+        return Left(ServerFailure(messageServer: e.message));
       }
     } else {
       return Left(OfflineFailure());
@@ -99,8 +99,25 @@ class JobRepositoryImpl extends JobRepository {
     profileId,
         );
         return Right(applianceId);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch (e){
+        return Left(ServerFailure(messageServer: e.message));
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> updateApplyJobState(int applianceId, String applyState)async {
+    if (await networkInfo.isConnected) {
+      try {
+        final request = await jobRemoteDataSource.updateApplyJobState(
+          applianceId,
+          applyState,
+        );
+        return Right(request);
+      } on ServerException catch (e){
+        return Left(ServerFailure(messageServer: e.message));
       }
     } else {
       return Left(OfflineFailure());

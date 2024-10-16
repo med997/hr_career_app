@@ -52,7 +52,6 @@ class _SplashPageState extends State<SplashPage> {
         (listener: (contextState, state) async {
         if (state is CurrentUserStatus) {
           if (state.auth.userType == UsrType.user ) {
-
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(

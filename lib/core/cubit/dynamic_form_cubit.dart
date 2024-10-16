@@ -24,40 +24,9 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     final currentFields = dynamicModel;
     emit(currentFields);
   }
-  void setDisableFiled(bool disabled,  BuildContext?  context) {
+  void setDisableFiled(bool disabled) {
     final currentFields = state.map((field) {
       field.disabled = disabled;
-      if (field.controlName =='address'){
-        print(disabled);
-        field.action =Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: MaterialButton(
-              disabledColor: Colors.grey.shade600,
-              padding: EdgeInsets.all(4),
-              onPressed: disabled ==true ? null  :  () {
-                Navigator.of(context!)
-                    .push(MaterialPageRoute(
-                  builder: (context) => LocationWidget(),
-                ))
-                    .then((value) {
-                  context
-                      .read<DynamicFormCubit>()
-                      .updateValueOnly('address', value[0].toString());
-                  print('cubittttttttttttttttttttttttttttttttttttttttt');
-
-                  print(value[0]);
-                  print(value[1]);
-                });
-              },
-              shape: const CircleBorder(),
-              color: primaryColor,
-              child: const Icon(
-                Icons.location_on_outlined,
-                color: Colors.white,
-                size: 18,
-              )),
-        );
-      }
       return field;
     }).toList();
     emit(currentFields);
@@ -141,6 +110,35 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
       return field;
     }).toList();
     emit(currentFields);
+  }
+  void resetDynModelByKey(String key) {
+    final currentFields = state.map((field) {
+      if (field.key == key) {
+        if(field.formType ==FormType.subDynForm){
+          field.subDynamicModel= field.subDynamicModel!.map((e){
+              e.controller!.text='';
+              return e;
+            }).toList();
+        }else {
+          field.controller!.text = '';
+          field.value = '';
+        }
+        print('${field.controlName} ${field.value}');
+        return field;
+      }
+      return field;
+    }).toList();
+    emit(currentFields);
+  }
+
+  DynamicModel getDynModelByKey(String key) {
+    return state.map((field) {
+      if (field.key == key) {
+        return field;
+      }
+      return field;
+    }).first;
+
   }
 
   Map<String, dynamic> getCurrentValue(){

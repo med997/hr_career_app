@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/custom_chips.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
+
+import '../../../../core/util/const_val.dart';
 
 class JobDetailsHeader extends StatelessWidget {
   final Job job;
@@ -32,6 +35,9 @@ class JobDetailsHeader extends StatelessWidget {
   }
 
   Widget jobDetailsCard(Job job, BuildContext context) {
+    String imageUrl = job.company!.companyLogo!.isNotEmpty
+        ? '$BaseStorageUrl${job.company!.companyLogo!}'
+        : '';
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
       child: Column(
@@ -43,9 +49,9 @@ class JobDetailsHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               color: Colors.white24,
             ),
-            margin: EdgeInsets.symmetric(vertical: 12),
+            margin: const EdgeInsets.symmetric(vertical: 12),
             child: ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 2),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 2),
 
               title: Text(
                 job.company!.nameAr ?? '',
@@ -58,7 +64,7 @@ class JobDetailsHeader extends StatelessWidget {
               trailing: Wrap(
                 direction: Axis.horizontal,
                 spacing: 2,
-alignment: WrapAlignment.center,
+                alignment: WrapAlignment.center,
                 children: [profileIcoButton, profileFilledText],
               ),
               leading: Wrap(
@@ -67,15 +73,11 @@ alignment: WrapAlignment.center,
                 children: [
                   BackButton(
                     color: Colors.white,
-
                     onPressed: () => Navigator.pop(context),
                   ),
-                  CircleAvatar(
-                    child: ClipOval(
-                      child: ImageHolder(
-                        url: job.company!.companyLogo ?? '',
-                      ),
-                    ),
+                  AvatarNetwork(
+                    imgUrl: imageUrl,
+                    withBorder:false,
                   ),
                 ],
               ),

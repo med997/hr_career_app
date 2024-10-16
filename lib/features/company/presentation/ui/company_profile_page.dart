@@ -208,6 +208,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
         children: [
           CompanyAppBarWidget(
                 company: company,
+                appbarCompanyDetail: true,
                 withEditing: true,
               ),
           Center(
@@ -238,7 +239,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                                 isEditing = !isEditing;
                                 context
                                     .read<DynamicFormCubit>()
-                                    .setDisableFiled(isEditing, context);
+                                    .setDisableFiled(isEditing);
                               },
                               icon: const Icon(
                                 Icons.edit_road,
@@ -336,9 +337,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
               iconButton: IconButton(
                 onPressed: () {
                   isEditing = !isEditing;
-                  context
-                      .read<DynamicFormCubit>()
-                      .setDisableFiled(isEditing, context);
+                  context.read<DynamicFormCubit>().setDisableFiled(isEditing);
                 },
                 icon: const Icon(
                   Icons.edit_road,

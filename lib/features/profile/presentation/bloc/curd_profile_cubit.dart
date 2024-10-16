@@ -30,13 +30,13 @@ class CurdProfileCubit extends Cubit<CurdProfileState> {
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
   Future<void> updateProfileExp(Map<String, dynamic>? value,String id) async {
-    emit(LoadingCurdProfileState());
+    emit(LoadingExpProfileState());
 
     final failureOrSuccess = await updateProfileUseCase.updateProfileExp(value, id);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
   Future<void> updateProfileEdc(Map<String, dynamic>? value,String id) async {
-    emit(LoadingCurdProfileState());
+    emit(LoadingEduProfileState());
 
     final failureOrSuccess = await updateProfileUseCase.updateProfileExp(value, id);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));

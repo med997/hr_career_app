@@ -14,6 +14,7 @@ import 'package:hr_career_platform/features/auth/data/repositories/auth_reposito
 import 'package:hr_career_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:hr_career_platform/features/auth/domain/usecases/signup_use_case.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
+import 'package:hr_career_platform/features/auth/presentation/bloc/verification_cubit.dart';
 import 'package:hr_career_platform/features/company/data/datasources/company_remote_datasource.dart';
 import 'package:hr_career_platform/features/company/data/repositories/company_repository_impl.dart';
 import 'package:hr_career_platform/features/company/domain/repositories/company_repository.dart';
@@ -280,6 +281,9 @@ void _initAuth() {
 
     ..registerLazySingleton(
           () => RegisterCubit(signupUseCase: sl()),
+    )
+    ..registerLazySingleton(
+          () => VerificationCubit(signupUseCase: sl()),
     )..registerLazySingleton(
         () => LoginCubit(loginUseCase: sl(), fetchAuthUseCase: sl(), deleteAuthUseCase: sl()),
   );

@@ -14,6 +14,7 @@ import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
+import 'package:hr_career_platform/features/auth/presentation/ui/verification_page.dart';
 import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 
 import '../../../../core/widgets/map_icon_button.dart';
@@ -293,7 +294,7 @@ class RegisterPage extends StatelessWidget {
   final regFormKeyCompany = GlobalKey<FormState>();
 
   _cardRegister(BuildContext _) {
-    List<ItemModel> cityItems=[];
+    List<ItemModel> cityItems = [];
     return Container(
         height: 500,
         width: 400,
@@ -336,25 +337,22 @@ class RegisterPage extends StatelessWidget {
               BlocBuilder<GeneralCubit, GeneralState>(
                 builder: (context, gnState) {
                   if (gnState is GeneralFetchedState) {
+                    final List<ItemModel> genderList = gnState.generals.gender
+                        .map((e) => ItemModel(key: e, value: e))
+                        .toList();
+                    final List<ItemModel> natList = gnState.generals.nationality
+                        .map((e) => ItemModel(key: e, value: e))
+                        .toList();
+                    context
+                        .read<DynamicFormCubit>()
+                        .addMenuItems2('nationality', natList, '');
+                    context
+                        .read<DynamicFormCubit>()
+                        .addMenuItems2('gender', genderList, '');
 
-                     final List<ItemModel> genderList = gnState.generals.gender
-                          .map((e) => ItemModel(key: e, value: e))
-                          .toList();
-                     final  List<ItemModel> natList = gnState.generals.nationality
-                          .map((e) => ItemModel(key: e, value: e))
-                          .toList();
-                      context
-                          .read<DynamicFormCubit>()
-                          .addMenuItems2('nationality', natList, '');
-                      context
-                          .read<DynamicFormCubit>()
-                          .addMenuItems2('gender', genderList, '');
-
-                        cityItems = gnState.generals.cities
-                          .map((e) => ItemModel(key: e, value: e))
-                          .toList();
-
-
+                    cityItems = gnState.generals.cities
+                        .map((e) => ItemModel(key: e, value: e))
+                        .toList();
 
                     return const SizedBox();
                   }
@@ -472,7 +470,17 @@ class RegisterPage extends StatelessWidget {
   }
 
   _registerBtn() {
-    return BlocBuilder<RegisterCubit, RegisterState>(
+    return BlocConsumer<RegisterCubit, RegisterState>(
+      listener: (context, state) {
+        if (state is SuccessRegisterUser) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>  VerificationPage(email: state.auth.email,),
+              ),
+              (route) => false);
+        }
+      },
       builder: (context, state) {
         return Center(
           child: SizedBox(

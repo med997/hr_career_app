@@ -18,6 +18,17 @@ class CurdApplianceJobCubit extends Cubit<CurdApplianceJobState> {
     final failureOrSuccess = await addApplianceJobUseCase.call(jobId,profileId);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'insertDone'));
   }
+  Future<void> resetState() async{
+    emit(CurdApplianceJobInitial());
+
+  }
+  Future<void> updateApplianceJob(int id,String applyState) async{
+    emit(LoadingCurdApplianceJobState());
+    final failureOrSuccess = await addApplianceJobUseCase.updateApplyJobState(id,applyState);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+  }
+
+
 
   CurdApplianceJobState _eitherDoneMessageOrErrorState(
       Either<Failure, int> either, String message) {
@@ -29,10 +40,18 @@ class CurdApplianceJobCubit extends Cubit<CurdApplianceJobState> {
     );
   }
 
+
+  @override
+  void onChange(Change<CurdApplianceJobState> change) {
+    super.onChange(change);
+    print('change $change');
+  }
+
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
-      case const (ServerFailure):
-        return SERVER_FAILURE_MESSAGE;
+      case const (ServerFailure)  :
+        return (failure as ServerFailure).messageServer ??
+            SERVER_FAILURE_MESSAGE;
       case const (OfflineFailure):
         return OFFLINE_FAILURE_MESSAGE;
       default:

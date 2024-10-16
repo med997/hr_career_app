@@ -11,6 +11,8 @@ final class CurdProfileInitial extends CurdProfileState {
 } 
 
 class LoadingCurdProfileState extends CurdProfileState {}
+class LoadingExpProfileState extends CurdProfileState {}
+class LoadingEduProfileState extends CurdProfileState {}
 
 class ErrorCurdProfileState extends CurdProfileState {
   final String message;

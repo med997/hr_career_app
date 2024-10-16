@@ -25,6 +25,7 @@ class Job extends Equatable{
   final String jobRequirements;
   final String? companyId;
   final Company? company;
+  final int? applianceNo;
 
    const Job({
     this.id,
@@ -43,6 +44,7 @@ class Job extends Equatable{
      this.nationalities,
      this.qualifications,
      this.status,
+     this.applianceNo,
     required this.jobDesc,
     required this.jobRequirements,
      this.companyId,

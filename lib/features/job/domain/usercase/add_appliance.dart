@@ -15,4 +15,7 @@ class AddApplianceJobUseCase {
   Future<Either<Failure, int>> call(int jobId, String profileId ) async {
     return await repository.addApplianceJob(jobId,profileId);
   }
+  Future<Either<Failure, int>> updateApplyJobState(int applianceId,String applyState) async {
+    return await repository.updateApplyJobState(applianceId,applyState);
+  }
 }

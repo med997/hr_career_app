@@ -27,8 +27,14 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     // AuthModel authModelsToJson = authModels
         // .map<Map<String, dynamic>>((authModel) => authModel.toJson())
         // .toList();
-    sharedPreferences.setString(CACHED_POSTS, json.encode(authModels.toJson()));
-    return Future.value(unit);
+    try {
+      sharedPreferences.setString(
+          CACHED_POSTS, jsonEncode(authModels.toJson()));
+      return Future.value(unit);
+    }catch (e){
+      print(e.toString());
+      throw EmptyCacheException();
+    }
   }
 
   @override

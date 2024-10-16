@@ -13,4 +13,11 @@ class SignupUseCase {
   Future<Either<Failure, Auth>> call(Auth auth) async {
     return await repository.signup(auth);
   }
+
+  Future<Either<Failure, Unit>> signupWithOtp(String token,String email) async {
+    return await repository.signupWithOtp(token,email);
+  }
+  Future<Either<Failure, Unit>> resendOtp(String email)  async {
+    return await repository.resendOtp(email);
+  }
 }
