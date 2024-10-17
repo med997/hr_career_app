@@ -35,7 +35,7 @@ Future<dynamic> showMultiLineDialog(
           TextButton(
             onPressed: () {
               final text =
-                  (dynamicModel.controller as FleatherController).document;
+                  (dynamicModel.controllerFlt as FleatherController).document;
               print(jsonEncode(text.toJson()));
 
               return Navigator.pop(contextDialog, text);
