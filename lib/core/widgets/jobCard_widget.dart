@@ -9,6 +9,7 @@ import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import '../../features/company/presentation/ui/company_job_details_page.dart';
 import '../../features/job/presentation/ui/job_details_page.dart';
 import '../app_localizations.dart';
+import '../util/const_val.dart';
 
 class JobCard extends StatelessWidget {
   final JobCardType jobCardType;
@@ -79,8 +80,7 @@ class JobCard extends StatelessWidget {
             ListTile(
               contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
               leading: AvatarNetwork(
-                imgUrl: job.company!.companyLogo ?? '',
-                withBorder: true,
+                imgUrl:  job.company!.companyLogo!=null? '$BaseStorageUrl${job.company!.companyLogo}':'',withBorder: true,
               ),
               title: Text(
                 job.company!.nameEn??'',
