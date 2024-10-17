@@ -25,6 +25,7 @@ import 'package:hr_career_platform/features/home/presentation/ui/home_page.dart'
 import 'package:hr_career_platform/features/job/presentation/bloc/curd_appliance_job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
+import 'package:hr_career_platform/features/notification/presentation/bloc/notification_cubit.dart';
 import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 
 import 'features/auth/presentation/bloc/verification_cubit.dart';
@@ -121,6 +122,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<DisableButtonCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<NotificationCubit>(),
       ),
     ],
     child: const MyApp(),

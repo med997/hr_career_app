@@ -10,28 +10,90 @@ import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/custom_drop_down_menu.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 
+import '../../features/general/domain/entities/general.dart';
 import '../../features/general/presentation/bloc/general_cubit.dart';
 import '../util/validator.dart';
 
 class SearchWidget extends StatelessWidget {
   final double spacer = 4.0;
   late double screenWidth;
+  double defaultWidth = 300;
   final _formKey = GlobalKey<FormState>();
-   List<DynamicModel> searchWidegt = [];
-
+   List<DynamicModel> searchForm = [];
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Responsive(
-        mobile: _mobileWidgetBuilder(),
+        mobile: _mobileWidgetBuilder(context),
         tablet: _desktopWidgetBuilder(context),
         desktop: _desktopWidgetBuilder(context));
   }
-
-
-  Widget _mobileWidgetBuilder() {
+  Widget _mobileWidgetBuilder( BuildContext context) {
+   double width =  Responsive.isMobile(context)  ? (defaultWidth / 0.8) : screenWidth ;
+    General? generals = context.read<GeneralCubit>().general;
+    List<ItemModel> nationalityItems = [];
+    List<ItemModel> categoryItems = [];
+    List<ItemModel> companyItems = [];
+    List<ItemModel> cityItems = [];
+    if (generals != null) {
+      nationalityItems =
+          generals.nationality.map((e) => ItemModel(key: e, value: e)).toList();
+      categoryItems = generals.jobCategory
+          .map((e) => ItemModel(key: e, value: e))
+          .toList();
+      companyItems =
+          generals.companyMajor.map((e) => ItemModel(key: e, value: e)).toList();
+      cityItems =
+          generals.cities.map((e) => ItemModel(key: e, value: e)).toList();
+    }
+    final List<DynamicModel> searchFormMobile =  [
+      DynamicModel(
+          padding: 8,
+          'category',
+          key: 'category',
+          items:categoryItems ,
+          width: width,
+          FormType.dropdown,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          controller: TextEditingController()),
+      DynamicModel(
+        padding: 8,
+          'company',
+          key: 'company',
+          width:width,
+          FormType.dropdown,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          controller: TextEditingController(),
+          items: companyItems),
+      DynamicModel(
+        padding: 8,
+          'city',
+          key: 'city',
+          width: width,
+          FormType.dropdown,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          controller: TextEditingController(),
+          items: cityItems),
+      DynamicModel(
+        padding: 8,
+          'nationality',
+          key: 'nationality',
+          width:width ,
+          FormType.dropdown,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          controller: TextEditingController(),
+          items: nationalityItems),
+    ];
     return ExpansionTile(
-      childrenPadding: const EdgeInsets.all(4),
+      childrenPadding: const EdgeInsets.symmetric(vertical: 8.0),
       title: SizedBox(
         width: 200,
         child: SearchBar(
@@ -45,171 +107,131 @@ class SearchWidget extends StatelessWidget {
         ),
       ),
       children: [
-        BlocBuilder<GeneralCubit, GeneralState>(
-          builder: (context, gnState) {
-            if (gnState is GeneralFetchedState) {
-              List<ItemModel> categoryItems = gnState
-                  .generals.jobCategory
-                  .map((e) => ItemModel(key: e, value: e))
-                  .toList();
-              List<ItemModel> companyItems = gnState
-                  .generals.companyMajor
-                  .map((e) => ItemModel(key: e, value: e))
-                  .toList();
-              List<ItemModel> locationItems = gnState.generals.cities
-                  .map((e) => ItemModel(key: e, value: e))
-                  .toList();
-              final searchForm =  [
-                DynamicModel(
-                    'category',
-                    key: 'category',
-                    items:categoryItems ,
-                    width: Responsive.isMobile(context) ? screenWidth : 300,
-                    FormType.dropdown,
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController()),
-                DynamicModel(
-                    'company',
-                    key: 'company',
-                    width: Responsive.isMobile(context) ? screenWidth : 300,
-                    FormType.dropdown,
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController(),
-                items: companyItems),
-                DynamicModel(
-                    'location',
-                    key: 'location',
-                    width: Responsive.isMobile(context) ? screenWidth : 300,
-                    FormType.dropdown,
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController(),
-                items: locationItems),
-              ];
-              return DynamicFormWidget(
+               DynamicFormWidget(
                 key: const Key('search'),
-                dynamicFormsList: searchForm,
+                dynamicFormsList: searchFormMobile,
                 formKey: _formKey,
+                  submitBtn: SizedBox(
+                      width: width,
+                      height: 35,
+                      child: MaterialButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          color: primaryColor,
+                          onPressed: () {}, child: const Text(
+                        'search',
+                        style: TextStyle(color: Colors.white),
+                      ))) ,
                 useResponsiveUi: true,
-              );
-            }
-            return const SizedBox();
-          },
-        ),
-        Padding(
-          padding: EdgeInsets.all(spacer),
-          child: SizedBox(
-              width: 350,
-              height: 35,
-              child: ElevatedButton(
-                  onPressed: () {}, child: const Text('search'))),
-        )
+              ),
+
       ],
     );
   }
 
   Widget _desktopWidgetBuilder(BuildContext context) {
+    double width =  Responsive.isMobile(context)  ? screenWidth : 350 ;
     double widthItem = (screenWidth / 5 - 50);
+    General? generals = context.read<GeneralCubit>().general;
+    List<ItemModel> nationalityItems = [];
+    List<ItemModel> categoryItems = [];
+    List<ItemModel> companyItems = [];
+    List<ItemModel> cityItems = [];
+    if (generals != null) {
+      nationalityItems =
+          generals.nationality.map((e) => ItemModel(key: e, value: e)).toList();
+      categoryItems = generals.jobCategory
+          .map((e) => ItemModel(key: e, value: e))
+          .toList();
+      companyItems =
+          generals.companyMajor.map((e) => ItemModel(key: e, value: e)).toList();
+      cityItems =
+          generals.cities.map((e) => ItemModel(key: e, value: e)).toList();
+    }
+   final List<DynamicModel> searchFormDesc = [
+      DynamicModel(
+          'search',
+          key: 'search',
+          FormType.text,
+          width: width,
+          icons: Icon(
+            Icons.search,
+            size: 16,
+            color: primaryColor.withOpacity(0.8),
+          ),
+          controller: TextEditingController()),
+      DynamicModel(
+          'category',
+          key: 'category',
+          items: categoryItems,
+          width: width,
+          FormType.dropdown,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          controller: TextEditingController()),
+      DynamicModel(
+          'company',
+          key: 'company',
+          width: width,
+          FormType.dropdown,
+          items: companyItems,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          controller: TextEditingController()),
+      DynamicModel(
+          'city',
+          key: 'city',
+          width: width,
+          FormType.dropdown,
+          items: cityItems,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          controller: TextEditingController()),
+      DynamicModel(
+          'nationality',
+          key: 'nationality',
+          width: width,
+          FormType.dropdown,
+          items: nationalityItems,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          controller: TextEditingController()),
+      DynamicModel(
+          'searchForm',
+          key: 'searchForm',
+          FormType.subDynForm,
+          width: width,
+          subFormHeader:  MaterialButton(
+              onPressed: () {},
+              height: 43,
+              minWidth: width,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              color: primaryColor,
+              child: const Text(
+                'search',
+                style: TextStyle(color: Colors.white),
+              )),
+          subFormFooter: SizedBox(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          controller: TextEditingController(),
+          subDynamicModel: searchForm),
+    ];
     return Wrap(
       direction: Axis.horizontal,
-      spacing: (spacer * 2),
       children: <Widget>[
-        BlocBuilder<GeneralCubit, GeneralState>(
-          builder: (context, gnState) {
-            if (gnState is GeneralFetchedState) {
-              List<ItemModel> categoryItems = gnState
-                  .generals.jobCategory
-                  .map((e) => ItemModel(key: e, value: e))
-                  .toList();
-              List<ItemModel> companyItems = gnState
-                  .generals.companyMajor
-                  .map((e) => ItemModel(key: e, value: e))
-                  .toList();
-              List<ItemModel> locationItems = gnState.generals.cities
-                  .map((e) => ItemModel(key: e, value: e))
-                  .toList();
-              final searchForm = [
-                DynamicModel(
-                    'search',
-                    key: 'search',
-                    FormType.text,
-                    icons: Icon(
-                      Icons.search,
-                      size: 16,
-                      color: primaryColor.withOpacity(0.8),
-                    ),
-                    controller: TextEditingController()),
-                DynamicModel(
-                    'category',
-                    key: 'category',
-                    items: categoryItems,
-                    width: Responsive.isMobile(context) ? screenWidth : 300,
-                    FormType.dropdown,
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController()),
-                DynamicModel(
-                    'company',
-                    key: 'company',
-                    width: Responsive.isMobile(context) ? screenWidth : 300,
-                    FormType.dropdown,
-                    items: companyItems,
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController()),
-                DynamicModel(
-                    'location',
-                    key: 'location',
-                    width: Responsive.isMobile(context) ? screenWidth : 300,
-                    FormType.dropdown,
-                    items: locationItems,
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController()),
-                DynamicModel(
-                    'search',
-                    key: 'search',
-                    FormType.subDynForm,
-                    subFormHeader:  SizedBox(
-                        height: 35,
-                        width: Responsive.isMobile(context) ? screenWidth : 300,
-                        child: MaterialButton(
-                            onPressed: () {},
-                            height: 35,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            padding:
-                            const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                            color: primaryColor,
-                            child: const Text(
-                              'search',
-                              style: TextStyle(color: Colors.white),
-                            ))),
-                    subFormFooter: SizedBox(height: 0,),
-                    validators: [
-                      DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-                    ],
-                    controller: TextEditingController(),
-                subDynamicModel: searchWidegt),
-              ];
-              return DynamicFormWidget(
+               DynamicFormWidget(
                 key: const Key('search'),
-                dynamicFormsList: searchForm,
+                dynamicFormsList: searchFormDesc,
                 formKey: _formKey,
                 useResponsiveUi: true,
-              );
-            }
-            return const SizedBox();
-          },
-        ),
+              ),
 
       ],
     );

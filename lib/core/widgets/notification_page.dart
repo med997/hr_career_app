@@ -1,22 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_localizations.dart';
+import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
+import 'package:hr_career_platform/core/widgets/loading_widget.dart';
+import 'package:hr_career_platform/core/widgets/notifications_widget.dart';
 import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
+import 'package:hr_career_platform/features/notification/domain/entities/notification.dart';
+import 'package:hr_career_platform/features/notification/presentation/bloc/notification_cubit.dart';
 
-class NotificationPage extends StatelessWidget {
+import '../../features/auth/domain/entities/auth.dart';
+
+class NotificationPage extends StatefulWidget {
+  final Auth auth;
+
+
+  const NotificationPage({super.key, required this.auth});
+
   @override
+  State<NotificationPage> createState() => _NotificationPageState();
+}
+
+class _NotificationPageState extends State<NotificationPage> {
+  @override
+  @override
+  void initState() {
+    super.initState();
+    context.read<NotificationCubit>().getNotificationByUuid(widget.auth.userAuth!.id);
+
+  }
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Center(
         child: Column(
             children: [
-          ToggleBtnWidget(
-            options: const ['All', 'Following', 'Archive'],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-        ]),
+              ToggleBtnWidget(
+                options: const ['Not Readed','Archive'],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              BlocBuilder<NotificationCubit, NotificationState>(
+                builder: (context, state) {
+                 if(state is NotificationLoading){
+                   return LoadingWidget();
+                 }
+                 else if(state is NotificationFetchedState){
+                   return ListView.builder(
+                     padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                     shrinkWrap: true,
+                       itemCount: state.notification.length ?? 0 ,
+                       itemBuilder: (context, i) {
+                         NotificationApp notification = state.notification[i];
+                         DateTime time = DateTime.parse(notification.createdAt);
+                     return ListTile(
+                       shape: const Border(bottom: BorderSide(width: 0.1,color: primaryTransparent)),
+                       leading:const Icon(Icons.notifications ,color: primaryTransparent,),
+                       title:  Text(
+                         notification.title,
+                         style:
+                         const TextStyle(color:primaryColor, fontWeight: FontWeight.w500),
+                       ),
+                       trailing: Text(
+                         '${time.hour}:${time.minute}',
+                         style: const TextStyle(color: primaryColor, fontSize: 12),
+                       ),
+                       subtitle: Text(
+                         notification.body,
+                         style:
+                          TextStyle(color:primaryColor.withOpacity(0.7),)
+                       ),
+                     );
+                   }
+                   );
+                 }
+                 else {
+                   return const SizedBox();
+                 }
+                },
+
+              ),
+
+            ]),
       ),
     );
   }
