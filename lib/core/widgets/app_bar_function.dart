@@ -8,25 +8,23 @@ import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/language_button_widget.dart';
 
 import '../../features/auth/presentation/bloc/login_cubit.dart';
+import '../../features/job/presentation/ui/add_job_page.dart';
 import '../splash_page.dart';
 import '../util/const_val.dart';
 
-AppBar buildAppBar({
-  required String userName,
-  required String img,
-  bool fullHeader = false,
-  bool withBackBtn = false,
-  required String userOrCompany,
-  int? selectedTab,
-}) {
-  String imageUrl = img.isNotEmpty
-      ? '$BaseStorageUrl$img'
-      : '';
+AppBar buildAppBar(
+    {required String userName,
+    required String img,
+    bool fullHeader = false,
+    bool withBackBtn = false,
+    required String userOrCompany,
+    int? selectedTab,
+    required BuildContext context}) {
+  String imageUrl = img.isNotEmpty ? '$BaseStorageUrl$img' : '';
   return AppBar(
-    iconTheme: IconThemeData(color: primaryColor),
+    iconTheme: const IconThemeData(color: primaryColor),
     centerTitle: true,
     titleSpacing: 8,
-
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,57 +52,60 @@ AppBar buildAppBar({
           direction: Axis.horizontal,
           children: [
             if (selectedTab == 2 && userOrCompany == 'Company')
-              appBarButton(
-                Colors.yellow.shade700,
-              )
+              appBarButton(Colors.yellow.shade700, () {})
             else if (selectedTab == 1 && userOrCompany == 'Company')
-              appBarButton(primaryColor)
-            else if (selectedTab == 3 )
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    direction: Axis.horizontal,
-                    spacing: 6,
-                    children: [
-                      LanguageButton(clr: primaryColor),
-                      BlocConsumer<LoginCubit, LoginState>(
-                        listener: (context, state) {
-                          if (state is LoginSignOutState) {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SplashPage(),
-                                ),
-                                    (route) => false);
-                          }
-                        },
-                        builder: (context, state) {
-                          return MaterialButton(
-                              onPressed: () {
-                                context.read<LoginCubit>().signOut();
-                              },
-                              shape: CircleBorder(),
-                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              clipBehavior: Clip.hardEdge,
-                              padding:EdgeInsets.all(userOrCompany == 'User'? 4:2),
-                              color:  userOrCompany == 'User'?null:Colors.red,
-                              minWidth: 16,
-                              child: Icon(
-                                Icons.power_settings_new_outlined,
-                                color: userOrCompany == 'User'
-                                    ? Colors.red
-                                    : Colors.white,
-                                size: userOrCompany == 'User'?22:18,
-                              ));
-                        },
-                      ),
-                    ],
+              appBarButton(primaryColor, () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AddJobPage(),
                   ),
+                );
+              })
+            else if (selectedTab == 3)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  direction: Axis.horizontal,
+                  spacing: 6,
+                  children: [
+                    LanguageButton(clr: primaryColor),
+                    BlocConsumer<LoginCubit, LoginState>(
+                      listener: (context, state) {
+                        if (state is LoginSignOutState) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SplashPage(),
+                              ),
+                              (route) => false);
+                        }
+                      },
+                      builder: (context, state) {
+                        return MaterialButton(
+                            onPressed: () {
+                              context.read<LoginCubit>().signOut();
+                            },
+                            shape: CircleBorder(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            clipBehavior: Clip.hardEdge,
+                            padding:
+                                EdgeInsets.all(userOrCompany == 'User' ? 4 : 2),
+                            color: userOrCompany == 'User' ? null : Colors.red,
+                            minWidth: 16,
+                            child: Icon(
+                              Icons.power_settings_new_outlined,
+                              color: userOrCompany == 'User'
+                                  ? Colors.red
+                                  : Colors.white,
+                              size: userOrCompany == 'User' ? 22 : 18,
+                            ));
+                      },
+                    ),
+                  ],
                 ),
-
-
-
+              ),
             if (fullHeader == true)
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
@@ -120,9 +121,9 @@ AppBar buildAppBar({
   );
 }
 
-ElevatedButton appBarButton(Color clr) {
+ElevatedButton appBarButton(Color clr, Function() onTap) {
   return ElevatedButton(
-      onPressed: () async {},
+      onPressed: onTap,
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
         backgroundColor: clr,
