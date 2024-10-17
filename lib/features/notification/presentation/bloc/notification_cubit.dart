@@ -19,6 +19,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     emit(_mapFailureOrHomeToState(failureOrSuccess));
   }
 
+
   NotificationState  _mapFailureOrHomeToState(Either<Failure, List<NotificationApp>> either) {
     return either.fold(
           (failure) => NotificationErrorState(msg: _mapFailureToMessage(failure)),
