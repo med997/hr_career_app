@@ -234,7 +234,7 @@ class JobCard extends StatelessWidget {
           ),
           ListTile(
             leading: AvatarNetwork(
-              imgUrl: job.company!.companyLogo ?? '',
+              imgUrl:  job.company!.companyLogo!=null? '$BaseStorageUrl${job.company!.companyLogo}':'',
               withBorder: true,
             ),
 
