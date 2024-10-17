@@ -24,9 +24,11 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
     final currentFields = dynamicModel;
     emit(currentFields);
   }
-  void setDisableFiled(bool disabled) {
+  void setDisableFiled(bool disabled, {List<String> keysNotEdit=const[]}) {
     final currentFields = state.map((field) {
-      field.disabled = disabled;
+      if(!keysNotEdit.contains(field.key)){
+        field.disabled = disabled;
+      }
       return field;
     }).toList();
     emit(currentFields);

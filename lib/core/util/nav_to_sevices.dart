@@ -16,7 +16,7 @@ Future<bool> navToWebsite(String website) {
 class MapUtils {
   MapUtils._();
 
-  static Future<void> navToMap(double latitude, double longitude) async {
+  static Future<void> navToMap(String latitude, String longitude) async {
     String googleUrl =
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunchUrl(Uri.parse(googleUrl))) {

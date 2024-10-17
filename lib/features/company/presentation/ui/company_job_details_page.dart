@@ -89,6 +89,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
+
           width: width,
           controller: TextEditingController(text: job.jobTitle),
           isRequired: true,

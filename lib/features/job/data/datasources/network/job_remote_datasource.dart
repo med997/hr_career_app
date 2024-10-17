@@ -17,6 +17,7 @@ abstract class JobRemoteDataSource {
   Future<int> addApplianceJob(int jobId, String profileId);
 
   Future<List<JobModel>> getSearchJobs( int companyId, String category,String nationalities);
+  Future<List<JobModel>> getAllJobsByCompany(String companyId);
 
 
 
@@ -36,6 +37,26 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
       *
     )
   ''').order('created_at').limit(100);
+
+      final List<JobModel> jobList =
+          data.map((json) => JobModel.fromJson(json)).toList();
+      return jobList;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException();
+    }
+  }
+  @override
+  Future<List<JobModel>> getAllJobsByCompany(String companyId) async {
+    try {
+      final data = await supBase.from('jobs').select('''
+    *,
+    company (
+      *
+    )
+  ''').eq("company_id", companyId).order('created_at').limit(100);
 
       final List<JobModel> jobList =
           data.map((json) => JobModel.fromJson(json)).toList();

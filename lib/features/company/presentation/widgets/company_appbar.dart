@@ -55,7 +55,6 @@ class CompanyAppBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (type == 'APPBAR') {
       return Container(
         padding: const EdgeInsets.only(top: 12,bottom: 12,right: 12,left: 12),
         decoration:  const BoxDecoration(
@@ -231,12 +230,13 @@ class CompanyAppBarWidget extends StatelessWidget {
                             navToWebsite(company.website ?? '');
                           },
                         ),
-                        CircularIconButton(
+                      (company.locations!=null&&company.locations!.length==2)?
+                      CircularIconButton(
                           icon: Icons.send_outlined,
                           onPressed: () {
-                            MapUtils.navToMap(-3.823216, -38.481700);
+                            MapUtils.navToMap(company.locations![0], company.locations![1]);
                           },
-                        ),
+                        ):const SizedBox(),
                         CircularIconButton(
                           icon: Icons.more_horiz_rounded,
                           onPressed: () {},
@@ -248,136 +248,7 @@ class CompanyAppBarWidget extends StatelessWidget {
           ),
         ),
       );
-    } else {
-      return Container(
-        height: 250,
-        decoration: BoxDecoration(
-            color: Colors.black87,
-            image: const DecorationImage(
-              opacity: 0.5,
-              image: AssetImage('assets/imgs/imgCmpProfile.png'),
-              fit: BoxFit.cover, // Adjust fit as needed
-            ),
-            borderRadius: BorderRadius.circular(32)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            appbarCompanyDetail == true
-                ? const BackButton(
-                    color: Colors.white,
-                  )
-                : Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 26),
-                    decoration: BoxDecoration(
-                        color: Colors.white38,
-                        borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          tr("profile_msg"),
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  shape: const CircleBorder(),
-                                  backgroundColor: Colors.redAccent,
-                                ),
-                                child: const Icon(
-                                  Icons.power_settings_new_outlined,
-                                  color: Colors.white,
-                                  size: 14,
-                                )),
-                            const LanguageButton(
-                              clr: Colors.white,
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-            ListTile(
-              leading: AvatarNetwork(
-                imgUrl: company.companyLogo ?? '',
-                withBorder: false,
-              ),
-              title: Text(
-                company.nameEn,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 16),
-              ),
-              subtitle: Wrap(
-                spacing: 2,
-                children: [
-                  Text(
-                    company.major ?? '',
-                    style: const TextStyle(color: Colors.grey, fontSize: 14),
-                  ),
-                  TextWithIcon(
-                    icon: const Icon(
-                      Icons.place_outlined,
-                      color: primaryColor,
-                      size: 18,
-                    ),
-                    text: company.city ?? '',
-                    textColor: Colors.grey,
-                  )
-                ],
-              ),
-            ),
-            appbarCompanyDetail == true
-                ? Wrap(
-                    alignment: WrapAlignment.start,
-                    runAlignment: WrapAlignment.start,
-                    spacing: 15,
-                    runSpacing: 10,
-                    children: [
-                      CircularIconButton(
-                        icon: Icons.call_outlined,
-                        onPressed: () {
-                          navToCall(company.phone);
-                        },
-                      ),
-                      CircularIconButton(
-                        icon: Icons.mail_outlined,
-                        onPressed: () {
-                          navToEmail(company.email);
-                        },
-                      ),
-                      CircularIconButton(
-                        icon: Icons.language_outlined,
-                        onPressed: () {
-                          navToWebsite(company.website ?? '');
-                        },
-                      ),
-                      CircularIconButton(
-                        icon: Icons.navigation_rounded,
-                        onPressed: () {
-                          MapUtils.navToMap(-3.823216, -38.481700);
-                        },
-                      ),
-                      CircularIconButton(
-                        icon: Icons.more_horiz_rounded,
-                        onPressed: () {},
-                      ),
-                    ],
-                  )
-                : SizedBox(),
-          ],
-        ),
-      );
-    }
+
   }
 }
 

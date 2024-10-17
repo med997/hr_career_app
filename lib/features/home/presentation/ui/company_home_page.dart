@@ -53,12 +53,12 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
             userName: state.selectedTab == 3 ? tr("profile_msg")
                 : state.selectedTab == 1 ? 'Jobs'
                 : state.selectedTab == 2 ? tr("tenders_msg")
-                : widget.auth.company!.nameEn ?? '',
-            img:  widget.auth.company!.companyLogo??'',
+                : widget.auth.company!.nameEn  ?? '',
+            img:  widget.auth.company!.companyLogo ??'',
             fullHeader: (state.selectedTab != 0)
                 ? false
                 : true,
-            selectedTab: state.selectedTab,
+            selectedTab: state.selectedTab, context: context,
           ) : null,
           body: (state is TabNavChangedState)
               ? _navPageBody(state.selectedTab,context)
@@ -79,12 +79,13 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
       builder: (context, state) {
         return Scaffold(
           appBar: buildAppBar(
+            context: context,
             userOrCompany: 'Company',
             userName: state.selectedTab == 3 ? tr("profile_msg")
                 : state.selectedTab == 1 ? 'Jobs'
                 : state.selectedTab == 2 ? tr("tenders_msg")
                 : widget.auth.company!.nameEn ?? '',
-            img:  widget.auth.company!.companyLogo??'',
+            img:  widget.auth.company!.companyLogo!,
             fullHeader: (state.selectedTab != 0)
                 ? false
                 : true,

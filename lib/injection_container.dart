@@ -37,9 +37,14 @@ import 'package:hr_career_platform/features/job/data/datasources/network/job_rem
 import 'package:hr_career_platform/features/job/data/repositories/job_repository_impl.dart';
 import 'package:hr_career_platform/features/job/domain/repositories/job_repository.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/add_job.dart';
+import 'package:hr_career_platform/features/job/domain/usercase/get_all_jobs_by_company.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
+import 'package:hr_career_platform/features/notification/data/datasources/notification_remote_datasource.dart';
+import 'package:hr_career_platform/features/notification/data/repositories/notification_repository_impl.dart';
+import 'package:hr_career_platform/features/notification/domain/repositories/notification_repository.dart';
+import 'package:hr_career_platform/features/notification/presentation/bloc/notification_cubit.dart';
 import 'package:hr_career_platform/features/profile/domain/usecases/update_profile_fcm_token.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/curd_job_cubit.dart';
@@ -71,6 +76,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'features/company/presentation/bloc/company_profile_cubit.dart';
 import 'features/job/domain/usercase/add_appliance.dart';
 import 'features/job/presentation/bloc/curd_appliance_job_cubit.dart';
+import 'features/notification/domain/usecases/fetch_notification.dart';
 
 final sl = GetIt.instance;
 
@@ -83,6 +89,7 @@ Future<void> initDependencies() async {
   _initAuth();
   _initGeneral();
   _initCompany();
+  _initNotification();
 
 //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
@@ -141,10 +148,15 @@ void _initJob() {
          AddApplianceJobUseCase(
           sl(),
         ),
+  )..registerFactory(
+        () =>
+         GetAllJobsByCompany(
+          sl(),
+        ),
   )
   // cubit
     ..registerLazySingleton(
-          () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl()),
+          () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl(), getAllJobsByCompanyUserCase: sl(),),
     )
   // cubit
     ..registerLazySingleton(
@@ -417,5 +429,35 @@ void _initCompany() {
     )
     ..registerLazySingleton(
       () => DisableButtonCubit(),
+    );
+}
+
+void _initNotification() {
+  sl
+  // datasource
+    ..registerFactory<NotificationRemoteDatasource>(
+          () =>
+          NotificationRemoteDatasourceImp(
+            client: sl(),
+          ),
+    )
+  // repository
+    ..registerFactory<NotificationRepository>(
+          () =>
+          NotificationRepositoryImpl(
+            notificationRemoteDatasource: sl(),
+            networkInfo: sl(),
+          ),
+    )
+  // usecases
+    ..registerFactory(
+          () =>
+              FetchNotificationUseCase(
+            sl(),
+          ),
+    )
+  // cubit
+    ..registerLazySingleton(
+          () => NotificationCubit(notificationUseCase: sl(),),
     );
 }
