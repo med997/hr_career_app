@@ -75,7 +75,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
         SubTitle(
           titleType: SubTitleType.textOnly,
           title: tr("recent_job_msg"),
-          icon: Icon(Icons.edit_note),
+          icon: const Icon(Icons.edit_note),
         ),
          RecentJobsWidget(jobCardType: JobCardType.company,)
       ],

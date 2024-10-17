@@ -37,6 +37,7 @@ import 'package:hr_career_platform/features/job/data/datasources/network/job_rem
 import 'package:hr_career_platform/features/job/data/repositories/job_repository_impl.dart';
 import 'package:hr_career_platform/features/job/domain/repositories/job_repository.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/add_job.dart';
+import 'package:hr_career_platform/features/job/domain/usercase/get_all_jobs_by_company.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/update_job.dart';
@@ -147,10 +148,15 @@ void _initJob() {
          AddApplianceJobUseCase(
           sl(),
         ),
+  )..registerFactory(
+        () =>
+         GetAllJobsByCompany(
+          sl(),
+        ),
   )
   // cubit
     ..registerLazySingleton(
-          () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl()),
+          () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl(), getAllJobsByCompanyUserCase: sl(),),
     )
   // cubit
     ..registerLazySingleton(

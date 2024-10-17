@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
                       : state.selectedTab == 2 ? tr("search_msg")
                           : state.selectedTab == 3 ? tr("profile_msg")
                               :auth.profile!.fullName??'',
-                  img: auth.profile!.avatarUrl??'',
+                  img:  auth.profile!.avatarUrl!=null? '$BaseStorageUrl${auth.profile!.avatarUrl}':'',
                   userOrCompany: 'User',
                   fullHeader: (state.selectedTab == 4 ||
                           state.selectedTab == 3 ||
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
                 )
               : buildAppBar(
                   userName: auth.profile!.fullName??'',
-                  img: auth.profile!.avatarUrl??'',
+                  img:auth.profile!.avatarUrl!=null? '$BaseStorageUrl${auth.profile!.avatarUrl}':'',
                   userOrCompany: 'User',
                   fullHeader: true,
                   selectedTab: state.selectedTab,

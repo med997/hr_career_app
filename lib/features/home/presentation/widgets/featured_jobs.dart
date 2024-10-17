@@ -10,6 +10,7 @@ import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 
+import '../../../../core/util/const_val.dart';
 import '../../../job/domain/entities/job.dart';
 import '../../../job/presentation/ui/job_details_page.dart';
 
@@ -122,7 +123,7 @@ class FeaturedJobs extends StatelessWidget {
                 job.company!.nameEn,
                 style: const TextStyle(color: Colors.white, fontSize: 12),
               ),
-              leading: AvatarNetwork(imgUrl: job.company!.companyLogo??'',withBorder: true,)
+              leading: AvatarNetwork(imgUrl: job.company!.companyLogo!=null? '$BaseStorageUrl${job.company!.companyLogo}':'',withBorder: true,)
             ),
             CustomChips(
               chipsTitles: [

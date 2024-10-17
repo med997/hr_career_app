@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fleather/fleather.dart';
 import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 import 'package:hr_career_platform/features/company/domain/usecases/update_company.dart';
 
@@ -30,16 +31,16 @@ class CurdCompanyCubit extends Cubit<CurdCompanyState> {
       nameAr: value['nameAr'],
       nameEn: value['nameEn'],
       website: value['website'],
-      aboutUs: value['aboutUs'],
+      aboutUs: (value['aboutUs'] as ParchmentDocument).toPlainText(),
+      aboutUsFormated: (value['aboutUs'] != null && value['aboutUs'] != '')
+          ? (value['aboutUs'] as ParchmentDocument).toJson()
+          :(value['aboutUs'] as ParchmentDocument).toJson(),
       companyLogo: value['companyLogo'],
       locations: value['locations'],
-      createdAt: value['createdAt'],
       headOffice: value['headOffice'],
-      imagesPath: value['imagesPath'],
       nationality: value['nationality'],
-      videoPaths: value['videoPaths'],
       otherContact: value['otherContact'],
-      documentPaths: value['documentPaths'],
+      govRegNo: value['govRegNo']
     );
     final failureOrSuccess = await updateCompanyUserCase.call(company);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));

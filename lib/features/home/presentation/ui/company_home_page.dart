@@ -54,7 +54,7 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
                 : state.selectedTab == 1 ? 'Jobs'
                 : state.selectedTab == 2 ? tr("tenders_msg")
                 : widget.auth.company!.nameEn ?? '',
-            img:  widget.auth.company!.companyLogo??'',
+            img:  widget.auth.company!.companyLogo!,
             fullHeader: (state.selectedTab != 0)
                 ? false
                 : true,
@@ -84,7 +84,7 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
                 : state.selectedTab == 1 ? 'Jobs'
                 : state.selectedTab == 2 ? tr("tenders_msg")
                 : widget.auth.company!.nameEn ?? '',
-            img:  widget.auth.company!.companyLogo??'',
+            img:  widget.auth.company!.companyLogo!,
             fullHeader: (state.selectedTab != 0)
                 ? false
                 : true,
