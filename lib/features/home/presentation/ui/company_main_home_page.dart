@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
-import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/square_button_function.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
-import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
-import 'package:hr_career_platform/features/home/presentation/ui/company_tenders_page.dart';
+import 'package:hr_career_platform/features/home/presentation/widgets/recent_tenders.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
 
@@ -81,7 +79,14 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
           title: tr("recent_job_msg"),
           icon: const Icon(Icons.edit_note),
         ),
-         RecentJobsWidget(jobCardType: JobCardType.company,)
+         RecentJobsWidget(jobCardType: JobCardType.company,),
+
+        SubTitle(
+          titleType: SubTitleType.textOnly,
+          title: tr("recent_tender_msg"),
+          icon: const Icon(Icons.edit_note),
+        ),
+        const RecentTenders()
       ],
     );
   }
