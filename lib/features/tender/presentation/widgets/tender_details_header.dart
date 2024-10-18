@@ -7,7 +7,8 @@ import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 
 
 import '../../../../core/util/const_val.dart';
-import '../../domain/entities/Tender.dart';
+import '../../domain/entities/tender.dart';
+
 
 class TenderDetailsHeader extends StatelessWidget {
   final Tender tender;

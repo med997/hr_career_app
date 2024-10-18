@@ -9,7 +9,8 @@ import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:parchment_to_html/parachment_to_html.dart';
 
-import '../../domain/entities/Tender.dart';
+import '../../domain/entities/tender.dart';
+
 
 class TenderDetailsTabBar extends StatefulWidget {
   final Tender tender;

@@ -34,11 +34,11 @@ class RecentTenders extends StatelessWidget {
     );
   }}
 
-Widget _buildMobileLayout(List<Tender> tender) {
+Widget _buildMobileLayout(List<Tender>? tender) {
   return ListView.builder(
       shrinkWrap: true,
       physics: const PageScrollPhysics(),
-      itemCount: tender.length ?? 0,
+      itemCount: tender!.length ?? 0,
       itemBuilder: (context, i) => InkWell(
         /*onTap: () => Navigator.push(
           context,
@@ -50,13 +50,13 @@ Widget _buildMobileLayout(List<Tender> tender) {
       ));
 }
 Widget _buildTabletDesktopLayout(
-    List<Job> jobs, int columnCount, BuildContext context) {
+    List<Job>? jobs, int columnCount, BuildContext context) {
   double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
   if(Responsive.isDesktop(context))
     itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
   return Wrap(
       children: [
-        ...jobs.map(
+        ...jobs!.map(
               (job) => SizedBox(
             width: itemWidth,
             child: JobCard(

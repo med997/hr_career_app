@@ -36,36 +36,36 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
     );
   }
 
-  Widget _buildMobileLayout(List<Job> job) {
+  Widget _buildMobileLayout(List<Job>? job) {
     if(selectedJobState!=null){
-      job = job.where((jobs) => jobs.status==jobStatusList[selectedJobState??0] ,).toList();
+      job = job!.where((jobs) => jobs.status==jobStatusList[selectedJobState??0] ,).toList();
     }
     return ListView.builder(
         shrinkWrap: true,
         physics: const PageScrollPhysics(),
-        itemCount: job.length ?? 0,
+        itemCount: job!.length ?? 0,
         itemBuilder: (context, i) => jobCardType == JobCardType.user?
         JobCard(
           jobCardType: JobCardType.user,
-           job: job[i],):
+           job: job![i],):
         JobCard(
           jobCardType: JobCardType.company,
             chipBgColor:
-            job[i].status=='hidden'?Colors.grey:
-            job[i].status=='completed'?primaryTransparent:
+            job![i].status=='hidden'?Colors.grey:
+            job![i].status=='completed'?primaryTransparent:
             primaryColor,
             chipText:'${job[i].status}',
             job: job[i],));
   }
 
   Widget _buildTabletDesktopLayout(
-      List<Job> jobs, int columnCount, BuildContext context) {
+      List<Job>? jobs, int columnCount, BuildContext context) {
     double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
     if(Responsive.isDesktop(context))
        itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
       return Wrap(
           children: [
-        ...jobs.map(
+        ...jobs!.map(
           (job) => SizedBox(
             width: itemWidth,
             child: jobCardType == JobCardType.user ? JobCard(
@@ -73,7 +73,7 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
                columnWidth: itemWidth,) : JobCard(
               jobCardType: JobCardType.company,
               job: job,
-              chipText: jobs.first.status ,
+              chipText: jobs!.first.status ,
               chipBgColor: primaryColor,
               columnWidth: itemWidth,
             )
