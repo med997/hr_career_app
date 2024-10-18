@@ -8,7 +8,7 @@ List<JobModel> jobFromJson(String str) =>
     List<JobModel>.from(json.decode(str).map((x) => JobModel.fromJson(x)));
 
 class JobModel extends Job {
-  JobModel({
+  const JobModel({
     super.id,
     required super.createdAt,
     required super.jobTitle,
