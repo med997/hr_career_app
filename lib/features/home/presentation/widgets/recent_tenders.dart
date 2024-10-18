@@ -41,11 +41,11 @@ Widget _buildMobileLayout(List<Tender> tender) {
       physics: const PageScrollPhysics(),
       itemCount: tender.length ?? 0,
       itemBuilder: (context, i) => InkWell(
-        /*onTap: () => Navigator.push(
+        onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => TenderDetailsPage(tender: tender[i])),
-        ),*/
+        ),
         child: TenderCard(
           tender: tender[i],),
       ));

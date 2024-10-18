@@ -6,6 +6,7 @@ import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/language_button_widget.dart';
+import 'package:hr_career_platform/features/tender/presentation/ui/add_tender_page.dart';
 
 import '../../features/auth/presentation/bloc/login_cubit.dart';
 import '../../features/job/presentation/ui/add_job_page.dart';
@@ -52,7 +53,13 @@ AppBar buildAppBar(
           direction: Axis.horizontal,
           children: [
             if (selectedTab == 2 && userOrCompany == 'Company')
-              appBarButton(Colors.yellow.shade700, () {})
+              appBarButton(Colors.yellow.shade700, () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AddTenderPage(),
+                  ),
+                );
+              })
             else if (selectedTab == 1 && userOrCompany == 'Company')
               appBarButton(primaryColor, () {
                 Navigator.of(context).push(

@@ -15,7 +15,7 @@ class AddJobPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      appBar: buildAppBar(userName: tr("jobs_msg"), img: '', fullHeader: false, userOrCompany: 'User', context: context,),
+      appBar: buildAppBar(userName: tr("add_job_msg"), img: '', fullHeader: false, userOrCompany: 'User', context: context,),
       body: Flex(
         direction: Axis.vertical,
         children: [
