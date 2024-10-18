@@ -1,8 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
-
+import '../../features/tender/domain/entities/tender.dart';
 import '../app_localizations.dart';
 import 'avatar_network.dart';
 import 'custom_chips.dart';
@@ -10,11 +8,14 @@ import 'custom_chips.dart';
 class TenderCardWidget extends StatelessWidget {
   final Color? chipBgColor;
   final String? chipText;
+  Tender tender;
   double? columnWidth;
- TenderCardWidget(
-      this.chipBgColor,
-      this.chipText,
-      this.columnWidth,);
+
+ TenderCardWidget({
+   this.chipBgColor,
+   required this.tender,
+   this.chipText,
+   this.columnWidth,});
 
   @override
   Widget build(BuildContext context) {
@@ -36,24 +37,24 @@ class TenderCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(
+           Padding(
+            padding: const EdgeInsets.symmetric(
               horizontal: 4,
             ),
             child: Text(
-              'job.jobTitle,',
-              style: TextStyle(
+              tender.tenderTitle,
+              style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 16),
             ),
           ),
           ListTile(
-            leading: const AvatarNetwork(
+            leading:const AvatarNetwork(
               imgUrl:  '',
               withBorder: true,
             ),
-            title: const Text(
+            title:  const Text(
                '',
               style: TextStyle(
                   color: Colors.black,
@@ -69,21 +70,21 @@ class TenderCardWidget extends StatelessWidget {
                   chipsTitles: [tr("tenders_msg")],
                   bgColor: Colors.blue.shade200,
                 ),
-                const TextWithIcon(
-                    icon: Icon(
+                 TextWithIcon(
+                    icon: const Icon(
                       Icons.timelapse_outlined,
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: ''),
+                    text: '${tender.deadlineDate!.hour}g ago'),
                     // text: '${job.deadlineDate!.hour}h ago'),
-                const TextWithIcon(
-                    icon: Icon(
+                 TextWithIcon(
+                    icon: const Icon(
                       Icons.location_on_outlined,
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: 'job.cit'),
+                    text: tender.city),
               ],
             ),
           ),
