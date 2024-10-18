@@ -18,7 +18,7 @@ class TenderModel extends Tender {
     required super.nationalities,
     super.tenderDescFormated,
     super.status,
-    required super.tenderDesc,
+     super.tenderDesc,
     super.companyId,
     super.company
   });

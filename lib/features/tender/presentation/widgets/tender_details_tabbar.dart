@@ -54,7 +54,7 @@ class _TenderDetailsTabBarState extends State<TenderDetailsTabBar> {
                         data: htmlTenderDesc,
                       )
                     : Text(
-                        widget.tender.tenderDesc,
+                        widget.tender.tenderDesc!,
                         textAlign: TextAlign.justify,
                         softWrap: true,
                         overflow: TextOverflow.visible,

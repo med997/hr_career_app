@@ -25,20 +25,20 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
           return Responsive(
-              mobile: _buildMobileLayout(state.homes.recentJobs),
+              mobile: _buildMobileLayout(state.homes.recentJobs!),
               tablet:
-                  _buildTabletDesktopLayout(state.homes.recentJobs, 2, context),
+                  _buildTabletDesktopLayout(state.homes.recentJobs!, 2, context),
               desktop: _buildTabletDesktopLayout(
-                  state.homes.recentJobs, 3, context));
+                  state.homes.recentJobs!, 3, context));
         }
         return const SizedBox();
       },
     );
   }
 
-  Widget _buildMobileLayout(List<Job>? job) {
+  Widget _buildMobileLayout(List<Job> job) {
     if(selectedJobState!=null){
-      job = job!.where((jobs) => jobs.status==jobStatusList[selectedJobState??0] ,).toList();
+      job = job.where((jobs) => jobs.status==jobStatusList[selectedJobState??0] ,).toList();
     }
     return ListView.builder(
         shrinkWrap: true,
@@ -59,13 +59,13 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
   }
 
   Widget _buildTabletDesktopLayout(
-      List<Job>? jobs, int columnCount, BuildContext context) {
+      List<Job> jobs, int columnCount, BuildContext context) {
     double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
     if(Responsive.isDesktop(context))
        itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
       return Wrap(
           children: [
-        ...jobs!.map(
+        ...jobs.map(
           (job) => SizedBox(
             width: itemWidth,
             child: jobCardType == JobCardType.user ? JobCard(

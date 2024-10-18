@@ -28,6 +28,12 @@ class HomeCubit extends Cubit<HomeState> {
     emit(_mapFailureOrHomeToState(failureOrSuccess));
   }
 
+  Future<void> getHomeUserTender() async {
+    emit(const HomeLoading());
+    final failureOrSuccess = await getHomeUserCase.getHomeUserTender();
+    emit(_mapFailureOrHomeToState(failureOrSuccess));
+  }
+
   HomeState _mapFailureOrHomeToState(Either<Failure, Home> either) {
     return either.fold(
           (failure) => HomeErrorState(msg: _mapFailureToMessage(failure)),

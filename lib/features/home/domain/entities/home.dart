@@ -11,10 +11,10 @@ class Home extends Equatable{
   final List<Tender>? featuredTender;
 
   const Home({
-   this.recentJobs ,
-   this.recentTender ,
-     this.featuredJobs,
-     this.featuredTender,
+   this.recentJobs =const[],
+   this.recentTender  =const[],
+     this.featuredJobs =const[],
+     this.featuredTender =const[],
   });
   @override
   List<Object?> get props => [];

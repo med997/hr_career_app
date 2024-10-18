@@ -15,7 +15,7 @@ class Tender extends Equatable {
   final String? nationalities;
   final String? status;
   final String? companyId;
-  final String tenderDesc;
+  final String? tenderDesc;
   final List<dynamic>? tenderDescFormated;
   final int? applianceNo;
   final Company? company;
