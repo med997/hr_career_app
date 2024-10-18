@@ -114,7 +114,7 @@ class HomePage extends StatelessWidget {
       case 3:
         return HomeProfilePage(auth: auth,);
       case 4:
-        return NotificationPage(auth: auth,);
+        return  NotificationPage(auth: auth,);
       default:
         return Placeholder();
     }

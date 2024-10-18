@@ -8,6 +8,8 @@ import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/network_info.dart';
 import '../datasources/notification_remote_datasource.dart';
 
+
+typedef DeleteOrUpdateNtf = Future<Unit> Function();
 class NotificationRepositoryImpl extends NotificationRepository{
   final NotificationRemoteDatasource notificationRemoteDatasource;
   final NetworkInfo networkInfo;
@@ -21,6 +23,25 @@ class NotificationRepositoryImpl extends NotificationRepository{
         return Right(remoteNotification);
       } on ServerException {
         return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateNotification(String id) async {
+    return await _getMessage(() => notificationRemoteDatasource.updateNotification(id));
+  }
+
+  Future<Either<Failure, Unit>> _getMessage(
+      DeleteOrUpdateNtf deleteOrUpdateNtf) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteNtf =  await deleteOrUpdateNtf();
+        return  Right(remoteNtf);
+      }on ServerException catch (e) {
+        return Left(ServerFailure(messageServer:e.message??''));
       }
     } else {
       return Left(OfflineFailure());

@@ -6,11 +6,11 @@ class NotificationApp extends Equatable {
   final String body;
   final int? userType;
   final String title;
-  final bool? isArchived;
+  final bool? isArchive;
 
   NotificationApp(
       {this.id,
-        this.isArchived,
+        this.isArchive,
         required this.createdAt,
         required this.body,
         this.userType,

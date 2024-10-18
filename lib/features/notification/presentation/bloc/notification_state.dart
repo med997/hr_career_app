@@ -16,6 +16,9 @@ final class NotificationFetchedState extends NotificationState {
   final List<NotificationApp> notification;
   NotificationFetchedState({required this.notification});
 }
+final class NotificationUpdateState extends NotificationState {
+
+}
 
 final class NotificationErrorState extends NotificationState{
   final String msg;
