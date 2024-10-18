@@ -11,12 +11,17 @@ part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
   final FetchNotificationUseCase notificationUseCase;
+
   NotificationCubit({required this.notificationUseCase}) : super(const NotificationInitial());
 
   Future<void> getNotificationByUuid(String uuid) async {
     emit(const NotificationLoading());
     final failureOrSuccess = await notificationUseCase.getNotificationByUuid(uuid);
     emit(_mapFailureOrHomeToState(failureOrSuccess));
+  }
+  Future<void> updateNotification(String uuid) async {
+    final failureOrSuccess = await notificationUseCase.updateNotification(uuid);
+    // emit(_mapFailureOrHomeToStateUpdate(failureOrSuccess));
   }
 
 
@@ -28,6 +33,17 @@ class NotificationCubit extends Cubit<NotificationState> {
       ),
     );
   }
+
+  NotificationState  _mapFailureOrHomeToStateUpdate(Either<Failure, Unit> either) {
+    return either.fold(
+          (failure) => NotificationErrorState(msg: _mapFailureToMessage(failure)),
+          (notification) => NotificationUpdateState(
+
+      ),
+    );
+  }
+
+
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case const (ServerFailure):

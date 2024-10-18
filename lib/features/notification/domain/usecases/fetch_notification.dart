@@ -12,4 +12,7 @@ class FetchNotificationUseCase {
   Future<Either<Failure, List<NotificationApp>>> getNotificationByUuid(String uuid) async {
     return await notificationRepository.getNotificationByUuid(uuid);
   }
+  Future<Either<Failure, Unit>> updateNotification(String id) async {
+    return await notificationRepository.updateNotification(id);
+  }
 }

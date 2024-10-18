@@ -6,7 +6,7 @@ class NotificationModel extends NotificationApp {
       required super.createdAt,
       required super.body,
       super.userType,
-      super.isArchived,
+      super.isArchive,
       required super.title});
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
@@ -16,7 +16,7 @@ class NotificationModel extends NotificationApp {
           body: json["body"] ?? '',
           userType: json["user_type"] ?? '',
           title: json["title"] ?? '',
-          isArchived: json["is_archive"]);
+          isArchive: json["is_archive"]);
 
   factory NotificationModel.formNotification(NotificationApp? notification) {
     return NotificationModel(
@@ -25,7 +25,7 @@ class NotificationModel extends NotificationApp {
         body: notification.body,
         title: notification.title,
         userType: notification.userType,
-        isArchived: notification.isArchived);
+        isArchive: notification.isArchive);
   }
 
   Map<String, dynamic> toJson() => {
@@ -34,6 +34,6 @@ class NotificationModel extends NotificationApp {
         "body": body,
         "user_type": userType,
         "title": title,
-        "is_archive": isArchived
+        "is_archive": isArchive
       };
 }

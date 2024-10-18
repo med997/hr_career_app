@@ -63,22 +63,22 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
     double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
     if(Responsive.isDesktop(context))
        itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
-    return Wrap(
-        children: [
-      ...jobs.map(
-        (job) => SizedBox(
-          width: itemWidth,
-          child: jobCardType == JobCardType.user ? JobCard(
+      return Wrap(
+          children: [
+        ...jobs.map(
+          (job) => SizedBox(
+            width: itemWidth,
+            child: jobCardType == JobCardType.user ? JobCard(
+                job: job,
+               columnWidth: itemWidth,) : JobCard(
+              jobCardType: JobCardType.company,
               job: job,
-             columnWidth: itemWidth,) : JobCard(
-            jobCardType: JobCardType.company,
-            job: job,
-            chipText: jobs.first.status ,
-            chipBgColor: primaryColor,
-            columnWidth: itemWidth,
-          )
-        ),
-      )
-    ]);
+              chipText: jobs.first.status ,
+              chipBgColor: primaryColor,
+              columnWidth: itemWidth,
+            )
+          ),
+        )
+      ]);
   }
 }
