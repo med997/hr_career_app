@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:hr_career_platform/features/tender/domain/entities/tender.dart';
 
+import '../../../company/data/models/company_model.dart';
+
 List<TenderModel> TenderFromJson(String str) => List<TenderModel>.from(
     json.decode(str).map((x) => TenderModel.fromJson(x)));
 
@@ -16,6 +18,7 @@ class TenderModel extends Tender {
     required super.category,
     super.deadlineDate,
     super.applianceNo,
+    super.company,
     required super.nationalities,
     super.tenderDescFormated,
     super.status,
@@ -42,7 +45,9 @@ class TenderModel extends Tender {
         status: json["status"],
         tenderDesc: json["tender_desc"],
         companyId: json["company_id"],
-      );
+    company:json["company"]!=null?CompanyModel.fromJson(json["company"]):null,
+
+  );
 
   factory TenderModel.fromTender(Tender tender) => TenderModel(
         id: tender.id,

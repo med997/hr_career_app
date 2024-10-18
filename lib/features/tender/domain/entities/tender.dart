@@ -2,6 +2,8 @@ import 'dart:core';
 
 import 'package:equatable/equatable.dart';
 
+import '../../../company/domain/entities/company.dart';
+
 class Tender extends Equatable {
   final int? id;
   final String? createdAt;
@@ -17,13 +19,14 @@ class Tender extends Equatable {
   final List<dynamic>? tenderDescFormated;
   final int? tenderPackage;
   final int? applianceNo;
-
+  final Company? company;
   const Tender(
       {required this.tenderTitle,
       this.otherApplyLinks,
       required this.city,
       required this.category,
       this.deadlineDate,
+      this.company,
       this.nationalities,
       this.status,
       this.companyId,

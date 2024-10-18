@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
+import 'package:hr_career_platform/core/widgets/tender_card_widget.dart';
 import 'package:hr_career_platform/features/tender/data/models/tender_model.dart';
 import '../../../../core/util/responsive.dart';
 import '../../../../core/widgets/jobCard_widget.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../job/domain/entities/job.dart';
 import '../../../job/presentation/ui/job_details_page.dart';
+import '../../../tender/domain/entities/tender.dart';
 import '../bloc/home_cubit.dart';
 
 class RecentTenders extends StatelessWidget {
@@ -32,20 +34,19 @@ class RecentTenders extends StatelessWidget {
     );
   }}
 
-Widget _buildMobileLayout(List<TenderModel> tender) {
+Widget _buildMobileLayout(List<Tender> tender) {
   return ListView.builder(
       shrinkWrap: true,
       physics: const PageScrollPhysics(),
       itemCount: tender.length ?? 0,
       itemBuilder: (context, i) => InkWell(
-        onTap: () => Navigator.push(
+        /*onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => JobDetailsPage(job: tender[i])),
-        ),
-        child: JobCard(
-          jobCardType: JobCardType.userTender,
-            job: tender[i],),
+        ),*/
+        child: TenderCard(
+          tender: tender[i],),
       ));
 }
 Widget _buildTabletDesktopLayout(

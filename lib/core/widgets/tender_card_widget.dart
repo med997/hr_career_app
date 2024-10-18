@@ -2,19 +2,25 @@
 
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
+import 'package:hr_career_platform/features/tender/domain/entities/tender.dart';
 
 import '../app_localizations.dart';
+import '../util/const_val.dart';
 import 'avatar_network.dart';
 import 'custom_chips.dart';
 
-class TenderCardWidget extends StatelessWidget {
+class TenderCard extends StatelessWidget {
   final Color? chipBgColor;
   final String? chipText;
   double? columnWidth;
- TenderCardWidget(
-      this.chipBgColor,
-      this.chipText,
-      this.columnWidth,);
+  final Tender tender;
+
+ TenderCard({
+  this.chipBgColor,
+  this.chipText,
+  required this.tender,
+  this.columnWidth
+});
 
   @override
   Widget build(BuildContext context) {
@@ -36,25 +42,26 @@ class TenderCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Padding(
+           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 4,
             ),
             child: Text(
-              'job.jobTitle,',
-              style: TextStyle(
+              tender.tenderTitle,
+              style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 16),
             ),
           ),
           ListTile(
-            leading: const AvatarNetwork(
-              imgUrl:  '',
-              withBorder: true,
-            ),
-            title: const Text(
-               '',
+
+          leading: AvatarNetwork(
+          imgUrl: tender.company!.companyLogo != null
+          ? '$BaseStorageUrl${tender.company!.companyLogo}'
+              : '', withBorder: false,),
+
+            title:  Text(tender.company!.nameEn,
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -69,21 +76,21 @@ class TenderCardWidget extends StatelessWidget {
                   chipsTitles: [tr("tenders_msg")],
                   bgColor: Colors.blue.shade200,
                 ),
-                const TextWithIcon(
-                    icon: Icon(
+                 TextWithIcon(
+                    icon: const Icon(
                       Icons.timelapse_outlined,
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: ''),
+                    text:  '$tender.deadlineDate!.hour}h ago'),
                     // text: '${job.deadlineDate!.hour}h ago'),
-                const TextWithIcon(
-                    icon: Icon(
+                 TextWithIcon(
+                    icon: const Icon(
                       Icons.location_on_outlined,
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: 'job.cit'),
+                    text: tender.city),
               ],
             ),
           ),
