@@ -83,7 +83,7 @@ class TenderCardWidget extends StatelessWidget {
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: 'job.city'),
+                    text: 'job.cit'),
               ],
             ),
           ),
