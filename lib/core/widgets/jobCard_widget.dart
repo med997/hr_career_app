@@ -16,7 +16,6 @@ class JobCard extends StatelessWidget {
   final Color? chipBgColor;
   final String? chipText;
   final Job job;
-
   double? columnWidth;
 
   JobCard({
