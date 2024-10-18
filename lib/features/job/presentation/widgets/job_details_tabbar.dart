@@ -73,8 +73,8 @@ class _JobDetailsTabBarState extends State<JobDetailsTabBar> {
                 ),
               );
             case 2:
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 18.0),
                 child: Text(''),
               );
             default:

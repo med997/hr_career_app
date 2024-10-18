@@ -64,6 +64,11 @@ import 'package:hr_career_platform/features/profile/domain/usecases/fetch_profil
 import 'package:hr_career_platform/features/profile/domain/usecases/update_profile.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profile_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
+import 'package:hr_career_platform/features/tender/data/datasources/tender_remote_datasource.dart';
+import 'package:hr_career_platform/features/tender/data/repositories/tender_repository_impl.dart';
+import 'package:hr_career_platform/features/tender/domain/repositories/tender_repository.dart';
+import 'package:hr_career_platform/features/tender/domain/usecases/add_tender.dart';
+import 'package:hr_career_platform/features/tender/presentation/bloc/curd_tender_cubit.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -90,6 +95,7 @@ Future<void> initDependencies() async {
   _initGeneral();
   _initCompany();
   _initNotification();
+  _initTender();
 
 //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
@@ -460,4 +466,37 @@ void _initNotification() {
     ..registerLazySingleton(
           () => NotificationCubit(notificationUseCase: sl(),),
     );
+}
+
+
+void _initTender() {
+  sl
+  // datasource
+    ..registerFactory<TenderRemoteDataSource>(
+          () =>
+          TenderRemoteDataSourceImpl(
+            supBase: sl(),
+          ),
+    )
+
+  // repository
+    ..registerFactory<TenderRepository>(
+          () =>
+          TenderRepositoryImpl(
+            tenderRemoteDataSource: sl(),
+            networkInfo: sl(),
+          ),
+    )
+  // usecases
+    ..registerFactory(
+          () =>
+          AddTenderUserCase(
+            sl(),
+          ),
+    )
+  // cubit
+    ..registerLazySingleton(
+          () => CurdTenderCubit(addTenderUserCase: sl()),
+
+  );
 }

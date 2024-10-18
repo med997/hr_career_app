@@ -29,12 +29,12 @@ class AddJobStepper extends StatelessWidget {
           activeStepIconColor: primaryColor,
           showLoadingAnimation: false,
           steps: const [
-            EasyStep(icon: Icon(Icons.add), title: 'add Job'),
+            EasyStep(icon: Icon(Icons.add), title: 'add'),
             EasyStep(icon: Icon(Icons.card_membership), title: 'chose package'),
             EasyStep(icon: Icon(Icons.payment), title: 'payment'),
           ],
           onStepReached: (index) =>
-              context.read<StepperCubit>().changeStep(index),
+              context.read<StepperCubit>().addJobChangeStep(index),
         );
       },
     );

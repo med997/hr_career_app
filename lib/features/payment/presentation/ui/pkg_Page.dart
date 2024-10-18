@@ -10,7 +10,9 @@ import 'package:hr_career_platform/features/payment/presentation/widgets/payment
 import '../../../job/presentation/bloc/stepper_cubit.dart';
 
 class PkgPage extends StatefulWidget {
-  const PkgPage({super.key});
+
+  final PkgType pkgType;
+  const PkgPage({super.key, required this.pkgType});
 
   @override
   State<PkgPage> createState() => _PkgPageState();
@@ -30,7 +32,7 @@ class _PkgPageState extends State<PkgPage> {
                   child: PaymentCardWidget(
                 pkg: e,
                 onPkgSelected: () {
-                  context.read<StepperCubit>().changeStep(2, selectedPackage: e);
+                  context.read<StepperCubit>().addJobChangeStep(2, selectedPackage: e);
                 },
               ));
             },
@@ -49,6 +51,6 @@ class _PkgPageState extends State<PkgPage> {
   @override
   void initState() {
     super.initState();
-    context.read<PackageCubit>().getAllJobPackage(PkgType.job);
+    context.read<PackageCubit>().getAllJobPackage(widget.pkgType);
   }
 }

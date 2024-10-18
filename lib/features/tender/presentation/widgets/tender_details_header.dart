@@ -3,23 +3,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/custom_chips.dart';
-import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
-import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 
 
 import '../../../../core/util/const_val.dart';
+import '../../domain/entities/Tender.dart';
 
-class JobDetailsHeader extends StatelessWidget {
-  final Job job;
+class TenderDetailsHeader extends StatelessWidget {
+  final Tender tender;
   final Widget profileFilledText;
   final Widget profileIcoButton;
 
-  const JobDetailsHeader(
+  const TenderDetailsHeader(
       {super.key,
-      required this.job,
-      required this.profileFilledText,
-      required this.profileIcoButton});
+        required this.tender,
+        required this.profileFilledText,
+        required this.profileIcoButton});
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +31,13 @@ class JobDetailsHeader extends StatelessWidget {
           fit: BoxFit.fill, // Adjust fit as needed
         ),
       ),
-      child: jobDetailsCard(job, context),
+      child: TenderDetailsCard(tender, context),
     );
   }
 
-  Widget jobDetailsCard(Job job, BuildContext context) {
-    String imageUrl = job.company!.companyLogo!.isNotEmpty
-        ? '$BaseStorageUrl${job.company!.companyLogo!}'
+  Widget TenderDetailsCard(Tender tender, BuildContext context) {
+    String imageUrl = tender.company!.companyLogo!.isNotEmpty
+        ? '$BaseStorageUrl${tender.company!.companyLogo!}'
         : '';
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
@@ -56,7 +55,7 @@ class JobDetailsHeader extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(horizontal: 2),
 
               title: Text(
-                job.company!.nameAr ?? '',
+                tender.company!.nameAr ?? '',
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -89,7 +88,7 @@ class JobDetailsHeader extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               textAlign: TextAlign.center,
-              job.jobTitle,
+              tender.tenderTitle,
               style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -100,10 +99,8 @@ class JobDetailsHeader extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child: CustomChips(
               chipsTitles: [
-                job.category,
-                job.office,
-                job.timeParts,
-                job.nationalities ?? ''
+                tender.category,
+                tender.nationalities ?? ''
               ],
               bgColor: Colors.white10,
             ),
@@ -123,7 +120,7 @@ class JobDetailsHeader extends StatelessWidget {
                     color: Colors.orangeAccent,
                   ),
                   text:
-                      '${job.deadlineDate!.day}/${job.deadlineDate!.month}/${job.deadlineDate!.year}',
+                  '${tender.deadlineDate!.day}/${tender.deadlineDate!.month}/${tender.deadlineDate!.year}',
                   textColor: Colors.white,
                 ),
                 TextWithIcon(
@@ -132,7 +129,7 @@ class JobDetailsHeader extends StatelessWidget {
                     size: 16,
                     color: Colors.orangeAccent,
                   ),
-                  text: '${job.city},${job.address}',
+                  text: '${tender.city}',
                   textColor: Colors.white,
                 ),
               ],
