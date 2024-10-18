@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
+import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
 import 'package:hr_career_platform/features/payment/domain/entities/package.dart';
 import 'package:hr_career_platform/features/payment/domain/entities/payment.dart';
 import 'package:hr_career_platform/features/payment/presentation/bloc/payment_curd_cubit.dart';
+import 'package:hr_career_platform/features/tender/domain/entities/tender.dart';
 import 'package:moyasar/moyasar.dart';
 
 class PaymentPage extends StatefulWidget {
-  const PaymentPage({super.key});
+  final PkgType pkgType;
+  const PaymentPage({super.key, required this.pkgType});
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
@@ -23,6 +26,34 @@ class _PaymentPageState extends State<PaymentPage> {
   Package? pkg;
 
   Job? job;
+  Tender? tender;
+
+  _insertPaymentJob(result){
+    Payment payment = Payment(jobId: job!.id!,
+        companyId: job!.companyId!,
+        amount: result.amount,
+        refId: result.id,
+        amountTxt: result.amountFormat,
+        fee: result.feeFormat,
+        description: result.description!,
+        metadata: result.metadata,
+        pkg: pkg!.id!);
+    context.read<PaymentCurdCubit>().insertPayment(payment);
+
+  }
+  _insertPaymentTender(result){
+    Payment payment = Payment(tenderId: tender!.id!,
+        companyId: tender!.companyId!,
+        amount: result.amount,
+        refId: result.id,
+        amountTxt: result.amountFormat,
+        fee: result.feeFormat,
+        description: result.description!,
+        metadata: result.metadata,
+        pkg: pkg!.id!);
+    context.read<PaymentCurdCubit>().insertPayment(payment);
+
+  }
 
   onPaymentResult(result) {
     if (result is PaymentResponse) {
@@ -31,16 +62,11 @@ class _PaymentPageState extends State<PaymentPage> {
           print('init');
           break;
         case PaymentStatus.paid:
-          Payment payment = Payment(jobId: job!.id!,
-              companyId: job!.companyId!,
-              amount: result.amount,
-              refId: result.id,
-              amountTxt: result.amountFormat,
-              fee: result.feeFormat,
-              description: result.description!,
-              metadata: result.metadata,
-              pkg: pkg!.id!);
-          context.read<PaymentCurdCubit>().insertPayment(payment);
+          if(widget.pkgType==PkgType.job){
+            _insertPaymentJob(result);
+          }else{
+            _insertPaymentTender(result);
+          }
 
           print('paid');
           break;
@@ -62,21 +88,40 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     super.initState();
-    job = context
-        .read<StepperCubit>()
-        .job!;
+
+
     pkg = context
         .read<StepperCubit>()
         .package!;
-    paymentConfig = PaymentConfig(
-      publishableApiKey: 'pk_test_9GuD6YHzMHnA43YVkeH6nyUFzk2uEYc9AepYdQnP',
-      amount: pkg!.price * 100,
-      // SAR Halala
-      description: 'payment ${pkg!.pkgName} for Job No ${job!
-          .id} from company id ${job!.companyId}',
-      metadata: {'pkgDesc': ' ${pkg!.desc}', "jobTitle": job!.jobTitle},
-      creditCard: CreditCardConfig(saveCard: true, manual: false),
-    );
+    if(widget.pkgType==PkgType.job){
+      job = context
+          .read<StepperCubit>()
+          .job!;
+      paymentConfig = PaymentConfig(
+        publishableApiKey: 'pk_test_9GuD6YHzMHnA43YVkeH6nyUFzk2uEYc9AepYdQnP',
+        amount: pkg!.price * 100,
+        // SAR Halala
+        description: 'payment ${pkg!.pkgName} for Job No ${job!
+            .id} from company id ${job!.companyId}',
+        metadata: {'pkgDesc': ' ${pkg!.desc}', "title'": job!.jobTitle},
+        creditCard: CreditCardConfig(saveCard: true, manual: false),
+      );
+    }else{
+      tender = context
+          .read<StepperCubit>()
+          .tender!;
+
+      paymentConfig = PaymentConfig(
+        publishableApiKey: 'pk_test_9GuD6YHzMHnA43YVkeH6nyUFzk2uEYc9AepYdQnP',
+        amount: pkg!.price * 100,
+        // SAR Halala
+        description: 'payment ${pkg!.pkgName} for tender No ${tender!
+            .id} from company id ${tender!.companyId}',
+        metadata: {'pkgDesc': ' ${pkg!.desc}', 'title': tender!.tenderTitle},
+        creditCard: CreditCardConfig(saveCard: true, manual: false),
+      );
+    }
+
   }
 
 
@@ -93,8 +138,10 @@ class _PaymentPageState extends State<PaymentPage> {
           listener: (context, state) {
             if (state is MessageCurdPaymentState){
               context.read<StepperCubit>().job=null;
+              context.read<StepperCubit>().tender=null;
               context.read<StepperCubit>().package=null;
-              context.read<StepperCubit>().changeStep(0);
+              context.read<StepperCubit>().addJobChangeStep(0);
+              context.read<StepperCubit>().addTenderChangeStep(0);
               Navigator.pop(context);
 
             }

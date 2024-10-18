@@ -13,6 +13,7 @@ import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dar
 import '../../../../core/app_localizations.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/widgets/sub-title.dart';
+import '../../../tender/presentation/ui/add_tender_page.dart';
 import '../widgets/recent_jobs.dart';
 
 class CompanyMainHomePage extends StatefulWidget {
@@ -68,6 +69,9 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
                 icn: Icons.bookmark_added_outlined,
                 iconLabel: tr("add_tender_msg"),
                 onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>  const AddTenderPage(),
+                  ));
 
                 })
           ],

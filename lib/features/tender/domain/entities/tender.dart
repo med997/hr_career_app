@@ -17,9 +17,10 @@ class Tender extends Equatable {
   final String? companyId;
   final String tenderDesc;
   final List<dynamic>? tenderDescFormated;
-  final int? tenderPackage;
   final int? applianceNo;
   final Company? company;
+
+
   const Tender(
       {required this.tenderTitle,
       this.otherApplyLinks,
@@ -32,7 +33,6 @@ class Tender extends Equatable {
       this.companyId,
       required this.tenderDesc,
       this.tenderDescFormated,
-       this.tenderPackage,
       this.applianceNo,
       this.id,
       this.createdAt});

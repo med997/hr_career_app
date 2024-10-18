@@ -3,7 +3,8 @@ import 'package:equatable/equatable.dart';
 class Payment extends Equatable{
  final int? id;
  final String? createdAt;
- final int jobId;
+ final int? jobId;
+ final int? tenderId;
  final String companyId;
  final int amount;
  final String refId;
@@ -16,7 +17,8 @@ class Payment extends Equatable{
  const Payment({
      this.id,
      this.createdAt,
-    required this.jobId,
+     this.jobId,
+     this.tenderId,
     required this.companyId,
     required this.amount,
     required this.refId,

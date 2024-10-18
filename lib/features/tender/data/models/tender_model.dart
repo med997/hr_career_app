@@ -12,25 +12,23 @@ class TenderModel extends Tender {
     super.id,
     required super.createdAt,
     required super.tenderTitle,
-     super.tenderPackage,
     required super.otherApplyLinks,
     required super.city,
     required super.category,
     super.deadlineDate,
     super.applianceNo,
-    super.company,
     required super.nationalities,
     super.tenderDescFormated,
     super.status,
     required super.tenderDesc,
     super.companyId,
+    super.company
   });
 
   factory TenderModel.fromJson(Map<String, dynamic> json) => TenderModel(
         id: json["id"],
         createdAt: json["created_at"],
         tenderTitle: json["tender_title"],
-        tenderPackage: json["tender_package"],
         otherApplyLinks: json["other_apply_links"],
         applianceNo: json["appliance_no"],
         city: json["city"],
@@ -46,8 +44,7 @@ class TenderModel extends Tender {
         tenderDesc: json["tender_desc"],
         companyId: json["company_id"],
     company:json["company"]!=null?CompanyModel.fromJson(json["company"]):null,
-
-  );
+      );
 
   factory TenderModel.fromTender(Tender tender) => TenderModel(
         id: tender.id,
@@ -55,11 +52,11 @@ class TenderModel extends Tender {
         category: tender.category,
         city: tender.city,
         tenderTitle: tender.tenderTitle,
-        tenderPackage: tender.tenderPackage,
         otherApplyLinks: tender.otherApplyLinks,
         nationalities: tender.nationalities,
         tenderDesc: tender.tenderDesc,
         tenderDescFormated: tender.tenderDescFormated,
+      companyId: tender.companyId,
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,7 +64,6 @@ class TenderModel extends Tender {
         // "created_at": createdAt,
         "tender_title": tenderTitle,
         "tender_desc_formated": tenderDescFormated,
-        "tender_package" : tenderPackage,
         "other_apply_links": otherApplyLinks,
         "city": city,
         "category": category,
