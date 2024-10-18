@@ -8,8 +8,9 @@ import '../../../../core/util/responsive.dart';
 import '../../../../core/widgets/jobCard_widget.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../job/domain/entities/job.dart';
-import '../../../job/presentation/ui/job_details_page.dart';
+
 import '../../../tender/domain/entities/tender.dart';
+import '../../../tender/presentation/ui/tender_detail_page.dart';
 import '../bloc/home_cubit.dart';
 
 class RecentTenders extends StatelessWidget {
@@ -43,7 +44,7 @@ Widget _buildMobileLayout(List<Tender>? tender) {
         /*onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => JobDetailsPage(job: tender[i])),
+              builder: (context) => TenderDetailsPage(tender: tender[i])),
         ),*/
         child: TenderCard(
           tender: tender[i],),
