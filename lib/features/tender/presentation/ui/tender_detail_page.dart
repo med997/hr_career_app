@@ -5,7 +5,7 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/features/company/presentation/ui/company_details_profile_page.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/apply_now_page.dart';
 
-import '../../domain/entities/Tender.dart';
+import '../../domain/entities/tender.dart';
 import '../widgets/tender_details_header.dart';
 import '../widgets/tender_details_tabbar.dart';
 
