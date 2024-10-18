@@ -2,11 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
+import 'package:hr_career_platform/core/widgets/tender_card_widget.dart';
+import 'package:hr_career_platform/features/tender/data/models/tender_model.dart';
 import '../../../../core/util/responsive.dart';
 import '../../../../core/widgets/jobCard_widget.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../job/domain/entities/job.dart';
 import '../../../job/presentation/ui/job_details_page.dart';
+import '../../../tender/domain/entities/tender.dart';
 import '../bloc/home_cubit.dart';
 
 class RecentTenders extends StatelessWidget {
@@ -20,7 +23,7 @@ class RecentTenders extends StatelessWidget {
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
           return Responsive(
-              mobile: _buildMobileLayout(state.homes.recentJobs),
+              mobile: _buildMobileLayout(state.homes.recentTender),
               tablet:
               _buildTabletDesktopLayout(state.homes.recentJobs, 2, context),
               desktop: _buildTabletDesktopLayout(
@@ -31,20 +34,19 @@ class RecentTenders extends StatelessWidget {
     );
   }}
 
-Widget _buildMobileLayout(List<Job> job) {
+Widget _buildMobileLayout(List<Tender> tender) {
   return ListView.builder(
       shrinkWrap: true,
       physics: const PageScrollPhysics(),
-      itemCount: job.length ?? 0,
+      itemCount: tender.length ?? 0,
       itemBuilder: (context, i) => InkWell(
-        onTap: () => Navigator.push(
+        /*onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => JobDetailsPage(job: job[i])),
-        ),
-        child: JobCard(
-          jobCardType: JobCardType.userTender,
-            job: job[i],),
+              builder: (context) => JobDetailsPage(job: tender[i])),
+        ),*/
+        child: TenderCard(
+          tender: tender[i],),
       ));
 }
 Widget _buildTabletDesktopLayout(

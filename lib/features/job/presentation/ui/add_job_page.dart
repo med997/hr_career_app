@@ -25,7 +25,7 @@ class AddJobPage extends StatelessWidget {
             fit: FlexFit.tight,
             child: BlocBuilder<StepperCubit, StepperState>(
               builder: (context, state) {
-                return stepperPageBody(state.activeStep);
+                return stepperAddJobPageBody(state.activeStep);
               },
             ),
           )

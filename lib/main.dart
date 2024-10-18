@@ -27,6 +27,7 @@ import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.
 import 'package:hr_career_platform/features/job/presentation/ui/add_job_page.dart';
 import 'package:hr_career_platform/features/notification/presentation/bloc/notification_cubit.dart';
 import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
+import 'package:hr_career_platform/features/tender/presentation/bloc/curd_tender_cubit.dart';
 
 import 'features/auth/presentation/bloc/verification_cubit.dart';
 import 'features/general/presentation/bloc/general_cubit.dart';
@@ -125,6 +126,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<NotificationCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<CurdTenderCubit>(),
       ),
     ],
     child: const MyApp(),

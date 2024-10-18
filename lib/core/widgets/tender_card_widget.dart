@@ -1,21 +1,26 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
-import '../../features/tender/domain/entities/tender.dart';
+import 'package:hr_career_platform/features/tender/domain/entities/tender.dart';
+
 import '../app_localizations.dart';
+import '../util/const_val.dart';
 import 'avatar_network.dart';
 import 'custom_chips.dart';
 
-class TenderCardWidget extends StatelessWidget {
+class TenderCard extends StatelessWidget {
   final Color? chipBgColor;
   final String? chipText;
-  Tender tender;
   double? columnWidth;
+  final Tender tender;
 
- TenderCardWidget({
-   this.chipBgColor,
-   required this.tender,
-   this.chipText,
-   this.columnWidth,});
+ TenderCard({
+  this.chipBgColor,
+  this.chipText,
+  required this.tender,
+  this.columnWidth
+});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class TenderCardWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
            Padding(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               horizontal: 4,
             ),
             child: Text(
@@ -50,12 +55,13 @@ class TenderCardWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading:const AvatarNetwork(
-              imgUrl:  '',
-              withBorder: true,
-            ),
-            title:  const Text(
-               '',
+
+          leading: AvatarNetwork(
+          imgUrl: tender.company!.companyLogo != null
+          ? '$BaseStorageUrl${tender.company!.companyLogo}'
+              : '', withBorder: false,),
+
+            title:  Text(tender.company!.nameEn,
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -76,7 +82,7 @@ class TenderCardWidget extends StatelessWidget {
                       size: 18,
                       color: Colors.orangeAccent,
                     ),
-                    text: '${tender.deadlineDate!.hour}g ago'),
+                    text:  '$tender.deadlineDate!.hour}h ago'),
                     // text: '${job.deadlineDate!.hour}h ago'),
                  TextWithIcon(
                     icon: const Icon(

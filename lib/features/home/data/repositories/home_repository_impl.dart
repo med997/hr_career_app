@@ -30,6 +30,19 @@ class HomeRepositoryImpl extends HomeRepository{
       return Left(OfflineFailure());
     }
   }
+  @override
+  Future<Either<Failure, Home>> getHomeUserTender()async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteHome = await homeRemoteDataSource.getHomeUser();
+        return Right(remoteHome);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
 
   @override
   Future<Either<Failure, Home>> getHomeCompany(String companyId) async {
