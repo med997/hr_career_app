@@ -4,8 +4,6 @@ import 'package:hr_career_platform/features/tender/domain/entities/tender.dart';
 
 import '../../../company/data/models/company_model.dart';
 
-List<TenderModel> TenderFromJson(String str) => List<TenderModel>.from(
-    json.decode(str).map((x) => TenderModel.fromJson(x)));
 
 class TenderModel extends Tender {
   const TenderModel({
@@ -20,7 +18,7 @@ class TenderModel extends Tender {
     required super.nationalities,
     super.tenderDescFormated,
     super.status,
-    required super.tenderDesc,
+     super.tenderDesc,
     super.companyId,
     super.company
   });

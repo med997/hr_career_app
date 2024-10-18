@@ -19,7 +19,6 @@ import 'company_tenders_page.dart';
 class HomeCompanyPage extends StatefulWidget {
   final Auth auth;
    const HomeCompanyPage({super.key, required this.auth});
-
   @override
   State<HomeCompanyPage> createState() => _HomeCompanyPageState();
 }

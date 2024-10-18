@@ -25,11 +25,11 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
           return Responsive(
-              mobile: _buildMobileLayout(state.homes.recentJobs),
+              mobile: _buildMobileLayout(state.homes.recentJobs!),
               tablet:
-                  _buildTabletDesktopLayout(state.homes.recentJobs, 2, context),
+                  _buildTabletDesktopLayout(state.homes.recentJobs!, 2, context),
               desktop: _buildTabletDesktopLayout(
-                  state.homes.recentJobs, 3, context));
+                  state.homes.recentJobs!, 3, context));
         }
         return const SizedBox();
       },
@@ -43,16 +43,16 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
     return ListView.builder(
         shrinkWrap: true,
         physics: const PageScrollPhysics(),
-        itemCount: job.length ?? 0,
+        itemCount: job!.length ?? 0,
         itemBuilder: (context, i) => jobCardType == JobCardType.user?
         JobCard(
           jobCardType: JobCardType.user,
-           job: job[i],):
+           job: job![i],):
         JobCard(
           jobCardType: JobCardType.company,
             chipBgColor:
-            job[i].status=='hidden'?Colors.grey:
-            job[i].status=='completed'?primaryTransparent:
+            job![i].status=='hidden'?Colors.grey:
+            job![i].status=='completed'?primaryTransparent:
             primaryColor,
             chipText:'${job[i].status}',
             job: job[i],));
@@ -73,7 +73,7 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
                columnWidth: itemWidth,) : JobCard(
               jobCardType: JobCardType.company,
               job: job,
-              chipText: jobs.first.status ,
+              chipText: jobs!.first.status ,
               chipBgColor: primaryColor,
               columnWidth: itemWidth,
             )

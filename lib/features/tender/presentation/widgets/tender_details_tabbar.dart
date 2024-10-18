@@ -11,6 +11,7 @@ import 'package:parchment_to_html/parachment_to_html.dart';
 
 import '../../domain/entities/tender.dart';
 
+
 class TenderDetailsTabBar extends StatefulWidget {
   final Tender tender;
 
@@ -53,7 +54,7 @@ class _TenderDetailsTabBarState extends State<TenderDetailsTabBar> {
                         data: htmlTenderDesc,
                       )
                     : Text(
-                        widget.tender.tenderDesc,
+                        widget.tender.tenderDesc!,
                         textAlign: TextAlign.justify,
                         softWrap: true,
                         overflow: TextOverflow.visible,

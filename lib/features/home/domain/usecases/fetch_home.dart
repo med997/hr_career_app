@@ -17,4 +17,7 @@ class GetHomeUserCase {
   Future<Either<Failure, Home>> callCompanyHome(String companyId) async {
     return await repository.getHomeCompany(companyId);
   }
+  Future<Either<Failure, Home>> getHomeUserTender() async {
+    return await repository.getHomeUserTender();
+  }
 }

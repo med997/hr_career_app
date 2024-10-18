@@ -34,7 +34,7 @@ class HomeRepositoryImpl extends HomeRepository{
   Future<Either<Failure, Home>> getHomeUserTender()async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteHome = await homeRemoteDataSource.getHomeUser();
+        final remoteHome = await homeRemoteDataSource.getHomeUserTender();
         return Right(remoteHome);
       } on ServerException {
         return Left(ServerFailure());

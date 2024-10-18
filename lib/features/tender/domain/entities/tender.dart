@@ -1,8 +1,8 @@
 import 'dart:core';
 
 import 'package:equatable/equatable.dart';
+import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 
-import '../../../company/domain/entities/company.dart';
 
 class Tender extends Equatable {
   final int? id;
@@ -15,7 +15,7 @@ class Tender extends Equatable {
   final String? nationalities;
   final String? status;
   final String? companyId;
-  final String tenderDesc;
+  final String? tenderDesc;
   final List<dynamic>? tenderDescFormated;
   final int? applianceNo;
   final Company? company;

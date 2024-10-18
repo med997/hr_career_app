@@ -9,6 +9,7 @@ import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
 import '../../../../core/util/const_val.dart';
 import '../../domain/entities/tender.dart';
 
+
 class TenderDetailsHeader extends StatelessWidget {
   final Tender tender;
   final Widget profileFilledText;
@@ -31,11 +32,11 @@ class TenderDetailsHeader extends StatelessWidget {
           fit: BoxFit.fill, // Adjust fit as needed
         ),
       ),
-      child: tenderDetailsCard(tender, context),
+      child: TenderDetailsCard(tender, context),
     );
   }
 
-  Widget tenderDetailsCard(Tender tender, BuildContext context) {
+  Widget TenderDetailsCard(Tender tender, BuildContext context) {
     String imageUrl = tender.company!.companyLogo!.isNotEmpty
         ? '$BaseStorageUrl${tender.company!.companyLogo!}'
         : '';
