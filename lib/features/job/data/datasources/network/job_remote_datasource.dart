@@ -129,7 +129,6 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
       }
       throw ServerException(message: e.toString());
     }
-
   }
 
   @override

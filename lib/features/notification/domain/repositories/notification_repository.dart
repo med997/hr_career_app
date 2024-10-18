@@ -4,4 +4,5 @@ import '../../../../core/error/failures.dart';
 
 abstract class NotificationRepository{
   Future<Either<Failure, List<NotificationApp>>>  getNotificationByUuid(String uuid);
+  Future<Either<Failure, Unit>>  updateNotification(String id);
 }

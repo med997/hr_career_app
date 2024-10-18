@@ -37,7 +37,8 @@ class _NotificationPageState extends State<NotificationPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
+      body: Column(
+          children: [
         ToggleBtnWidget(
           options: const ['Not read', 'Archived'],
         ),
@@ -57,8 +58,10 @@ class _NotificationPageState extends State<NotificationPage> {
                           .toList();
                   return Responsive(
                       mobile: _buildMobileLayout(notification),
-                      tablet: _buildTabletDesktopLayout(notification),
-                      desktop: _buildTabletDesktopLayout(notification));
+                      tablet:
+                          _buildTabletDesktopLayout(notification, 2, context),
+                      desktop:
+                          _buildTabletDesktopLayout(notification, 3, context));
                 } else
                   return SizedBox();
               },
@@ -68,6 +71,7 @@ class _NotificationPageState extends State<NotificationPage> {
       ]),
     );
   }
+
   Widget _buildMobileLayout(List<NotificationApp> notifications) {
     return ListView.builder(
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -78,12 +82,13 @@ class _NotificationPageState extends State<NotificationPage> {
           DateTime time = DateTime.parse(notification.createdAt);
           return Slidable(
             enabled: !notification.isArchive!,
-            key: ValueKey(notification.id),
             endActionPane: ActionPane(
               motion: ScrollMotion(),
               children: [
                 SlidableAction(
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    context.read<NotificationCubit>().updateNotification(notification.id!);
+                  },
                   backgroundColor: primaryColor,
                   icon: Icons.archive,
                   label: 'Archive',
@@ -115,52 +120,56 @@ class _NotificationPageState extends State<NotificationPage> {
         });
   }
 
-  Widget _buildTabletDesktopLayout(List<NotificationApp> notifications) {
-    return ListView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        shrinkWrap: true,
-        itemCount: notifications.length ?? 0,
-        itemBuilder: (context, i) {
-          NotificationApp notification = notifications[i];
-          DateTime time = DateTime.parse(notification.createdAt);
-          return Slidable(
-            enabled: !notification.isArchive!,
-            key: ValueKey(notification.id),
-            endActionPane: ActionPane(
-              motion: ScrollMotion(),
-              children: [
-                SlidableAction(
-                  onPressed: (context) {},
-                  backgroundColor: primaryColor,
-                  icon: Icons.archive,
-                  label: 'Archive',
-                )
-              ],
-            ),
-            child: ListTile(
-              shape: const Border(
-                  bottom: BorderSide(width: 0.1, color: primaryTransparent)),
-              leading: const Icon(
-                Icons.notifications,
-                color: primaryTransparent,
+  Widget _buildTabletDesktopLayout(List<NotificationApp> notifications,
+      int columnCount, BuildContext context) {
+    double itemWidth = MediaQuery.of(context).size.width / columnCount - 50;
+    if (Responsive.isDesktop(context))
+      itemWidth = MediaQuery.of(context).size.width / columnCount - 100;
+    return Wrap(
+        children: [
+      ...notifications.map((ntf) {
+        DateTime time = DateTime.parse(ntf.createdAt);
+        return SizedBox(
+            width: itemWidth,
+            child: Slidable(
+              enabled: !ntf.isArchive!,
+              key: ValueKey(ntf.id),
+              endActionPane: ActionPane(
+                motion: ScrollMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: (context) {
+                      context.read<NotificationCubit>().updateNotification(ntf.id!);
+                    },
+                    backgroundColor: primaryColor,
+                    icon: Icons.archive,
+                    label: 'Archive',
+                  )
+                ],
               ),
-              title: Text(
-                notification.title,
-                style: const TextStyle(
-                    color: primaryColor, fontWeight: FontWeight.w500),
+              child: ListTile(
+                shape: const Border(
+                    bottom: BorderSide(width: 0.1, color: primaryTransparent)),
+                leading: const Icon(
+                  Icons.notifications,
+                  color: primaryTransparent,
+                ),
+                title: Text(
+                  ntf.title,
+                  style: const TextStyle(
+                      color: primaryColor, fontWeight: FontWeight.w500),
+                ),
+                trailing: Text(
+                  '${time.hour}:${time.minute}',
+                  style: const TextStyle(color: primaryColor, fontSize: 12),
+                ),
+                subtitle: Text(ntf.body,
+                    style: TextStyle(
+                      color: primaryColor.withOpacity(0.7),
+                    )),
               ),
-              trailing: Text(
-                '${time.hour}:${time.minute}',
-                style: const TextStyle(color: primaryColor, fontSize: 12),
-              ),
-              subtitle: Text(notification.body,
-                  style: TextStyle(
-                    color: primaryColor.withOpacity(0.7),
-                  )),
-            ),
-          );
-        });
+            ));
+      })
+    ]);
   }
-
-
 }
