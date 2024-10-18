@@ -11,7 +11,6 @@ part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
   final FetchNotificationUseCase notificationUseCase;
-  List<NotificationApp> _notifications = [];
   NotificationCubit({required this.notificationUseCase}) : super(const NotificationInitial());
 
   Future<void> getNotificationByUuid(String uuid) async {
@@ -29,10 +28,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       ),
     );
   }
-  Future<void> archiveNotification(String id) async {
-    _notifications.removeWhere((notification) => notification.id == id);
-    emit(NotificationArchivedState(archiveNotifications: _notifications));
-  }
+
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {

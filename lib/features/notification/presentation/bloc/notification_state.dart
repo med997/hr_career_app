@@ -16,10 +16,7 @@ final class NotificationFetchedState extends NotificationState {
   final List<NotificationApp> notification;
   NotificationFetchedState({required this.notification});
 }
-class NotificationArchivedState extends NotificationState {
-  final List<NotificationApp> archiveNotifications;
-  const NotificationArchivedState({required this.archiveNotifications});
-}
+
 final class NotificationErrorState extends NotificationState{
   final String msg;
   const NotificationErrorState({required this.msg});
