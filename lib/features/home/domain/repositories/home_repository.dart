@@ -7,4 +7,5 @@ import '../../../job/domain/entities/job.dart';
 abstract class HomeRepository {
   Future<Either<Failure, Home>> getHomeUser();
   Future<Either<Failure, Home>> getHomeCompany(String companyId);
+  Future<Either<Failure, Home>> getHomeUserTender();
 }

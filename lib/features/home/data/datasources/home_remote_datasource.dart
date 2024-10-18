@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class HomeRemoteDataSource {
   Future<HomeModel> getHomeUser();
+  Future<HomeModel> getHomeUserTender();
   Future<HomeModel> getHomeCompany(String companyId);
 }
 
@@ -41,9 +42,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   }
 
   @override
-  Future<HomeModel> getHomeUser() async {
+  Future<HomeModel> getHomeUserTender() async {
     try {
-      final data = await supBase.rpc('user_home');
+      final data = await supBase.rpc('user_home_tender_fun');
 
       final HomeModel homeList = HomeModel.fromJson(data);
       return homeList;
@@ -63,4 +64,30 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
     }
   }
+
+  @override
+  Future<HomeModel> getHomeUser() async{
+    try {
+      final data = await supBase.rpc('user_home');
+
+      final HomeModel homeList = HomeModel.fromJson(data);
+      return homeList;
+    } on PostgrestException catch (error) {
+
+      if (kDebugMode) {
+        print(error.message);
+      }
+
+      throw ServerException(message: error.message);
+    }catch(e){
+      if (kDebugMode) {
+        print(e.toString());
+      }
+
+      throw ServerException(message: 'something wrong  !!!');
+
+    }
+  }
+
+
 }

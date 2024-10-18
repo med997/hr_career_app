@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
+import 'package:hr_career_platform/features/tender/data/models/tender_model.dart';
 import '../../../../core/util/responsive.dart';
 import '../../../../core/widgets/jobCard_widget.dart';
 import '../../../../core/widgets/loading_widget.dart';
@@ -20,7 +21,7 @@ class RecentTenders extends StatelessWidget {
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
           return Responsive(
-              mobile: _buildMobileLayout(state.homes.recentJobs),
+              mobile: _buildMobileLayout(state.homes.recentTender),
               tablet:
               _buildTabletDesktopLayout(state.homes.recentJobs, 2, context),
               desktop: _buildTabletDesktopLayout(
@@ -31,20 +32,20 @@ class RecentTenders extends StatelessWidget {
     );
   }}
 
-Widget _buildMobileLayout(List<Job> job) {
+Widget _buildMobileLayout(List<TenderModel> tender) {
   return ListView.builder(
       shrinkWrap: true,
       physics: const PageScrollPhysics(),
-      itemCount: job.length ?? 0,
+      itemCount: tender.length ?? 0,
       itemBuilder: (context, i) => InkWell(
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => JobDetailsPage(job: job[i])),
+              builder: (context) => JobDetailsPage(job: tender[i])),
         ),
         child: JobCard(
           jobCardType: JobCardType.userTender,
-            job: job[i],),
+            job: tender[i],),
       ));
 }
 Widget _buildTabletDesktopLayout(
