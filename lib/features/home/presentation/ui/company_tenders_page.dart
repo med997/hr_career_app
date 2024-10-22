@@ -28,7 +28,7 @@ class CompanyTendersPage extends StatelessWidget {
               options: const ['Archive', 'Hidden', 'Complete'],
             ),
           ),
-          const RecentTenders()
+          const RecentTenders(jobCardType: JobCardType.company,)
 
         ]);
     // return ListView(

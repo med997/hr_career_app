@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/home/presentation/widgets/featured_tenders.dart';
 import 'package:hr_career_platform/features/home/presentation/widgets/recent_tenders.dart';
 import '../../../../core/app_localizations.dart';
@@ -46,7 +47,7 @@ class _HomeTenderPageState extends State<HomeTenderPage> {
           title: tr("recent_tender_msg"),
           icon: Icon(Icons.edit_note),
         ),
-       RecentTenders()
+       RecentTenders(jobCardType: JobCardType.user,)
       ],
     );
   }

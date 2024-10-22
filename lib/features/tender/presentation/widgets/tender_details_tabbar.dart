@@ -34,46 +34,53 @@ class _TenderDetailsTabBarState extends State<TenderDetailsTabBar> {
     String? htmlTenderDesc = documentTenderDesc != null
         ? converter.encode(documentTenderDesc.toDelta())
         : null;
-    return ListView(children: [
-      Center(
-        child: ToggleBtnWidget(
-          options: [
-            tr("description_msg"),
-            tr("how_to_apply_msg")
-          ], // Adjusted options
+    return Column(
+      children: [
+        Center(
+          child: ToggleBtnWidget(
+            options: [
+              tr("description_msg"),
+              tr("how_to_apply_msg")
+            ], // Adjusted options
+          ),
         ),
-      ),
-      BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-        builder: (context, state) {
-          switch (state.selectedTab) {
-            case 0:
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: htmlTenderDesc != null
-                    ? Html(
-                        data: htmlTenderDesc,
-                      )
-                    : Text(
-                        widget.tender.tenderDesc!,
-                        textAlign: TextAlign.justify,
-                        softWrap: true,
-                        overflow: TextOverflow.visible,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-              );
 
-            case 1:
-              return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18.0),
-                child: Text(''),
-              );
-            default:
-              return const SizedBox();
-          }
-        },
-      ),
-    ]);
+        Flexible(
+          child: ListView(children: [
+            BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+              builder: (context, state) {
+                switch (state.selectedTab) {
+                  case 0:
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      child: htmlTenderDesc != null
+                          ? Html(
+                              data: htmlTenderDesc,
+                            )
+                          : Text(
+                              widget.tender.tenderDesc!,
+                              textAlign: TextAlign.justify,
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                    );
+
+                  case 1:
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 18.0),
+                      child: Text(''),
+                    );
+                  default:
+                    return const SizedBox();
+                }
+              },
+            ),
+          ]),
+        ),
+      ],
+    );
   }
 }

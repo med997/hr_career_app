@@ -15,7 +15,8 @@ import '../../../tender/presentation/ui/tender_detail_page.dart';
 import '../bloc/home_cubit.dart';
 
 class RecentTenders extends StatelessWidget {
-  const RecentTenders({super.key});
+  final JobCardType jobCardType;
+  const RecentTenders({super.key, required this.jobCardType,});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class RecentTenders extends StatelessWidget {
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
           return Responsive(
-              mobile: _buildMobileLayout(state.homes.recentTender),
+              mobile: _buildMobileLayout(state.homes.recentTender,jobCardType),
               tablet:
               _buildTabletDesktopLayout(state.homes.recentJobs, 2, context),
               desktop: _buildTabletDesktopLayout(
@@ -36,7 +37,7 @@ class RecentTenders extends StatelessWidget {
     );
   }}
 
-Widget _buildMobileLayout(List<Tender>? tender,) {
+Widget _buildMobileLayout(List<Tender>? tender,JobCardType jobCardType) {
   return ListView.builder(
       shrinkWrap: true,
       physics: const PageScrollPhysics(),
@@ -46,13 +47,13 @@ Widget _buildMobileLayout(List<Tender>? tender,) {
           context,
           MaterialPageRoute(
               builder: (context) {
-               // if( j == JobCardType.companyTender){
+                if( jobCardType == JobCardType.company){
+                 return CompanyTenderDetailsPage(tender: tender[i]);
+
+               }else {
                  return TenderDetailsPage(tender: tender[i]);
 
-               // }else {
-               //   return TenderDetailsPage(tender: tender[i]);
-               //
-               // }
+               }
               }),
         ),
         child: TenderCard(

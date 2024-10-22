@@ -86,7 +86,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
           title: tr("recent_tender_msg"),
           icon: const Icon(Icons.edit_note),
         ),
-        const RecentTenders()
+        const RecentTenders(jobCardType: JobCardType.company,)
       ],
     );
   }

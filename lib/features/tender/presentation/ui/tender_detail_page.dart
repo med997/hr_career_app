@@ -52,9 +52,6 @@ class TenderDetailsPage extends StatelessWidget {
               /*fit: FlexFit.tight,flex: 1,*/
                 flex: 3,
                 child: TenderDetailsTabBar(tender: tender)),
-            const SizedBox(
-              height: 20,
-            ),
             Center(
               child: SizedBox(
                 width: 260,
