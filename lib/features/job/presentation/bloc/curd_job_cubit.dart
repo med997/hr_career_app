@@ -72,7 +72,7 @@ class CurdJobCubit extends Cubit<CurdJobState> {
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'insertDone'));
   }
 
-  CurdJobState _eitherDoneMessageOrErrorState(
+  CurdJobState  _eitherDoneMessageOrErrorState(
       Either<Failure, Job> either, String message) {
     return either.fold(
           (failure) => ErrorCurdJobState(

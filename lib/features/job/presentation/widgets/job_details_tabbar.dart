@@ -16,7 +16,7 @@ import '../../../../core/widgets/multi_line_dialog.dart';
 class JobDetailsTabBar extends StatefulWidget {
   final Job job;
 
-  JobDetailsTabBar({super.key,  required this.job});
+  JobDetailsTabBar({super.key, required this.job});
 
   @override
   State<JobDetailsTabBar> createState() => _JobDetailsTabBarState();
@@ -25,63 +25,83 @@ class JobDetailsTabBar extends StatefulWidget {
 class _JobDetailsTabBarState extends State<JobDetailsTabBar> {
   @override
   Widget build(BuildContext context) {
-
     print(widget.job.jobReqFormated);
-    ParchmentDocument? documentReq = widget.job.jobReqFormated!=null? ParchmentDocument.fromJson(jsonDecode(jsonEncode(widget.job.jobReqFormated))):null;
-    ParchmentDocument? documentDesc = widget.job.jobDescFormated!=null? ParchmentDocument.fromJson(jsonDecode(jsonEncode(widget.job.jobDescFormated))):null;
-     const converter = ParchmentHtmlCodec();
-    String? htmlReq =  documentReq!=null?converter.encode(documentReq.toDelta()):null;
-    String? htmlDesc = documentDesc!=null?converter.encode(documentDesc.toDelta()):null;
-    return ListView(children: [
-      Center(
-        child: ToggleBtnWidget(
-          options: [
-            tr("description_msg"),
-            tr("requirement_msg"),
-            tr("how_to_apply_msg")
-          ], // Adjusted options
+    ParchmentDocument? documentReq = widget.job.jobReqFormated != null
+        ? ParchmentDocument.fromJson(
+            jsonDecode(jsonEncode(widget.job.jobReqFormated)))
+        : null;
+    ParchmentDocument? documentDesc = widget.job.jobDescFormated != null
+        ? ParchmentDocument.fromJson(
+            jsonDecode(jsonEncode(widget.job.jobDescFormated)))
+        : null;
+    const converter = ParchmentHtmlCodec();
+    String? htmlReq =
+        documentReq != null ? converter.encode(documentReq.toDelta()) : null;
+    String? htmlDesc =
+        documentDesc != null ? converter.encode(documentDesc.toDelta()) : null;
+    return Column(
+      children: [
+        Center(
+          child: ToggleBtnWidget(
+            options: [
+              tr("description_msg"),
+              tr("requirement_msg"),
+              tr("how_to_apply_msg")
+            ], // Adjusted options
+          ),
         ),
-      ),
-      BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-        builder: (context, state) {
-          switch (state.selectedTab) {
-            case 0:
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child:htmlDesc!=null?  Html(data: htmlDesc,):Text(
-                  widget.job.jobDesc,
-                  textAlign: TextAlign.justify,
-                  softWrap: true,
-                  overflow: TextOverflow.visible,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
-
-              );
-            case 1:
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child:htmlReq!=null?  Html(data: htmlReq,):Text(
-                  widget.job.jobRequirements,
-                  textAlign: TextAlign.justify,
-                  softWrap: true,
-                  overflow: TextOverflow.visible,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
-              );
-            case 2:
-              return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18.0),
-                child: Text(''),
-              );
-            default:
-              return const SizedBox();
-          }
-        },
-      ),
-    ]);
+        Flexible(
+          child: ListView(children: [
+            BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+              builder: (context, state) {
+                switch (state.selectedTab) {
+                  case 0:
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      child: htmlDesc != null
+                          ? Html(
+                              data: htmlDesc,
+                            )
+                          : Text(
+                              widget.job.jobDesc,
+                              textAlign: TextAlign.justify,
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                    );
+                  case 1:
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      child: htmlReq != null
+                          ? Html(
+                              data: htmlReq,
+                            )
+                          : Text(
+                              widget.job.jobRequirements,
+                              textAlign: TextAlign.justify,
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                    );
+                  case 2:
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 18.0),
+                      child: Text(''),
+                    );
+                  default:
+                    return const SizedBox();
+                }
+              },
+            ),
+          ]),
+        ),
+      ],
+    );
   }
 }

@@ -68,6 +68,7 @@ import 'package:hr_career_platform/features/tender/data/datasources/tender_remot
 import 'package:hr_career_platform/features/tender/data/repositories/tender_repository_impl.dart';
 import 'package:hr_career_platform/features/tender/domain/repositories/tender_repository.dart';
 import 'package:hr_career_platform/features/tender/domain/usecases/add_tender.dart';
+import 'package:hr_career_platform/features/tender/domain/usecases/update_tender.dart';
 import 'package:hr_career_platform/features/tender/presentation/bloc/curd_tender_cubit.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -493,10 +494,15 @@ void _initTender() {
           AddTenderUserCase(
             sl(),
           ),
+    ) ..registerFactory(
+          () =>
+          UpdateTenderUserCase(
+            sl(),
+          ),
     )
   // cubit
     ..registerLazySingleton(
-          () => CurdTenderCubit(addTenderUserCase: sl()),
+          () => CurdTenderCubit(addTenderUserCase: sl(), updateTenderUserCase: sl()),
 
   );
 }

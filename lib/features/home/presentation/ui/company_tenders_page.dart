@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/widgets/square_button_function.dart';
+import 'package:hr_career_platform/features/home/presentation/widgets/recent_tenders.dart';
 import '../../../../core/cubit/toggle_btn_cubit.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
@@ -17,7 +18,7 @@ class CompanyTendersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
         children: [
           const SizedBox(
             height: 5,
@@ -27,6 +28,7 @@ class CompanyTendersPage extends StatelessWidget {
               options: const ['Archive', 'Hidden', 'Complete'],
             ),
           ),
+          const RecentTenders()
 
         ]);
     // return ListView(

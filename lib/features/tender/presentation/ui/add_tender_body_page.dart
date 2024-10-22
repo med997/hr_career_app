@@ -71,8 +71,6 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
   Widget _getMainInfAddTenderForm(double width, BuildContext context) {
     General? generals = context.read<GeneralCubit>().general;
     List<ItemModel> nationalityItems = [];
-
-    List<ItemModel> timePartsItems = [];
     List<ItemModel> categoryItems = [];
     List<ItemModel> cityItems = [];
     if (generals != null) {
@@ -83,8 +81,7 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
           generals.cities.map((e) => ItemModel(key: e, value: e)).toList();
       categoryItems =
           generals.jobCategory.map((e) => ItemModel(key: e, value: e)).toList();
-      timePartsItems =
-          generals.timeParts.map((e) => ItemModel(key: e, value: e)).toList();
+
     }
     List<DynamicModel> addTenderForm = [
       DynamicModel(
@@ -117,6 +114,7 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         controllerFlt: FleatherController(),
+        controller: TextEditingController(),
         width: width,
         isRequired: true,
       ),

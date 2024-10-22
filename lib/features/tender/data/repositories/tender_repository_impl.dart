@@ -34,4 +34,10 @@ class TenderRepositoryImpl extends TenderRepository{
     }
   }
 
+  @override
+  Future<Either<Failure, Tender>> updateTender(Tender tender) async{
+    return await _getMessage(() => tenderRemoteDataSource.updateTender(TenderModel.fromTender(tender)));
+
+  }
+
 }

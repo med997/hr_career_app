@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -145,6 +147,10 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
 
   Widget _getMainInfCompanyProfileForm(
       Company company, double width, BuildContext context) {
+    final ParchmentDocument? documentAboutUs = company.aboutUsFormated != null
+        ? ParchmentDocument.fromJson(
+        jsonDecode(jsonEncode(company.aboutUsFormated)))
+        : null;
     General? generals = context.read<GeneralCubit>().general;
     List<ItemModel> nationalityItems = [];
     List<ItemModel> sizeItems = [];
@@ -250,7 +256,9 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       ),
       DynamicModel('aboutUs', FormType.multiline,
           key: 'aboutUs',
-          controllerFlt: FleatherController(),
+          controllerFlt: FleatherController(document: documentAboutUs),
+          controller: TextEditingController(text: documentAboutUs!.toPlainText()??''),
+
           width: Responsive.isMobile(context) ? width : 300,
           disabled: isDisable,
           validators: [

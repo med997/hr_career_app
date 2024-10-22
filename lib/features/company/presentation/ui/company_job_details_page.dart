@@ -27,6 +27,7 @@ import '../../../../core/widgets/square_button_function.dart';
 import '../../../../core/widgets/sub-title.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';
 import '../../../auth/presentation/bloc/login_cubit.dart';
+import '../../../general/domain/entities/general.dart';
 import '../../../general/presentation/bloc/general_cubit.dart';
 import '../../../job/domain/entities/job.dart';
 import '../../../job/presentation/bloc/curd_job_cubit.dart';
@@ -73,7 +74,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _getDynFormWidget(GeneralFetchedState gnState, BuildContext context, double width) {
+  Widget _getDynFormWidget( BuildContext context, double width) {
 
     final ParchmentDocument? documentReq = job.jobReqFormated != null
         ? ParchmentDocument.fromJson(jsonDecode(jsonEncode(job.jobReqFormated)))
@@ -82,8 +83,34 @@ class CompanyJobDetailsPage extends StatelessWidget {
         ? ParchmentDocument.fromJson(
             jsonDecode(jsonEncode(job.jobDescFormated)))
         : null;
+    General? generals = context.read<GeneralCubit>().general;
+    List<ItemModel> nationalityItems = [];
+    List<ItemModel> qualificationsItems = [];
+    List<ItemModel> genderItems = [];
+    List<ItemModel> officeItems = [];
+    List<ItemModel> timePartsItems = [];
+    List<ItemModel> categoryItems = [];
+    List<ItemModel> cityItems = [];
+    if (generals != null) {
+      nationalityItems =
+          generals.nationality.map((e) => ItemModel(key: e, value: e)).toList();
+      qualificationsItems = generals.qualifications
+          .map((e) => ItemModel(key: e, value: e))
+          .toList();
+      genderItems =
+          generals.gender.map((e) => ItemModel(key: e, value: e)).toList();
+      officeItems =
+          generals.officeType.map((e) => ItemModel(key: e, value: e)).toList();
+      cityItems =
+          generals.cities.map((e) => ItemModel(key: e, value: e)).toList();
+      categoryItems =
+          generals.jobCategory.map((e) => ItemModel(key: e, value: e)).toList();
+      timePartsItems =
+          generals.timeParts.map((e) => ItemModel(key: e, value: e)).toList();
+    }
 
     final List<DynamicModel> reviewJobForm = [
+
       DynamicModel('jobTitle', FormType.text,
           key: 'jobTitle',
           validators: [
@@ -109,6 +136,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           controllerFlt: FleatherController(document: documentDesc),
+          controller: TextEditingController (text: documentDesc!.toPlainText()??''),
           width: width,
           isRequired: true,
           disabled: isEditing),
@@ -117,6 +145,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
+          controller: TextEditingController(text: documentReq!.toPlainText()??''),
           controllerFlt: FleatherController(document: documentReq),
           width: width,
           isRequired: true,
@@ -154,7 +183,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
           ],
           controller: TextEditingController(text: job.office),
           width: width,
-          items: [],
+          items: officeItems,
           isRequired: true,
           disabled: isEditing),
       DynamicModel('city', FormType.dropdown,
@@ -164,7 +193,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
           ],
           controller: TextEditingController(text: job.city),
           width: width,
-          items: [],
+          items: cityItems,
           isRequired: true,
           disabled: isEditing),
       DynamicModel('qualifications', FormType.dropdown,
@@ -174,7 +203,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
           ],
           controller: TextEditingController(text: job.qualifications),
           width: width,
-          items: [],
+          items: qualificationsItems,
           isRequired: true,
           disabled: isEditing),
       DynamicModel('nationalities', FormType.dropdown,
@@ -184,7 +213,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
           ],
           controller: TextEditingController(text: job.nationalities),
           width: width,
-          items: [],
+          items: nationalityItems,
           isRequired: true,
           disabled: isEditing),
       DynamicModel('gender', FormType.dropdown,
@@ -194,7 +223,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
           ],
           controller: TextEditingController(text: job.gender),
           width: width,
-          items: [],
+          items: genderItems,
           isRequired: true,
           disabled: isEditing),
       DynamicModel('category', FormType.dropdown,
@@ -204,7 +233,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
           ],
           controller: TextEditingController(text: job.category),
           width: width,
-          items: [],
+          items: categoryItems,
           disabled: isEditing),
       DynamicModel('timeParts', FormType.dropdown,
           key: 'timeParts',
@@ -212,67 +241,19 @@ class CompanyJobDetailsPage extends StatelessWidget {
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           width: width,
-          items: [],
+          items: timePartsItems,
           controller: TextEditingController(text: job.timeParts),
           isRequired: true,
           disabled: isEditing),
     ];
-    List<ItemModel> nationalityItems = gnState.generals.nationality
-        .map((e) => ItemModel(key: e, value: e))
-        .toList();
-    List<ItemModel> qualificationsItems = gnState.generals.qualifications
-        .map((e) => ItemModel(key: e, value: e))
-        .toList();
-    List<ItemModel> genderItems = gnState.generals.gender
-        .map((e) => ItemModel(key: e, value: e))
-        .toList();
-    List<ItemModel> officeItems = gnState.generals.officeType
-        .map((e) => ItemModel(key: e, value: e))
-        .toList();
-    List<ItemModel> cityItems = gnState.generals.cities
-        .map((e) => ItemModel(key: e, value: e))
-        .toList();
-    List<ItemModel> categoryItems = gnState.generals.jobCategory
-        .map((e) => ItemModel(key: e, value: e))
-        .toList();
-    List<ItemModel> timePartsItems = gnState.generals.timeParts
-        .map((e) => ItemModel(key: e, value: e))
-        .toList();
-    context.read<DynamicFormCubit>().addMenuItems(
-        reviewJobForm.where((element) => element.key == 'nationalities').first,
-        nationalityItems,
-        job.nationalities!);
-    context.read<DynamicFormCubit>().addMenuItems(
-        reviewJobForm.where((element) => element.key == 'category').first,
-        categoryItems,
-        job.category);
-    context.read<DynamicFormCubit>().addMenuItems(
-        reviewJobForm.where((element) => element.key == 'city').first,
-        cityItems,
-        job.city);
-    context.read<DynamicFormCubit>().addMenuItems(
-        reviewJobForm.where((element) => element.key == 'qualifications').first,
-        qualificationsItems,
-        job.qualifications!);
-    context.read<DynamicFormCubit>().addMenuItems(
-        reviewJobForm.where((element) => element.key == 'gender').first,
-        genderItems,
-        job.gender!);
-    context.read<DynamicFormCubit>().addMenuItems(
-        reviewJobForm.where((element) => element.key == 'timeParts').first,
-        timePartsItems,
-        job.timeParts);
-    context.read<DynamicFormCubit>().addMenuItems(
-        reviewJobForm.where((element) => element.key == 'office').first,
-        officeItems,
-        job.office);
 
     return DynamicFormWidget(
       key: const Key('jobEditingInf'),
       dynamicFormsList: reviewJobForm,
       formKey: reviewProfileFormKey,
       useResponsiveUi: true,
-      submitBtn: MaterialButton(
+      submitBtn: isEditing?
+      MaterialButton(
           color: Colors.yellow.shade700,
           // disabledColor: Colors.grey,
           minWidth: 40,
@@ -309,7 +290,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
                 );
               }
             },
-          )),
+          )):null,
     );
   }
 
@@ -378,14 +359,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
                               color: primaryColor,
                             )),
                       ),
-                      BlocBuilder<GeneralCubit, GeneralState>(
-                          builder: (context, gnState) {
-                        if (gnState is GeneralFetchedState) {
-                          print('GeneralFetchedState');
-                          return _getDynFormWidget(gnState, context, MediaQuery.of(context).size.width);
-                        }
-                        return const SizedBox();
-                      }),
+                      _getDynFormWidget(context, MediaQuery.of(context).size.width),
+
                       Flex(
                         mainAxisAlignment: MainAxisAlignment.end,
                         direction: Axis.horizontal,
@@ -537,16 +512,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
                             color: primaryColor,
                           )),
                     ),
-                    BlocBuilder<GeneralCubit, GeneralState>(
-                      builder: (context, gnState) {
 
-                        if (gnState is GeneralFetchedState) {
-                          print('GeneralFetchedState');
-                        return _getDynFormWidget(gnState, context, 400);
-                        }
-                        return const SizedBox();
-                      },
-                    ),
+                         _getDynFormWidget( context, 400),
+
                   /*  Flex(
                       mainAxisAlignment: MainAxisAlignment.end,
                       direction: Axis.horizontal,

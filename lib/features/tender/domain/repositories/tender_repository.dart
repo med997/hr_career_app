@@ -5,4 +5,5 @@ import '../../../../core/error/failures.dart';
 
 abstract class TenderRepository {
   Future<Either<Failure, Tender>> addTender(Tender tender);
+  Future<Either<Failure, Tender>> updateTender(Tender tender);
 }

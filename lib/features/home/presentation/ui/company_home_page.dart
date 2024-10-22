@@ -122,7 +122,7 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
       case 1:
         return CompanyJobPage();
       case 2:
-        return CompanyTendersPage();
+        return const CompanyTendersPage();
       case 3:
             return CompanyProfilePage(auth: widget.auth,);
       default:

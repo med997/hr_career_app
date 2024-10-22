@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/widgets/tender_card_widget.dart';
 import 'package:hr_career_platform/features/tender/data/models/tender_model.dart';
+import 'package:hr_career_platform/features/tender/presentation/ui/company_tender_details_page.dart';
 import '../../../../core/util/responsive.dart';
 import '../../../../core/widgets/jobCard_widget.dart';
 import '../../../../core/widgets/loading_widget.dart';
@@ -30,12 +31,12 @@ class RecentTenders extends StatelessWidget {
               desktop: _buildTabletDesktopLayout(
                   state.homes.recentJobs, 3, context));
         }
-        return Placeholder();
+        return const Placeholder();
       },
     );
   }}
 
-Widget _buildMobileLayout(List<Tender>? tender) {
+Widget _buildMobileLayout(List<Tender>? tender,) {
   return ListView.builder(
       shrinkWrap: true,
       physics: const PageScrollPhysics(),
@@ -44,7 +45,15 @@ Widget _buildMobileLayout(List<Tender>? tender) {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TenderDetailsPage(tender: tender[i])),
+              builder: (context) {
+               // if( j == JobCardType.companyTender){
+                 return TenderDetailsPage(tender: tender[i]);
+
+               // }else {
+               //   return TenderDetailsPage(tender: tender[i]);
+               //
+               // }
+              }),
         ),
         child: TenderCard(
           tender: tender[i],),

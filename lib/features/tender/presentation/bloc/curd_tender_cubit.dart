@@ -7,38 +7,70 @@ import 'package:hr_career_platform/features/tender/domain/usecases/add_tender.da
 import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
 import '../../domain/entities/tender.dart';
+import '../../domain/usecases/update_tender.dart';
 
 part 'curd_tender_state.dart';
 
 class CurdTenderCubit extends Cubit<CurdTenderState> {
   final AddTenderUserCase addTenderUserCase;
-  CurdTenderCubit({required this.addTenderUserCase,}) : super(CurdTenderInitial());
+  final UpdateTenderUserCase updateTenderUserCase;
+
+  CurdTenderCubit(
+      {required this.updateTenderUserCase, required this.addTenderUserCase,})
+      : super(CurdTenderInitial());
 
 
-  Future<void> insertTender(Map<String,dynamic>? value,String companyId) async {
+  Future<void> insertTender(Map<String, dynamic>? value,
+      String companyId) async {
     emit(LoadingCurdTenderState());
     Tender tender = Tender(
         tenderTitle: value!['tenderTitle'],
         otherApplyLinks: value['otherApplyLinks'],
-        city: value['city']??'',
-        category: value['category']??'',
+        city: value['city'] ?? '',
+        category: value['category'] ?? '',
         nationalities: value['nationalities'],
         status: 'draft',
-        companyId:companyId,
+        companyId: companyId,
         tenderDesc: (value['tenderDesc'] as ParchmentDocument).toPlainText(),
-        tenderDescFormated:(value['tenderDesc'] as ParchmentDocument).toJson());
+        tenderDescFormated: (value['tenderDesc'] as ParchmentDocument)
+            .toJson());
 
     final failureOrSuccess = await addTenderUserCase.call(tender);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'insertDone'));
   }
 
-  CurdTenderState _eitherDoneMessageOrErrorState(
-      Either<Failure, Tender> either, String message) {
+  Future<void> updateTender(Map<String, dynamic>? value,
+      Tender tenderRef) async {
+    emit(LoadingCurdTenderState());
+    Tender tender = Tender(
+      id: tenderRef.id,
+        tenderTitle: value!['tenderTitle'] == null || value['tenderTitle']==''
+            ? tenderRef.tenderTitle
+            : value['tenderTitle'],
+        otherApplyLinks: value['otherApplyLinks'] ?? tenderRef.otherApplyLinks,
+        city: value['city'] ?? tenderRef.city,
+        category: value['category'] ?? tenderRef.category,
+        nationalities: value['nationalities'] ?? tenderRef.nationalities,
+        companyId: tenderRef.companyId,
+
+        tenderDesc: (value['tenderDesc'] as ParchmentDocument).toPlainText(),
+        tenderDescFormated: (value['tenderDesc'] != null &&
+            value['tenderDesc'] != '')
+            ? (value['tenderDesc'] as ParchmentDocument)
+            .toJson() : (value['tenderDesc'] as ParchmentDocument).toJson());
+
+    final failureOrSuccess = await updateTenderUserCase.call(tender);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+    }
+
+  CurdTenderState _eitherDoneMessageOrErrorState(Either<Failure, Tender> either,
+      String message) {
     return either.fold(
-          (failure) => ErrorCurdTenderState(
-        message: _mapFailureToMessage(failure),
-      ),
-          (tender) => MessageCurdTenderState(tender: tender,message: message),
+          (failure) =>
+          ErrorCurdTenderState(
+            message: _mapFailureToMessage(failure),
+          ),
+          (tender) => MessageCurdTenderState(tender: tender, message: message),
     );
   }
 

@@ -6,12 +6,15 @@ import '../models/tender_model.dart';
 
 abstract class TenderRemoteDataSource {
   Future<TenderModel> addTender(TenderModel tenderModel);
+  Future<TenderModel> updateTender(TenderModel tenderModel);
+
 }
 
 class TenderRemoteDataSourceImpl implements TenderRemoteDataSource {
   final SupabaseClient supBase;
 
   TenderRemoteDataSourceImpl({required this.supBase});
+
 
   @override
   Future<TenderModel> addTender(TenderModel tenderModel) async {
@@ -27,6 +30,28 @@ class TenderRemoteDataSourceImpl implements TenderRemoteDataSource {
       }
       throw ServerException(message: '${error.message} - ${error.code}');
     } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<TenderModel> updateTender(TenderModel tenderModel) async {
+    try {
+      final data = await supBase
+          .from('tender')
+          .update(tenderModel.toJson())
+          .eq('id', tenderModel.id.toString()).select().single();
+      final TenderModel tender =TenderModel.fromJson(data);
+      return tender;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
       if (kDebugMode) {
         print(e);
       }
