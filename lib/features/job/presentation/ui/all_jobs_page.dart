@@ -32,7 +32,7 @@ class AllJobsPage extends StatelessWidget {
                 jobCardType: JobCardType.company,
                job: job[i],)
                 :JobCard(
-                jobCardType: JobCardType.companyTender,
+                jobCardType: JobCardType.company,
                 chipBgColor:Colors.orange,
                 chipText: tr("active_msg"),
                job: job[i],) ));
@@ -59,7 +59,7 @@ class AllJobsPage extends StatelessWidget {
                   columnWidth: itemWidth,
                 ):
                 JobCard(
-                  jobCardType: JobCardType.companyTender,
+                  jobCardType: JobCardType.company,
 
                   chipText: tr("active_msg"),
                   chipBgColor: Colors.orange,
