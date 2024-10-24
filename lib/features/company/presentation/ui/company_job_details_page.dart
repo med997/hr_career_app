@@ -234,38 +234,6 @@ class CompanyJobDetailsPage extends StatelessWidget {
       dynamicFormsList: reviewJobForm,
       formKey: reviewProfileFormKey,
       useResponsiveUi: true,
-      submitBtn: isEditing
-          ? MaterialButton(
-              color: Colors.yellow.shade700,
-              // disabledColor: Colors.grey,
-              minWidth: 40,
-              height: 40,
-              shape: const CircleBorder(),
-              onPressed: () {
-                final value =
-                    context.read<DynamicFormCubit>().getCurrentValue();
-                final companyId =
-                    context.read<LoginCubit>().authenticatedUser!.userAuth!.id;
-                print('company_id: $companyId ===> $value');
-                context.read<CurdJobCubit>().updateJob(value, job);
-              },
-              child: BlocBuilder<CurdJobCubit, CurdJobState>(
-                builder: (context, state) {
-                  if (state is LoadingCurdJobState) {
-                    return LoadingWidget(
-                      progressColor: Colors.white,
-                      width: 2,
-                    );
-                  } else {
-                    return const Icon(
-                      Icons.save_outlined,
-                      color: Colors.white,
-                      size: 19,
-                    );
-                  }
-                },
-              ))
-          : null,
     );
   }
 

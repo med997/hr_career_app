@@ -91,8 +91,9 @@ class TenderDetailsHeader extends StatelessWidget {
             child: Text(
               textAlign: TextAlign.center,
               tender.tenderTitle,
+              maxLines: 2,
               style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
