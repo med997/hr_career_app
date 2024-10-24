@@ -40,21 +40,25 @@ class TenderCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Wrap(
-            spacing: 4,
+          Flex(
+            direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 4,
-                ),
-                child: Text(
-                  tender.tenderTitle,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                  child: Text(
+                      tender.tenderTitle,
+                    overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14),
+                    ),
                 ),
               ),
+
               CustomChips(
                 chipsTitles: [tr("tenders_msg")],
                 bgColor: secondaryColor,
@@ -62,11 +66,14 @@ class TenderCard extends StatelessWidget {
             ],
           ),
           ListTile(
+            minTileHeight: 38,
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
             leading: AvatarNetwork(
               imgUrl: tender.company!.companyLogo != null
                   ? '$BaseStorageUrl${tender.company!.companyLogo}'
                   : '',
-              withBorder: false,
+              withBorder: true,
             ),
             title: Text(
               tender.company!.nameEn,

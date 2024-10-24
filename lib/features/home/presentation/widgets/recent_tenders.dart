@@ -32,7 +32,7 @@ class RecentTenders extends StatelessWidget {
               desktop: _buildTabletDesktopLayout(
                   state.homes.recentJobs, 3, context));
         }
-        return const Placeholder();
+        return const SizedBox();
       },
     );
   }}

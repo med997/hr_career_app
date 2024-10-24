@@ -78,7 +78,14 @@ class VerificationPage extends StatelessWidget {
                   ),
                 ),
               ),
-              BackButton(),
+              BackButton(
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) => LoginPage()),
+                          (route) => false);
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: loginAndRegisterAppBar(bgColor: Colors.transparent),

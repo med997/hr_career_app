@@ -64,21 +64,22 @@ class JobCard extends StatelessWidget {
         direction: Axis.vertical,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 2,
+           Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                child: Text(
+                  job.jobTitle,
+                  style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14),
+                ),
             ),
-            child: Text(
-              job.jobTitle,
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14),
-            ),
-          ),
+
           ListTile(
+            minTileHeight: 38,
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+            const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
             leading: AvatarNetwork(
               imgUrl: job.company!.companyLogo != null
                   ? '$BaseStorageUrl${job.company!.companyLogo}'
