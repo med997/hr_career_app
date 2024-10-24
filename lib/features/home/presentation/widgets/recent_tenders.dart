@@ -72,7 +72,7 @@ Widget _buildTabletDesktopLayout(
             width: itemWidth,
             child: JobCard(
               job: job,
-              jobCardType: JobCardType.userTender,
+              jobCardType: JobCardType.user,
               columnWidth: itemWidth,),
           ),
         )

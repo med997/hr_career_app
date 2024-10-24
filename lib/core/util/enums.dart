@@ -8,7 +8,7 @@ enum FormType { text, number, password, phone,email, date, color, txtWithWidget,
   multiline, dropdown, autoComplete, rTE, subDynForm,listSubDynForm }
 
 enum UsrType { user,company }
-enum JobCardType { user,company, userTender,companyTender }
+enum JobCardType { user,company }
 enum PkgType { tender,job }
 enum ApplianceStateItem { approved, toShortList, ignored }
 
