@@ -11,8 +11,11 @@ import 'package:hr_career_platform/features/payment/presentation/bloc/payment_cu
 import 'package:hr_career_platform/features/tender/domain/entities/tender.dart';
 import 'package:moyasar/moyasar.dart';
 
+import '../../../../core/widgets/success_dialog.dart';
+
 class PaymentPage extends StatefulWidget {
   final PkgType pkgType;
+
   const PaymentPage({super.key, required this.pkgType});
 
   @override
@@ -20,7 +23,6 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-
   PaymentConfig? paymentConfig;
 
   Package? pkg;
@@ -28,8 +30,9 @@ class _PaymentPageState extends State<PaymentPage> {
   Job? job;
   Tender? tender;
 
-  _insertPaymentJob(result){
-    Payment payment = Payment(jobId: job!.id!,
+  _insertPaymentJob(result) {
+    Payment payment = Payment(
+        jobId: job!.id!,
         companyId: job!.companyId!,
         amount: result.amount,
         refId: result.id,
@@ -39,10 +42,11 @@ class _PaymentPageState extends State<PaymentPage> {
         metadata: result.metadata,
         pkg: pkg!.id!);
     context.read<PaymentCurdCubit>().insertPayment(payment);
-
   }
-  _insertPaymentTender(result){
-    Payment payment = Payment(tenderId: tender!.id!,
+
+  _insertPaymentTender(result) {
+    Payment payment = Payment(
+        tenderId: tender!.id!,
         companyId: tender!.companyId!,
         amount: result.amount,
         refId: result.id,
@@ -52,7 +56,6 @@ class _PaymentPageState extends State<PaymentPage> {
         metadata: result.metadata,
         pkg: pkg!.id!);
     context.read<PaymentCurdCubit>().insertPayment(payment);
-
   }
 
   onPaymentResult(result) {
@@ -62,16 +65,16 @@ class _PaymentPageState extends State<PaymentPage> {
           print('init');
           break;
         case PaymentStatus.paid:
-          if(widget.pkgType==PkgType.job){
+          if (widget.pkgType == PkgType.job) {
             _insertPaymentJob(result);
-          }else{
+          } else {
             _insertPaymentTender(result);
           }
 
           print('paid');
           break;
         case PaymentStatus.failed:
-        // handle failure.
+          // handle failure.
           print('failed');
           break;
         case PaymentStatus.authorized:
@@ -84,47 +87,36 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
 
-
-    pkg = context
-        .read<StepperCubit>()
-        .package!;
-    if(widget.pkgType==PkgType.job){
-      job = context
-          .read<StepperCubit>()
-          .job!;
+    pkg = context.read<StepperCubit>().package!;
+    if (widget.pkgType == PkgType.job) {
+      job = context.read<StepperCubit>().job!;
       paymentConfig = PaymentConfig(
         publishableApiKey: 'pk_test_9GuD6YHzMHnA43YVkeH6nyUFzk2uEYc9AepYdQnP',
         amount: pkg!.price * 100,
         // SAR Halala
-        description: 'payment ${pkg!.pkgName} for Job No ${job!
-            .id} from company id ${job!.companyId}',
+        description:
+            'payment ${pkg!.pkgName} for Job No ${job!.id} from company id ${job!.companyId}',
         metadata: {'pkgDesc': ' ${pkg!.desc}', "title'": job!.jobTitle},
         creditCard: CreditCardConfig(saveCard: true, manual: false),
       );
-    }else{
-      tender = context
-          .read<StepperCubit>()
-          .tender!;
+    } else {
+      tender = context.read<StepperCubit>().tender!;
 
       paymentConfig = PaymentConfig(
         publishableApiKey: 'pk_test_9GuD6YHzMHnA43YVkeH6nyUFzk2uEYc9AepYdQnP',
         amount: pkg!.price * 100,
         // SAR Halala
-        description: 'payment ${pkg!.pkgName} for tender No ${tender!
-            .id} from company id ${tender!.companyId}',
+        description:
+            'payment ${pkg!.pkgName} for tender No ${tender!.id} from company id ${tender!.companyId}',
         metadata: {'pkgDesc': ' ${pkg!.desc}', 'title': tender!.tenderTitle},
         creditCard: CreditCardConfig(saveCard: true, manual: false),
       );
     }
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -132,27 +124,31 @@ class _PaymentPageState extends State<PaymentPage> {
       shrinkWrap: true,
       padding: const EdgeInsets.symmetric(horizontal: 24),
       children: [
-        CreditCard(config: paymentConfig!,
-            onPaymentResult: onPaymentResult),
+        CreditCard(config: paymentConfig!, onPaymentResult: onPaymentResult),
         BlocConsumer<PaymentCurdCubit, PaymentCurdState>(
           listener: (context, state) {
-            if (state is MessageCurdPaymentState){
-              context.read<StepperCubit>().job=null;
-              context.read<StepperCubit>().tender=null;
-              context.read<StepperCubit>().package=null;
-              context.read<StepperCubit>().addJobChangeStep(0);
-              context.read<StepperCubit>().addTenderChangeStep(0);
-              Navigator.pop(context);
+            if (state is MessageCurdPaymentState) {
+              context.read<StepperCubit>().job = null;
+              context.read<StepperCubit>().tender = null;
+              context.read<StepperCubit>().package = null;
 
+              showDialog(
+                  context: context,
+                  builder: (context) => SuccessDialog(
+                        message: 'Job inserted done',
+                        onDonePressed: () {
+                          context.read<StepperCubit>().addJobChangeStep(0);
+                          context.read<StepperCubit>().addTenderChangeStep(0);
+                          Navigator.pop(context);
+                        },
+                      ));
             }
           },
           builder: (context, state) {
-
-                if (state is LoadingCurdPaymentState) {
-                  return LoadingWidget();
-                }
-                return const SizedBox();
-
+            if (state is LoadingCurdPaymentState) {
+              return LoadingWidget();
+            }
+            return const SizedBox();
           },
         )
       ],

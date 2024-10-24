@@ -40,8 +40,6 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
   void initState() {
     super.initState();
 
-    context.read<ProfileCubit>().getUserByUuid(
-        context.read<LoginCubit>().authenticatedUser!.userAuth!.id);
   }
 
   @override
