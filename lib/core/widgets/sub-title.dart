@@ -11,10 +11,11 @@ class SubTitle extends StatelessWidget {
   Icon? icon;
   double? txtSize;
   IconButton? iconButton;
+  Color? textColor;
   SubTitleType titleType = SubTitleType.textOnly;
   Function? onShowMoreClicked;
 
-  SubTitle({required this.title, this.icon, this.txtSize,this.iconButton, required this.titleType, this.onShowMoreClicked });
+  SubTitle({required this.title, this.icon, this.txtSize,this.iconButton, this.textColor, required this.titleType, this.onShowMoreClicked });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class SubTitle extends StatelessWidget {
           Text(
             title,
             style:
-                 TextStyle(fontWeight: FontWeight.bold, fontSize: txtSize?? 14, color: primaryColor),
+                 TextStyle(fontWeight: FontWeight.bold, fontSize: txtSize?? 14, color: textColor?? primaryColor),
           ),
           if (titleType == SubTitleType.withIcon)
             Center(child: icon ?? iconButton)

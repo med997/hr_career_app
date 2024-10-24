@@ -10,6 +10,7 @@ class AvatarNetwork extends StatelessWidget {
   final Function? editClicked;
   final double? size;
   final Color? bgColor;
+  final Color? borderColor;
 
   const AvatarNetwork({
     super.key,
@@ -19,6 +20,7 @@ class AvatarNetwork extends StatelessWidget {
     this.size,
     this.editClicked,
     this.withEditBtn,
+    this.borderColor,
     this.redius,
   });
 
@@ -32,7 +34,7 @@ class AvatarNetwork extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(redius ?? 48),
                   side: withBorder
-                      ? BorderSide(width: 0.5, color: primaryColor)
+                      ? BorderSide(width: 0.5, color:borderColor??primaryColor)
                       : BorderSide(width: 0.1, color: Colors.transparent))),
           height: size??38,
           width: size??38,

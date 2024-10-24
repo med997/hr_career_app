@@ -26,8 +26,10 @@ class _HomeTenderPageState extends State<HomeTenderPage> {
   Widget build(BuildContext context) {
 
     return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       children: [
         SubTitle(
+          textColor: Colors.black,
           onShowMoreClicked: () {
             if (kDebugMode) print('showMoreClicked');
           },
@@ -43,6 +45,7 @@ class _HomeTenderPageState extends State<HomeTenderPage> {
               MaterialPageRoute(builder: (context) => AllJobsPage()),
             );
           },
+          textColor: Colors.black,
           titleType: SubTitleType.withShowMore,
           title: tr("recent_tender_msg"),
           icon: Icon(Icons.edit_note),

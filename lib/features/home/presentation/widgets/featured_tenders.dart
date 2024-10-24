@@ -42,7 +42,7 @@ class FeaturedTenders extends StatelessWidget {
 
   Widget _mobileFeaturedJob(List<Tender>? featuredTender) {
     return CarouselSlider(
-      options: CarouselOptions(height: 180.0),
+      options: CarouselOptions(height: 160.0),
       items: featuredTender!.map((i) {
         return Builder(
           builder: (BuildContext context) {
@@ -52,13 +52,13 @@ class FeaturedTenders extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 8.0),
                 decoration: BoxDecoration(
                     image: const DecorationImage(
-                      opacity: 0.5,
+                      opacity: 0.8,
                       image: AssetImage('assets/imgs/image10.png'),
                       fit: BoxFit.fitWidth, // Adjust fit as needed
                     ),
-                    color: primaryColor,
+                    color: secondaryColor,
                     border: Border.all(
-                      color: primaryColor,
+                      color: secondaryColor,
                       width: 0.5,
                     ),
                     borderRadius: BorderRadius.circular(12)),
@@ -84,7 +84,7 @@ class FeaturedTenders extends StatelessWidget {
         itemBuilder: (context, index) =>  Container(
             width: 400,
             height: 140,
-            margin: const EdgeInsets.symmetric(horizontal: 4.0),
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
             decoration: BoxDecoration(
                 image: const DecorationImage(
                   opacity: 0.5,
@@ -115,10 +115,12 @@ class FeaturedTenders extends StatelessWidget {
           direction: Axis.vertical,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
               title: Text(
+                maxLines: 2,
                 tender.tenderTitle,
                 style: const TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12),
@@ -127,7 +129,7 @@ class FeaturedTenders extends StatelessWidget {
                 tender.company!.nameEn,
                 style: const TextStyle(color: Colors.white, fontSize: 12),
               ),
-              leading: AvatarNetwork(imgUrl: tender.company!.companyLogo!=null? '$BaseStorageUrl${tender.company!.companyLogo}':'',withBorder: true,)
+              leading: AvatarNetwork(borderColor: secondaryColor, imgUrl:  tender.company!.companyLogo!=null? '$BaseStorageUrl${tender.company!.companyLogo}':'',withBorder: true,)
             ),
             CustomChips(
               chipsTitles: [
@@ -140,8 +142,9 @@ class FeaturedTenders extends StatelessWidget {
             ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 6)),
             Flex(
+              mainAxisSize: MainAxisSize.max,
               direction: Axis.horizontal,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Flexible(
                   flex: 1,
