@@ -64,6 +64,7 @@ class TenderDetailsHeader extends StatelessWidget {
               ),
 
               trailing: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
                 direction: Axis.horizontal,
                 spacing: 2,
                 alignment: WrapAlignment.center,

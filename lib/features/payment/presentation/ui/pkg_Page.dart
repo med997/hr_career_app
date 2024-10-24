@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/success_dialog.dart';
-import 'package:hr_career_platform/features/home/presentation/ui/company_main_home_page.dart';
 import 'package:hr_career_platform/features/payment/domain/entities/package.dart';
-import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 import 'package:hr_career_platform/features/payment/presentation/widgets/payment_card_widget.dart';
 import 'package:moyasar/moyasar.dart';
@@ -17,8 +15,8 @@ import '../../domain/entities/payment.dart';
 import '../bloc/payment_curd_cubit.dart';
 
 class PkgPage extends StatefulWidget {
-
   final PkgType pkgType;
+
   const PkgPage({super.key, required this.pkgType});
 
   @override
@@ -28,13 +26,12 @@ class PkgPage extends StatefulWidget {
 class _PkgPageState extends State<PkgPage> {
   PaymentConfig? paymentConfig;
 
-
   Job? job;
   Tender? tender;
 
-  _insertPaymentJob(int pkgId){
-
-    Payment payment = Payment(jobId: job!.id,
+  _insertPaymentJob(int pkgId) {
+    Payment payment = Payment(
+        jobId: job!.id,
         companyId: job!.companyId!,
         amount: 0,
         refId: 'FreeJob ${job!.id}',
@@ -44,30 +41,23 @@ class _PkgPageState extends State<PkgPage> {
         metadata: 'FreeJob ${job!.id}',
         pkg: pkgId);
     context.read<PaymentCurdCubit>().insertPayment(payment);
-    job = context
-        .read<StepperCubit>()
-        .job!;
-
+    job = context.read<StepperCubit>().job!;
   }
-  _insertPaymentTender(int pkgId){
-    Payment payment = Payment(tenderId: tender!.id!,
+
+  _insertPaymentTender(int pkgId) {
+    Payment payment = Payment(
+        tenderId: tender!.id!,
         companyId: tender!.companyId!,
         amount: 0,
         refId: 'FreeJob ${tender!.id}',
         amountTxt: 'Zero',
-        fee:'0',
+        fee: '0',
         description: 'FreeJob ${tender!.id}',
-        metadata:'FreeJob ${tender!.id}',
+        metadata: 'FreeJob ${tender!.id}',
         pkg: pkgId);
     context.read<PaymentCurdCubit>().insertPayment(payment);
-    tender = context
-        .read<StepperCubit>()
-        .tender!;
-
+    tender = context.read<StepperCubit>().tender!;
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,27 +72,32 @@ class _PkgPageState extends State<PkgPage> {
               children: [
                 BlocConsumer<PaymentCurdCubit, PaymentCurdState>(
                   listener: (context, state) {
-                    if (state is MessageCurdPaymentState){
-                      context.read<StepperCubit>().job=null;
-                      context.read<StepperCubit>().tender=null;
-                      context.read<StepperCubit>().package=null;
+                    if (state is MessageCurdPaymentState) {
+                      context.read<StepperCubit>().job = null;
+                      context.read<StepperCubit>().tender = null;
+                      context.read<StepperCubit>().package = null;
                       context.read<StepperCubit>().addJobChangeStep(0);
-                       context.read<StepperCubit>().addTenderChangeStep(0);
-                      showDialog(context: context, builder: (context) => SuccessDialog(message: 'Job inserted done', onDonePressed:() {
-                        Navigator.pop(context);
-                      },));
+                      context.read<StepperCubit>().addTenderChangeStep(0);
+                      showDialog(
+                          context: context,
+                          builder: (context) => SuccessDialog(
+                                message: 'Job inserted done',
+                                onDonePressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ));
                     }
                   },
                   builder: (context, state) {
-            
                     if (state is LoadingCurdPaymentState) {
                       return LoadingWidget();
-                    }
-                    else if (state is ErrorCurdPaymentState) {
-                      return Text(state.message,style: const TextStyle(color: Colors.red),);
+                    } else if (state is ErrorCurdPaymentState) {
+                      return Text(
+                        state.message,
+                        style: const TextStyle(color: Colors.red),
+                      );
                     }
                     return const SizedBox();
-            
                   },
                 ),
                 Expanded(
@@ -114,18 +109,13 @@ class _PkgPageState extends State<PkgPage> {
                           child: PaymentCardWidget(
                         pkg: e,
                         onPkgSelected: () {
-                          if (e.price==0){
-                            if(widget.pkgType==PkgType.job){
-                               _insertPaymentJob(e.id!);
-                              
-                              
-                            }else{
+                          if (e.price == 0) {
+                            if (widget.pkgType == PkgType.job) {
+                              _insertPaymentJob(e.id!);
+                            } else {
                               _insertPaymentTender(e.id!);
                             }
-                              
-                              
-                              
-                          }else {
+                          } else {
                             context
                                 .read<StepperCubit>()
                                 .addJobChangeStep(2, selectedPackage: e);
@@ -137,7 +127,6 @@ class _PkgPageState extends State<PkgPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                   ),
                 ),
-            
               ],
             ),
           );
@@ -145,7 +134,7 @@ class _PkgPageState extends State<PkgPage> {
           return LoadingWidget();
         }
 
-        return SizedBox();
+        return const SizedBox();
       },
     );
   }
@@ -155,15 +144,9 @@ class _PkgPageState extends State<PkgPage> {
     super.initState();
     context.read<PackageCubit>().getAllJobPackage(widget.pkgType);
     if (widget.pkgType == PkgType.job) {
-      job = context
-          .read<StepperCubit>()
-          .job!;
-
+      job = context.read<StepperCubit>().job!;
     } else {
-      tender = context
-          .read<StepperCubit>()
-          .tender!;
-
-
+      tender = context.read<StepperCubit>().tender!;
     }
-  }}
+  }
+}
