@@ -40,8 +40,6 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
     super.initState();
     context.read<GeneralCubit>().getGeneral();
 
-    context.read<ProfileCubit>().getUserByUuid(
-        context.read<LoginCubit>().authenticatedUser!.userAuth!.id);
   }
 
   @override

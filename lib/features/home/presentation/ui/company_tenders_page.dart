@@ -18,25 +18,31 @@ class CompanyTendersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-        children: [
-          const SizedBox(
-            height: 5,
+    return Flex(
+      direction: Axis.vertical,
+      children: [
+        Center(
+          child: ToggleBtnWidget(
+            options: const ['Archive', 'Hidden', 'Complete'],
           ),
-          Center(
-            child: ToggleBtnWidget(
-              options: const ['Archive', 'Hidden', 'Complete'],
+        ),
+        Flexible(
+          child: ListView(children: const [
+            SizedBox(
+              height: 5,
             ),
-          ),
-          const RecentTenders(jobCardType: JobCardType.company,)
-
-        ]);
+            RecentTenders(
+              jobCardType: JobCardType.company,
+            )
+          ]),
+        ),
+      ],
+    );
     // return ListView(
     //   children: const [
     //
     //     // RecentJobsWidget(jobCardType: JobCardType.companyTender,)
     //   ],
     // );
-
   }
 }

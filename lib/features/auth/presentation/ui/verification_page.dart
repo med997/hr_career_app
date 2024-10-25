@@ -28,8 +28,10 @@ class VerificationPage extends StatelessWidget {
 
   Widget _desktopAndTabletVerificationPage(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
-          iconTheme: IconThemeData.fallback(),
+
+          iconTheme: const IconThemeData.fallback(),
           flexibleSpace: Container(
               padding: const EdgeInsets.all(120.0),
               decoration: const BoxDecoration(

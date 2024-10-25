@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
+import 'package:hr_career_platform/core/widgets/custom_chips.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/widgets/recent_profile.dart';
 
@@ -181,24 +182,8 @@ class CompanyTenderDetailsPage extends StatelessWidget {
       children: [
         TenderDetailsHeader(
             tender: tender,
-            profileFilledText: FilledButton(
-              style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(
-                tender.status == 'hidden'
-                    ? Colors.grey
-                    : tender.status == 'completed'
-                        ? primaryTransparent
-                        : primaryColor,
-              )),
-              onPressed: () {},
-              child: Text(
-                tender.status.toString(),
-                style: const TextStyle(
-                  fontSize: 10,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            profileFilledText: CustomChips(chipsTitles: [tender.status??''],bgColor: primaryColor,),
+
             profileIcoButton: IconButton(
                 iconSize: 18,
                 color: Colors.white,

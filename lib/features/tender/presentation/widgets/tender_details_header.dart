@@ -64,6 +64,7 @@ class TenderDetailsHeader extends StatelessWidget {
               ),
 
               trailing: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
                 direction: Axis.horizontal,
                 spacing: 2,
                 alignment: WrapAlignment.center,
@@ -90,8 +91,9 @@ class TenderDetailsHeader extends StatelessWidget {
             child: Text(
               textAlign: TextAlign.center,
               tender.tenderTitle,
+              maxLines: 2,
               style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),

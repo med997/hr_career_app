@@ -150,7 +150,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
     final ParchmentDocument? documentAboutUs = company.aboutUsFormated != null
         ? ParchmentDocument.fromJson(
         jsonDecode(jsonEncode(company.aboutUsFormated)))
-        : null;
+        : ParchmentDocument();
     General? generals = context.read<GeneralCubit>().general;
     List<ItemModel> nationalityItems = [];
     List<ItemModel> sizeItems = [];

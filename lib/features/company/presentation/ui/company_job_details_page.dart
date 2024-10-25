@@ -6,11 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
-import 'package:hr_career_platform/features/job/presentation/ui/add_job_body_page.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_header.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
-import 'package:hr_career_platform/features/profile/presentation/widgets/profile_card.dart';
 import 'package:hr_career_platform/features/profile/presentation/widgets/recent_profile.dart';
 
 import '../../../../core/app_localizations.dart';
@@ -31,7 +29,6 @@ import '../../../general/domain/entities/general.dart';
 import '../../../general/presentation/bloc/general_cubit.dart';
 import '../../../job/domain/entities/job.dart';
 import '../../../job/presentation/bloc/curd_job_cubit.dart';
-import '../../../job/presentation/bloc/stepper_cubit.dart';
 
 class CompanyJobDetailsPage extends StatelessWidget {
   final Job job;
@@ -74,8 +71,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _getDynFormWidget( BuildContext context, double width) {
-
+  Widget _getDynFormWidget(BuildContext context, double width) {
     final ParchmentDocument? documentReq = job.jobReqFormated != null
         ? ParchmentDocument.fromJson(jsonDecode(jsonEncode(job.jobReqFormated)))
         : null;
@@ -110,13 +106,11 @@ class CompanyJobDetailsPage extends StatelessWidget {
     }
 
     final List<DynamicModel> reviewJobForm = [
-
       DynamicModel('jobTitle', FormType.text,
           key: 'jobTitle',
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
-
           width: width,
           controller: TextEditingController(text: job.jobTitle),
           isRequired: true,
@@ -136,7 +130,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           controllerFlt: FleatherController(document: documentDesc),
-          controller: TextEditingController (text: documentDesc!.toPlainText()??''),
+          controller:
+              TextEditingController(text: documentDesc!.toPlainText() ?? ''),
           width: width,
           isRequired: true,
           disabled: isEditing),
@@ -145,37 +140,24 @@ class CompanyJobDetailsPage extends StatelessWidget {
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
-          controller: TextEditingController(text: documentReq!.toPlainText()??''),
+          controller:
+              TextEditingController(text: documentReq!.toPlainText() ?? ''),
           controllerFlt: FleatherController(document: documentReq),
           width: width,
           isRequired: true,
           disabled: isEditing),
       DynamicModel(
-        'address',
-        width: width,
-        key: 'address',
-        FormType.text,
-        controller: TextEditingController(text: job.address),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        isRequired: true,
-        disabled: isEditing,
-        action: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: MaterialButton(
-              disabledColor: Colors.grey.shade600,
-              padding: EdgeInsets.all(4),
-              onPressed: isEditing == isEditing ? null : () {},
-              shape: const CircleBorder(),
-              color: primaryColor,
-              child: const Icon(
-                Icons.location_on_outlined,
-                color: Colors.white,
-                size: 18,
-              )),
-        ),
-      ),
+          'address',
+          width: width,
+          key: 'address',
+          FormType.text,
+          controller: TextEditingController(text: job.address),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: isEditing,
+          action: _addressActionBtn(context)),
       DynamicModel('office', FormType.dropdown,
           key: 'office',
           validators: [
@@ -252,45 +234,6 @@ class CompanyJobDetailsPage extends StatelessWidget {
       dynamicFormsList: reviewJobForm,
       formKey: reviewProfileFormKey,
       useResponsiveUi: true,
-      submitBtn: isEditing?
-      MaterialButton(
-          color: Colors.yellow.shade700,
-          // disabledColor: Colors.grey,
-          minWidth: 40,
-          height: 40,
-          shape: const CircleBorder(),
-          onPressed: (){
-            final value = context
-                .read<DynamicFormCubit>()
-                .getCurrentValue();
-            final companyId = context
-                .read<LoginCubit>()
-                .authenticatedUser!
-                .userAuth!
-                .id;
-            print(
-                'company_id: $companyId ===> $value');
-            context
-                .read<CurdJobCubit>()
-                .updateJob(value, job);
-          },
-          child:
-          BlocBuilder<CurdJobCubit, CurdJobState>(
-            builder: (context, state) {
-              if (state is LoadingCurdJobState) {
-                return LoadingWidget(
-                  progressColor: Colors.white,
-                  width: 2,
-                );
-              } else {
-                return const Icon(
-                  Icons.save_outlined,
-                  color: Colors.white,
-                  size: 19,
-                );
-              }
-            },
-          )):null,
     );
   }
 
@@ -359,8 +302,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
                               color: primaryColor,
                             )),
                       ),
-                      _getDynFormWidget(context, MediaQuery.of(context).size.width),
-
+                      _getDynFormWidget(
+                          context, MediaQuery.of(context).size.width),
                       Flex(
                         mainAxisAlignment: MainAxisAlignment.end,
                         direction: Axis.horizontal,
@@ -373,7 +316,6 @@ class CompanyJobDetailsPage extends StatelessWidget {
                                     .resetButtonState(isEditing);
                                 return MaterialButton(
                                     color: Colors.yellow.shade700,
-                                    // disabledColor: Colors.grey,
                                     minWidth: 40,
                                     height: 40,
                                     shape: const CircleBorder(),
@@ -451,6 +393,37 @@ class CompanyJobDetailsPage extends StatelessWidget {
     );
   }
 
+  _addressActionBtn(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: MaterialButton(
+          disabledColor: Colors.grey.shade600,
+          padding: const EdgeInsets.all(4),
+          onPressed: () async {
+            Navigator.of(context)
+                .push(MaterialPageRoute(
+              builder: (context) => LocationWidget(),
+            ))
+                .then((value) {
+              context
+                  .read<DynamicFormCubit>()
+                  .updateValueOnly('address', value[0].toString());
+              // print(value[0]);
+              // print(value[1]);
+              // latLong = value[1].split(",");
+              // print(latLong);
+            });
+          },
+          shape: const CircleBorder(),
+          color: primaryColor,
+          child: const Icon(
+            Icons.location_on_outlined,
+            color: Colors.white,
+            size: 18,
+          )),
+    );
+  }
+
   _buildTabletAndDesktopWidget(
     BuildContext context,
     isEditing,
@@ -512,10 +485,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
                             color: primaryColor,
                           )),
                     ),
+                    _getDynFormWidget(context, 400),
 
-                         _getDynFormWidget( context, 400),
-
-                  /*  Flex(
+                    /*  Flex(
                       mainAxisAlignment: MainAxisAlignment.end,
                       direction: Axis.horizontal,
                       children: [

@@ -126,7 +126,7 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
       case 3:
             return CompanyProfilePage(auth: widget.auth,);
       default:
-        return Placeholder();
+        return const SizedBox();
     }
   }
 }

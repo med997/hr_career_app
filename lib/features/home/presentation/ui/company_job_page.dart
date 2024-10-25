@@ -11,28 +11,36 @@ class CompanyJobPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Flex(
+      direction: Axis.vertical,
       children: [
-        const SizedBox(
-          height: 5,
-        ),
         Center(
           child: ToggleBtnWidget(
             options: const ['active', 'hidden', 'completed'],
           ),
         ),
-        BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-          builder: (context, state) {
-            if(state is ToggleBtnChangedState){
-              return RecentJobsWidget(
-                jobCardType: JobCardType.company,selectedJobState: state.selectedTab,
-              );
-            } else {
-              return const SizedBox();
-            }
+        Flexible(
+          child: ListView(
+            children: [
+              const SizedBox(
+                height: 5,
+              ),
 
-          },
-        )
+              BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                builder: (context, state) {
+                  if(state is ToggleBtnChangedState){
+                    return RecentJobsWidget(
+                      jobCardType: JobCardType.company,selectedJobState: state.selectedTab,
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+
+                },
+              )
+            ],
+          ),
+        ),
       ],
     );
   }
