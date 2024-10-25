@@ -82,6 +82,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'features/company/presentation/bloc/company_profile_cubit.dart';
 import 'features/job/domain/usercase/add_appliance.dart';
 import 'features/job/presentation/bloc/curd_appliance_job_cubit.dart';
+import 'features/job/presentation/bloc/job_search_cubit.dart';
 import 'features/notification/domain/usecases/fetch_notification.dart';
 
 final sl = GetIt.instance;
@@ -164,6 +165,10 @@ void _initJob() {
   // cubit
     ..registerLazySingleton(
           () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl(), getAllJobsByCompanyUserCase: sl(),),
+    )
+  // cubit
+    ..registerLazySingleton(
+          () => JobSearchCubit(getJobUserCase: sl()),
     )
   // cubit
     ..registerLazySingleton(

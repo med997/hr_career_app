@@ -11,6 +11,7 @@ import '../../../../core/app_localizations.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
+import '../bloc/job_search_cubit.dart';
 
 class AllJobsPage extends StatelessWidget {
 
@@ -74,7 +75,7 @@ class AllJobsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocBuilder<JobCubit, JobState>(
+        child: BlocBuilder<JobSearchCubit, JobState>(
             builder: (context, state) {
                     if (state is JobLoadingState) {
                       return  Center(

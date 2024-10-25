@@ -34,6 +34,7 @@ import 'features/general/presentation/bloc/general_cubit.dart';
 import 'features/home/presentation/ui/company_home_page.dart';
 import 'features/job/presentation/bloc/curd_job_cubit.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
+import 'features/job/presentation/bloc/job_search_cubit.dart';
 import 'features/notification/service/notification_service.dart';
 import 'features/payment/presentation/bloc/payment_curd_cubit.dart';
 import 'features/profile/presentation/bloc/appliance_cubit.dart';
@@ -53,7 +54,10 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (context) => di.sl<JobCubit>()..getAllJobs(),
+        create: (context) => di.sl<JobCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<JobSearchCubit>(),
       ),
       BlocProvider(
         create: (context) => di.sl<HomeCubit>(),

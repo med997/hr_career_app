@@ -12,6 +12,7 @@ import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 
 import '../../features/general/domain/entities/general.dart';
 import '../../features/general/presentation/bloc/general_cubit.dart';
+import '../../features/job/presentation/bloc/job_search_cubit.dart';
 import '../util/validator.dart';
 
 class SearchWidget extends StatelessWidget {
@@ -20,6 +21,7 @@ class SearchWidget extends StatelessWidget {
   double defaultWidth = 300;
   final _formKey = GlobalKey<FormState>();
    List<DynamicModel> searchForm = [];
+  final _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
@@ -33,7 +35,6 @@ class SearchWidget extends StatelessWidget {
     General? generals = context.read<GeneralCubit>().general;
     List<ItemModel> nationalityItems = [];
     List<ItemModel> categoryItems = [];
-    List<ItemModel> companyItems = [];
     List<ItemModel> cityItems = [];
     if (generals != null) {
       nationalityItems =
@@ -41,12 +42,11 @@ class SearchWidget extends StatelessWidget {
       categoryItems = generals.jobCategory
           .map((e) => ItemModel(key: e, value: e))
           .toList();
-      companyItems =
-          generals.companyMajor.map((e) => ItemModel(key: e, value: e)).toList();
       cityItems =
           generals.cities.map((e) => ItemModel(key: e, value: e)).toList();
     }
     final List<DynamicModel> searchFormMobile =  [
+
       DynamicModel(
           padding: 8,
           'category',
@@ -58,17 +58,7 @@ class SearchWidget extends StatelessWidget {
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           controller: TextEditingController()),
-      DynamicModel(
-        padding: 8,
-          'company',
-          key: 'company',
-          width:width,
-          FormType.dropdown,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          controller: TextEditingController(),
-          items: companyItems),
+
       DynamicModel(
         padding: 8,
           'city',
@@ -97,6 +87,7 @@ class SearchWidget extends StatelessWidget {
       title: SizedBox(
         width: 200,
         child: SearchBar(
+          controller: _searchController,
           constraints: BoxConstraints.tight(const Size.fromHeight(35)),
           elevation: const WidgetStatePropertyAll(0.0),
           hintText: tr("search_msg"),
@@ -118,7 +109,13 @@ class SearchWidget extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
                           color: primaryColor,
-                          onPressed: () {}, child: const Text(
+                          onPressed: () {
+                            final value = context
+                                .read<DynamicFormCubit>()
+                                .getCurrentValue();
+                            value['searchVal']=_searchController.value.text;
+                            context.read<JobSearchCubit>().searchJob(value);
+                          }, child: const Text(
                         'search',
                         style: TextStyle(color: Colors.white),
                       ))) ,

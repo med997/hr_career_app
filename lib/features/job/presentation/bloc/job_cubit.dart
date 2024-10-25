@@ -19,11 +19,7 @@ class JobCubit extends Cubit<JobState> {
   JobCubit({required this.getAllJobsByCompanyUserCase, required this.getJobUserCase, required this.searchJobsUserCase}) : super(JobInitial());
 
 
-  Future<void> getAllJobs() async {
-    emit(JobLoadingState());
-    final failureOrSuccess = await getJobUserCase.callAll();
-    emit(_mapFailureOrJobsToState(failureOrSuccess));
-  }
+
 
   JobState _mapFailureOrJobsToState(Either<Failure, List<Job>> either) {
     return either.fold(

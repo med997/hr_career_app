@@ -139,19 +139,19 @@ class CompanyAppBarWidget extends StatelessWidget {
                   ],
                 ),
               ),
+
               ListTile(
 
-                trailing: withBackBtn?const BackButton(
-              color: Colors.white,
-              ):null,
+                trailing: withBackBtn?const BackButton(color: Colors.white):null,
                 leading: BlocBuilder<CurdCompanyCubit, CurdCompanyState>(
                   builder: (context, state) {
-                    if (state is LoadingCurdProfileState) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: LoadingWidget(
-                          width: 2,
-                          progressColor: primaryColor,
+                    if (state is LoadingCurdCompanyState) {
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(
+                          color: secondaryColor,
+                          strokeWidth: 2,
+
                         ),
                       );
                     } else if (state is MessageCurdCompanyState) {

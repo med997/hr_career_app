@@ -25,10 +25,10 @@ class JobRepositoryImpl extends JobRepository {
   }
 
   @override
-  Future<Either<Failure, List<Job>>> getAllJob() async{
+  Future<Either<Failure, List<Job>>> getAllJob(String? searchVal,String? nat,String? city,String? category) async{
     if (await networkInfo.isConnected) {
       try {
-        final remoteJob = await jobRemoteDataSource.getAllJobs();
+        final remoteJob = await jobRemoteDataSource.getAllJobs(searchVal,nat,city,category);
         return Right(remoteJob);
       } on ServerException {
         return Left(ServerFailure());
