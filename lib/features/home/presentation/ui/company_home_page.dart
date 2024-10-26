@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_localizations.dart';
@@ -61,7 +62,7 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
           ) : null,
           body: (state is TabNavChangedState)
               ? _navPageBody(state.selectedTab,context)
-              : SizedBox(),
+              : const SizedBox(),
           bottomNavigationBar: NavigationBar(
             destinations: navUserCompanyItem,
             selectedIndex: state.selectedTab,
@@ -80,9 +81,9 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
           appBar:   buildAppBar(
             context: context,
             userOrCompany: 'Company',
-            userName: state.selectedTab == 3 ? tr("profile_msg")
-                : state.selectedTab == 1 ? 'Jobs'
-                : state.selectedTab == 2 ? tr("tenders_msg")
+            userName: state.selectedTab == 3 ? "profile_msg".tr()
+                : state.selectedTab == 1 ? 'Jobs'.tr()
+                : state.selectedTab == 2 ? "tenders_msg".tr()
                 : widget.auth.company!.nameEn ?? '',
             img:  widget.auth.company!.companyLogo!,
             fullHeader: (state.selectedTab != 0)
@@ -106,7 +107,7 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
               Expanded(
                 child: (state is TabNavChangedState)
                     ? _navPageBody(state.selectedTab,context)
-                    : SizedBox(),
+                    : const SizedBox(),
               )
             ],
           ),

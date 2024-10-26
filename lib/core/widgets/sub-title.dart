@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
+import 'package:hr_career_platform/main.dart';
 
 enum SubTitleType { textOnly, withIcon, withShowMore }
 
@@ -39,7 +41,7 @@ class SubTitle extends StatelessWidget {
               child: InkWell(
                 onTap: () => onShowMoreClicked!(),
                   child: Text(
-                    tr("show_more_msg"),
+                   "show_more_msg".tr(),
                 style: TextStyle(color: Colors.black54),
               )),
             )

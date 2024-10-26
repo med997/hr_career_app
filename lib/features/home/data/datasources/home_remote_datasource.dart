@@ -68,7 +68,8 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<HomeModel> getHomeUser() async{
     try {
-      final data = await supBase.rpc('user_home');
+      final data = await supBase.rpc('user_home').select().single();
+      print(data);
 
       final HomeModel homeList = HomeModel.fromJson(data);
       return homeList;

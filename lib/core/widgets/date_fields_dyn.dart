@@ -1,6 +1,7 @@
 
 
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ Widget getDatePickerWidget(DynamicModel dynamicModel, BuildContext context) {
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(
           helperText: dynamicModel.helperText ?? '',
-          labelText: dynamicModel.controlName,
+          labelText: dynamicModel.controlName.tr(),
           errorMaxLines: 1,
           errorStyle: const TextStyle(
             color: Colors.redAccent,

@@ -1,5 +1,6 @@
 
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,33 +28,35 @@ class _HomeJobPageState extends State<HomeJobPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-      
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        children: [
-          SearchWidget(),
-          SubTitle(
-            onShowMoreClicked: () {
-              if (kDebugMode) print('showMoreClicked');
-            },
-            titleType: SubTitleType.textOnly,
-            title: tr("featured_job_msg"),
-            icon: Icon(Icons.edit_note),
-          ),
-          FeaturedJobs(),
-          SubTitle(
-            onShowMoreClicked: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AllJobsPage()),
-              );
-            },
-            titleType: SubTitleType.withShowMore,
-            title: tr("recent_job_msg"),
-            icon: Icon(Icons.edit_note),
-          ),
-          RecentJobsWidget(jobCardType: JobCardType.user,)
-        ],
+      body: RefreshIndicator(
+        onRefresh: () => context.read<HomeCubit>().getUserHome(),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          children: [
+            // SearchWidget(),
+            SubTitle(
+              onShowMoreClicked: () {
+                if (kDebugMode) print('showMoreClicked');
+              },
+              titleType: SubTitleType.textOnly,
+              title: "featured_job_msg".tr(),
+              icon: Icon(Icons.edit_note),
+            ),
+            FeaturedJobs(),
+            SubTitle(
+              onShowMoreClicked: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AllJobsPage()),
+                );
+              },
+              titleType: SubTitleType.withShowMore,
+              title: tr("recent_job_msg"),
+              icon: Icon(Icons.edit_note),
+            ),
+            RecentJobsWidget(jobCardType: JobCardType.user,)
+          ],
+        ),
       ),
     );
   }

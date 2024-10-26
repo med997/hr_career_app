@@ -20,6 +20,7 @@ class JobSearchCubit extends Cubit<JobState> {
 
   Future<void> searchJob(Map<String,dynamic>? value) async {
     emit(JobLoadingState());
+
     final failureOrSuccess = await getJobUserCase.callAll(
     value!['searchVal'],value['nationality']
     ,value['city'],value['category'],);

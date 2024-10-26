@@ -1,17 +1,17 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
-import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
+import 'package:hr_career_platform/core/widgets/custom_chips.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_header.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/widgets/recent_profile.dart';
 
-import '../../../../core/app_localizations.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/cubit/toggle_btn_cubit.dart';
 import '../../../../core/model/dynamic_model.dart';
@@ -41,16 +41,11 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ApplianceCubit>().getAppliance(job.id.toString());
+
 
     return Scaffold(
       body: SafeArea(
-        child: BlocBuilder<JobCubit, JobState>(
-          builder: (context, state) {
-            if (state is JobLoadingState) {
-              return LoadingWidget();
-            } else if (state is JobFetchedState) {
-              return Responsive(
+        child: Responsive(
                   mobile: _buildMobileWidget(
                     context,
                     isEditing,
@@ -62,11 +57,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
                   desktop: _buildTabletAndDesktopWidget(
                     context,
                     isEditing,
-                  ));
-            } else
-              return SizedBox();
-          },
-        ),
+                  ))
+
+
       ),
     );
   }
@@ -247,24 +240,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
       children: [
         JobDetailsHeader(
             job: job,
-            profileFilledText: FilledButton(
-              style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(
-                job.status == 'hidden'
-                    ? Colors.grey
-                    : job.status == 'completed'
-                        ? primaryTransparent
-                        : primaryColor,
-              )),
-              onPressed: () {},
-              child: Text(
-                job.status.toString(),
-                style: const TextStyle(
-                  fontSize: 10,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            profileFilledText: CustomChips(chipsTitles: [job.status!.tr()??''],bgColor: primaryColor,),
             profileIcoButton: IconButton(
                 iconSize: 18,
                 color: Colors.white,
@@ -272,7 +248,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
                 icon: const Icon(Icons.visibility_off_outlined))),
         Center(
           child: ToggleBtnWidget(
-            options: [tr("main_information_msg"), tr("appliance_msg")],
+            options: ["main_information_msg".tr(), "appliance_msg".tr()],
           ),
         ),
         Flexible(
@@ -363,8 +339,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
                   );
 
                 case 1:
+                  context.read<ApplianceCubit>().getAppliance(job.id.toString());
                   return ListView(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                     ),
                     children: [

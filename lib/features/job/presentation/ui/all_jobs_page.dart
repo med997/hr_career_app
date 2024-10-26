@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
@@ -35,7 +36,7 @@ class AllJobsPage extends StatelessWidget {
                 :JobCard(
                 jobCardType: JobCardType.company,
                 chipBgColor:Colors.orange,
-                chipText: tr("active_msg"),
+                chipText: "active_msg".tr(),
                job: job[i],) ));
   }
 

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
@@ -42,52 +43,55 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
 
   Widget _buildMobileLayout( BuildContext context) {
 
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 12),
-      children: [
-        const SizedBox(
-          height: 5,
-        ),
-        Row(
-          children: [
-            squareButton(
-                clr: primaryColor,
-                icn: Icons.work_outline,
-                iconLabel: tr("add_job_msg"),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>  const AddJobPage(),
-                  ));
-                }),
-            const SizedBox(
-              width: 5,
-            ),
-            squareButton(
-                clr: Colors.yellow.shade700,
-                icn: Icons.bookmark_added_outlined,
-                iconLabel: tr("add_tender_msg"),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>  const AddTenderPage(),
-                  ));
+    return  RefreshIndicator(
+      onRefresh: () => context.read<HomeCubit>().getCompanyHome(widget.authId),
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        children: [
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            children: [
+              squareButton(
+                  clr: primaryColor,
+                  icn: Icons.work_outline,
+                  iconLabel: "add_job_msg".tr(),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>  const AddJobPage(),
+                    ));
+                  }),
+              const SizedBox(
+                width: 5,
+              ),
+              squareButton(
+                  clr: Colors.yellow.shade700,
+                  icn: Icons.bookmark_added_outlined,
+                  iconLabel: tr("add_tender_msg"),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>  const AddTenderPage(),
+                    ));
 
-                })
-          ],
-        ),
-        SubTitle(
-          titleType: SubTitleType.textOnly,
-          title: tr("recent_job_msg"),
-          icon: const Icon(Icons.edit_note),
-        ),
-         RecentJobsWidget(jobCardType: JobCardType.company,),
+                  })
+            ],
+          ),
+          SubTitle(
+            titleType: SubTitleType.textOnly,
+            title: tr("recent_job_msg"),
+            icon: const Icon(Icons.edit_note),
+          ),
+           RecentJobsWidget(jobCardType: JobCardType.company,),
 
-        SubTitle(
-          titleType: SubTitleType.textOnly,
-          title: tr("recent_tender_msg"),
-          icon: const Icon(Icons.edit_note),
-        ),
-        const RecentTenders(jobCardType: JobCardType.company,)
-      ],
+          SubTitle(
+            titleType: SubTitleType.textOnly,
+            title: tr("recent_tender_msg"),
+            icon: const Icon(Icons.edit_note),
+          ),
+          const RecentTenders(jobCardType: JobCardType.company,)
+        ],
+      ),
     );
   }
 

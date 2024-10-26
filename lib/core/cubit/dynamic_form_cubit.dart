@@ -152,11 +152,16 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
         formData[field.controlName]= field.controller!.value.text;
       }else if (field.formType== FormType.multiline){
         formData[field.controlName]= field.controllerFlt!.document;
+      }else if (field.formType== FormType.dropdown){
+        formData[field.controlName]= field.value;
       }else if(field.formType==FormType.subDynForm){
         final Map<String,dynamic> data ={} ;
         for (var e in field.subDynamicModel!) {
-
-          data[e.controlName]=e.controller!.value.text;
+          if (e.formType== FormType.dropdown){
+            data[e.controlName]=e.value;
+          }else {
+            data[e.controlName]=e.controller!.value.text;
+          }
           print(data);
         }
         formData[field.controlName]= data;
@@ -167,7 +172,11 @@ class DynamicFormCubit extends Cubit<List<DynamicModel>> {
         for (var element in field.listSubDynamicModel!) {
           Map<String,dynamic> data ={} ;
           for (var e in element) {
-            data[e.controlName]=e.controller!.value.text;
+            if (e.formType== FormType.dropdown){
+              data[e.controlName]=e.value;
+            }else {
+              data[e.controlName]=e.controller!.value.text;
+            }
           }
           dataList.add(data);
         }

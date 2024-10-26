@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_localizations.dart';
@@ -7,6 +8,7 @@ import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
+import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
 import 'package:hr_career_platform/core/widgets/custom_drop_down_menu.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 
@@ -84,13 +86,18 @@ class SearchWidget extends StatelessWidget {
     ];
     return ExpansionTile(
       childrenPadding: const EdgeInsets.symmetric(vertical: 8.0),
+
       title: SizedBox(
         width: 200,
         child: SearchBar(
           controller: _searchController,
           constraints: BoxConstraints.tight(const Size.fromHeight(35)),
           elevation: const WidgetStatePropertyAll(0.0),
-          hintText: tr("search_msg"),
+          hintText:  "search_msg".tr(),
+          textInputAction: TextInputAction.search,
+          onSubmitted: (value) {
+            _searchAction(context);
+          },
           leading: const Icon(
             Icons.search,
             color: primaryTransparent,
@@ -98,29 +105,28 @@ class SearchWidget extends StatelessWidget {
         ),
       ),
       children: [
-               DynamicFormWidget(
-                key: const Key('search'),
-                dynamicFormsList: searchFormMobile,
-                formKey: _formKey,
-                  submitBtn: SizedBox(
-                      width: width,
-                      height: 35,
-                      child: MaterialButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          color: primaryColor,
-                          onPressed: () {
-                            final value = context
-                                .read<DynamicFormCubit>()
-                                .getCurrentValue();
-                            value['searchVal']=_searchController.value.text;
-                            context.read<JobSearchCubit>().searchJob(value);
-                          }, child: const Text(
-                        'search',
-                        style: TextStyle(color: Colors.white),
-                      ))) ,
-                useResponsiveUi: true,
-              ),
+               Padding(
+                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                 child: DynamicFormWidget(
+                  key: const Key('search'),
+                  dynamicFormsList: searchFormMobile,
+                  formKey: _formKey,
+                    submitBtn: SizedBox(
+                        width: width,
+                        height: 35,
+                        child: MaterialButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            color: primaryColor,
+                            onPressed: () {
+                             _searchAction(context);
+                            }, child: const Text(
+                          'search',
+                          style: TextStyle(color: Colors.white),
+                        ))) ,
+                  useResponsiveUi: true,
+                               ),
+               ),
 
       ],
     );
@@ -232,5 +238,13 @@ class SearchWidget extends StatelessWidget {
 
       ],
     );
+  }
+
+  void _searchAction(BuildContext context) {
+    final value = context
+        .read<DynamicFormCubit>()
+        .getCurrentValue();
+    value['searchVal']=_searchController.value.text;
+    context.read<JobSearchCubit>().searchJob(value);
   }
 }

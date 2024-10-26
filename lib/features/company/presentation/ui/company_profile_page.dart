@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
@@ -13,7 +13,6 @@ import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/widgets/company_gallery.dart';
-import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 import '../../../../core/model/dynamic_model.dart';
 import '../../../../core/util/const_val.dart';
 import '../../../../core/util/enums.dart';
@@ -89,8 +88,8 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
           Center(
             child: ToggleBtnWidget(
               options: [
-                tr("main_information_msg"),
-                tr("gallery_msg"),
+                "main_information_msg".tr(),
+                "gallery_msg".tr(),
               ],
             ),
           ),

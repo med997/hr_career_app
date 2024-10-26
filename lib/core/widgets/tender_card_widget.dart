@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/widgets/text_with_icon.dart';
@@ -60,7 +61,7 @@ class TenderCard extends StatelessWidget {
               ),
 
               CustomChips(
-                chipsTitles: [tr("tenders_msg")],
+                chipsTitles: ["tenders_msg".tr()],
                 bgColor: secondaryColor,
               ),
             ],

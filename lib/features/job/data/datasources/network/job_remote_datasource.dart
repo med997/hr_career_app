@@ -35,8 +35,8 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
         "search_val": searchVal,
 
         "city_val": city,
-        "nationality": nat,
-        "category": category
+        "nationality_val": nat==''?null:nat,
+        "category_val":category==''?null:category
       };
       final data = await supBase.rpc('search_jobs',params: param).select();
       final List<JobModel> jobList =

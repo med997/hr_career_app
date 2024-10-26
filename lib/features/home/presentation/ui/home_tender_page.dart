@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,7 @@ class _HomeTenderPageState extends State<HomeTenderPage> {
             if (kDebugMode) print('showMoreClicked');
           },
           titleType: SubTitleType.textOnly,
-          title: tr("featured_tender_msg"),
+          title: "featured_tender_msg".tr(),
           icon: Icon(Icons.edit_note),
         ),
         FeaturedTenders(),
