@@ -11,6 +11,9 @@ import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/job_details_page.dart';
 
 import '../../../../core/app_localizations.dart';
+import '../../../../core/cubit/reload_btn_cubit.dart';
+import '../../../../core/strings/failures.dart';
+import '../../../../core/widgets/err_widget.dart';
 
 class RecentJobsWidget extends StatelessWidget {
  final JobCardType jobCardType;
@@ -20,7 +23,7 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
+      builder: (_, state) {
         if (state is HomeLoading) {
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
@@ -30,6 +33,27 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
                   _buildTabletDesktopLayout(state.homes.recentJobs!, 2, context),
               desktop: _buildTabletDesktopLayout(
                   state.homes.recentJobs!, 3, context));
+        }else if (state is HomeErrorState){
+          String imgUrl = state.msg == OFFLINE_FAILURE_MESSAGE
+              ? 'assets/imgs/conectErr.png'
+              : 'assets/imgs/ServerErr.png';
+
+          showModalBottomSheet<void>(
+              context: context,
+              enableDrag: false,
+              builder: (context) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: BlocProvider(
+                    create: (context) => ReloadBtnCubit(),
+                    child: ErrWidget(
+                      imgUrl: imgUrl,
+                      errorText: state.msg,
+                      clickedReload: () {
+                        context.read<HomeCubit>().getUserHome();
+                      },
+                    )),
+              ));
+          return SizedBox();
         }
         return const SizedBox();
       },
