@@ -16,10 +16,13 @@ import '../../../../core/strings/failures.dart';
 import '../../../../core/widgets/err_widget.dart';
 
 class RecentJobsWidget extends StatelessWidget {
- final JobCardType jobCardType;
-final int? selectedJobState;
-final List<String> jobStatusList= ['active', 'hidden', 'completed'];
-  RecentJobsWidget({super.key, required this.jobCardType,this.selectedJobState});
+  final JobCardType jobCardType;
+  final int? selectedJobState;
+  final List<String> jobStatusList = ['active', 'hidden', 'completed'];
+
+  RecentJobsWidget(
+      {super.key, required this.jobCardType, this.selectedJobState});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
@@ -29,31 +32,20 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
         } else if (state is HomeFetchedState) {
           return Responsive(
               mobile: _buildMobileLayout(state.homes.recentJobs!),
-              tablet:
-                  _buildTabletDesktopLayout(state.homes.recentJobs!, 2, context),
+              tablet: _buildTabletDesktopLayout(
+                  state.homes.recentJobs!, 2, context),
               desktop: _buildTabletDesktopLayout(
                   state.homes.recentJobs!, 3, context));
-        }else if (state is HomeErrorState){
+        } else if (state is HomeErrorState) {
           String imgUrl = state.msg == OFFLINE_FAILURE_MESSAGE
               ? 'assets/imgs/conectErr.png'
               : 'assets/imgs/ServerErr.png';
-
-          showModalBottomSheet<void>(
-              context: context,
-              enableDrag: false,
-              builder: (context) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BlocProvider(
-                    create: (context) => ReloadBtnCubit(),
-                    child: ErrWidget(
-                      imgUrl: imgUrl,
-                      errorText: state.msg,
-                      clickedReload: () {
-                        context.read<HomeCubit>().getUserHome();
-                      },
-                    )),
-              ));
-          return SizedBox();
+          return ErrWidget(
+              imgUrl: imgUrl,
+              errorText: state.msg,
+              clickedReload: () {
+                context.read<HomeCubit>().getUserHome();
+              });
         }
         return const SizedBox();
       },
@@ -61,48 +53,56 @@ final List<String> jobStatusList= ['active', 'hidden', 'completed'];
   }
 
   Widget _buildMobileLayout(List<Job> job) {
-    if(selectedJobState!=null){
-      job = job.where((jobs) => jobs.status==jobStatusList[selectedJobState??0] ,).toList();
+    if (selectedJobState != null) {
+      job = job
+          .where(
+            (jobs) => jobs.status == jobStatusList[selectedJobState ?? 0],
+          )
+          .toList();
     }
     return ListView.builder(
         shrinkWrap: true,
         physics: const PageScrollPhysics(),
         itemCount: job!.length ?? 0,
-        itemBuilder: (context, i) => jobCardType == JobCardType.user?
-        JobCard(
-          jobCardType: JobCardType.user,
-           job: job![i],):
-        JobCard(
-          jobCardType: JobCardType.company,
-            chipBgColor:
-            job![i].status=='hidden'?Colors.grey:
-            job![i].status=='completed'?primaryTransparent:
-            primaryColor,
-            chipText:'${job[i].status}',
-            job: job[i],));
+        itemBuilder: (context, i) => jobCardType == JobCardType.user
+            ? JobCard(
+                jobCardType: JobCardType.user,
+                job: job![i],
+              )
+            : JobCard(
+                jobCardType: JobCardType.company,
+                chipBgColor: job![i].status == 'hidden'
+                    ? Colors.grey
+                    : job![i].status == 'completed'
+                        ? primaryTransparent
+                        : primaryColor,
+                chipText: '${job[i].status}',
+                job: job[i],
+              ));
   }
 
   Widget _buildTabletDesktopLayout(
       List<Job> jobs, int columnCount, BuildContext context) {
-    double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
-    if(Responsive.isDesktop(context))
-       itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
-      return Wrap(
-          children: [
-        ...jobs.map(
-          (job) => SizedBox(
+    double itemWidth = MediaQuery.of(context).size.width / columnCount - 50;
+    if (Responsive.isDesktop(context))
+      itemWidth = MediaQuery.of(context).size.width / columnCount - 100;
+    return Wrap(children: [
+      ...jobs.map(
+        (job) => SizedBox(
             width: itemWidth,
-            child: jobCardType == JobCardType.user ? JobCard(
-                job: job,
-               columnWidth: itemWidth,) : JobCard(
-              jobCardType: JobCardType.company,
-              job: job,
-              chipText: jobs!.first.status ,
-              chipBgColor: primaryColor,
-              columnWidth: itemWidth,
-            )
-          ),
-        )
-      ]);
+            child: jobCardType == JobCardType.user
+                ? JobCard(
+                    job: job,
+                    columnWidth: itemWidth,
+                  )
+                : JobCard(
+                    jobCardType: JobCardType.company,
+                    job: job,
+                    chipText: jobs!.first.status,
+                    chipBgColor: primaryColor,
+                    columnWidth: itemWidth,
+                  )),
+      )
+    ]);
   }
 }
