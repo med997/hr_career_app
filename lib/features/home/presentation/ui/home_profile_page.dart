@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -68,7 +69,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               fullName: state.profile.fullName ?? '',
             ),
             SubTitle(
-              title: tr("main_information_msg"),
+              title: "main_information_msg".tr(),
               titleType: SubTitleType.withIcon,
               iconButton: IconButton(
                   onPressed: () {

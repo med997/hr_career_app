@@ -8,18 +8,24 @@ import '../../../../core/strings/failures.dart';
 import '../../domain/entities/job.dart';
 import '../../domain/usercase/get_job.dart';
 import '../../domain/usercase/search_jobs.dart';
+import 'job_cubit.dart';
 
 
-part 'job_state.dart';
 
-class JobCubit extends Cubit<JobState> {
+class JobSearchCubit extends Cubit<JobState> {
   final GetJobUserCase getJobUserCase;
-  final SearchJobsUserCase searchJobsUserCase;
-  final GetAllJobsByCompany getAllJobsByCompanyUserCase;
-  JobCubit({required this.getAllJobsByCompanyUserCase, required this.getJobUserCase, required this.searchJobsUserCase}) : super(JobInitial());
+  JobSearchCubit({
+    required this.getJobUserCase}) : super(JobInitial());
 
 
+  Future<void> searchJob(Map<String,dynamic>? value) async {
+    emit(JobLoadingState());
 
+    final failureOrSuccess = await getJobUserCase.callAll(
+    value!['searchVal'],value['nationality']
+    ,value['city'],value['category'],);
+    emit(_mapFailureOrJobsToState(failureOrSuccess));
+  }
 
   JobState _mapFailureOrJobsToState(Either<Failure, List<Job>> either) {
     return either.fold(
@@ -29,18 +35,6 @@ class JobCubit extends Cubit<JobState> {
           ),
     );
   }
-  Future<void> searchJob({ int? companyId, required String category, String? nationalities}) async {
-    emit(JobLoadingState());
-    final failureOrSuccess = await searchJobsUserCase.call(companyId!, category, nationalities,);
-    emit(_mapFailureOrJobsToState(failureOrSuccess));
-  }
-
-  Future<void> getAllJobsByCompany(String companyId) async {
-    emit(JobLoadingState());
-    final failureOrSuccess = await getAllJobsByCompanyUserCase.call(companyId);
-    emit(_mapFailureOrJobsToState(failureOrSuccess));
-  }
-
 
 
   String _mapFailureToMessage(Failure failure) {

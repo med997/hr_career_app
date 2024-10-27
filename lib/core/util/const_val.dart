@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../app_theme.dart';
@@ -8,102 +9,102 @@ const String BaseStorageUrl = "https://iijcwjoiodsgprwjztas.supabase.co/storage/
 const String FcmWebKeyPair = "BPaPxgy_jKqb35xtkHOFbPfD25kCEp3ACdJdLQBA8d4bbg7zVmYbYozAa4CgB-2yvBM1Sr-ZNpGHZleC--W4fUM";
 const String AnonKey =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpamN3am9pb2RzZ3Byd2p6dGFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM0MjMzOTksImV4cCI6MjAzODk5OTM5OX0.iSr1P_qOOsrpYtSswlD4Je83GZRpAzeaa7TqDB3mzWc';
-const navUserItem = <NavigationDestination>[
+final navUserItem = <NavigationDestination>[
   NavigationDestination(
-    icon: Icon(Icons.work_outline, color: primaryColor,),
-    selectedIcon: Icon(Icons.work, color: primaryColor),
-    label: 'Jobs',
+    icon: const Icon(Icons.work_outline, color: primaryColor,),
+    selectedIcon: const Icon(Icons.work, color: primaryColor),
+    label: 'Jobs'.tr(),
   ),
   NavigationDestination(
-    icon: Icon(Icons.bookmark_added_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.bookmark_added, color: primaryColor,),
-    label: 'Tender',
+    icon: const Icon(Icons.bookmark_added_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.bookmark_added, color: primaryColor,),
+    label: 'Tender'.tr(),
   ),
   NavigationDestination(
-    icon: Icon(Icons.search_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.search, color: primaryColor,),
-    label: 'Search',
+    icon: const Icon(Icons.search_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.search, color: primaryColor,),
+    label: 'Search'.tr(),
   ),
   NavigationDestination(
-    icon: Icon(Icons.person_2_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.person_2, color: primaryColor,),
-    label: 'Profile',
+    icon: const Icon(Icons.person_2_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.person_2, color: primaryColor,),
+    label: 'Profile'.tr(),
   ),
   NavigationDestination(
-    icon: Icon(Icons.notifications_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.notifications, color: primaryColor,),
-    label: 'Notification',
+    icon: const Icon(Icons.notifications_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.notifications, color: primaryColor,),
+    label: 'Notification'.tr(),
   ),
 ];
-const navRailUserItem = <NavigationRailDestination>[
+final navRailUserItem = <NavigationRailDestination>[
   NavigationRailDestination(
-    icon: Icon(Icons.work_outline, color: primaryColor,),
-    selectedIcon: Icon(Icons.work, color: primaryColor),
-    label: Text('Jobs'),
+    icon: const Icon(Icons.work_outline, color: primaryColor,),
+    selectedIcon: const Icon(Icons.work, color: primaryColor),
+    label: const Text('Jobs').tr(),
   ),
   NavigationRailDestination(
-    icon: Icon(Icons.bookmark_added_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.bookmark_added, color: primaryColor,),
-    label: Text('Tender'),
+    icon: const Icon(Icons.bookmark_added_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.bookmark_added, color: primaryColor,),
+    label: const Text('Tender').tr(),
   ),
   NavigationRailDestination(
-    icon: Icon(Icons.search_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.search, color: primaryColor,),
-    label: Text('Search'),
+    icon: const Icon(Icons.search_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.search, color: primaryColor,),
+    label: const Text('Search').tr(),
   ),
   NavigationRailDestination(
-    icon: Icon(Icons.person_2_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.person_2, color: primaryColor,),
-    label: Text('Profile'),
+    icon: const Icon(Icons.person_2_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.person_2, color: primaryColor,),
+    label: const Text('Profile').tr(),
   ),
   NavigationRailDestination(
-    icon: Icon(Icons.notifications_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.notifications, color: primaryColor,),
-    label: Text('Notification'),
+    icon: const Icon(Icons.notifications_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.notifications, color: primaryColor,),
+    label: const Text('Notification').tr(),
   ),
 ];
-const navUserCompanyItem = <NavigationDestination>[
+final navUserCompanyItem = <NavigationDestination>[
   NavigationDestination(
-    icon: Icon(Icons.home_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.home, color: primaryColor,),
-    label: 'Home',
+    icon: const Icon(Icons.home_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.home, color: primaryColor,),
+    label: 'Home'.tr(),
   ),
   NavigationDestination(
-    icon: Icon(Icons.work_outline, color: primaryColor,),
-    selectedIcon: Icon(Icons.work, color: primaryColor),
-    label: 'Jobs',
+    icon: const Icon(Icons.work_outline, color: primaryColor,),
+    selectedIcon: const Icon(Icons.work, color: primaryColor),
+    label: 'Jobs'.tr(),
   ),
   NavigationDestination(
-    icon: Icon(Icons.bookmark_added_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.bookmark_added, color: primaryColor,),
-    label: 'Tender',
+    icon: const Icon(Icons.bookmark_added_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.bookmark_added, color: primaryColor,),
+    label: 'Tender'.tr(),
   ),
   NavigationDestination(
-    icon: Icon(Icons.person_2_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.person_2, color: primaryColor,),
-    label: 'Profile',
+    icon: const Icon(Icons.person_2_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.person_2, color: primaryColor,),
+    label: 'Profile'.tr(),
   ),
 ];
-const navRailUserCompanyItem = <NavigationRailDestination>[
+final navRailUserCompanyItem = <NavigationRailDestination>[
   NavigationRailDestination(
-    icon: Icon(Icons.home_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.home, color: primaryColor,),
-    label: Text('Home'),
+    icon: const Icon(Icons.home_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.home, color: primaryColor,),
+    label: const Text('Home').tr(),
   ),
   NavigationRailDestination(
-    icon: Icon(Icons.work_outline, color: primaryColor,),
-    selectedIcon: Icon(Icons.work, color: primaryColor),
-    label: Text('Jobs'),
+    icon: const Icon(Icons.work_outline, color: primaryColor,),
+    selectedIcon: const Icon(Icons.work, color: primaryColor),
+    label: const Text('Jobs').tr(),
   ),
   NavigationRailDestination(
-    icon: Icon(Icons.bookmark_added_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.bookmark_added, color: primaryColor,),
-    label: Text('Tender'),
+    icon: const Icon(Icons.bookmark_added_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.bookmark_added, color: primaryColor,),
+    label: const Text('Tender').tr(),
   ),
   NavigationRailDestination(
-    icon: Icon(Icons.person_2_outlined, color: primaryColor,),
-    selectedIcon: Icon(Icons.person_2, color: primaryColor,),
-    label: Text('Profile'),
+    icon: const Icon(Icons.person_2_outlined, color: primaryColor,),
+    selectedIcon: const Icon(Icons.person_2, color: primaryColor,),
+    label: const Text('Profile').tr(),
   ),
 
 ];

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -182,7 +183,7 @@ class CompanyTenderDetailsPage extends StatelessWidget {
       children: [
         TenderDetailsHeader(
             tender: tender,
-            profileFilledText: CustomChips(chipsTitles: [tender.status??''],bgColor: primaryColor,),
+            profileFilledText: CustomChips(chipsTitles: [tender.status??''],bgColor: secondaryColor,),
 
             profileIcoButton: IconButton(
                 iconSize: 18,
@@ -191,7 +192,7 @@ class CompanyTenderDetailsPage extends StatelessWidget {
                 icon: const Icon(Icons.visibility_off_outlined))),
         Center(
           child: ToggleBtnWidget(
-            options: [tr("main_information_msg"), tr("appliance_msg")],
+            options: ["main_information_msg".tr(), "appliance_msg".tr()],
           ),
         ),
         Flexible(

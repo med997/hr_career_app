@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
+import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
 
 import '../../features/home/presentation/bloc/tab_nav_cubit.dart';
 
@@ -42,13 +44,11 @@ class LanguageButton extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
             ),
-            child: BlocBuilder<LocaleCubit, ChangeLocaleState>(
-              builder: (context, state) {
-                return Column(
+            child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      state.locale.languageCode == 'ar' ? 'أختر اللغة' : 'Choose Language',
+                      context.locale.languageCode == 'ar' ? 'أختر اللغة' : 'Choose Language',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -59,13 +59,12 @@ class LanguageButton extends StatelessWidget {
                       leading: const Icon(Icons.language, color: primaryColor),
                       title: const Text('English Language'),
                       onTap: () async{
-                        context.read<LocaleCubit>().changeLanguage('en');
-                        await Future.delayed(const Duration(seconds: 1));
+                        context.locale.languageCode == 'en'? _showSnackBar(context,
+                              'The Language is already English ')
+                            : await context.setLocale(context.supportedLocales[0]);
 
-                        _showSnackBar(context,
-                            state.locale.languageCode == 'en' ? 'The Language is already English ' : 'Language changed to English');
-                        Navigator.pop(context);
-                        state.locale.languageCode == 'en' ? null : context.read<TabNavCubit>().changeTab(0);
+                          Navigator.pop(_);
+                        // context.locale.languageCode == 'en' ? null : context.read<TabNavCubit>().changeTab(0);
                       },
                     ),
                     const Divider(thickness: 2,),
@@ -73,14 +72,14 @@ class LanguageButton extends StatelessWidget {
                       leading: const Icon(Icons.language, color: primaryColor),
                       title: const Text('اللغة العربية'),
                       onTap: () async{
-                        context.read<LocaleCubit>().changeLanguage('ar');
-                         await Future.delayed(const Duration(seconds: 1));
 
-                        _showSnackBar(context,
-                            state.locale.languageCode == 'ar' ? 'لغة التطبيق عربية بالفعل' : 'تم تغيير اللغة الى اللغة العربية');
-                        Navigator.pop(context);
+                        context.locale.languageCode == 'ar' ?  _showSnackBar(context,
+                           'لغة التطبيق عربية بالفعل'):
+                        await context.setLocale(context.supportedLocales[1]);
 
-                        state.locale.languageCode == 'ar' ? null : context.read<TabNavCubit>().changeTab(0);
+                        Navigator.pop(_);
+
+
                       },
                     ),
                     const SizedBox(height: 20),
@@ -89,13 +88,12 @@ class LanguageButton extends StatelessWidget {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        state.locale.languageCode == 'ar' ? 'الغاء' : 'Cancel',
+                      'Cancel'.tr(),
                       ),
                     ),
                   ],
-                );
-              },
-            ),
+                )
+
           ),
         );
       },

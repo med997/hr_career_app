@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/widgets/avatar_network.dart';
@@ -66,6 +67,7 @@ class JobDetailsHeader extends StatelessWidget {
               trailing: Wrap(
                 direction: Axis.horizontal,
                 spacing: 2,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 alignment: WrapAlignment.center,
                 children: [profileIcoButton, profileFilledText],
               ),
@@ -101,10 +103,10 @@ class JobDetailsHeader extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child: CustomChips(
               chipsTitles: [
-                job.category,
-                job.office,
-                job.timeParts,
-                job.nationalities ?? ''
+                job.category.tr(),
+                job.office.tr(),
+                job.timeParts.tr(),
+                job.nationalities!.tr() ?? ''
               ],
               bgColor: Colors.white10,
             ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,7 +90,7 @@ class CompanyAppBarWidget extends StatelessWidget {
                   children: [
 
                     Text(
-                      tr("profile_msg"),
+                      "profile_msg".tr(),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
@@ -139,19 +140,19 @@ class CompanyAppBarWidget extends StatelessWidget {
                   ],
                 ),
               ),
+
               ListTile(
 
-                trailing: withBackBtn?const BackButton(
-              color: Colors.white,
-              ):null,
+                trailing: withBackBtn?const BackButton(color: Colors.white):null,
                 leading: BlocBuilder<CurdCompanyCubit, CurdCompanyState>(
                   builder: (context, state) {
-                    if (state is LoadingCurdProfileState) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: LoadingWidget(
-                          width: 2,
-                          progressColor: primaryColor,
+                    if (state is LoadingCurdCompanyState) {
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(
+                          color: secondaryColor,
+                          strokeWidth: 2,
+
                         ),
                       );
                     } else if (state is MessageCurdCompanyState) {

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
@@ -15,7 +16,7 @@ class AddJobPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      appBar: buildAppBar(userName: tr("add_job_msg"), img: '', fullHeader: false, userOrCompany: 'User', context: context,),
+      appBar: buildAppBar(userName: "add_job_msg".tr(), img: '', fullHeader: false, userOrCompany: 'User', context: context,),
       body: Flex(
         direction: Axis.vertical,
         children: [

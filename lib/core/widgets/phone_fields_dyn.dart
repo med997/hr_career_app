@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
@@ -34,7 +35,7 @@ return
             borderSide: const BorderSide(color: primaryColor),
             borderRadius: BorderRadius.circular(8),
           ),
-        labelText: dynamicModel.controlName,
+        labelText: dynamicModel.controlName.tr(),
         contentPadding: const EdgeInsets.symmetric(vertical: 12),
         constraints:   const BoxConstraints.tightFor(height: 60),
       ),

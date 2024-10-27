@@ -14,7 +14,7 @@ class GetJobUserCase {
   Future<Either<Failure, List<Job>>> callTen() async {
     return await repository.getLastTen();
   }
-  Future<Either<Failure, List<Job>>> callAll() async {
-    return await repository.getAllJob();
+  Future<Either<Failure, List<Job>>> callAll(String? searchVal,String? nat,String? city,String? category) async {
+    return await repository.getAllJob(searchVal,nat,city,category);
   }
 }

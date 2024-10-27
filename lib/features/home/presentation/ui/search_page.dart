@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/widgets/search_widget.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
+import 'package:hr_career_platform/features/job/presentation/bloc/job_search_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/all_jobs_page.dart';
 
 class SearchPage extends StatefulWidget {
@@ -31,7 +32,8 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-  context.read<JobCubit>().getAllJobs();
+
+
 
   }
 }

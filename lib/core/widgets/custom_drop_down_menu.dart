@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,23 +15,24 @@ Widget buildCustomDropDownMenu( BuildContext context,
     child: DropdownMenu(
       key: Key(dynModel.key),
        // initialSelection: dynModel.value,
+      menuHeight: 350,
       controller: dynModel.controller!,
       enabled: !dynModel.disabled,
-
       width: dynModel.width ,
       expandedInsets: EdgeInsets.zero,
       trailingIcon: Transform.translate(
         offset: const Offset(3, -7),
         child: const Icon(Icons.keyboard_arrow_down),
       ),
-      label: Text(dynModel.controlName),
+      label: Text(dynModel.controlName).tr(),
+
       dropdownMenuEntries:  dynModel.items
           .map(
-            (e) => DropdownMenuEntry(value: e.key, label: e.value),
+            (e) => DropdownMenuEntry( value: e.key, label: e.value.tr()),
       ).toList(),
 
       onSelected: (value) {
-
+        dynModel.value=value;
         context.read<DynamicFormCubit>().updateFieldValue(dynModel);
       },
     ),

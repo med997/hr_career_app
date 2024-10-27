@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fleather/l10n/fleather_localizations.g.dart';
@@ -29,11 +31,13 @@ import 'package:hr_career_platform/features/notification/presentation/bloc/notif
 import 'package:hr_career_platform/features/payment/presentation/bloc/package_cubit.dart';
 import 'package:hr_career_platform/features/tender/presentation/bloc/curd_tender_cubit.dart';
 
+import 'core/util/localization_api_loader.dart';
 import 'features/auth/presentation/bloc/verification_cubit.dart';
 import 'features/general/presentation/bloc/general_cubit.dart';
 import 'features/home/presentation/ui/company_home_page.dart';
 import 'features/job/presentation/bloc/curd_job_cubit.dart';
 import 'features/job/presentation/bloc/job_cubit.dart';
+import 'features/job/presentation/bloc/job_search_cubit.dart';
 import 'features/notification/service/notification_service.dart';
 import 'features/payment/presentation/bloc/payment_curd_cubit.dart';
 import 'features/profile/presentation/bloc/appliance_cubit.dart';
@@ -49,11 +53,15 @@ void main() async {
   if (!kIsWeb) {
     await setupFlutterNotifications();
   }
-  di.initDependencies();
+  await EasyLocalization.ensureInitialized();
+  await di.initDependencies();
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (context) => di.sl<JobCubit>()..getAllJobs(),
+        create: (context) => di.sl<JobCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<JobSearchCubit>(),
       ),
       BlocProvider(
         create: (context) => di.sl<HomeCubit>(),
@@ -131,7 +139,17 @@ void main() async {
         create: (context) => di.sl<CurdTenderCubit>(),
       ),
     ],
-    child: const MyApp(),
+
+    child: EasyLocalization(supportedLocales:  const [
+
+      Locale('en'),
+      Locale('ar'),
+    ],
+    fallbackLocale: const Locale('en'),
+        extraAssetLoaders: [LocalizationApiLoader(supBase: di.sl())],
+    path: 'locale',
+    useOnlyLangCode: true,
+    child: const MyApp()),
   ));
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     if (kDebugMode) {
@@ -167,30 +185,14 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocaleCubit, ChangeLocaleState>(
-      builder: (context, state) {
-        return MaterialApp(
-          locale: state.locale,
-          debugShowCheckedModeBanner: false,
-          supportedLocales: const [
-
-            Locale('en'),
-            Locale('ar'),
-          ],
-          localizationsDelegates: const [
-            // FleatherLocalizations.delegate,
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            // internally:
-            // FlutterQuillLocalizations.delegate,
-          ],
+    return   MaterialApp(
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          localizationsDelegates: context.localizationDelegates,
+debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: appTheme,
-          routes: {
-           /* '': (context) => HomePage(auth: s,),*/
-          },
+
           scrollBehavior: const MaterialScrollBehavior().copyWith(
             dragDevices: {
               PointerDeviceKind.mouse,
@@ -201,7 +203,6 @@ class _MyAppState extends State<MyApp> {
           ),
           home: const SplashPage(),
         );
-      },
-    );
+
   }
 }

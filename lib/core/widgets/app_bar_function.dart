@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_localizations.dart';
@@ -7,6 +8,7 @@ import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/language_button_widget.dart';
 import 'package:hr_career_platform/features/tender/presentation/ui/add_tender_page.dart';
+import 'package:hr_career_platform/main.dart';
 
 import '../../features/auth/presentation/bloc/login_cubit.dart';
 import '../../features/job/presentation/ui/add_job_page.dart';
@@ -36,7 +38,7 @@ AppBar buildAppBar(
           children: [
             if (fullHeader == true)
               Text(
-                fullHeader ? tr("welcome-back_msg") : ' ',
+                fullHeader ? ("welcome-back_msg".tr()) : ' ',
                 style: const TextStyle(color: Colors.grey, fontSize: 14),
               ),
             Text(

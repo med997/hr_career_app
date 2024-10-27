@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
@@ -31,7 +32,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
               suffixIcon: dynamicModel.icons,
               suffixIconConstraints: BoxConstraints.tightFor(height: 20,width: 40),
               helperText: dynamicModel.helperText ?? '',
-              labelText: dynamicModel.controlName,
+              labelText: dynamicModel.controlName.tr(),
               errorMaxLines: 1,
               errorStyle: const TextStyle(
                 color: Colors.redAccent,

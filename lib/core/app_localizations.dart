@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'dart:convert';
 
-final tr = AppLocalizations.instance!.getTranslate;
+// final tr = AppLocalizations.instance!.getTranslate;
 
 class AppLocalizations {
   final Locale locale;

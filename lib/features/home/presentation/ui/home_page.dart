@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,9 +34,9 @@ class HomePage extends StatelessWidget {
         return Scaffold(
           appBar: (state is TabNavChangedState)
               ? buildAppBar(
-                  userName: state.selectedTab == 4 ? 'Notifications'
-                      : state.selectedTab == 2 ? tr("search_msg")
-                          : state.selectedTab == 3 ? tr("profile_msg")
+                  userName: state.selectedTab == 4 ? 'Notification'.tr()
+                      : state.selectedTab == 2 ? "search_msg".tr()
+                          : state.selectedTab == 3 ? "profile_msg".tr()
                               :auth.profile!.fullName??'',
                   img:  auth.profile!.avatarUrl??'',
                   userOrCompany: 'User',

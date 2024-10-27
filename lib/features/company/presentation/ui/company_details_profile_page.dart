@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
               ),
           Center(
             child: ToggleBtnWidget(
-              options: [tr("about_us_msg"), tr("jobs_msg"),tr("tenders_msg"), tr("gallery_msg"),],
+              options: ["about_us_msg".tr(), "jobs_msg".tr(),"tenders_msg".tr(), "gallery_msg".tr(),],
             ),
           ),
           BlocBuilder<ToggleBtnCubit, ToggleBtnState>(

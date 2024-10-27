@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
@@ -72,7 +73,7 @@ class JobDetailsPage extends StatelessWidget {
                                 )));
                   },
                   child: Text(
-                    tr("apply_now_msg"),
+                    "apply_now_msg".tr(),
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),

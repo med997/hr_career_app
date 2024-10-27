@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,10 +29,10 @@ class AddJobStepper extends StatelessWidget {
           activeStepBorderColor: primaryColor,
           activeStepIconColor: primaryColor,
           showLoadingAnimation: false,
-          steps: const [
-            EasyStep(icon: Icon(Icons.add), title: 'add'),
-            EasyStep(icon: Icon(Icons.card_membership), title: 'chose package'),
-            EasyStep(icon: Icon(Icons.payment), title: 'payment'),
+          steps:  [
+            EasyStep(icon: const Icon(Icons.add), title: 'information'.tr()),
+            EasyStep(icon: const Icon(Icons.card_membership), title: 'selectPackage'.tr()),
+            EasyStep(icon: const Icon(Icons.payment), title: 'payment'.tr()),
           ],
           onStepReached: (index) =>
               context.read<StepperCubit>().addJobChangeStep(index),

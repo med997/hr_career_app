@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
@@ -11,6 +12,7 @@ import '../../../../core/app_localizations.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
+import '../bloc/job_search_cubit.dart';
 
 class AllJobsPage extends StatelessWidget {
 
@@ -34,7 +36,7 @@ class AllJobsPage extends StatelessWidget {
                 :JobCard(
                 jobCardType: JobCardType.company,
                 chipBgColor:Colors.orange,
-                chipText: tr("active_msg"),
+                chipText: "active_msg".tr(),
                job: job[i],) ));
   }
 
@@ -74,7 +76,7 @@ class AllJobsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocBuilder<JobCubit, JobState>(
+        child: BlocBuilder<JobSearchCubit, JobState>(
             builder: (context, state) {
                     if (state is JobLoadingState) {
                       return  Center(

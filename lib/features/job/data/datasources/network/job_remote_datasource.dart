@@ -6,7 +6,7 @@ import 'package:hr_career_platform/features/job/data/models/job_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class JobRemoteDataSource {
-  Future<List<JobModel>> getAllJobs();
+  Future<List<JobModel>> getAllJobs(String? searchVal,String? nat,String? city,String? category);
 
   Future<List<JobModel>> getLastJobs();
 
@@ -29,15 +29,16 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
   JobRemoteDataSourceImpl({required this.supBase});
 
   @override
-  Future<List<JobModel>> getAllJobs() async {
+  Future<List<JobModel>> getAllJobs(String? searchVal,String? nat,String? city,String? category,) async {
     try {
-      final data = await supBase.from('jobs').select('''
-    *,
-    company (
-      *
-    )
-  ''').order('created_at').limit(100);
+      Map<String,dynamic> param={
+        "search_val": searchVal,
 
+        "city_val": city,
+        "nationality_val": nat==''?null:nat,
+        "category_val":category==''?null:category
+      };
+      final data = await supBase.rpc('search_jobs',params: param).select();
       final List<JobModel> jobList =
           data.map((json) => JobModel.fromJson(json)).toList();
       return jobList;
