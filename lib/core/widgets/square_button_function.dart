@@ -17,12 +17,9 @@ Widget squareButton(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(onPressed: onTap, icon: Icon(icn,color: Colors.white,size: 24,),),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
+          Text(
 
-              iconLabel,style:  TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 14),),
-          )
+            iconLabel,style:  TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 14),)
         ],
       ),
     ),
