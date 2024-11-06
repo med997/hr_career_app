@@ -84,6 +84,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             company: company,
             appbarCompanyDetail: true,
             withEditing: true,
+            useMobile: true,
           ),
           Center(
             child: ToggleBtnWidget(
@@ -331,12 +332,81 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   }
 
   _buildDesktopWidget(BuildContext context, bool isDisable, Company company) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8),
           children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: BlocBuilder<CurdCompanyCubit, CurdCompanyState>(
+                builder: (context, state) {
+                  if (state is LoadingCurdCompanyState) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: LoadingWidget(
+                        width: 2,
+                        progressColor: primaryColor,
+                      ),
+                    );
+                  }
+                  else if (state is MessageCurdCompanyState) {
+                    String imageUrl = state.company.companyLogo != null
+                        ? '$BaseStorageUrl${state.company.companyLogo}'
+                        : '';
+                    return CompanyAppBarWidget(
+                      company: company,
+                      appbarCompanyDetail: true,
+                      withEditing: true,
+                      useMobile: false,
+                      avatarForDesktop: AvatarNetwork(
+                        imgUrl: imageUrl,
+                        withBorder: false,
+                        withEditBtn: true,
+                        bgColor: Colors.white,
+                        size: 56,
+                        editClicked: () async {
+                          dynamic path = await pickImage(context);
+                          if (path != null) {
+                            context
+                                .read<CurdCompanyCubit>()
+                                .uploadImageCompany(path, company.id!);
+                          }
+                        },
+                      ),
+                    );
+
+                  }
+                  String imageUrl = company.companyLogo!.isNotEmpty
+                      ? '$BaseStorageUrl${company.companyLogo!}'
+                      : '';
+                  return CompanyAppBarWidget(
+                    company: company,
+                    appbarCompanyDetail: true,
+                    withEditing: true,
+                    useMobile: false,
+                    avatarForDesktop: AvatarNetwork(
+                      imgUrl: imageUrl,
+                      withBorder: false,
+                      withEditBtn: true,
+                      bgColor: Colors.white,
+                      size: 56,
+                      editClicked: () async {
+                        dynamic path = await pickImage(context);
+                        if (path != null) {
+                          context
+                              .read<CurdCompanyCubit>()
+                              .uploadImageCompany(path, company.id!);
+                        }
+                      },
+                    ),
+                  );
+
+                },
+              ),
+            ),
             SubTitle(
               title: tr("main_information_msg"),
               titleType: SubTitleType.withIcon,
@@ -351,59 +421,8 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: BlocBuilder<CurdCompanyCubit, CurdCompanyState>(
-                builder: (context, state) {
-                  if (state is LoadingCurdCompanyState) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: LoadingWidget(
-                        width: 2,
-                        progressColor: primaryColor,
-                      ),
-                    );
-                  } else if (state is MessageCurdCompanyState) {
-                    String imageUrl = state.company.companyLogo != null
-                        ? '$BaseStorageUrl${state.company.companyLogo}'
-                        : '';
-                    return AvatarNetwork(
-                      imgUrl: imageUrl,
-                      withBorder: false,
-                      withEditBtn: true,
-                      bgColor: Colors.white,
-                      size: 56,
-                      editClicked: () async {
-                        dynamic path = await pickImage(context);
-                        if (path != null) {
-                          context
-                              .read<CurdCompanyCubit>()
-                              .uploadImageCompany(path, company.id!);
-                        }
-                      },
-                    );
-                  }
-                  String imageUrl = company.companyLogo!.isNotEmpty
-                      ? '$BaseStorageUrl${company.companyLogo!}'
-                      : '';
-                  return AvatarNetwork(
-                    imgUrl: imageUrl,
-                    withBorder: false,
-                    withEditBtn: true,
-                    bgColor: Colors.white,
-                    size: 56,
-                    editClicked: () async {
-                      dynamic path = await pickImage(context);
-                      if (path != null) {
-                        context
-                            .read<CurdCompanyCubit>()
-                            .uploadImageCompany(path, company.id!);
-                      }
-                    },
-                  );
-                },
-              ),
-            ),
+            _getMainInfCompanyProfileForm(
+                company, width, context),
             // BlocBuilder<GeneralCubit, GeneralState>(
             //   builder: (context, gnState) {
             //     if (gnState is GeneralFetchedState) {

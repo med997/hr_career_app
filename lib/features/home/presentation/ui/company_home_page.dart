@@ -78,7 +78,7 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
     return BlocBuilder<TabNavCubit, TabNavState>(
       builder: (context, state) {
         return Scaffold(
-          appBar:   buildAppBar(
+          appBar: buildAppBar(
             context: context,
             userOrCompany: 'Company',
             userName: state.selectedTab == 3 ? "profile_msg".tr()

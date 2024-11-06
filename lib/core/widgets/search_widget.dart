@@ -48,7 +48,6 @@ class SearchWidget extends StatelessWidget {
           generals.cities.map((e) => ItemModel(key: e, value: e)).toList();
     }
     final List<DynamicModel> searchFormMobile =  [
-
       DynamicModel(
           padding: 8,
           'category',
@@ -60,7 +59,6 @@ class SearchWidget extends StatelessWidget {
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           controller: TextEditingController()),
-
       DynamicModel(
         padding: 8,
           'city',
@@ -86,7 +84,6 @@ class SearchWidget extends StatelessWidget {
     ];
     return ExpansionTile(
       childrenPadding: const EdgeInsets.symmetric(vertical: 8.0),
-
       title: SizedBox(
         width: 200,
         child: SearchBar(
@@ -134,7 +131,6 @@ class SearchWidget extends StatelessWidget {
 
   Widget _desktopWidgetBuilder(BuildContext context) {
     double width =  Responsive.isMobile(context)  ? screenWidth : 350 ;
-    double widthItem = (screenWidth / 5 - 50);
     General? generals = context.read<GeneralCubit>().general;
     List<ItemModel> nationalityItems = [];
     List<ItemModel> categoryItems = [];
@@ -151,7 +147,7 @@ class SearchWidget extends StatelessWidget {
       cityItems =
           generals.cities.map((e) => ItemModel(key: e, value: e)).toList();
     }
-   final List<DynamicModel> searchFormDesc = [
+   final List<DynamicModel> searchFormDesk = [
       DynamicModel(
           'search',
           key: 'search',
@@ -162,7 +158,10 @@ class SearchWidget extends StatelessWidget {
             size: 16,
             color: primaryColor.withOpacity(0.8),
           ),
-          controller: TextEditingController()),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          controller: _searchController),
       DynamicModel(
           'category',
           key: 'category',
@@ -209,7 +208,9 @@ class SearchWidget extends StatelessWidget {
           FormType.subDynForm,
           width: width,
           subFormHeader:  MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                _searchAction(context);
+              },
               height: 43,
               minWidth: width,
               shape: RoundedRectangleBorder(
@@ -228,10 +229,11 @@ class SearchWidget extends StatelessWidget {
     ];
     return Wrap(
       direction: Axis.horizontal,
+      spacing: 10.0,
       children: <Widget>[
                DynamicFormWidget(
                 key: const Key('search'),
-                dynamicFormsList: searchFormDesc,
+                dynamicFormsList: searchFormDesk,
                 formKey: _formKey,
                 useResponsiveUi: true,
               ),

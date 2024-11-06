@@ -70,7 +70,7 @@ AppBar buildAppBar(
                   ),
                 );
               })
-            else if (selectedTab == 3)
+            else if (selectedTab == 3 && userOrCompany == 'User')
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Wrap(

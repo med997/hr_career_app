@@ -48,6 +48,7 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
               company: widget.company,
               withContactsBtn: true,
               withEditing: false,
+            useMobile: true,
               ),
           Center(
             child: ToggleBtnWidget(

@@ -27,12 +27,16 @@ class CompanyAppBarWidget extends StatelessWidget {
   final bool withEditing;
   final bool withBackBtn;
   final bool withContactsBtn;
+  final Widget? avatarForDesktop;
+  final bool useMobile;
 
   final bool appbarCompanyDetail;
 
   const CompanyAppBarWidget(
       {super.key,
       required this.company,
+      required this.useMobile,
+       this.avatarForDesktop,
       this.type = 'APPBAR',
       this.appbarCompanyDetail = false,
       this.withContactsBtn = false,
@@ -55,7 +59,6 @@ class CompanyAppBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
       return Container(
         padding: const EdgeInsets.only(top: 12,bottom: 12,right: 12,left: 12),
         decoration:  const BoxDecoration(
@@ -159,7 +162,8 @@ class CompanyAppBarWidget extends StatelessWidget {
                       String imageUrl = state.company.companyLogo != null
                           ? '$BaseStorageUrl${state.company.companyLogo}'
                           : '';
-                      return AvatarNetwork(
+                      if (useMobile  == true) {
+                        return AvatarNetwork(
                         imgUrl: imageUrl,
                         withBorder: false,
                         withEditBtn: true,
@@ -167,17 +171,24 @@ class CompanyAppBarWidget extends StatelessWidget {
                         editClicked: () =>
                             withEditing ? pickImage(context) : null,
                       );
+                      } else {
+                        return avatarForDesktop!;
+                      }
                     }
                     String imageUrl = company.companyLogo!.isNotEmpty
                         ? '$BaseStorageUrl${company.companyLogo!}'
                         : '';
-                    return AvatarNetwork(
+                    if (useMobile == true) {
+                      return AvatarNetwork(
                         imgUrl: imageUrl,
                         editClicked: () =>
                             withEditing ? pickImage(context) : null,
                         bgColor: Colors.white,
                         withEditBtn: withEditing,
                         withBorder: false);
+                    } else {
+                      return avatarForDesktop!;
+                    }
                   },
                 ),
                 title: Text(
