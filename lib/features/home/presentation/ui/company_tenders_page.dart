@@ -9,6 +9,7 @@ import '../../../../core/util/responsive.dart';
 import '../../../../core/widgets/jobCard_widget.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';
+import '../../../auth/presentation/bloc/login_cubit.dart';
 import '../../../job/domain/entities/job.dart';
 import '../bloc/home_cubit.dart';
 import '../widgets/recent_jobs.dart';
@@ -18,25 +19,29 @@ class CompanyTendersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.vertical,
-      children: [
-        Center(
-          child: ToggleBtnWidget(
-            options: const ['Archive', 'Hidden', 'Complete'],
-          ),
-        ),
-        Flexible(
-          child: ListView(children: const [
-            SizedBox(
-              height: 5,
+    return RefreshIndicator(
+      onRefresh:  () => context.read<HomeCubit>().getCompanyHome(
+          context.read<LoginCubit>().authenticatedUser!.userAuth!.id),
+      child: Flex(
+        direction: Axis.vertical,
+        children: [
+          Center(
+            child: ToggleBtnWidget(
+              options: const ['Archive', 'Hidden', 'Complete'],
             ),
-            RecentTenders(
-              jobCardType: JobCardType.company,
-            )
-          ]),
-        ),
-      ],
+          ),
+          Flexible(
+            child: ListView(children: const [
+              SizedBox(
+                height: 5,
+              ),
+              RecentTenders(
+                jobCardType: JobCardType.company,
+              )
+            ]),
+          ),
+        ],
+      ),
     );
     // return ListView(
     //   children: const [

@@ -464,21 +464,6 @@ class CompanyJobDetailsPage extends StatelessWidget {
                     ),
                     _getDynFormWidget(context, 400),
 
-                    /*  Flex(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      direction: Axis.horizontal,
-                      children: [
-                        BlocBuilder<DisableButtonCubit, bool>(
-                          builder: (context, isEditing) {
-                            if (isEditing == true) {
-
-                              return
-                            }
-                            return SizedBox();
-                          },
-                        ),
-                      ],
-                    )*/
                   ],
                 ),
               ),

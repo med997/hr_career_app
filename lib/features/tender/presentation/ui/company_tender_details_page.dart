@@ -50,11 +50,11 @@ class CompanyTenderDetailsPage extends StatelessWidget {
           context,
           isEditing,
         ),
-        tablet: _buildMobileWidget(
+        tablet: _buildTabletAndDesktopWidget(
           context,
           isEditing,
         ),
-        desktop: _buildMobileWidget(
+        desktop: _buildTabletAndDesktopWidget(
           context,
           isEditing,
         ),
@@ -314,4 +314,98 @@ class CompanyTenderDetailsPage extends StatelessWidget {
       ],
     );
   }
+  _buildTabletAndDesktopWidget(
+      BuildContext context,
+      isEditing,
+      ) {
+    double width = 400 /*MediaQuery.of(context).size.width*/;
+    return Flex(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      direction: Axis.horizontal,
+      children: [
+        Flex(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          direction: Axis.vertical,
+          children: [
+            SizedBox(
+              width: 400,
+              child: TenderDetailsHeader(
+                  tender: tender,
+                  profileFilledText: CustomChips(chipsTitles: [tender.status??''],bgColor: secondaryColor,),
+
+                  profileIcoButton: IconButton(
+                      iconSize: 18,
+                      color: Colors.white,
+                      onPressed: () {},
+                      icon: const Icon(Icons.visibility_off_outlined))),
+            ),
+            Expanded(
+              child: SizedBox(
+                width: width,
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  children: [
+                    SubTitle(
+                      title: tr("main_information_msg"),
+                      titleType: SubTitleType.withIcon,
+                      iconButton: IconButton(
+                          onPressed: () {
+                            isEditing = !isEditing;
+                            context
+                                .read<DynamicFormCubit>()
+                                .setDisableFiled(isEditing);
+                          },
+                          icon: const Icon(
+                            Icons.edit_road,
+                            color: primaryColor,
+                          )),
+                    ),
+                    _getMainInfUpdateTenderForm(400, context),
+
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            children: [
+              SubTitle(
+                title: "Appliance of Tender",
+                titleType: SubTitleType.textOnly,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Wrap(
+                alignment: WrapAlignment.start,
+                direction: Axis.horizontal,
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  squareButton(
+                      clr: Colors.green,
+                      icn: Icons.file_upload_outlined,
+                      iconLabel: tr("export_excel_msg"),
+                      onTap: () {}),
+                ],
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              const RecentProfile(),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
 }
