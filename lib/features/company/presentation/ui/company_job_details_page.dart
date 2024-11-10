@@ -406,6 +406,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
     isEditing,
   ) {
     double width = 400 /*MediaQuery.of(context).size.width*/;
+    context.read<ApplianceCubit>().getAppliance(job.id.toString());
+
     return Flex(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -498,6 +500,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
+
               const RecentProfile(),
             ],
           ),

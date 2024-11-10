@@ -285,6 +285,8 @@ class CompanyTenderDetailsPage extends StatelessWidget {
                   );
 
                 case 1:
+                 // context.read<ApplianceCubit>().getAppliance(tender.id.toString());
+
                   return ListView(
                     padding: EdgeInsets.symmetric(
                       horizontal: 16,
@@ -319,6 +321,8 @@ class CompanyTenderDetailsPage extends StatelessWidget {
       isEditing,
       ) {
     double width = 400 /*MediaQuery.of(context).size.width*/;
+    //context.read<ApplianceCubit>().getAppliance(tender.id.toString());
+
     return Flex(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

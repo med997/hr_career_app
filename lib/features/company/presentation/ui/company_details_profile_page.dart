@@ -55,35 +55,41 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
               options: ["about_us_msg".tr(), "jobs_msg".tr(),"tenders_msg".tr(), "gallery_msg".tr(),],
             ),
           ),
-          BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-          builder: (context, state) {
-            switch (state.selectedTab) {
-              case 0:
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                    child: htmlAboutUs!=null?  Html(data: htmlAboutUs,):Text(
-                      widget.company.aboutUs,
-                      textAlign: TextAlign.justify,
-                      softWrap: true,
-                      overflow: TextOverflow.visible,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                );
-              case 1:
-                return _getCompanyJobList(context);
-              case 2:
-                return SizedBox();
-              case 3:
-                return CompanyGallery(widget.company);
-              default:
-                return const SizedBox();
-            }
-          },
-        ),]
+          Expanded(
+            child: ListView(
+              children: [
+                BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                builder: (context, state) {
+                  switch (state.selectedTab) {
+                    case 0:
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                          child: htmlAboutUs!=null?  Html(data: htmlAboutUs,):Text(
+                            widget.company.aboutUs,
+                            textAlign: TextAlign.justify,
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      );
+                    case 1:
+                      return _getCompanyJobList(context);
+                    case 2:
+                      return SizedBox();
+                    case 3:
+                      return CompanyGallery(widget.company);
+                    default:
+                      return const SizedBox();
+                  }
+                },
+                        ),
+              ],
+            ),
+          ),]
       ),
     );
   }
