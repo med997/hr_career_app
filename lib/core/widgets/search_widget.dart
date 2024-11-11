@@ -22,7 +22,7 @@ class SearchWidget extends StatelessWidget {
   late double screenWidth;
   double defaultWidth = 300;
   final _formKey = GlobalKey<FormState>();
-   List<DynamicModel> searchForm = [];
+  List<DynamicModel> searchForm = [];
   final _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
