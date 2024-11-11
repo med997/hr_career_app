@@ -458,6 +458,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
                             context
                                 .read<DynamicFormCubit>()
                                 .setDisableFiled(isEditing);
+                            context
+                                .read<DisableButtonCubit>()
+                                .disableButton(isEditing);
                           },
                           icon: const Icon(
                             Icons.edit_road,
@@ -465,6 +468,61 @@ class CompanyJobDetailsPage extends StatelessWidget {
                           )),
                     ),
                     _getDynFormWidget(context, 400),
+                    Flex(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      direction: Axis.horizontal,
+                      children: [
+                        BlocBuilder<DisableButtonCubit, bool>(
+                          builder: (context, isEditing) {
+                            if (isEditing == true) {
+                              context
+                                  .read<DisableButtonCubit>()
+                                  .resetButtonState(isEditing);
+                              return MaterialButton(
+                                  color: Colors.yellow.shade700,
+                                  minWidth: 40,
+                                  height: 40,
+                                  shape: const CircleBorder(),
+                                  onPressed: isEditing
+                                      ? () {
+                                    var value = context
+                                        .read<DynamicFormCubit>()
+                                        .getCurrentValue();
+                                    final companyId = context
+                                        .read<LoginCubit>()
+                                        .authenticatedUser!
+                                        .userAuth!
+                                        .id;
+                                    print(
+                                        'company_id: $companyId ===> $value');
+                                    context
+                                        .read<CurdJobCubit>()
+                                        .updateJob(value, job);
+                                  }
+                                      : null,
+                                  child:
+                                  BlocBuilder<CurdJobCubit, CurdJobState>(
+                                    builder: (context, state) {
+                                      if (state is LoadingCurdJobState) {
+                                        return LoadingWidget(
+                                          progressColor: Colors.white,
+                                          width: 2,
+                                        );
+                                      } else {
+                                        return const Icon(
+                                          Icons.save_outlined,
+                                          color: Colors.white,
+                                          size: 19,
+                                        );
+                                      }
+                                    },
+                                  ));
+                            }
+                            return SizedBox();
+                          },
+                        ),
+                      ],
+                    )
 
                   ],
                 ),
