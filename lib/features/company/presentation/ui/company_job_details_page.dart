@@ -556,19 +556,31 @@ class CompanyJobDetailsPage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Wrap(
-                alignment: WrapAlignment.start,
-                direction: Axis.horizontal,
-                // mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  squareButton(
-                      clr: Colors.green,
-                      icn: Icons.file_upload_outlined,
-                      iconLabel: tr("export_excel_msg"),
-                      onTap: createExcel
-                  ),
-                ],
-              ),
+              BlocBuilder<ApplianceCubit, ApplianceState>(
+  builder: (context, state) {
+    if (state is ApplianceFetchedState) {
+
+      return Wrap(
+        alignment: WrapAlignment.start,
+        direction: Axis.horizontal,
+        // mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          squareButton(
+              clr: Colors.green,
+              icn: Icons.file_upload_outlined,
+              iconLabel: tr("export_excel_msg"),
+              onTap: () async {
+                await createExcel(state.profile); // Call the async function here
+              },
+          ),
+        ],
+      );
+    }  else {
+      return const SizedBox();
+    }
+  }
+
+    ),
               const SizedBox(
                 height: 12,
               ),
@@ -581,11 +593,40 @@ class CompanyJobDetailsPage extends StatelessWidget {
     );
   }
 
- Future<void> createExcel() async{
-
+ Future<void> createExcel(List<Profile> profiles) async{
    final Workbook workbook = Workbook();
    final Worksheet sheet = workbook.worksheets[0];
-    sheet.getRangeByName('A1').setText('ahmed Afeef');
+   sheet.enableSheetCalculations();
+
+
+   sheet.getRangeByName('A1:E1').columnWidth = 22;
+   sheet.getRangeByName('A1:E1').cellStyle.backColor = '#356899';
+   sheet.getRangeByName('A1:E1').cellStyle.fontColor = '#ffffff';
+   sheet.getRangeByName('A1:E1').cellStyle.bold = true;
+   sheet.getRangeByName('A1:E1').cellStyle.fontSize = 12;
+
+
+
+
+
+   sheet.getRangeByName('A1').setText('Appliance Name');
+   sheet.getRangeByName('B1').setText('Arabic Appliance Name');
+   sheet.getRangeByName('C1').setText('Phone');
+   sheet.getRangeByName('D1').setText('Appliance Major');
+   sheet.getRangeByName('E1').setText('Appliance Current Job');
+
+   for (int i = 0; i < profiles.length; i++) {
+
+
+
+       sheet.getRangeByIndex(i + 2, 2).setText(profiles[i].fullNameAr);
+       sheet.getRangeByIndex(i + 2, 1).setText(profiles[i].fullName);
+       sheet.getRangeByIndex(i + 2, 3).setText(profiles[i].phone);
+       sheet.getRangeByIndex(i + 2, 4).setText(profiles[i].major);
+       sheet.getRangeByIndex(i + 2, 5).setText(profiles[i].currentJob);
+
+   }
+
 
 
    final List<int> bytes = workbook.saveAsStream();
