@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +13,10 @@ import 'package:hr_career_platform/core/widgets/custom_chips.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_header.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/widgets/recent_profile.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:universal_html/html.dart' show AnchorElement;
+import 'package:universal_html/js.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/cubit/toggle_btn_cubit.dart';
@@ -29,11 +35,16 @@ import '../../../general/domain/entities/general.dart';
 import '../../../general/presentation/bloc/general_cubit.dart';
 import '../../../job/domain/entities/job.dart';
 import '../../../job/presentation/bloc/curd_job_cubit.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart';
+
+import '../../../profile/domain/entities/profile.dart';
+import '../../../profile/presentation/bloc/appliance_cubit.dart';
 
 class CompanyJobDetailsPage extends StatelessWidget {
   final Job job;
+  final Profile? profile;
 
-  CompanyJobDetailsPage({super.key, required this.job});
+  CompanyJobDetailsPage({super.key, required this.job, this.profile});
 
   final reviewProfileFormKey = GlobalKey<FormState>();
 
@@ -41,6 +52,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ApplianceCubit>().state;
+
 
 
     return Scaffold(
@@ -518,7 +531,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
                                     },
                                   ));
                             }
-                            return SizedBox();
+                            return const SizedBox();
                           },
                         ),
                       ],
@@ -552,7 +565,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
                       clr: Colors.green,
                       icn: Icons.file_upload_outlined,
                       iconLabel: tr("export_excel_msg"),
-                      onTap: () {}),
+                      onTap: createExcel
+                  ),
                 ],
               ),
               const SizedBox(
@@ -566,4 +580,51 @@ class CompanyJobDetailsPage extends StatelessWidget {
       ],
     );
   }
+
+ Future<void> createExcel() async{
+
+   final Workbook workbook = Workbook();
+   final Worksheet sheet = workbook.worksheets[0];
+    sheet.getRangeByName('A1').setText('ahmed Afeef');
+
+
+   final List<int> bytes = workbook.saveAsStream();
+   workbook.dispose();
+
+   if (kIsWeb) {
+     AnchorElement(
+         href:
+         'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
+       ..setAttribute('download', 'applianceReport.xlsx')
+       ..click();
+   } else {
+     final String path = (await getApplicationSupportDirectory()).path;
+     final String fileName =
+     Platform.isWindows ? '$path\\applianceReport.xlsx' : '$path/applianceReport.xlsx';
+     final File file = File(fileName);
+     await file.writeAsBytes(bytes, flush: true);
+     OpenFile.open(fileName);
+
+  }
+}
+  // Future<List<ExcelDataRow>> _buildCustomersDataRowsIH() async {
+  //   List<ExcelDataRow> excelDataRows = <ExcelDataRow>[];
+  //
+  //   List<Profile> reports_1 = await Future.value(reports);
+  //
+  //   excelDataRows = reports_1.map<ExcelDataRow>((Profile dataRow) {
+  //     return ExcelDataRow(cells: <ExcelDataCell>[
+  //       ExcelDataCell(columnHeader: 'Person name', value: dataRow.fullName),
+  //       ExcelDataCell(
+  //           columnHeader: 'Phone Number', value: dataRow.phone),
+  //       ExcelDataCell(
+  //           columnHeader: 'Email', value: dataRow.email),
+  //       ExcelDataCell(columnHeader: 'Address', value: dataRow.address),
+  //       ExcelDataCell(columnHeader: 'Current Job', value: dataRow.currentJob),
+  //       ExcelDataCell(columnHeader: 'Major', value: dataRow.major)
+  //     ]);
+  //   }).toList();
+  //
+  //   return excelDataRows;
+  // }
 }

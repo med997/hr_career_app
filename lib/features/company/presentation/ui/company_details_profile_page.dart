@@ -267,7 +267,7 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
               const Divider(
                 height: 100,
                 color: Colors.black,
-                thickness: 2,
+                thickness: 1,
                 indent: 100,
                 endIndent: 100,
               ),
@@ -282,7 +282,7 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
               const Divider(
                 height: 100,
                 color: Colors.black,
-                thickness: 2,
+                thickness: 1,
                 indent: 100,
                 endIndent: 100,
               ),

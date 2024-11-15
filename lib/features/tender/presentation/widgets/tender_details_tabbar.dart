@@ -26,14 +26,23 @@ class _TenderDetailsTabBarState extends State<TenderDetailsTabBar> {
   @override
   Widget build(BuildContext context) {
     print(widget.tender.tenderDescFormated);
+    print(widget.tender.otherApplyLinksFormated);
     ParchmentDocument? documentTenderDesc =
         widget.tender.tenderDescFormated != null
             ? ParchmentDocument.fromJson(
                 jsonDecode(jsonEncode(widget.tender.tenderDescFormated)))
             : null;
+    ParchmentDocument? documentTenderOtherLinks =
+        widget.tender.otherApplyLinksFormated != null
+            ? ParchmentDocument.fromJson(
+                jsonDecode(jsonEncode(widget.tender.otherApplyLinksFormated)))
+            : null;
     const converter = ParchmentHtmlCodec();
     String? htmlTenderDesc = documentTenderDesc != null
         ? converter.encode(documentTenderDesc.toDelta())
+        : null;
+    String? htmlTenderOtherLinks = documentTenderOtherLinks != null
+        ? converter.encode(documentTenderOtherLinks.toDelta())
         : null;
     return Column(
       children: [
@@ -70,9 +79,21 @@ class _TenderDetailsTabBarState extends State<TenderDetailsTabBar> {
                     );
 
                   case 1:
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 18.0),
-                      child: Text(''),
+                    return  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      child:  htmlTenderOtherLinks != null
+                          ? Html(
+                        data: htmlTenderOtherLinks,
+                      )
+                          : Text(
+                        widget.tender.otherApplyLinks!,
+                        textAlign: TextAlign.justify,
+                        softWrap: true,
+                        overflow: TextOverflow.visible,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
                     );
                   default:
                     return const SizedBox();

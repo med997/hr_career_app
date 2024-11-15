@@ -67,6 +67,10 @@ class CompanyTenderDetailsPage extends StatelessWidget {
         ? ParchmentDocument.fromJson(
             jsonDecode(jsonEncode(tender.tenderDescFormated)))
         : null;
+    final ParchmentDocument? documentOtherLinks = tender.otherApplyLinksFormated != null
+        ? ParchmentDocument.fromJson(
+            jsonDecode(jsonEncode(tender.otherApplyLinksFormated)))
+        : null;
     General? generals = context.read<GeneralCubit>().general;
     List<ItemModel> nationalityItems = [];
     List<ItemModel> categoryItems = [];
@@ -95,13 +99,14 @@ class CompanyTenderDetailsPage extends StatelessWidget {
       ),
       DynamicModel(
         'otherApplyLinks',
-        FormType.text,
+        FormType.multiline,
         key: 'otherApplyLinks',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
+        controllerFlt: FleatherController(document: documentOtherLinks),
+        controller: TextEditingController(text: documentOtherLinks!.toPlainText()??''),
         disabled: isEditing,
-        controller: TextEditingController(text: tender.otherApplyLinks),
         width: width,
         isRequired: true,
       ),

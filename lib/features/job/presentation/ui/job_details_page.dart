@@ -262,7 +262,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
               const Divider(
                 height: 100,
                 color: Colors.black,
-                thickness:2,
+                thickness:1,
                 indent: 100,
                 endIndent: 100,
               ),
