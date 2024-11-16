@@ -45,7 +45,7 @@ class AllJobsPage extends StatelessWidget {
     double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
     if(Responsive.isDesktop(context))
       itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
-    return Wrap(
+     return Wrap(
         children: [
           ...jobs.map(
                 (job) => SizedBox(
@@ -62,7 +62,6 @@ class AllJobsPage extends StatelessWidget {
                 ):
                 JobCard(
                   jobCardType: JobCardType.company,
-
                   chipText: tr("active_msg"),
                   chipBgColor: Colors.orange,
                   job: job,
