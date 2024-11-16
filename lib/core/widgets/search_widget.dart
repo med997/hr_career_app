@@ -130,7 +130,11 @@ class SearchWidget extends StatelessWidget {
   }
 
   Widget _desktopWidgetBuilder(BuildContext context) {
-    double width =  Responsive.isMobile(context)  ? screenWidth : 350 ;
+    double width =  300 ;
+    if(Responsive.isDesktop(context))
+      width = MediaQuery.of(context).size.width * 0.2 ;
+    if(Responsive.isTablet(context))
+      width = MediaQuery.of(context).size.width * 0.2 ;
     General? generals = context.read<GeneralCubit>().general;
     List<ItemModel> nationalityItems = [];
     List<ItemModel> categoryItems = [];
@@ -228,8 +232,6 @@ class SearchWidget extends StatelessWidget {
           subDynamicModel: searchForm),
     ];
     return Wrap(
-      direction: Axis.horizontal,
-      spacing: 10.0,
       children: <Widget>[
                DynamicFormWidget(
                 key: const Key('search'),

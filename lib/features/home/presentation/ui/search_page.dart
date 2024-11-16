@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/widgets/search_widget.dart';
@@ -15,16 +13,16 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Flex(
       direction: Axis.vertical,
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SearchWidget(),
-        Flexible(child: AllJobsPage())
+        Flexible(child: AllJobsPage()),
+
       ],
     );
   }
@@ -32,8 +30,5 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-
-
-
   }
 }
