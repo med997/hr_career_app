@@ -12,7 +12,9 @@ import 'package:hr_career_platform/features/notification/domain/entities/notific
 import 'package:hr_career_platform/features/notification/presentation/bloc/notification_cubit.dart';
 
 import '../../features/auth/domain/entities/auth.dart';
+import '../strings/failures.dart';
 import '../util/responsive.dart';
+import 'err_widget.dart';
 
 class NotificationPage extends StatefulWidget {
   final Auth auth;
@@ -37,38 +39,55 @@ class _NotificationPageState extends State<NotificationPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-          children: [
-        ToggleBtnWidget(
-          options: const ['Not read', 'Archived'],
-        ),
-        BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
-          builder: (context, stateToggleBtn) {
-            return BlocBuilder<NotificationCubit, NotificationState>(
-              builder: (context, state) {
-                if (state is NotificationLoading) {
-                  return LoadingWidget();
-                } else if (state is NotificationFetchedState) {
-                  final notification = stateToggleBtn.selectedTab == 0
-                      ? state.notification
-                          .where((ntf) => ntf.isArchive != true)
-                          .toList()
-                      : state.notification
-                          .where((ntf) => ntf.isArchive == true)
-                          .toList();
-                  return Responsive(
-                      mobile: _buildMobileLayout(notification),
-                      tablet:
-                          _buildTabletDesktopLayout(notification, 2, context),
-                      desktop:
-                          _buildTabletDesktopLayout(notification, 3, context));
-                } else
-                  return SizedBox();
-              },
-            );
-          },
-        ),
-      ]),
+      body: RefreshIndicator(
+        onRefresh: () =>  context
+            .read<NotificationCubit>()
+            .getNotificationByUuid(widget.auth.userAuth!.id),
+        child: Column(children: [
+          ToggleBtnWidget(
+            options: const ['Not read', 'Archived'],
+          ),
+          BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+            builder: (context, stateToggleBtn) {
+              return BlocBuilder<NotificationCubit, NotificationState>(
+                builder: (context, state) {
+                  if (state is NotificationLoading) {
+                    return LoadingWidget();
+                  } else if (state is NotificationFetchedState) {
+                    final notification = stateToggleBtn.selectedTab == 0
+                        ? state.notification
+                            .where((ntf) => ntf.isArchive != true)
+                            .toList()
+                        : state.notification
+                            .where((ntf) => ntf.isArchive == true)
+                            .toList();
+                    return Responsive(
+                        mobile: _buildMobileLayout(notification),
+                        tablet:
+                            _buildTabletDesktopLayout(notification, 2, context),
+                        desktop:
+                            _buildTabletDesktopLayout(notification, 3, context));
+                  } else if (state is NotificationErrorState) {
+                    String imgUrl = state.msg == OFFLINE_FAILURE_MESSAGE
+                        ? 'assets/imgs/conectErr.png'
+                        : 'assets/imgs/ServerErr.png';
+                    return ErrWidget(
+                        imgUrl: imgUrl,
+                        errorText: state.msg,
+                        clickedReload: () {
+                          context
+                              .read<NotificationCubit>()
+                              .getNotificationByUuid(widget.auth.userAuth!.id);
+                        });
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              );
+            },
+          ),
+        ]),
+      ),
     );
   }
 
@@ -87,7 +106,9 @@ class _NotificationPageState extends State<NotificationPage> {
               children: [
                 SlidableAction(
                   onPressed: (context) {
-                    context.read<NotificationCubit>().updateNotification(notification.id!);
+                    context
+                        .read<NotificationCubit>()
+                        .updateNotification(notification.id!);
                   },
                   backgroundColor: primaryColor,
                   icon: Icons.archive,
@@ -125,8 +146,7 @@ class _NotificationPageState extends State<NotificationPage> {
     double itemWidth = MediaQuery.of(context).size.width / columnCount - 50;
     if (Responsive.isDesktop(context))
       itemWidth = MediaQuery.of(context).size.width / columnCount - 100;
-    return Wrap(
-        children: [
+    return Wrap(children: [
       ...notifications.map((ntf) {
         DateTime time = DateTime.parse(ntf.createdAt);
         return SizedBox(
@@ -139,7 +159,9 @@ class _NotificationPageState extends State<NotificationPage> {
                 children: [
                   SlidableAction(
                     onPressed: (context) {
-                      context.read<NotificationCubit>().updateNotification(ntf.id!);
+                      context
+                          .read<NotificationCubit>()
+                          .updateNotification(ntf.id!);
                     },
                     backgroundColor: primaryColor,
                     icon: Icons.archive,

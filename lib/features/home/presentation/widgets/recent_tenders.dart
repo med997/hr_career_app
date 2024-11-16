@@ -5,7 +5,9 @@ import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/widgets/tender_card_widget.dart';
 import 'package:hr_career_platform/features/tender/data/models/tender_model.dart';
 import 'package:hr_career_platform/features/tender/presentation/ui/company_tender_details_page.dart';
+import '../../../../core/strings/failures.dart';
 import '../../../../core/util/responsive.dart';
+import '../../../../core/widgets/err_widget.dart';
 import '../../../../core/widgets/jobCard_widget.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../job/domain/entities/job.dart';
@@ -21,21 +23,31 @@ class RecentTenders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
+      builder: (_, state) {
         if (state is HomeLoading) {
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
           return Responsive(
               mobile: _buildMobileLayout(state.homes.recentTender,jobCardType),
               tablet:
-              _buildTabletDesktopLayout(state.homes.recentJobs, 2, context),
+              _buildTabletDesktopLayout(state.homes.recentTender, 2, context),
               desktop: _buildTabletDesktopLayout(
-                  state.homes.recentJobs, 3, context));
+                  state.homes.recentTender, 3, context));
+        }else if (state is HomeErrorState) {
+          String imgUrl = state.msg == OFFLINE_FAILURE_MESSAGE
+              ? 'assets/imgs/conectErr.png'
+              : 'assets/imgs/ServerErr.png';
+          return ErrWidget(
+              imgUrl: imgUrl,
+              errorText: state.msg,
+              clickedReload: () {
+                context.read<HomeCubit>().getHomeUserTender();
+              });
         }
         return const SizedBox();
       },
     );
-  }}
+  }
 
 Widget _buildMobileLayout(List<Tender>? tender,JobCardType jobCardType) {
   return ListView.builder(
@@ -61,20 +73,32 @@ Widget _buildMobileLayout(List<Tender>? tender,JobCardType jobCardType) {
       ));
 }
 Widget _buildTabletDesktopLayout(
-    List<Job>? jobs, int columnCount, BuildContext context) {
+    List<Tender>? tenders, int columnCount, BuildContext context) {
   double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
   if(Responsive.isDesktop(context))
     itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
   return Wrap(
       children: [
-        ...jobs!.map(
-              (job) => SizedBox(
+        ...tenders!.map(
+              (tender) => SizedBox(
             width: itemWidth,
-            child: JobCard(
-              job: job,
-              jobCardType: JobCardType.user,
-              columnWidth: itemWidth,),
+            child: InkWell(
+              onTap:  () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) {
+                      if( jobCardType == JobCardType.company){
+                        return CompanyTenderDetailsPage(tender: tender);
+
+                      }else {
+                        return TenderDetailsPage(tender: tender);
+
+                      }
+                    })),
+              child: TenderCard(
+                tender: tender,),
+            ),
           ),
         )
       ]);
-}
+}}

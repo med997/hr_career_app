@@ -31,13 +31,13 @@ class LocalizationApiLoader extends AssetLoader {
       if (kDebugMode) {
         print(error);
       }
-      throw ServerException(message: error.message);
+     return {};
 
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      throw ServerException(message: e.toString());
+      return {};
     }
   }
 }

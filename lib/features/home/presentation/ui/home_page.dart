@@ -49,7 +49,7 @@ class HomePage extends StatelessWidget {
                 )
               : buildAppBar(
                   userName: auth.profile!.fullName??'',
-                  img:auth.profile!.avatarUrl!=null? '$BaseStorageUrl${auth.profile!.avatarUrl}':'',
+              img:auth.profile!.avatarUrl ??'',
                   userOrCompany: 'User',
                   fullHeader: true,
                   selectedTab: state.selectedTab, context: context,
@@ -72,13 +72,27 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<TabNavCubit, TabNavState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: buildAppBar(
+          appBar: (state is TabNavChangedState)
+              ? buildAppBar(
+            userName: state.selectedTab == 4 ? 'Notification'.tr()
+                : state.selectedTab == 2 ? "search_msg".tr()
+                : state.selectedTab == 3 ? "profile_msg".tr()
+                :auth.profile!.fullName??'',
+            img:auth.profile!.avatarUrl??'',
             userOrCompany: 'User',
-            userName: 'Mohammed adnan',
-            img: '',
+            fullHeader: (state.selectedTab == 4 ||
+                state.selectedTab == 3 ||
+                state.selectedTab == 2)
+                ? false
+                : true,
+            selectedTab: state.selectedTab, context: context,
+          )
+              : buildAppBar(
+            userName: auth.profile!.fullName??'',
+            img:auth.profile!.avatarUrl ??'',
+            userOrCompany: 'User',
             fullHeader: true,
             selectedTab: state.selectedTab, context: context,
-
           ),
           body: Row(
             children: [
@@ -112,7 +126,7 @@ class HomePage extends StatelessWidget {
       case 1:
         return const HomeTenderPage();
         case 2:
-        return const SearchPage();
+        return  SearchPage();
       case 3:
         return HomeProfilePage(auth: auth,);
       case 4:

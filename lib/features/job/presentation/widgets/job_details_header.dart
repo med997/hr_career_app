@@ -93,7 +93,8 @@ class JobDetailsHeader extends StatelessWidget {
               textAlign: TextAlign.center,
               job.jobTitle,
               style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 14
+                  ,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),

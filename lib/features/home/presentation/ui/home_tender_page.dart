@@ -26,33 +26,38 @@ class _HomeTenderPageState extends State<HomeTenderPage> {
   @override
   Widget build(BuildContext context) {
 
-    return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      children: [
-        SubTitle(
-          textColor: Colors.black,
-          onShowMoreClicked: () {
-            if (kDebugMode) print('showMoreClicked');
-          },
-          titleType: SubTitleType.textOnly,
-          title: "featured_tender_msg".tr(),
-          icon: Icon(Icons.edit_note),
+    return Scaffold(
+      body: RefreshIndicator(
+        onRefresh: () => context.read<HomeCubit>().getHomeUserTender(),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          children  : [
+            SubTitle(
+              textColor: Colors.black,
+              onShowMoreClicked: () {
+                if (kDebugMode) print('showMoreClicked');
+              },
+              titleType: SubTitleType.textOnly,
+              title: "featured_tender_msg".tr(),
+              icon: Icon(Icons.edit_note),
+            ),
+            FeaturedTenders(),
+            SubTitle(
+              onShowMoreClicked: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AllJobsPage()),
+                );
+              },
+              textColor: Colors.black,
+              titleType: SubTitleType.withShowMore,
+              title: tr("recent_tender_msg"),
+              icon: Icon(Icons.edit_note),
+            ),
+           RecentTenders(jobCardType: JobCardType.user,)
+          ],
         ),
-        FeaturedTenders(),
-        SubTitle(
-          onShowMoreClicked: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AllJobsPage()),
-            );
-          },
-          textColor: Colors.black,
-          titleType: SubTitleType.withShowMore,
-          title: tr("recent_tender_msg"),
-          icon: Icon(Icons.edit_note),
-        ),
-       RecentTenders(jobCardType: JobCardType.user,)
-      ],
+      ),
     );
   }
 

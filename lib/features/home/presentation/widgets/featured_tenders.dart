@@ -92,9 +92,9 @@ class FeaturedTenders extends StatelessWidget {
                   image: AssetImage('assets/imgs/image10.png'),
                   fit: BoxFit.fitWidth, // Adjust fit as needed
                 ),
-                color: primaryColor,
+                color: secondaryColor,
                 border: Border.all(
-                  color: primaryColor,
+                  color: secondaryColor,
                   width: 0.5,
                 ),
                 borderRadius: BorderRadius.circular(12)),
