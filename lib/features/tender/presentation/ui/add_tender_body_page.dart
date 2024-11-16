@@ -11,7 +11,7 @@ import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
-import 'package:hr_career_platform/core/widgets/map_icon_button.dart';
+import 'package:hr_career_platform/core/widgets/location_widget.dart';
 import 'package:hr_career_platform/features/general/domain/entities/general.dart';
 import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';

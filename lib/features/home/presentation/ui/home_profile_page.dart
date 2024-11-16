@@ -20,7 +20,7 @@ import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profi
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 
 import '../../../../core/util/responsive.dart';
-import '../../../../core/widgets/map_icon_button.dart';
+import '../../../../core/widgets/location_widget.dart';
 import '../../../general/domain/entities/general.dart';
 import '../../../profile/presentation/widgets/education_widget.dart';
 import '../../../profile/presentation/widgets/experience_widget.dart';

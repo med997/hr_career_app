@@ -29,7 +29,8 @@
   "education_msg" : "التعليم",
   "resume_msg" : "السيرة الذاتية",
   "confirm_msg" : "تأكيد",
-  "documents_msg" : "المستندات"
-
+  "documents_msg" : "المستندات",
+  "arabic" : "العربية",
+  "english": "English"
 
 }

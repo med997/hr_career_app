@@ -20,7 +20,7 @@ import '../../../../core/util/responsive.dart';
 import '../../../../core/util/validator.dart';
 import '../../../../core/widgets/dyn_form_widget.dart';
 import '../../../../core/widgets/loading_widget.dart';
-import '../../../../core/widgets/map_icon_button.dart';
+import '../../../../core/widgets/location_widget.dart';
 import '../../../../core/widgets/square_button_function.dart';
 import '../../../../core/widgets/sub-title.dart';
 import '../../../../core/widgets/toggle_btn_widget.dart';

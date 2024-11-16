@@ -87,6 +87,7 @@ class ProfileCard extends StatelessWidget {
 
   popOptionMenuApplianceState(BuildContext context) {
     return PopupMenuButton<ApplianceStateItem>(
+
       onSelected: (ApplianceStateItem item) {
         context.read<CurdApplianceJobCubit>().updateApplianceJob(profile.applianceId!, item.name);
       },

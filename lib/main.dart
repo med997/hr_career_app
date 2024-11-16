@@ -151,6 +151,7 @@ void main() async {
     useOnlyLangCode: true,
     child: const MyApp()),
   ));
+
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     if (kDebugMode) {
       print('Handling a foreground message: ${message.messageId}');

@@ -6,12 +6,12 @@ import 'package:map_location_picker/map_location_picker.dart';
 
 
 class LocationWidget extends StatelessWidget {
-  LocationWidget({super.key});
+  const LocationWidget({super.key});
 
-
+/*
   String address = "null";
   String autocompletePlace = "null";
-  Prediction? initialValue;
+  Prediction? initialValue;*/
 
   @override
   Widget build(BuildContext context) {
