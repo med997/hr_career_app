@@ -108,10 +108,16 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
         ? ParchmentDocument.fromJson(
             jsonDecode(jsonEncode(widget.tender.tenderDescFormated)))
         : null;
+    ParchmentDocument? documentOtherLinks = widget.tender.otherApplyLinksFormated != null
+        ? ParchmentDocument.fromJson(
+            jsonDecode(jsonEncode(widget.tender.otherApplyLinksFormated)))
+        : null;
     const converter = ParchmentHtmlCodec();
 
     String? htmlDesc =
         documentDesc != null ? converter.encode(documentDesc.toDelta()) : null;
+    String? htmlOtherLinks =
+        documentOtherLinks != null ? converter.encode(documentOtherLinks.toDelta()) : null;
     double width = 400 /*MediaQuery.of(context).size.width*/;
     return Flex(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -188,20 +194,20 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 12,
-            ),
-            SizedBox(
-              width: 260,
-              height: 35,
-              child: MaterialButton(
-                color: primaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                onPressed: () {},
-                child: Text(
-                  "apply_now_msg".tr(),
-                  style: const TextStyle(color: Colors.white),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: SizedBox(
+                width: 260,
+                height: 35,
+                child: MaterialButton(
+                  color: primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  onPressed: () {},
+                  child: Text(
+                    "apply_now_msg".tr(),
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             )
@@ -220,6 +226,19 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
               ),
               const SizedBox(
                 height: 20,
+              ),
+              htmlOtherLinks != null
+                  ? Html(
+                data: htmlOtherLinks,
+              )
+                  : Text(
+                widget.tender.otherApplyLinks!,
+                textAlign: TextAlign.justify,
+                softWrap: true,
+                overflow: TextOverflow.visible,
+                style: const TextStyle(
+                  color: Colors.grey,
+                ),
               ),
             ],
           ),

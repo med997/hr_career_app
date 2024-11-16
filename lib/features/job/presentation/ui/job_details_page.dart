@@ -143,25 +143,36 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
             SizedBox(
               width: 400,
               child: JobDetailsHeader(
-                  job: widget.job,
-                  profileFilledText: FilledButton(
-                    style: const ButtonStyle(
-                        backgroundColor:
-                            WidgetStatePropertyAll(Colors.blueAccent)),
-                    onPressed: () {},
-                    child: Text(
-                      tr("active_msg"),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                    ),
+                job: widget.job,
+                profileFilledText: MaterialButton(
+                  minWidth: 35,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  padding: EdgeInsets.all(0),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CompanyProfileDetailPage(
+                                company: widget.job.company!)));
+                  },
+                  child: const Icon(
+                    Icons.person,
+                    size: 18,
+                    color: Colors.white,
                   ),
-                  profileIcoButton: IconButton(
-                      iconSize: 18,
-                      color: Colors.white,
-                      onPressed: () {},
-                      icon: const Icon(Icons.visibility_off_outlined))),
+                ),
+                profileIcoButton: MaterialButton(
+                  minWidth: 25,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  padding: EdgeInsets.all(0),
+                  child: const Icon(
+                    Icons.visibility_off_outlined,
+                    size: 18,
+                    color: Colors.orangeAccent,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
             ),
             SubTitle(
               title: "description_msg".tr(),
@@ -195,27 +206,27 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 12,
-            ),
-            SizedBox(
-              width: 260,
-              height: 35,
-              child: MaterialButton(
-                color: primaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ApplyNowPage(
-                                job: widget.job,
-                              )));
-                },
-                child: Text(
-                  "apply_now_msg".tr(),
-                  style: const TextStyle(color: Colors.white),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: SizedBox(
+                width: 260,
+                height: 35,
+                child: MaterialButton(
+                  color: primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ApplyNowPage(
+                                  job: widget.job,
+                                )));
+                  },
+                  child: Text(
+                    "apply_now_msg".tr(),
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             )
@@ -231,41 +242,35 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                 title: "requirement_msg".tr(),
                 titleType: SubTitleType.textOnly,
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Wrap(
-                alignment: WrapAlignment.start,
-                direction: Axis.horizontal,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                    child: htmlReq != null
-                        ? Html(
-                            data: htmlReq,
-                          )
-                        : Text(
-                            widget.job.jobRequirements,
-                            textAlign: TextAlign.justify,
-                            softWrap: true,
-                            overflow: TextOverflow.visible,
-                            style: const TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                  )
-                ],
-              ),
+
+              htmlReq != null
+                  ? Html(
+                      data: htmlReq,
+                    )
+                  : Text(
+                      widget.job.jobRequirements,
+                      textAlign: TextAlign.justify,
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
               const SizedBox(
                 height: 12,
+              ),
+              const Divider(
+                height: 100,
+                color: Colors.black,
+                thickness:1,
+                indent: 100,
+                endIndent: 100,
               ),
               SubTitle(
                 title: "how_to_apply_msg".tr(),
                 titleType: SubTitleType.textOnly,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+
 
             ],
           ),

@@ -10,7 +10,8 @@ class TenderModel extends Tender {
     super.id,
     required super.createdAt,
     required super.tenderTitle,
-    required super.otherApplyLinks,
+     super.otherApplyLinks,
+     super.otherApplyLinksFormated,
     required super.city,
     required super.category,
     super.deadlineDate,
@@ -28,6 +29,9 @@ class TenderModel extends Tender {
         createdAt: json["created_at"],
         tenderTitle: json["tender_title"],
         otherApplyLinks: json["other_apply_links"],
+        otherApplyLinksFormated: json['other_apply_links_formated']!= null
+            ? List<dynamic>.from(json['other_apply_links_formated'])
+            : null,
         applianceNo: json["appliance_no"],
         city: json["city"],
         tenderDescFormated: json['tender_desc_formated'] != null
@@ -51,6 +55,7 @@ class TenderModel extends Tender {
         city: tender.city,
         tenderTitle: tender.tenderTitle,
         otherApplyLinks: tender.otherApplyLinks,
+        otherApplyLinksFormated: tender.otherApplyLinksFormated,
         nationalities: tender.nationalities,
         tenderDesc: tender.tenderDesc,
         tenderDescFormated: tender.tenderDescFormated,
@@ -63,6 +68,7 @@ class TenderModel extends Tender {
         "tender_title": tenderTitle,
         "tender_desc_formated": tenderDescFormated,
         "other_apply_links": otherApplyLinks,
+    "other_apply_links_formated" : otherApplyLinksFormated,
         "city": city,
         "category": category,
         "nationalities": nationalities,

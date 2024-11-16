@@ -39,7 +39,7 @@ class JobCard extends StatelessWidget {
     } else if (jobCardType == JobCardType.company) {
       return InkWell(
           onTap: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => CompanyJobDetailsPage(job: job),)),
+              builder: (context) => CompanyJobDetailsPage(job: job,),)),
           child: _jobCardCompany());
     }  else return const SizedBox();
   }

@@ -3,12 +3,12 @@ import 'dart:core';
 import 'package:equatable/equatable.dart';
 import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 
-
 class Tender extends Equatable {
   final int? id;
   final String? createdAt;
   final String tenderTitle;
   final String? otherApplyLinks;
+  final List<dynamic>? otherApplyLinksFormated;
   final String city;
   final String category;
   final DateTime? deadlineDate;
@@ -20,10 +20,10 @@ class Tender extends Equatable {
   final int? applianceNo;
   final Company? company;
 
-
   const Tender(
       {required this.tenderTitle,
-      this.otherApplyLinks,
+      required this.otherApplyLinks,
+      this.otherApplyLinksFormated,
       required this.city,
       required this.category,
       this.deadlineDate,

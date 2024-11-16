@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +13,10 @@ import 'package:hr_career_platform/core/widgets/custom_chips.dart';
 import 'package:hr_career_platform/features/job/presentation/widgets/job_details_header.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/appliance_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/widgets/recent_profile.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:universal_html/html.dart' show AnchorElement;
+import 'package:universal_html/js.dart';
 
 import '../../../../core/app_theme.dart';
 import '../../../../core/cubit/toggle_btn_cubit.dart';
@@ -29,11 +35,16 @@ import '../../../general/domain/entities/general.dart';
 import '../../../general/presentation/bloc/general_cubit.dart';
 import '../../../job/domain/entities/job.dart';
 import '../../../job/presentation/bloc/curd_job_cubit.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart';
+
+import '../../../profile/domain/entities/profile.dart';
+import '../../../profile/presentation/bloc/appliance_cubit.dart';
 
 class CompanyJobDetailsPage extends StatelessWidget {
   final Job job;
+  final Profile? profile;
 
-  CompanyJobDetailsPage({super.key, required this.job});
+  CompanyJobDetailsPage({super.key, required this.job, this.profile});
 
   final reviewProfileFormKey = GlobalKey<FormState>();
 
@@ -41,6 +52,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ApplianceCubit>().state;
+
 
 
     return Scaffold(
@@ -458,6 +471,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
                             context
                                 .read<DynamicFormCubit>()
                                 .setDisableFiled(isEditing);
+                            context
+                                .read<DisableButtonCubit>()
+                                .disableButton(isEditing);
                           },
                           icon: const Icon(
                             Icons.edit_road,
@@ -465,6 +481,61 @@ class CompanyJobDetailsPage extends StatelessWidget {
                           )),
                     ),
                     _getDynFormWidget(context, 400),
+                    Flex(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      direction: Axis.horizontal,
+                      children: [
+                        BlocBuilder<DisableButtonCubit, bool>(
+                          builder: (context, isEditing) {
+                            if (isEditing == true) {
+                              context
+                                  .read<DisableButtonCubit>()
+                                  .resetButtonState(isEditing);
+                              return MaterialButton(
+                                  color: Colors.yellow.shade700,
+                                  minWidth: 40,
+                                  height: 40,
+                                  shape: const CircleBorder(),
+                                  onPressed: isEditing
+                                      ? () {
+                                    var value = context
+                                        .read<DynamicFormCubit>()
+                                        .getCurrentValue();
+                                    final companyId = context
+                                        .read<LoginCubit>()
+                                        .authenticatedUser!
+                                        .userAuth!
+                                        .id;
+                                    print(
+                                        'company_id: $companyId ===> $value');
+                                    context
+                                        .read<CurdJobCubit>()
+                                        .updateJob(value, job);
+                                  }
+                                      : null,
+                                  child:
+                                  BlocBuilder<CurdJobCubit, CurdJobState>(
+                                    builder: (context, state) {
+                                      if (state is LoadingCurdJobState) {
+                                        return LoadingWidget(
+                                          progressColor: Colors.white,
+                                          width: 2,
+                                        );
+                                      } else {
+                                        return const Icon(
+                                          Icons.save_outlined,
+                                          color: Colors.white,
+                                          size: 19,
+                                        );
+                                      }
+                                    },
+                                  ));
+                            }
+                            return const SizedBox();
+                          },
+                        ),
+                      ],
+                    )
 
                   ],
                 ),
@@ -485,18 +556,31 @@ class CompanyJobDetailsPage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Wrap(
-                alignment: WrapAlignment.start,
-                direction: Axis.horizontal,
-                // mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  squareButton(
-                      clr: Colors.green,
-                      icn: Icons.file_upload_outlined,
-                      iconLabel: tr("export_excel_msg"),
-                      onTap: () {}),
-                ],
-              ),
+              BlocBuilder<ApplianceCubit, ApplianceState>(
+  builder: (context, state) {
+    if (state is ApplianceFetchedState) {
+
+      return Wrap(
+        alignment: WrapAlignment.start,
+        direction: Axis.horizontal,
+        // mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          squareButton(
+              clr: Colors.green,
+              icn: Icons.file_upload_outlined,
+              iconLabel: tr("export_excel_msg"),
+              onTap: () async {
+                await createExcel(state.profile); // Call the async function here
+              },
+          ),
+        ],
+      );
+    }  else {
+      return const SizedBox();
+    }
+  }
+
+    ),
               const SizedBox(
                 height: 12,
               ),
@@ -508,4 +592,80 @@ class CompanyJobDetailsPage extends StatelessWidget {
       ],
     );
   }
+
+ Future<void> createExcel(List<Profile> profiles) async{
+   final Workbook workbook = Workbook();
+   final Worksheet sheet = workbook.worksheets[0];
+   sheet.enableSheetCalculations();
+
+
+   sheet.getRangeByName('A1:E1').columnWidth = 22;
+   sheet.getRangeByName('A1:E1').cellStyle.backColor = '#356899';
+   sheet.getRangeByName('A1:E1').cellStyle.fontColor = '#ffffff';
+   sheet.getRangeByName('A1:E1').cellStyle.bold = true;
+   sheet.getRangeByName('A1:E1').cellStyle.fontSize = 12;
+
+
+
+
+
+   sheet.getRangeByName('A1').setText('Appliance Name');
+   sheet.getRangeByName('B1').setText('Arabic Appliance Name');
+   sheet.getRangeByName('C1').setText('Phone');
+   sheet.getRangeByName('D1').setText('Appliance Major');
+   sheet.getRangeByName('E1').setText('Appliance Current Job');
+
+   for (int i = 0; i < profiles.length; i++) {
+
+
+
+       sheet.getRangeByIndex(i + 2, 2).setText(profiles[i].fullNameAr);
+       sheet.getRangeByIndex(i + 2, 1).setText(profiles[i].fullName);
+       sheet.getRangeByIndex(i + 2, 3).setText(profiles[i].phone);
+       sheet.getRangeByIndex(i + 2, 4).setText(profiles[i].major);
+       sheet.getRangeByIndex(i + 2, 5).setText(profiles[i].currentJob);
+
+   }
+
+
+
+   final List<int> bytes = workbook.saveAsStream();
+   workbook.dispose();
+
+   if (kIsWeb) {
+     AnchorElement(
+         href:
+         'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
+       ..setAttribute('download', 'applianceReport.xlsx')
+       ..click();
+   } else {
+     final String path = (await getApplicationSupportDirectory()).path;
+     final String fileName =
+     Platform.isWindows ? '$path\\applianceReport.xlsx' : '$path/applianceReport.xlsx';
+     final File file = File(fileName);
+     await file.writeAsBytes(bytes, flush: true);
+     OpenFile.open(fileName);
+
+  }
+}
+  // Future<List<ExcelDataRow>> _buildCustomersDataRowsIH() async {
+  //   List<ExcelDataRow> excelDataRows = <ExcelDataRow>[];
+  //
+  //   List<Profile> reports_1 = await Future.value(reports);
+  //
+  //   excelDataRows = reports_1.map<ExcelDataRow>((Profile dataRow) {
+  //     return ExcelDataRow(cells: <ExcelDataCell>[
+  //       ExcelDataCell(columnHeader: 'Person name', value: dataRow.fullName),
+  //       ExcelDataCell(
+  //           columnHeader: 'Phone Number', value: dataRow.phone),
+  //       ExcelDataCell(
+  //           columnHeader: 'Email', value: dataRow.email),
+  //       ExcelDataCell(columnHeader: 'Address', value: dataRow.address),
+  //       ExcelDataCell(columnHeader: 'Current Job', value: dataRow.currentJob),
+  //       ExcelDataCell(columnHeader: 'Major', value: dataRow.major)
+  //     ]);
+  //   }).toList();
+  //
+  //   return excelDataRows;
+  // }
 }

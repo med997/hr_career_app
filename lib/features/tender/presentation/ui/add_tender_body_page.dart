@@ -95,12 +95,13 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
       ),
       DynamicModel(
         'otherApplyLinks',
-        FormType.text,
+        FormType.multiline,
         key: 'otherApplyLinks',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
-        controller: TextEditingController(text: widget.tender?.otherApplyLinks),
+        controllerFlt: FleatherController(),
+        controller: TextEditingController(),
         width: width,
         isRequired: true,
       ),

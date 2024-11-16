@@ -67,6 +67,10 @@ class CompanyTenderDetailsPage extends StatelessWidget {
         ? ParchmentDocument.fromJson(
             jsonDecode(jsonEncode(tender.tenderDescFormated)))
         : null;
+    final ParchmentDocument? documentOtherLinks = tender.otherApplyLinksFormated != null
+        ? ParchmentDocument.fromJson(
+            jsonDecode(jsonEncode(tender.otherApplyLinksFormated)))
+        : null;
     General? generals = context.read<GeneralCubit>().general;
     List<ItemModel> nationalityItems = [];
     List<ItemModel> categoryItems = [];
@@ -95,13 +99,14 @@ class CompanyTenderDetailsPage extends StatelessWidget {
       ),
       DynamicModel(
         'otherApplyLinks',
-        FormType.text,
+        FormType.multiline,
         key: 'otherApplyLinks',
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
+        controllerFlt: FleatherController(document: documentOtherLinks),
+        controller: TextEditingController(text: documentOtherLinks!.toPlainText()??''),
         disabled: isEditing,
-        controller: TextEditingController(text: tender.otherApplyLinks),
         width: width,
         isRequired: true,
       ),
@@ -362,6 +367,9 @@ class CompanyTenderDetailsPage extends StatelessWidget {
                             context
                                 .read<DynamicFormCubit>()
                                 .setDisableFiled(isEditing);
+                            context
+                                .read<DisableButtonCubit>()
+                                .disableButton(isEditing);
                           },
                           icon: const Icon(
                             Icons.edit_road,
@@ -369,6 +377,63 @@ class CompanyTenderDetailsPage extends StatelessWidget {
                           )),
                     ),
                     _getMainInfUpdateTenderForm(400, context),
+                    Flex(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      direction: Axis.horizontal,
+                      children: [
+                        BlocBuilder<DisableButtonCubit, bool>(
+                          builder: (context, isEditing) {
+                            if (isEditing) {
+                              context
+                                  .read<DisableButtonCubit>()
+                                  .resetButtonState(isEditing);
+                              return MaterialButton(
+                                  color: Colors.yellow.shade700,
+                                  // disabledColor: Colors.grey,
+                                  minWidth: 40,
+                                  height: 40,
+                                  shape: const CircleBorder(),
+                                  onPressed: isEditing
+                                      ? () {
+                                    var value = context
+                                        .read<DynamicFormCubit>()
+                                        .getCurrentValue();
+                                    final companyId = context
+                                        .read<LoginCubit>()
+                                        .authenticatedUser!
+                                        .userAuth!
+                                        .id;
+                                    print(
+                                        'company_id: $companyId ===> $value');
+                                    context
+                                        .read<CurdTenderCubit>()
+                                        .updateTender(
+                                        value, tender);
+                                  }
+                                      : null,
+                                  child: BlocBuilder<CurdTenderCubit,
+                                      CurdTenderState>(
+                                    builder: (context, state) {
+                                      if (state is LoadingCurdTenderState) {
+                                        return LoadingWidget(
+                                          progressColor: Colors.white,
+                                          width: 2,
+                                        );
+                                      } else {
+                                        return const Icon(
+                                          Icons.save_outlined,
+                                          color: Colors.white,
+                                          size: 19,
+                                        );
+                                      }
+                                    },
+                                  ));
+                            }
+                            return SizedBox();
+                          },
+                        ),
+                      ],
+                    )
 
                   ],
                 ),
