@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_verification_code_field/flutter_verification_code_field.dart';
@@ -105,8 +106,8 @@ class VerificationPage extends StatelessWidget {
       listener: (context, state) {
         if (state is SuccessVerificationUser) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Verification Successfully! 🎉'),
+             SnackBar(
+              content: Text('Verification Successfully! 🎉'.tr()),
             ),
           );
           Navigator.pushAndRemoveUntil(
@@ -143,9 +144,9 @@ class VerificationPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Text(
-                            'Resend Code:',
-                            style: TextStyle(
+                           Text(
+                            'Resend Code:'.tr(),
+                            style: const TextStyle(
                               color: Colors.white,
                             ),
                           ),
@@ -197,17 +198,17 @@ class VerificationPage extends StatelessWidget {
         shrinkWrap: true,
 
         children: [
-          const Center(
+           Center(
             child: Text(
-              "Verify Code",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              "Verify Code".tr(),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            "Enter your verification code from your email that we've sent",
+           Text(
+            "Enter your verification code from your email that we've sent".tr(),
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, color: Colors.grey),
+            style: const TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 10),
           SizedBox(
