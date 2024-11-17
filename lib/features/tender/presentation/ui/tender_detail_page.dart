@@ -69,11 +69,7 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
                 minWidth: 25,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 padding: EdgeInsets.all(0),
-                child: const Icon(
-                  Icons.visibility_off_outlined,
-                  size: 18,
-                  color: Colors.orangeAccent,
-                ),
+                child: SizedBox(),
                 onPressed: () {},
               ),
             )),
@@ -108,16 +104,18 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
         ? ParchmentDocument.fromJson(
             jsonDecode(jsonEncode(widget.tender.tenderDescFormated)))
         : null;
-    ParchmentDocument? documentOtherLinks = widget.tender.otherApplyLinksFormated != null
-        ? ParchmentDocument.fromJson(
-            jsonDecode(jsonEncode(widget.tender.otherApplyLinksFormated)))
-        : null;
+    ParchmentDocument? documentOtherLinks =
+        widget.tender.otherApplyLinksFormated != null
+            ? ParchmentDocument.fromJson(
+                jsonDecode(jsonEncode(widget.tender.otherApplyLinksFormated)))
+            : null;
     const converter = ParchmentHtmlCodec();
 
     String? htmlDesc =
         documentDesc != null ? converter.encode(documentDesc.toDelta()) : null;
-    String? htmlOtherLinks =
-        documentOtherLinks != null ? converter.encode(documentOtherLinks.toDelta()) : null;
+    String? htmlOtherLinks = documentOtherLinks != null
+        ? converter.encode(documentOtherLinks.toDelta())
+        : null;
     double width = 400 /*MediaQuery.of(context).size.width*/;
     return Flex(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -154,11 +152,6 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
                     minWidth: 25,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     padding: EdgeInsets.all(0),
-                    child: const Icon(
-                      Icons.visibility_off_outlined,
-                      size: 18,
-                      color: Colors.orangeAccent,
-                    ),
                     onPressed: () {},
                   ),
                 )),
@@ -229,17 +222,17 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
               ),
               htmlOtherLinks != null
                   ? Html(
-                data: htmlOtherLinks,
-              )
+                      data: htmlOtherLinks,
+                    )
                   : Text(
-                widget.tender.otherApplyLinks!,
-                textAlign: TextAlign.justify,
-                softWrap: true,
-                overflow: TextOverflow.visible,
-                style: const TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
+                      widget.tender.otherApplyLinks!,
+                      textAlign: TextAlign.justify,
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
             ],
           ),
         )

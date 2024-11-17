@@ -18,7 +18,14 @@ import '../bloc/home_cubit.dart';
 
 class RecentTenders extends StatelessWidget {
   final JobCardType jobCardType;
-  const RecentTenders({super.key, required this.jobCardType,});
+  final int? selectedJobState;
+  final List<String> jobStatusList = ['active', 'hidden', 'completed'];
+
+  RecentTenders({
+    super.key,
+    required this.jobCardType,
+    this.selectedJobState,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +35,12 @@ class RecentTenders extends StatelessWidget {
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
           return Responsive(
-              mobile: _buildMobileLayout(state.homes.recentTender,jobCardType),
-              tablet:
-              _buildTabletDesktopLayout(state.homes.recentTender, 2, context),
+              mobile: _buildMobileLayout(state.homes.recentTender, jobCardType),
+              tablet: _buildTabletDesktopLayout(
+                  state.homes.recentTender, 2, context),
               desktop: _buildTabletDesktopLayout(
                   state.homes.recentTender, 3, context));
-        }else if (state is HomeErrorState) {
+        } else if (state is HomeErrorState) {
           String imgUrl = state.msg == OFFLINE_FAILURE_MESSAGE
               ? 'assets/imgs/conectErr.png'
               : 'assets/imgs/ServerErr.png';
@@ -49,56 +56,68 @@ class RecentTenders extends StatelessWidget {
     );
   }
 
-Widget _buildMobileLayout(List<Tender>? tender,JobCardType jobCardType) {
-  return ListView.builder(
-      shrinkWrap: true,
-      physics: const PageScrollPhysics(),
-      itemCount: tender!.length ?? 0,
-      itemBuilder: (context, i) => InkWell(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) {
-                if( jobCardType == JobCardType.company){
-                 return CompanyTenderDetailsPage(tender: tender[i]);
-
-               }else {
-                 return TenderDetailsPage(tender: tender[i]);
-
-               }
-              }),
-        ),
-        child: TenderCard(
-          tender: tender[i],),
-      ));
-}
-Widget _buildTabletDesktopLayout(
-    List<Tender>? tenders, int columnCount, BuildContext context) {
-  double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
-  if(Responsive.isDesktop(context))
-    itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
-  return Wrap(
-      children: [
-        ...tenders!.map(
-              (tender) => SizedBox(
-            width: itemWidth,
-            child: InkWell(
-              onTap:  () => Navigator.push(
+  Widget _buildMobileLayout(List<Tender>? tender, JobCardType jobCardType) {
+    if (selectedJobState != null && tender != null) {
+      tender = tender
+          .where(
+            (tender) => tender.status == jobStatusList[selectedJobState ?? 0],
+          )
+          .toList();
+    }else {
+      tender = [];
+    }
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: const PageScrollPhysics(),
+        itemCount: tender!.length ?? 0,
+        itemBuilder: (context, i) => InkWell(
+              onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) {
-                      if( jobCardType == JobCardType.company){
-                        return CompanyTenderDetailsPage(tender: tender);
-
-                      }else {
-                        return TenderDetailsPage(tender: tender);
-
-                      }
-                    })),
+                MaterialPageRoute(builder: (context) {
+                  if (jobCardType == JobCardType.company) {
+                    return CompanyTenderDetailsPage(tender: tender![i]);
+                  } else {
+                    return TenderDetailsPage(tender: tender![i]);
+                  }
+                }),
+              ),
               child: TenderCard(
-                tender: tender,),
+                tender: tender![i],
+              ),
+            ));
+  }
+
+  Widget _buildTabletDesktopLayout(
+      List<Tender>? tenders, int columnCount, BuildContext context) {
+    double itemWidth = MediaQuery.of(context).size.width / columnCount - 50;
+    if (Responsive.isDesktop(context))
+      itemWidth = MediaQuery.of(context).size.width / columnCount - 100;
+    if (selectedJobState != null && tenders != null) {
+      tenders = tenders
+          .where(
+            (tender) => tender.status == jobStatusList[selectedJobState ?? 0],
+      )
+          .toList();
+    }
+    return Wrap(children: [
+      ...tenders!.map(
+        (tender) => SizedBox(
+          width: itemWidth,
+          child: InkWell(
+            onTap: () =>
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+              if (jobCardType == JobCardType.company) {
+                return CompanyTenderDetailsPage(tender: tender);
+              } else {
+                return TenderDetailsPage(tender: tender);
+              }
+            })),
+            child: TenderCard(
+              tender: tender,
             ),
           ),
-        )
-      ]);
-}}
+        ),
+      )
+    ]);
+  }
+}

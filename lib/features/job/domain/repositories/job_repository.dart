@@ -11,5 +11,6 @@ abstract class JobRepository {
   Future<Either<Failure, int>> addApplianceJob(int jobId, String profileId);
   Future<Either<Failure, int>> updateApplyJobState(int applianceId,String applyState);
   Future<Either<Failure, List<Job>>> getAllJobsByCompany(String companyId);
+  Future<Either<Failure, List<Job>>> getAllActiveJobsByCompany(String companyId);
 
 }

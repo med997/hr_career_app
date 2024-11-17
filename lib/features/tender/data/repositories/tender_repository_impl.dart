@@ -40,4 +40,19 @@ class TenderRepositoryImpl extends TenderRepository{
 
   }
 
+  @override
+  Future<Either<Failure, List<Tender>>> getAllActiveTendersByCompany(String companyId) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final activeTendersByCompany = await tenderRemoteDataSource.getAllActiveTendersByCompany(companyId);
+        return Right(activeTendersByCompany);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+
 }
+

@@ -257,7 +257,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
             profileIcoButton: IconButton(
                 iconSize: 18,
                 color: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 icon: const Icon(Icons.visibility_off_outlined))),
         Center(
           child: ToggleBtnWidget(
@@ -439,7 +441,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
                     style: const ButtonStyle(
                         backgroundColor:
                             WidgetStatePropertyAll(Colors.blueAccent)),
-                    onPressed: () {},
+                    onPressed: () {
+
+                    },
                     child: Text(
                       tr("active_msg"),
                       style: const TextStyle(
@@ -451,7 +455,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
                   profileIcoButton: IconButton(
                       iconSize: 18,
                       color: Colors.white,
-                      onPressed: () {},
+                      onPressed: () {
+
+                      },
                       icon: const Icon(Icons.visibility_off_outlined))),
             ),
             Expanded(
@@ -609,11 +615,11 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
 
 
-   sheet.getRangeByName('A1').setText('Appliance Name');
-   sheet.getRangeByName('B1').setText('Arabic Appliance Name');
-   sheet.getRangeByName('C1').setText('Phone');
-   sheet.getRangeByName('D1').setText('Appliance Major');
-   sheet.getRangeByName('E1').setText('Appliance Current Job');
+   sheet.getRangeByName('A1').setText('full_name');
+   sheet.getRangeByName('B1').setText('full_name_ar');
+   sheet.getRangeByName('C1').setText('phone');
+   sheet.getRangeByName('D1').setText('nationality');
+   sheet.getRangeByName('E1').setText('current_job');
 
    for (int i = 0; i < profiles.length; i++) {
 
@@ -622,7 +628,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
        sheet.getRangeByIndex(i + 2, 2).setText(profiles[i].fullNameAr);
        sheet.getRangeByIndex(i + 2, 1).setText(profiles[i].fullName);
        sheet.getRangeByIndex(i + 2, 3).setText(profiles[i].phone);
-       sheet.getRangeByIndex(i + 2, 4).setText(profiles[i].major);
+       sheet.getRangeByIndex(i + 2, 4).setText(profiles[i].nationality);
        sheet.getRangeByIndex(i + 2, 5).setText(profiles[i].currentJob);
 
    }
@@ -648,24 +654,5 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
   }
 }
-  // Future<List<ExcelDataRow>> _buildCustomersDataRowsIH() async {
-  //   List<ExcelDataRow> excelDataRows = <ExcelDataRow>[];
-  //
-  //   List<Profile> reports_1 = await Future.value(reports);
-  //
-  //   excelDataRows = reports_1.map<ExcelDataRow>((Profile dataRow) {
-  //     return ExcelDataRow(cells: <ExcelDataCell>[
-  //       ExcelDataCell(columnHeader: 'Person name', value: dataRow.fullName),
-  //       ExcelDataCell(
-  //           columnHeader: 'Phone Number', value: dataRow.phone),
-  //       ExcelDataCell(
-  //           columnHeader: 'Email', value: dataRow.email),
-  //       ExcelDataCell(columnHeader: 'Address', value: dataRow.address),
-  //       ExcelDataCell(columnHeader: 'Current Job', value: dataRow.currentJob),
-  //       ExcelDataCell(columnHeader: 'Major', value: dataRow.major)
-  //     ]);
-  //   }).toList();
-  //
-  //   return excelDataRows;
-  // }
+
 }

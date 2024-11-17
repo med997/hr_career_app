@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
+import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/core/widgets/success_dialog.dart';
 import 'package:hr_career_platform/features/payment/domain/entities/package.dart';
@@ -79,13 +80,16 @@ class _PkgPageState extends State<PkgPage> {
                       context.read<StepperCubit>().addJobChangeStep(0);
                       context.read<StepperCubit>().addTenderChangeStep(0);
                       showDialog(
-                          context: context,
-                          builder: (context) => SuccessDialog(
-                                message: widget.pkgType == PkgType.job ? 'Job inserted successfully' :  'Tender inserted successfully',
-                                onDonePressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),);
+                        context: context,
+                        builder: (context) => SuccessDialog(
+                          message: widget.pkgType == PkgType.job
+                              ? 'Job inserted successfully'
+                              : 'Tender inserted successfully',
+                          onDonePressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      );
                     }
                   },
                   builder: (context, state) {
@@ -100,33 +104,10 @@ class _PkgPageState extends State<PkgPage> {
                     return const SizedBox();
                   },
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: state.packages.length,
-                    itemBuilder: (context, index) {
-                      Package e = state.packages[index];
-                      return InkWell(
-                          child: PaymentCardWidget(
-                        pkg: e,
-                        onPkgSelected: () {
-                          if (e.price == 0) {
-                            if (widget.pkgType == PkgType.job) {
-                              _insertPaymentJob(e.id!);
-                            } else {
-                              _insertPaymentTender(e.id!);
-                            }
-                          } else {
-                            context
-                                .read<StepperCubit>()
-                                .addJobChangeStep(2, selectedPackage: e);
-                          }
-                        },
-                      ));
-                    },
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                  ),
-                ),
+                Responsive(
+                    mobile: buildMobileLayout(state.packages),
+                    tablet: _buildTabletDesktopLayout(state.packages, 2),
+                    desktop: _buildTabletDesktopLayout(state.packages, 3))
               ],
             ),
           );
@@ -137,6 +118,67 @@ class _PkgPageState extends State<PkgPage> {
         return const SizedBox();
       },
     );
+  }
+
+  Widget buildMobileLayout(List<Package> packages) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: packages.length,
+        itemBuilder: (context, index) {
+          Package e = packages[index];
+          return InkWell(
+              child: PaymentCardWidget(
+            pkg: e,
+            onPkgSelected: () {
+              if (e.price == 0) {
+                if (widget.pkgType == PkgType.job) {
+                  _insertPaymentJob(e.id!);
+                } else {
+                  _insertPaymentTender(e.id!);
+                }
+              } else {
+                context
+                    .read<StepperCubit>()
+                    .addJobChangeStep(2, selectedPackage: e);
+              }
+            },
+          ));
+        },
+        shrinkWrap: true,
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+      ),
+    );
+  }
+
+  Widget _buildTabletDesktopLayout(List<Package> packages, int columnCount) {
+    double itemWidth = MediaQuery.of(context).size.width / columnCount - 50;
+    if (Responsive.isDesktop(context))
+      itemWidth = MediaQuery.of(context).size.width / columnCount - 100;
+
+    return Wrap(children: [
+      ...packages.map(
+        (package) => SizedBox(
+          width: itemWidth,
+          child: InkWell(
+              child: PaymentCardWidget(
+            pkg: package,
+            onPkgSelected: () {
+              if (package.price == 0) {
+                if (widget.pkgType == PkgType.job) {
+                  _insertPaymentJob(package.id!);
+                } else {
+                  _insertPaymentTender(package.id!);
+                }
+              } else {
+                context
+                    .read<StepperCubit>()
+                    .addJobChangeStep(2, selectedPackage: package);
+              }
+            },
+          )),
+        ),
+      )
+    ]);
   }
 
   @override

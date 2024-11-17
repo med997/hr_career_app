@@ -30,6 +30,7 @@ class RecentJobsWidget extends StatelessWidget {
         if (state is HomeLoading) {
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
+
           return Responsive(
               mobile: _buildMobileLayout(state.homes.recentJobs!),
               tablet: _buildTabletDesktopLayout(
@@ -86,6 +87,13 @@ class RecentJobsWidget extends StatelessWidget {
     double itemWidth = MediaQuery.of(context).size.width / columnCount - 50;
     if (Responsive.isDesktop(context))
       itemWidth = MediaQuery.of(context).size.width / columnCount - 100;
+    if (selectedJobState != null) {
+      jobs = jobs
+          .where(
+            (jobs) => jobs.status == jobStatusList[selectedJobState ?? 0],
+      )
+          .toList();
+    }
     return Wrap(children: [
       ...jobs.map(
         (job) => SizedBox(

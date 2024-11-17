@@ -6,6 +6,7 @@ import 'package:hr_career_platform/features/job/domain/usercase/get_all_jobs_by_
 import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
 import '../../domain/entities/job.dart';
+import '../../domain/usercase/get_all_active_jobs_by_company.dart';
 import '../../domain/usercase/get_job.dart';
 import '../../domain/usercase/search_jobs.dart';
 
@@ -16,7 +17,9 @@ class JobCubit extends Cubit<JobState> {
   final GetJobUserCase getJobUserCase;
   final SearchJobsUserCase searchJobsUserCase;
   final GetAllJobsByCompany getAllJobsByCompanyUserCase;
-  JobCubit({required this.getAllJobsByCompanyUserCase, required this.getJobUserCase, required this.searchJobsUserCase}) : super(JobInitial());
+  final GetAllActiveJobsByCompany getAllActiveJobsUseCase;
+
+  JobCubit({required this.getAllActiveJobsUseCase, required this.getAllJobsByCompanyUserCase, required this.getJobUserCase, required this.searchJobsUserCase}) : super(JobInitial());
 
 
 
@@ -38,6 +41,12 @@ class JobCubit extends Cubit<JobState> {
   Future<void> getAllJobsByCompany(String companyId) async {
     emit(JobLoadingState());
     final failureOrSuccess = await getAllJobsByCompanyUserCase.call(companyId);
+    emit(_mapFailureOrJobsToState(failureOrSuccess));
+  }
+
+  Future<void> getAllActiveJobsByCompany(String companyId) async {
+    emit(JobLoadingState());
+    final failureOrSuccess = await getAllActiveJobsUseCase.call(companyId);
     emit(_mapFailureOrJobsToState(failureOrSuccess));
   }
 

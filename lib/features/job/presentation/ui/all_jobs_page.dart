@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
 import 'package:hr_career_platform/core/widgets/jobCard_widget.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
+import 'package:hr_career_platform/features/home/presentation/bloc/home_cubit.dart';
 import 'package:hr_career_platform/features/job/domain/entities/job.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/job_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/ui/job_details_page.dart';
@@ -14,82 +15,39 @@ import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
 import '../bloc/job_search_cubit.dart';
 
-class AllJobsPage extends StatelessWidget {
+class AllJobsPage extends StatefulWidget {
+  const AllJobsPage({super.key});
 
-  Widget _buildMobileLayout(List<Job> job,JobCardType jobCardType) {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: PageScrollPhysics(),
-        itemCount: job.length ?? 0,
-        itemBuilder: (context, i) => InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => JobDetailsPage(job: job[i])),
-            ),
-            child: jobCardType == JobCardType.user ?JobCard(
-                jobCardType: JobCardType.user,
-              job: job[i],) :
-            jobCardType == JobCardType.company ?JobCard(
-                jobCardType: JobCardType.company,
-               job: job[i],)
-                :JobCard(
-                jobCardType: JobCardType.company,
-                chipBgColor:Colors.orange,
-                chipText: "active_msg".tr(),
-               job: job[i],) ));
-  }
 
-  Widget _buildTabletDesktopLayout(
-      List<Job> jobs, int columnCount, BuildContext context,JobCardType jobCardType) {
-    double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
-    if(Responsive.isDesktop(context))
-      itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
-    return Wrap(
-        children: [
-          ...jobs.map(
-                (job) => SizedBox(
-                width: itemWidth,
-                child: jobCardType == JobCardType.user ? JobCard(
-                job: job,
-                  columnWidth: itemWidth,) : jobCardType == JobCardType.company ?JobCard(
-                  jobCardType: JobCardType.company,
+  @override
+  State<AllJobsPage> createState() => _AllJobsPageState();
+}
 
-                  chipText: tr("active_msg"),
-                  chipBgColor: primaryColor,
-             job: job,
-                  columnWidth: itemWidth,
-                ):
-                JobCard(
-                  jobCardType: JobCardType.company,
 
-                  chipText: tr("active_msg"),
-                  chipBgColor: Colors.orange,
-                  job: job,
-                  columnWidth: itemWidth,
-                )
-            ),
-          )
-        ]);
-  }
+class _AllJobsPageState extends State<AllJobsPage> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocBuilder<JobSearchCubit, JobState>(
+        child: RefreshIndicator(
+          onRefresh: () => context.read<HomeCubit>().getUserHome(),
+          child: BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
-                    if (state is JobLoadingState) {
-                      return  Center(
-                        child: LoadingWidget(),
-                      );
-                    } else if (state is JobFetchedState) {
+              if (state is HomeLoading) {
+                return Center(
+                  child: LoadingWidget(),
+                );
+              } else if (state is HomeFetchedState) {
                 print('JobFetchedState');
                 return Responsive(
-                    mobile: _buildMobileLayout(state.jobs, JobCardType.user),
-                    tablet:
-                    _buildTabletDesktopLayout(state.jobs, 2, context,JobCardType.user),
-                    desktop:  _buildTabletDesktopLayout(state.jobs, 3, context,JobCardType.user),);
-              } else if (state is JobErrorState) {
+                  mobile: _buildMobileLayout(state.homes.recentJobs!, JobCardType.user),
+                  tablet: _buildTabletDesktopLayout(
+                      state.homes.recentJobs!, 2, context, JobCardType.user),
+                  desktop: _buildTabletDesktopLayout(
+                      state.homes.recentJobs!, 3, context, JobCardType.user),
+                );
+              } else if (state is HomeErrorState) {
                 print('JobErrorState');
                 return Text(
                   state.msg,
@@ -99,8 +57,79 @@ class AllJobsPage extends StatelessWidget {
               return SizedBox();
             },
           ),
+        ),
       ),
     );
+  }
+
+  Widget _buildMobileLayout(List<Job> job, JobCardType jobCardType) {
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: const PageScrollPhysics(),
+        itemCount: job.length ?? 0,
+        itemBuilder: (context, i) => InkWell(
+            onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => JobDetailsPage(job: job[i])),
+                ),
+            child: jobCardType == JobCardType.user
+                ? JobCard(
+                    jobCardType: JobCardType.user,
+                    job: job[i],
+                  )
+                : jobCardType == JobCardType.company
+                    ? JobCard(
+                        jobCardType: JobCardType.company,
+                        job: job[i],
+                      )
+                    : JobCard(
+                        jobCardType: JobCardType.company,
+                        chipBgColor: Colors.orange,
+                        chipText: "active_msg".tr(),
+                        job: job[i],
+                      )));
+  }
+
+  Widget _buildTabletDesktopLayout(List<Job> jobs, int columnCount,
+      BuildContext context, JobCardType jobCardType) {
+    double itemWidth = MediaQuery.of(context).size.width / columnCount - 50;
+    if (Responsive.isDesktop(context)) {
+      itemWidth = MediaQuery.of(context).size.width / columnCount - 100;
+    }
+    return Wrap(children: [
+      ...jobs.map(
+        (job) => SizedBox(
+            width: itemWidth,
+            child: jobCardType == JobCardType.user
+                ? JobCard(
+                    job: job,
+                    columnWidth: itemWidth,
+                  )
+                : jobCardType == JobCardType.company
+                    ? JobCard(
+                        jobCardType: JobCardType.company,
+                        chipText: tr("active_msg"),
+                        chipBgColor: primaryColor,
+                        job: job,
+                        columnWidth: itemWidth,
+                      )
+                    : JobCard(
+                        jobCardType: JobCardType.company,
+                        chipText: tr("active_msg"),
+                        chipBgColor: Colors.orange,
+                        job: job,
+                        columnWidth: itemWidth,
+                      )),
+      )
+    ]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeCubit>().getUserHome();
+
   }
 }
 /*

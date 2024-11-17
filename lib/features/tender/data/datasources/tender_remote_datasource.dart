@@ -7,6 +7,8 @@ import '../models/tender_model.dart';
 abstract class TenderRemoteDataSource {
   Future<TenderModel> addTender(TenderModel tenderModel);
   Future<TenderModel> updateTender(TenderModel tenderModel);
+  Future<List<TenderModel>> getAllActiveTendersByCompany(String companyId);
+
 
 }
 
@@ -56,6 +58,27 @@ class TenderRemoteDataSourceImpl implements TenderRemoteDataSource {
         print(e);
       }
       throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<TenderModel>> getAllActiveTendersByCompany(String companyId) async{
+    try {
+      final data = await supBase.from('tender').select('''
+    *,
+    company (
+      *
+    )
+  ''').eq("company_id", companyId).eq('status', 'active').order('created_at').limit(100);
+
+      final List<TenderModel> tenderList =
+      data.map((json) => TenderModel.fromJson(json)).toList();
+      return tenderList;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException();
     }
   }
 }

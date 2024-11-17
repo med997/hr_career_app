@@ -9,6 +9,7 @@ import '../../../../core/app_localizations.dart';
 import '../../../../core/widgets/sub-title.dart';
 import '../../../job/presentation/ui/all_jobs_page.dart';
 import '../bloc/home_cubit.dart';
+import '../bloc/tab_nav_cubit.dart';
 import '../widgets/featured_jobs.dart';
 import '../widgets/recent_jobs.dart';
 
@@ -44,10 +45,8 @@ class _HomeTenderPageState extends State<HomeTenderPage> {
             FeaturedTenders(),
             SubTitle(
               onShowMoreClicked: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AllJobsPage()),
-                );
+                context.read<TabNavCubit>().changeTab(2);
+
               },
               textColor: Colors.black,
               titleType: SubTitleType.withShowMore,

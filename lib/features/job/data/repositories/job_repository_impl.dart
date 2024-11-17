@@ -137,5 +137,18 @@ class JobRepositoryImpl extends JobRepository {
       return Left(OfflineFailure());
     }
   }
+  @override
+  Future<Either<Failure, List<Job>>> getAllActiveJobsByCompany(String companyId)async {
+    if (await networkInfo.isConnected) {
+      try {
+        final activeJobsByCompany = await jobRemoteDataSource.getAllActiveJobsByCompany(companyId);
+        return Right(activeJobsByCompany);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
 
 }

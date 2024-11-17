@@ -37,6 +37,7 @@ import 'package:hr_career_platform/features/job/data/datasources/network/job_rem
 import 'package:hr_career_platform/features/job/data/repositories/job_repository_impl.dart';
 import 'package:hr_career_platform/features/job/domain/repositories/job_repository.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/add_job.dart';
+import 'package:hr_career_platform/features/job/domain/usercase/get_all_active_jobs_by_company.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_all_jobs_by_company.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_job.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/search_jobs.dart';
@@ -84,6 +85,7 @@ import 'features/job/domain/usercase/add_appliance.dart';
 import 'features/job/presentation/bloc/curd_appliance_job_cubit.dart';
 import 'features/job/presentation/bloc/job_search_cubit.dart';
 import 'features/notification/domain/usecases/fetch_notification.dart';
+import 'features/tender/domain/usecases/get_all_active_tenders_by_company.dart';
 
 final sl = GetIt.instance;
 
@@ -111,303 +113,297 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => InternetConnection());
 }
 
-
 void _initJob() {
   sl
-  // datasource
+    // datasource
     ..registerFactory<JobRemoteDataSource>(
-          () =>
-          JobRemoteDataSourceImpl(
-            supBase: sl(),
-          ),
+      () => JobRemoteDataSourceImpl(
+        supBase: sl(),
+      ),
     )
 
-  // repository
+    // repository
     ..registerFactory<JobRepository>(
-          () =>
-          JobRepositoryImpl(
-            jobRemoteDataSource: sl(),
-            networkInfo: sl(),
-          ),
+      () => JobRepositoryImpl(
+        jobRemoteDataSource: sl(),
+        networkInfo: sl(),
+      ),
     )
-  // usecases
+    // usecases
     ..registerFactory(
-          () =>
-          GetJobUserCase(
-            sl(),
-          ),
-    )..registerFactory(
-        () =>
-        SearchJobsUserCase(
-          repository: sl(),
-        ),
-  )..registerFactory(
-        () =>
-        AddJobUserCase(
-          sl(),
-        ),
-  )..registerFactory(
-        () =>
-        UpdateJob(
-          sl(),
-        ),
-  )..registerFactory(
-        () =>
-         AddApplianceJobUseCase(
-          sl(),
-        ),
-  )..registerFactory(
-        () =>
-         GetAllJobsByCompany(
-          sl(),
-        ),
-  )
-  // cubit
-    ..registerLazySingleton(
-          () => JobCubit(getJobUserCase: sl(), searchJobsUserCase: sl(), getAllJobsByCompanyUserCase: sl(),),
+      () => GetJobUserCase(
+        sl(),
+      ),
     )
-  // cubit
-    ..registerLazySingleton(
-          () => JobSearchCubit(getJobUserCase: sl()),
+    ..registerFactory(
+      () => SearchJobsUserCase(
+        repository: sl(),
+      ),
     )
-  // cubit
+    ..registerFactory(
+      () => AddJobUserCase(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => UpdateJob(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => AddApplianceJobUseCase(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => GetAllJobsByCompany(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => GetAllActiveJobsByCompany(
+        sl(),
+      ),
+    )
+    // cubit
     ..registerLazySingleton(
-          () => CurdJobCubit(addJobUserCase: sl(), updateJobUseCase: sl()),
-    )..registerLazySingleton(
-        () => StepperCubit(),
-  )..registerLazySingleton(
-        () => CurdApplianceJobCubit(addApplianceJobUseCase: sl()),
-  );
+      () => JobCubit(
+        getJobUserCase: sl(),
+        searchJobsUserCase: sl(),
+        getAllJobsByCompanyUserCase: sl(),
+        getAllActiveJobsUseCase: sl(),
+      ),
+    )
+    // cubit
+    ..registerLazySingleton(
+      () => JobSearchCubit(getJobUserCase: sl()),
+    )
+    // cubit
+    ..registerLazySingleton(
+      () => CurdJobCubit(addJobUserCase: sl(), updateJobUseCase: sl()),
+    )
+    ..registerLazySingleton(
+      () => StepperCubit(),
+    )
+    ..registerLazySingleton(
+      () => CurdApplianceJobCubit(addApplianceJobUseCase: sl()),
+    );
 }
 
 void _initPayment() {
   sl
-  // datasource
+    // datasource
     ..registerFactory<PaymentRemoteDataSource>(
-          () =>
-          PaymentsRemoteDataSourceImpl(
-            supBase: sl(),
-          ),
+      () => PaymentsRemoteDataSourceImpl(
+        supBase: sl(),
+      ),
     )
 
-  // repository
+    // repository
     ..registerFactory<PaymentRepository>(
-          () =>
-          PaymentRepositoryImpl(
-            paymentRemoteDataSource: sl(),
-            networkInfo: sl(),
-          ),
+      () => PaymentRepositoryImpl(
+        paymentRemoteDataSource: sl(),
+        networkInfo: sl(),
+      ),
     )
-  // usecases
+    // usecases
     ..registerFactory(
-          () => GetPackageUseCase(repository: sl()),
+      () => GetPackageUseCase(repository: sl()),
     )
-  // usecases
+    // usecases
     ..registerFactory(
-          () => AddPaymentUseCase(repository: sl()),
+      () => AddPaymentUseCase(repository: sl()),
     )
-  // cubit
+    // cubit
     ..registerLazySingleton(
-          () => PaymentCurdCubit(addPaymentUseCase: sl()),
+      () => PaymentCurdCubit(addPaymentUseCase: sl()),
     )
-  // cubit
+    // cubit
     ..registerLazySingleton(
-          () => PackageCubit(getPackageUseCase: sl()),
+      () => PackageCubit(getPackageUseCase: sl()),
     );
 }
 
 void _initHome() {
   sl
 
-  // datasource
+    // datasource
     ..registerFactory<HomeRemoteDataSource>(
-          () =>
-          HomeRemoteDataSourceImpl(
-            supBase: sl(),
-          ),
+      () => HomeRemoteDataSourceImpl(
+        supBase: sl(),
+      ),
     )
 
-  // repository
+    // repository
     ..registerFactory<HomeRepository>(
-          () =>
-          HomeRepositoryImpl(
-            homeRemoteDataSource: sl(),
-            networkInfo: sl(),
-          ),
+      () => HomeRepositoryImpl(
+        homeRemoteDataSource: sl(),
+        networkInfo: sl(),
+      ),
     )
-  // usecases
+    // usecases
     ..registerFactory(
-          () =>
-          GetHomeUserCase(
-            sl(),
-          ),
+      () => GetHomeUserCase(
+        sl(),
+      ),
     )
-  // cubit
+    // cubit
     ..registerLazySingleton(
-          () => HomeCubit(getHomeUserCase: sl()),
+      () => HomeCubit(getHomeUserCase: sl()),
     )
-  // cubit
+    // cubit
     ..registerLazySingleton(
-          () => TabNavCubit(),
+      () => TabNavCubit(),
     );
 }
 
 void _initAuth() {
   sl
 
-  // datasource
+    // datasource
     ..registerFactory<AuthRemoteDatasource>(
-          () =>
-          AuthRemoteDatasourceImpl(
-            supBase: sl(),
-          ),
+      () => AuthRemoteDatasourceImpl(
+        supBase: sl(),
+      ),
     )
-  // datasource
+    // datasource
     ..registerFactory<AuthLocalDataSource>(
-          () =>
-          AuthLocalDataSourceImpl(
-            sharedPreferences: sl(),
-          ),
+      () => AuthLocalDataSourceImpl(
+        sharedPreferences: sl(),
+      ),
     )
 
-  // repository
+    // repository
     ..registerFactory<AuthRepository>(
-          () =>
-          AuthRepositoryImpl(
-            authLocalDataSource: sl(),
-            authRemoteDatasource: sl(),
-            networkInfo: sl(),
-          ),
+      () => AuthRepositoryImpl(
+        authLocalDataSource: sl(),
+        authRemoteDatasource: sl(),
+        networkInfo: sl(),
+      ),
     )
-  // usecases
+    // usecases
     ..registerFactory(
-          () =>
-          SignupUseCase(
-            sl(),
-          ),
-    )..registerFactory(
-        () =>
-        LoginUseCase(
-          sl(),
-        ),
-  )..registerFactory(
-        () =>
-        FetchAuthUseCase(
-          sl(),
-        ),
-  )..registerFactory(
-        () =>
-        DeleteAuthUseCase(
-          sl(),
-        ),
-  )
-  // cubit
+      () => SignupUseCase(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => LoginUseCase(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => FetchAuthUseCase(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => DeleteAuthUseCase(
+        sl(),
+      ),
+    )
+    // cubit
 
     ..registerLazySingleton(
-          () => RegisterCubit(signupUseCase: sl()),
+      () => RegisterCubit(signupUseCase: sl()),
     )
     ..registerLazySingleton(
-          () => VerificationCubit(signupUseCase: sl()),
-    )..registerLazySingleton(
-        () => LoginCubit(loginUseCase: sl(), fetchAuthUseCase: sl(), deleteAuthUseCase: sl()),
-  );
+      () => VerificationCubit(signupUseCase: sl()),
+    )
+    ..registerLazySingleton(
+      () => LoginCubit(
+          loginUseCase: sl(), fetchAuthUseCase: sl(), deleteAuthUseCase: sl()),
+    );
 }
 
 void _initCore() {
-  sl..registerLazySingleton(
-        () => ToggleBtnCubit(),
-  )
-
+  sl
+    ..registerLazySingleton(
+      () => ToggleBtnCubit(),
+    )
     ..registerLazySingleton(() => LocaleCubit())
-
     ..registerLazySingleton(() => DynamicFormCubit())
-
     ..registerLazySingleton(() => LocationCubit())
-
     ..registerLazySingleton(() => AvatarCubit());
 }
 
 void _initProfile() {
   sl
     ..registerFactory<ProfileRemoteDatasource>(
-          () =>
-          ProfileRemoteDatasourceImp(
-            client: sl(),
-          ),
+      () => ProfileRemoteDatasourceImp(
+        client: sl(),
+      ),
     )
 
-  // repository
+    // repository
     ..registerFactory<ProfileRepository>(
-          () =>
-          ProfileRepositoryImpl(
-            profileRemoteDatasource: sl(),
-            networkInfo: sl(),
-          ),
-    )..registerFactory(
-        () =>
-        FetchProfileUserCase(
-          sl(),
-        ),
-  )..registerFactory(
-        () =>
-        UpdateProfileUseCase(
-          sl(),
-        ),
-  )..registerFactory(
-        () =>
-        UpdateProfileFcmToken(
-          sl(),
-        ),
-  )
-    ..registerLazySingleton(
-          () => ProfileCubit(fetchProfileUserCase: sl()),
-    )..registerLazySingleton(
-          () => CurdProfileCubit(updateProfileUseCase: sl(), updateProfileFcmToken: sl()),
+      () => ProfileRepositoryImpl(
+        profileRemoteDatasource: sl(),
+        networkInfo: sl(),
+      ),
+    )
+    ..registerFactory(
+      () => FetchProfileUserCase(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => UpdateProfileUseCase(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => UpdateProfileFcmToken(
+        sl(),
+      ),
     )
     ..registerLazySingleton(
-          () => ApplianceCubit(getProfileUserCase: sl()),
+      () => ProfileCubit(fetchProfileUserCase: sl()),
+    )
+    ..registerLazySingleton(
+      () => CurdProfileCubit(
+          updateProfileUseCase: sl(), updateProfileFcmToken: sl()),
+    )
+    ..registerLazySingleton(
+      () => ApplianceCubit(getProfileUserCase: sl()),
     );
 }
 
 void _initGeneral() {
   sl
 
-  // datasource
+    // datasource
     ..registerFactory<GeneralRemoteDataSource>(
-          () =>
-          GeneralRemoteDataSourceImpl(
-            supBase: sl(),
-          ),
-    )..registerFactory<GeneralLocalDataSource>(
-          () =>
-          GeneralLocalDataSourceImpl(
-            sharedPreferences: sl(),
-          ),
+      () => GeneralRemoteDataSourceImpl(
+        supBase: sl(),
+      ),
+    )
+    ..registerFactory<GeneralLocalDataSource>(
+      () => GeneralLocalDataSourceImpl(
+        sharedPreferences: sl(),
+      ),
     )
 
-  // repository
+    // repository
     ..registerFactory<GeneralRepository>(
-          () =>
-          GeneralRepositoryImpl(
-            generalRemoteDataSource: sl(),
-            generalLocaleDataSource: sl(),
-            networkInfo: sl(),
-          ),
+      () => GeneralRepositoryImpl(
+        generalRemoteDataSource: sl(),
+        generalLocaleDataSource: sl(),
+        networkInfo: sl(),
+      ),
     )
-  // usecases
+    // usecases
     ..registerFactory(
-          () =>
-          GetGeneralUseCase(
-            sl(),
-          ),
+      () => GetGeneralUseCase(
+        sl(),
+      ),
     )
 
-  // cubit
+    // cubit
     ..registerLazySingleton(
-          () =>
-          GeneralCubit(
-            getGeneralUseCase: sl(),
-          ),
+      () => GeneralCubit(
+        getGeneralUseCase: sl(),
+      ),
     );
 }
 
@@ -446,68 +442,68 @@ void _initCompany() {
 
 void _initNotification() {
   sl
-  // datasource
+    // datasource
     ..registerFactory<NotificationRemoteDatasource>(
-          () =>
-          NotificationRemoteDatasourceImp(
-            client: sl(),
-          ),
+      () => NotificationRemoteDatasourceImp(
+        client: sl(),
+      ),
     )
-  // repository
+    // repository
     ..registerFactory<NotificationRepository>(
-          () =>
-          NotificationRepositoryImpl(
-            notificationRemoteDatasource: sl(),
-            networkInfo: sl(),
-          ),
+      () => NotificationRepositoryImpl(
+        notificationRemoteDatasource: sl(),
+        networkInfo: sl(),
+      ),
     )
-  // usecases
+    // usecases
     ..registerFactory(
-          () =>
-              FetchNotificationUseCase(
-            sl(),
-          ),
+      () => FetchNotificationUseCase(
+        sl(),
+      ),
     )
-  // cubit
+    // cubit
     ..registerLazySingleton(
-          () => NotificationCubit(notificationUseCase: sl(),),
+      () => NotificationCubit(
+        notificationUseCase: sl(),
+      ),
     );
 }
 
-
 void _initTender() {
   sl
-  // datasource
+    // datasource
     ..registerFactory<TenderRemoteDataSource>(
-          () =>
-          TenderRemoteDataSourceImpl(
-            supBase: sl(),
-          ),
+      () => TenderRemoteDataSourceImpl(
+        supBase: sl(),
+      ),
     )
 
-  // repository
+    // repository
     ..registerFactory<TenderRepository>(
-          () =>
-          TenderRepositoryImpl(
-            tenderRemoteDataSource: sl(),
-            networkInfo: sl(),
-          ),
+      () => TenderRepositoryImpl(
+        tenderRemoteDataSource: sl(),
+        networkInfo: sl(),
+      ),
     )
-  // usecases
+    // usecases
     ..registerFactory(
-          () =>
-          AddTenderUserCase(
-            sl(),
-          ),
-    ) ..registerFactory(
-          () =>
-          UpdateTenderUserCase(
-            sl(),
-          ),
+      () => AddTenderUserCase(
+        sl(),
+      ),
     )
-  // cubit
+    ..registerFactory(
+      () => UpdateTenderUserCase(
+        sl(),
+      ),
+    )
+    ..registerFactory(
+      () => GetAllActiveTendersUseCase(
+        sl(),
+      ),
+    )
+    // cubit
     ..registerLazySingleton(
-          () => CurdTenderCubit(addTenderUserCase: sl(), updateTenderUserCase: sl()),
-
-  );
+      () =>
+          CurdTenderCubit(addTenderUserCase: sl(), updateTenderUserCase: sl(), getAllActiveTendersUseCase: sl()),
+    );
 }

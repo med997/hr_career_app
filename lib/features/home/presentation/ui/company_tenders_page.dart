@@ -27,17 +27,27 @@ class CompanyTendersPage extends StatelessWidget {
         children: [
           Center(
             child: ToggleBtnWidget(
-              options: const ['Archive', 'Hidden', 'Complete'],
+              options: const ['active', 'hidden', 'completed'],
             ),
           ),
           Flexible(
-            child: ListView(children: const [
-              SizedBox(
+            child: ListView(children:  [
+              const SizedBox(
                 height: 5,
               ),
-              RecentTenders(
-                jobCardType: JobCardType.company,
-              )
+              BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                builder: (context, state) {
+                  if(state is ToggleBtnChangedState){
+                    return RecentTenders(
+                      jobCardType: JobCardType.company,selectedJobState: state.selectedTab,
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+
+                },
+              ),
+
             ]),
           ),
         ],
