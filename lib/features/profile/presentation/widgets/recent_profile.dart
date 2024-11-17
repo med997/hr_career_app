@@ -48,6 +48,8 @@ class RecentProfile extends StatelessWidget {
     if (Responsive.isDesktop(context)) itemWidth = 300;
     return Wrap(children: [
      ...profile.map((profile) => ProfileCard(
+
+       key: Key('${profile.id}card'),
        columnWidth: itemWidth,
        profile: profile,
      ))

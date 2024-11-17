@@ -21,6 +21,7 @@ import 'package:universal_html/js.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/cubit/toggle_btn_cubit.dart';
 import '../../../../core/model/dynamic_model.dart';
+import '../../../../core/util/const_val.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
 import '../../../../core/util/validator.dart';
@@ -614,9 +615,11 @@ class CompanyJobDetailsPage extends StatelessWidget {
    sheet.getRangeByName('C1').setText('Phone');
    sheet.getRangeByName('D1').setText('Appliance Major');
    sheet.getRangeByName('E1').setText('Appliance Current Job');
-
+   sheet.getRangeByName('F1').setText('Resume');
    for (int i = 0; i < profiles.length; i++) {
 
+     final website =profiles[i].resumeUrl!=null?
+     '$BaseStorageUrl${profiles[i].resumeUrl}':'';
 
 
        sheet.getRangeByIndex(i + 2, 2).setText(profiles[i].fullNameAr);
@@ -624,6 +627,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
        sheet.getRangeByIndex(i + 2, 3).setText(profiles[i].phone);
        sheet.getRangeByIndex(i + 2, 4).setText(profiles[i].major);
        sheet.getRangeByIndex(i + 2, 5).setText(profiles[i].currentJob);
+       sheet.getRangeByIndex(i + 2, 6).setText(website);
 
    }
 

@@ -42,9 +42,14 @@ class CurdProfileCubit extends Cubit<CurdProfileState> {
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
 
-  Future<void> uploadImageProfile(File file,String id) async {
+  Future<void> uploadImageProfile(dynamic file,String id) async {
     emit(LoadingCurdProfileState());
     final failureOrSuccess = await updateProfileUseCase.uploadImageProfile(file,id);
+    emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
+  }
+  Future<void> uploadPdf(dynamic pdf,String id) async {
+    emit(LoadingResumeProfileState());
+    final failureOrSuccess = await updateProfileUseCase.uploadPdf(pdf, id);
     emit(_eitherDoneMessageOrErrorState(failureOrSuccess, 'updateDone'));
   }
 

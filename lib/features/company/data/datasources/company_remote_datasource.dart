@@ -68,6 +68,51 @@ class CompanyRemoteDatasourceImp extends CompanyRemoteDatasource{
       throw ServerException(message: e.toString());
     }
   }
+  Future<CompanyModel> uploadMultiImageCompany(dynamic path,String id) async{
+    try {
+      final avatarFile;
+      final String uploadedFile;
+      if(kIsWeb){
+
+      avatarFile= path;
+        uploadedFile = await client.storage.from('company_logo').uploadBinary(
+          'public/$id-${DateTime.now().millisecondsSinceEpoch}.png',
+          avatarFile,
+        );
+
+      }else{
+        avatarFile  = File(path);;
+        uploadedFile = await client.storage.from('company_logo').upload(
+          'public/${id}-${DateTime.now().millisecondsSinceEpoch}${p.extension(avatarFile.path)}',
+          avatarFile,
+        );
+
+      }
+      final data = await client
+          .from('company')
+          .update({'company_logo':uploadedFile.isNotEmpty?uploadedFile:''})
+          .eq('id', id).select().single();
+      final CompanyModel companyUpdate = CompanyModel.fromJson(data);
+      return companyUpdate;
+
+
+    } on StorageException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.message}');
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+  }
 
   @override
   Future<CompanyModel> getCompany() async {

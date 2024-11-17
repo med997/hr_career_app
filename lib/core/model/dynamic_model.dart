@@ -21,7 +21,7 @@ class DynamicModel {
    Widget? subFormFooter;
    Function? onSubmit;
   String? compareText;
-  Icon? icons;
+  Widget? icons;
   bool disabled;
   List<DynamicModel>? subDynamicModel;
   List<List<DynamicModel>>? listSubDynamicModel;

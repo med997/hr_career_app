@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -45,7 +46,7 @@ class _NotificationPageState extends State<NotificationPage> {
             .getNotificationByUuid(widget.auth.userAuth!.id),
         child: Column(children: [
           ToggleBtnWidget(
-            options: const ['Not read', 'Archived'],
+            options: ["not_read_msg".tr(), "archived_msg".tr()],
           ),
           BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
             builder: (context, stateToggleBtn) {
@@ -112,7 +113,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   },
                   backgroundColor: primaryColor,
                   icon: Icons.archive,
-                  label: 'Archive',
+                  label: "Archived",
                 )
               ],
             ),

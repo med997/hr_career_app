@@ -19,3 +19,19 @@ Future<dynamic?> pickImage(BuildContext context) async {
     return null;
   }
 }
+ Future<dynamic?> pickMultiImage(BuildContext context) async {
+   FilePickerResult? result = await FilePicker.platform.pickFiles(
+     type: FileType.custom,
+     allowedExtensions: ['jpg', 'png'],
+   );
+   if (result != null) {
+     if(kIsWeb){
+       return result.files;
+     }else{
+       return result.files;
+     }
+
+   } else {
+     return null;
+   }
+ }
