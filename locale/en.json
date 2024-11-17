@@ -29,5 +29,7 @@
   "education_msg" : "Education",
   "resume_msg" : "Resume",
   "confirm_msg" : "Confirm",
-  "documents_msg" : "Documents"
+  "documents_msg" : "Documents",
+  "archived_msg" : "Archived",
+  "not_read_msg" : "Not Read"
 }

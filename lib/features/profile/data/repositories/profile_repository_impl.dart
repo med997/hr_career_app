@@ -53,7 +53,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, Profile>> uploadImageProfile(File file,
+  Future<Either<Failure, Profile>> uploadImageProfile(dynamic file,
       String id) async {
     return await _getMessage(() =>
         profileRemoteDatasource.uploadImageProfile(file, id));
@@ -108,5 +108,12 @@ class ProfileRepositoryImpl extends ProfileRepository {
     return await _getMessage(() =>
         profileRemoteDatasource.updateProfileEdc(
             value, id));
+  }
+
+  @override
+  Future<Either<Failure, Profile>> uploadPdf(dynamic pdf,
+      String id) async {
+    return await _getMessage(() =>
+        profileRemoteDatasource.uploadPdf(pdf, id));
   }
 }

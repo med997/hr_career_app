@@ -441,9 +441,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
                     style: const ButtonStyle(
                         backgroundColor:
                             WidgetStatePropertyAll(Colors.blueAccent)),
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                     child: Text(
                       tr("active_msg"),
                       style: const TextStyle(
@@ -620,9 +618,11 @@ class CompanyJobDetailsPage extends StatelessWidget {
    sheet.getRangeByName('C1').setText('phone');
    sheet.getRangeByName('D1').setText('nationality');
    sheet.getRangeByName('E1').setText('current_job');
-
+   sheet.getRangeByName('F1').setText('Resume');
    for (int i = 0; i < profiles.length; i++) {
 
+     final website =profiles[i].resumeUrl!=null?
+     '$BaseStorageUrl${profiles[i].resumeUrl}':'';
 
 
        sheet.getRangeByIndex(i + 2, 2).setText(profiles[i].fullNameAr);
@@ -630,6 +630,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
        sheet.getRangeByIndex(i + 2, 3).setText(profiles[i].phone);
        sheet.getRangeByIndex(i + 2, 4).setText(profiles[i].nationality);
        sheet.getRangeByIndex(i + 2, 5).setText(profiles[i].currentJob);
+       sheet.getRangeByIndex(i + 2, 6).setText(website);
 
    }
 

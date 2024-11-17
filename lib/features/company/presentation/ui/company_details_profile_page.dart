@@ -277,20 +277,7 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
               ),
 
               //Tenders here
-              _getCompanyTenderList(context),
-
-              const Divider(
-                height: 100,
-                color: primaryColor,
-                thickness: .5,
-                indent: 100,
-                endIndent: 100,
-              ),
-              SubTitle(
-                title: "gallery_msg".tr(),
-                titleType: SubTitleType.textOnly,
-              ),
-              CompanyGallery(widget.company)
+              _getCompanyTenderbList(context),
             ],
           ),
         )

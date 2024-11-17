@@ -7,7 +7,9 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/features/job/presentation/bloc/curd_appliance_job_cubit.dart';
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../core/util/const_val.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/widgets/avatar_network.dart';
 import '../../../../core/widgets/text_with_icon.dart';
@@ -20,6 +22,7 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(profile.resumeUrl);
     double width = columnWidth ?? 320;
     return Container(
       height: 60,
@@ -51,24 +54,23 @@ class ProfileCard extends StatelessWidget {
           spacing: 4,
           direction: Axis.horizontal,
           children: [
-            TextWithIcon(
-              icon: Icon(
-                Icons.access_time_outlined,
-                size: 18,
-                color: primaryTransparent.withOpacity(0.7),
+
+            if(profile.resumeUrl != null && profile.resumeUrl!.isNotEmpty)
+              InkWell(
+                child:    const TextWithIcon(
+                  icon: Icon(
+                    Icons.open_in_new,
+                    size: 18,
+                    color: secondaryColor,
+                  ),
+                  text:'CV',
+                  textColor: Colors.grey,
+                ),
+                onTap: () {
+                  final website = '$BaseStorageUrl${profile.resumeUrl}';
+                  launchUrlString("$website");
+                },
               ),
-              text: profile.dob.toString(),
-              textColor: Colors.grey,
-            ),
-            TextWithIcon(
-              icon: Icon(
-                Icons.location_on_outlined,
-                size: 18,
-                color: primaryTransparent.withOpacity(0.7),
-              ),
-              text: profile.address ?? '',
-              textColor: Colors.grey,
-            ),
             TextWithIcon(
               icon: Icon(
                 Icons.people_alt_outlined,
@@ -84,11 +86,12 @@ class ProfileCard extends StatelessWidget {
     );
   }
 
-
   popOptionMenuApplianceState(BuildContext context) {
     return PopupMenuButton<ApplianceStateItem>(
       onSelected: (ApplianceStateItem item) {
-        context.read<CurdApplianceJobCubit>().updateApplianceJob(profile.applianceId!, item.name);
+        context
+            .read<CurdApplianceJobCubit>()
+            .updateApplianceJob(profile.applianceId!, item.name);
       },
       itemBuilder: (BuildContext context) =>
           <PopupMenuEntry<ApplianceStateItem>>[

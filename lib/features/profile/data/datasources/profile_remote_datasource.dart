@@ -17,7 +17,8 @@ abstract class ProfileRemoteDatasource {
   Future<ProfileModel> updateProfileExp(Map<String, dynamic>? value,String id);
   Future<ProfileModel> updateProfileEdc(Map<String, dynamic>? value,String id);
   Future<List<ProfileModel>> getAppliance(String profileId);
-  Future<ProfileModel> uploadImageProfile(File file,String id);
+  Future<ProfileModel> uploadImageProfile(dynamic file,String id);
+  Future<ProfileModel> uploadPdf(dynamic pdf,String id);
 }
 
 class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
@@ -153,13 +154,29 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
     }
   }
   @override
-  Future<ProfileModel> uploadImageProfile(File file,String id) async{
+  Future<ProfileModel> uploadImageProfile(dynamic file,String id) async{
     try {
-      final avatarFile =file;
-      final String uploadedFile= await client.storage.from('avatars').upload(
-        'public/${id}-${DateTime.now().millisecondsSinceEpoch}${p.extension(file.path)}',
-        avatarFile,
-      );
+      final avatarFile;
+      final String uploadedFile;
+      if(kIsWeb){
+
+        avatarFile= file;
+        uploadedFile = await client.storage.from('avatars').uploadBinary(
+          'public/$id-${DateTime.now().millisecondsSinceEpoch}.png',
+          avatarFile,
+        );
+
+      }else {
+        avatarFile = File(file);
+        uploadedFile = await client.storage.from('avatars').upload(
+          'public/${id}-${DateTime
+              .now()
+              .millisecondsSinceEpoch}${p.extension(avatarFile.path)}',
+          avatarFile,
+        );
+      }
+
+
 
         final data = await client
             .from('profiles')
@@ -196,6 +213,53 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
           .eq('id',id).select().single();
       final ProfileModel profileUpdate = ProfileModel.fromJson(data);
       return profileUpdate;
+    } on PostgrestException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.code}');
+    }  catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<ProfileModel> uploadPdf(pdf, String id) async {
+    try  {
+      final pdfFile;
+      final String uploadedPdfFile;
+      if(kIsWeb){
+        pdfFile= pdf;
+        uploadedPdfFile = await client.storage.from('resume').uploadBinary(
+          'public/$id-${DateTime.now().millisecondsSinceEpoch}.pdf',
+          pdfFile,
+        );
+
+      }else {
+        pdfFile = File(pdf);
+        uploadedPdfFile = await client.storage.from('resume').upload(
+          'public/${id}-${DateTime
+              .now()
+              .millisecondsSinceEpoch}${p.extension(pdfFile.path)}',
+          pdfFile,
+        );
+      }
+      final data = await client
+          .from('profiles')
+          .update({'resume_url':uploadedPdfFile.isNotEmpty?uploadedPdfFile:''})
+          .eq('id', id).select().single();
+      final ProfileModel profileUpdate = ProfileModel.fromJson(data);
+      return profileUpdate;
+
+
+    } on StorageException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.message}');
     } on PostgrestException catch (error) {
       if (kDebugMode) {
         print(error);
