@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
@@ -119,14 +121,18 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  doLogin(BuildContext context){
+  doLogin(BuildContext context) async{
     final value =
     context.read<DynamicFormCubit>().getCurrentValue();
     print(value);
+    String? fcmToken='';
+    if(!kIsWeb){
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    }
     if (loginFormKey.currentState!.validate()) {
       context.read<LoginCubit>().loginUser(
           context.read<ToggleBtnCubit>().state.selectedTab,
-          value);
+          value,fcmToken??'');
     }
   }
   _loginBtn() {

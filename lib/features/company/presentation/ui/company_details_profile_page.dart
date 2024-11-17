@@ -277,7 +277,7 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
               ),
 
               //Tenders here
-              _getCompanyTenderbList(context),
+              _getCompanyTenderList(context),
             ],
           ),
         )

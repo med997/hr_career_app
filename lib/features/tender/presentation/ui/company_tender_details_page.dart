@@ -114,9 +114,11 @@ class _CompanyTenderDetailsPageState extends State<CompanyTenderDetailsPage> {
         validators: [
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
+
         controllerFlt: FleatherController(document: documentOtherLinks),
-        controller: TextEditingController(
-            text: documentOtherLinks!.toPlainText() ?? ''),
+        controller:documentOtherLinks!=null?
+        TextEditingController(text: documentOtherLinks.toPlainText()??''):
+        TextEditingController(),
         disabled: isEditing,
         width: width,
         isRequired: true,
