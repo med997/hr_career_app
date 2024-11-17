@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -71,8 +72,8 @@ class LoginPage extends StatelessWidget {
                         Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
-                            const Text(
-                              'If you don’t have an account register You can',
+                             Text(
+                              'If you don’t have an account register You can'.tr(),
                               style:
                                   TextStyle(color: Colors.black, fontSize: 16),
                             ),
@@ -81,7 +82,7 @@ class LoginPage extends StatelessWidget {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                                 },
-                                child: const Text('Register here !')),
+                                child: Text('Register here !'.tr())),
                           ],
                         ),
                       ],
@@ -156,7 +157,7 @@ class LoginPage extends StatelessWidget {
                 (route) => false);
           }
         }else if(state is ErrLoginUser){
-          if(state.msg.contains('Email not confirmed')){
+          if(state.msg.contains('Email not confirmed'.tr())){
             final value =
             context.read<DynamicFormCubit>().getCurrentValue()['email'];
              Navigator.of(context).push(MaterialPageRoute(
@@ -187,9 +188,9 @@ class LoginPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Text(
-                            'Login',
-                            style: TextStyle(
+                           Text(
+                            'Login'.tr(),
+                            style: const TextStyle(
                               color: Colors.white,
                             ),
                           ),
@@ -233,9 +234,9 @@ class LoginPage extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             onPressed: () {},
             color: Colors.yellow.shade700,
-            child: const Text(
-              'Continue as Gust',
-              style: TextStyle(
+            child: Text(
+              'Continue as Gust'.tr(),
+              style: const TextStyle(
                 color: Colors.white,
               ),
             ),
@@ -297,9 +298,9 @@ class LoginPage extends StatelessWidget {
             child: TextButton(onPressed: () {
              
             },
-            child: const Text(
-              'Forget Password?',
-              style: TextStyle(
+            child: Text(
+              'Forget Password?'.tr(),
+              style: const TextStyle(
                   color: primaryColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 12),
@@ -309,9 +310,9 @@ class LoginPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Haven't an account?",
-                style: TextStyle(
+                Text(
+                "Haven't an account?".tr(),
+                style: const TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.bold,
                     fontSize: 14),
@@ -321,7 +322,7 @@ class LoginPage extends StatelessWidget {
                     Navigator.of(_).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                   },
-                  child: const Text('Register')),
+                  child: Text('Register'.tr())),
             ],
           ),
         ],
