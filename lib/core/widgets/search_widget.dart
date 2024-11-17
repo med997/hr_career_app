@@ -220,8 +220,8 @@ class SearchWidget extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
               color: primaryColor,
-              child: const Text(
-                'search',
+              child: Text(
+                'search'.tr(),
                 style: TextStyle(color: Colors.white),
               )),
           subFormFooter: SizedBox(),

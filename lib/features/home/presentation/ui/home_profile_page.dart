@@ -246,7 +246,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           action: _addResumeBtn(context, profile),
           icons: profile.resumeUrl != null
               ? InkWell(
-                  child: Icon(
+                  child: const Icon(
                     Icons.open_in_new,
                     color: Colors.redAccent,
                   ),

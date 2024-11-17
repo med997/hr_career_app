@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class PaymentCardWidget extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 0.2,
-      margin: EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -79,13 +80,13 @@ class PaymentCardWidget extends StatelessWidget {
 
           },
           enableFeedback: false,
-          child: const Row(
+          child:  Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Select',
-                  style: TextStyle(
+                  'Select'.tr(),
+                  style: const TextStyle(
                     color: Colors.white,
                   ),
                 ),

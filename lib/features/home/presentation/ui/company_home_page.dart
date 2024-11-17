@@ -51,7 +51,7 @@ class _HomeCompanyPageState extends State<HomeCompanyPage> {
           appBar: state.selectedTab != 3 ? buildAppBar(
             userOrCompany: 'Company',
             userName: state.selectedTab == 3 ? tr("profile_msg")
-                : state.selectedTab == 1 ? 'Jobs'
+                : state.selectedTab == 1 ? 'Jobs'.tr()
                 : state.selectedTab == 2 ? tr("tenders_msg")
                 : widget.auth.company!.nameEn  ?? '',
             img:  widget.auth.company!.companyLogo ??'',

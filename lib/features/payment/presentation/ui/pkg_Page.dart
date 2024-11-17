@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
@@ -83,8 +84,8 @@ class _PkgPageState extends State<PkgPage> {
                         context: context,
                         builder: (context) => SuccessDialog(
                           message: widget.pkgType == PkgType.job
-                              ? 'Job inserted successfully'
-                              : 'Tender inserted successfully',
+                              ? 'Job inserted successfully'.tr()
+                              : 'Tender inserted successfully'.tr(),
                           onDonePressed: () {
                             Navigator.pop(context);
                           },

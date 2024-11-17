@@ -191,9 +191,8 @@ class _MyAppState extends State<MyApp> {
           locale: context.locale,
           localizationsDelegates: context.localizationDelegates,
 debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'App Name'.tr(),
           theme: appTheme,
-
           scrollBehavior: const MaterialScrollBehavior().copyWith(
             dragDevices: {
               PointerDeviceKind.mouse,

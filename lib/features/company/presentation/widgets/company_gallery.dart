@@ -28,7 +28,7 @@ CompanyGallery(Company company) {
   return Column(
     children: [
       SubTitle(
-        title: 'Images',
+        title: 'Images'.tr(),
         titleType: SubTitleType.textOnly,
       ),
       SizedBox(
@@ -90,7 +90,7 @@ CompanyGallery(Company company) {
         ),
       ),
       SubTitle(
-        title: 'Videos',
+        title: 'Videos'.tr(),
         titleType: SubTitleType.textOnly,
       ),
       SizedBox(

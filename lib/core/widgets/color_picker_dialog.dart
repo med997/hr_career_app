@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -8,7 +9,7 @@ Future<dynamic> showColorPickerDialog(BuildContext context) {
     builder: (BuildContext contextDialog) {
 
       return AlertDialog(
-        title: const Text('SelectCurrentDate'),
+        title:  Text('SelectCurrentDate'.tr()),
         scrollable: true,
         content: SizedBox(
           height: 500,
@@ -35,13 +36,13 @@ Future<dynamic> showColorPickerDialog(BuildContext context) {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Cancel'),
+            child: Text('Cancel'.tr()),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(contextDialog,pickColor);
             },
-            child: Text('ok'),
+            child: Text('ok'.tr()),
           ),
         ],
 

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ class ProfileCard extends StatelessWidget {
     double width = columnWidth ?? 320;
     return Container(
       height: 60,
-      padding: EdgeInsets.symmetric(vertical: 7),
+      padding: const EdgeInsets.symmetric(vertical: 7),
       width: width,
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -57,13 +58,13 @@ class ProfileCard extends StatelessWidget {
 
             if(profile.resumeUrl != null && profile.resumeUrl!.isNotEmpty)
               InkWell(
-                child:    const TextWithIcon(
-                  icon: Icon(
+                child: TextWithIcon(
+                  icon: const Icon(
                     Icons.open_in_new,
                     size: 18,
                     color: secondaryColor,
                   ),
-                  text:'CV',
+                  text:'CV'.tr(),
                   textColor: Colors.grey,
                 ),
                 onTap: () {
@@ -77,7 +78,7 @@ class ProfileCard extends StatelessWidget {
                 size: 18,
                 color: primaryTransparent.withOpacity(0.7),
               ),
-              text: profile.nationality ?? '',
+              text: '${profile.nationality}'.tr() ?? '',
               textColor: Colors.grey,
             ),
           ],
@@ -95,33 +96,33 @@ class ProfileCard extends StatelessWidget {
       },
       itemBuilder: (BuildContext context) =>
           <PopupMenuEntry<ApplianceStateItem>>[
-        const PopupMenuItem<ApplianceStateItem>(
+         PopupMenuItem<ApplianceStateItem>(
           value: ApplianceStateItem.approved,
           child: TextWithIcon(
-            text: 'approved',
-            icon: Icon(
+            text: 'approved'.tr(),
+            icon: const Icon(
               Icons.check,
               size: 14,
               color: Colors.teal,
             ),
           ),
         ),
-        const PopupMenuItem<ApplianceStateItem>(
+         PopupMenuItem<ApplianceStateItem>(
           value: ApplianceStateItem.toShortList,
           child: TextWithIcon(
-            text: 'toShortList',
-            icon: Icon(
+            text: 'toShortList'.tr(),
+            icon: const Icon(
               Icons.library_add_check_sharp,
               size: 14,
               color: primaryColor,
             ),
           ),
         ),
-        const PopupMenuItem<ApplianceStateItem>(
+         PopupMenuItem<ApplianceStateItem>(
           value: ApplianceStateItem.ignored,
           child: TextWithIcon(
-            text: 'ignored',
-            icon: Icon(
+            text: 'ignored'.tr(),
+            icon: const Icon(
               Icons.check,
               size: 14,
               color: Colors.redAccent,

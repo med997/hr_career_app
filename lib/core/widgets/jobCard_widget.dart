@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
@@ -117,7 +118,7 @@ class JobCard extends StatelessWidget {
                       color: primaryColor.withOpacity(0.6),
                     ),
                     textColor: primaryTransparent.withOpacity(0.5),
-                    text: job.nationalities ?? 'All'),
+                    text: job.nationalities ?? 'All'.tr()),
               ],
             ),
           ),
@@ -162,7 +163,7 @@ class JobCard extends StatelessWidget {
               ),
 
               CustomChips(
-                chipsTitles: [job.status??''],
+                chipsTitles: [job.status!.tr()??''],
                 bgColor: primaryColor,
               ),
             ],
