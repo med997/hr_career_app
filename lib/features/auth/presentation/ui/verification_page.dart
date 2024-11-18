@@ -107,7 +107,7 @@ class VerificationPage extends StatelessWidget {
         if (state is SuccessVerificationUser) {
           ScaffoldMessenger.of(context).showSnackBar(
              SnackBar(
-              content: Text('Verification Successfully! 🎉'.tr()),
+              content: Text('verification_successfully'.tr()),
             ),
           );
           Navigator.pushAndRemoveUntil(
@@ -145,7 +145,7 @@ class VerificationPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                            Text(
-                            'Resend Code:'.tr(),
+                            'resend_code'.tr(),
                             style: const TextStyle(
                               color: Colors.white,
                             ),

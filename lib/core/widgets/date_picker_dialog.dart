@@ -11,7 +11,7 @@ Future<dynamic> showDatePickerDialog(BuildContext context) {
     context: context,
     builder: (BuildContext contextDialog) {
       return AlertDialog(
-          title:  Text('SelectCurrentDate'.tr()),
+          title:  Text('select_current_date_msg'.tr()),
           scrollable: true,
           content: SizedBox(
             height: 300,

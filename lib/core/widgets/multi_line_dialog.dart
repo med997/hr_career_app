@@ -31,7 +31,7 @@ Future<dynamic> showMultiLineDialog(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Cancel'.tr()),
+            child: Text('cancel'.tr()),
           ),
           TextButton(
             onPressed: () {

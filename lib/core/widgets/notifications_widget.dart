@@ -23,23 +23,23 @@ class NotificationListWidget extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading:  CircleAvatar(
+            leading:  const CircleAvatar(
               radius: 25.0,
               backgroundColor: Colors.black,
             ),
             title:  Text(
               notification.title,
               style:
-              TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
+              const TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
             ),
             trailing: Text(
               '${notification.createdAt}',
-              style: TextStyle(color: Colors.grey, fontSize: 12),
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
             subtitle: Text(
               notification.body,
               style:
-              TextStyle(color: Colors.black),
+              const TextStyle(color: Colors.black),
             ),
           ),
         ],

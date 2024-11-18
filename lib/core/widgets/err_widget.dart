@@ -48,7 +48,7 @@ class ErrWidget extends StatelessWidget {
                             },
                             color: Colors.yellow.shade700,
                             child:  Text(
-                              'Refresh'.tr(),
+                              'refresh'.tr(),
                               style: const TextStyle(
                                 color: Colors.white,
                               ),
