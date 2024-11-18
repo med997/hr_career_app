@@ -312,7 +312,7 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
               context: context,
               builder: (BuildContext contextDialog) {
                 return SuccessDialog(
-                    message: 'completed Done',
+                    message: 'applyDone'.tr(),
                     onDonePressed: () {
                       Navigator.pushReplacement(
                           context,

@@ -136,7 +136,7 @@ class _PaymentPageState extends State<PaymentPage> {
               showDialog(
                   context: context,
                   builder: (context) => SuccessDialog(
-                        message: 'Job inserted done'.tr(),
+                        message: 'Job_inserted_done'.tr(),
                         onDonePressed: () {
                           context.read<StepperCubit>().addJobChangeStep(0);
                           context.read<StepperCubit>().addTenderChangeStep(0);

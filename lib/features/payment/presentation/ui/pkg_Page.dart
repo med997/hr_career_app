@@ -84,8 +84,8 @@ class _PkgPageState extends State<PkgPage> {
                         context: context,
                         builder: (context) => SuccessDialog(
                           message: widget.pkgType == PkgType.job
-                              ? 'Job inserted successfully'.tr()
-                              : 'Tender inserted successfully'.tr(),
+                              ? 'Job_inserted_done'.tr()
+                              : 'tender_inserted_done'.tr(),
                           onDonePressed: () {
                             Navigator.pop(context);
                           },
