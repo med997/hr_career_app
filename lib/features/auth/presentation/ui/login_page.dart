@@ -157,7 +157,7 @@ class LoginPage extends StatelessWidget {
                 (route) => false);
           }
         }else if(state is ErrLoginUser){
-          if(state.msg.contains('email_no_confirmed'.tr())){
+          if(state.msg.contains('email_no_confirmed')){
             final value =
             context.read<DynamicFormCubit>().getCurrentValue()['email'];
              Navigator.of(context).push(MaterialPageRoute(
@@ -210,7 +210,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 if (state is ErrLoginUser)
                   Text(
-                    state.msg,
+                    state.msg.tr(),
                     style: const TextStyle(
                         color: Colors.redAccent, fontWeight: FontWeight.w500),
                   )

@@ -14,7 +14,7 @@ class SuccessDialog extends StatelessWidget {
       actions: <Widget>[
          Center(
             child: Text(
-              message,
+              message.tr(),
               style: const TextStyle(
                   color: primaryColor, fontWeight: FontWeight.bold, fontSize: 18),
             )),

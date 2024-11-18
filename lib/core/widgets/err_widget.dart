@@ -29,7 +29,7 @@ class ErrWidget extends StatelessWidget {
                   children: [
                     Image.asset(imgUrl, height: 150,),
                     Text(
-                      errorText,
+                      errorText.tr(),
                       style: const TextStyle(
                           color: primaryColor, fontWeight: FontWeight.bold),
                     ),
