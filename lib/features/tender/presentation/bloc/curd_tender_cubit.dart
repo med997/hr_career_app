@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fleather/fleather.dart';
 import 'package:hr_career_platform/features/tender/domain/usecases/add_tender.dart';
+import 'package:hr_career_platform/features/tender/domain/usecases/get_all_active_tenders_by_company.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
@@ -14,8 +15,10 @@ part 'curd_tender_state.dart';
 class CurdTenderCubit extends Cubit<CurdTenderState> {
   final AddTenderUserCase addTenderUserCase;
   final UpdateTenderUserCase updateTenderUserCase;
+  final GetAllActiveTendersUseCase getAllActiveTendersUseCase;
 
-  CurdTenderCubit({
+
+  CurdTenderCubit({required this.getAllActiveTendersUseCase,
     required this.updateTenderUserCase,
     required this.addTenderUserCase,
   }) : super(CurdTenderInitial());
@@ -77,6 +80,23 @@ class CurdTenderCubit extends Cubit<CurdTenderState> {
         message: _mapFailureToMessage(failure),
       ),
       (tender) => MessageCurdTenderState(tender: tender, message: message),
+    );
+  }
+
+
+  Future<void> getAllActiveTendersByCompany(String companyId) async {
+    emit(LoadingCurdTenderState());
+    final failureOrSuccess = await getAllActiveTendersUseCase.call(companyId);
+    emit(_mapFailureOrTendersToState(failureOrSuccess));
+  }
+
+
+  CurdTenderState _mapFailureOrTendersToState(Either<Failure, List<Tender>> either) {
+    return either.fold(
+          (failure) => ErrorCurdTenderState(message: _mapFailureToMessage(failure)),
+          (tenders) => TenderFetchedState(
+          tenders: tenders
+      ),
     );
   }
 

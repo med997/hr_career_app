@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui';
@@ -364,9 +365,9 @@ class RegisterPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Have an account?',
-                      style: TextStyle(
+                      Text(
+                      'Have an account?'.tr(),
+                      style: const TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.bold,
                           fontSize: 14),
@@ -378,9 +379,9 @@ class RegisterPage extends StatelessWidget {
                                   builder: (context) => LoginPage()),
                               (route) => false);
                         },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(color: primaryColor),
+                        child: Text(
+                          'Login'.tr(),
+                          style: const TextStyle(color: primaryColor),
                         )),
                   ],
                 ),
@@ -436,9 +437,9 @@ class RegisterPage extends StatelessWidget {
                     Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        const Text(
-                          'If you already have an account',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
+                         Text(
+                          'If you already have an account'.tr(),
+                          style: const TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         TextButton(
                             onPressed: () {
@@ -447,7 +448,7 @@ class RegisterPage extends StatelessWidget {
                                       builder: (context) => LoginPage()),
                                   (route) => false);
                             },
-                            child: const Text('Login here !')),
+                            child: Text('Login here !'.tr())),
                       ],
                     ),
                   ],
@@ -515,9 +516,9 @@ class RegisterPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Register',
-                    style: TextStyle(
+                   Text(
+                    'Register'.tr(),
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),

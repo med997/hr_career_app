@@ -306,7 +306,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       child: MaterialButton(
           disabledColor: Colors.grey.shade600,
           padding: const EdgeInsets.all(4),
-          onPressed: ()async {
+          onPressed: () async {
             Navigator.of(context)
                 .push(MaterialPageRoute(
               builder: (context) => LocationWidget(),

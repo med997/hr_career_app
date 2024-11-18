@@ -21,6 +21,7 @@ import 'package:universal_html/js.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/cubit/toggle_btn_cubit.dart';
 import '../../../../core/model/dynamic_model.dart';
+import '../../../../core/util/const_val.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
 import '../../../../core/util/validator.dart';
@@ -257,7 +258,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
             profileIcoButton: IconButton(
                 iconSize: 18,
                 color: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 icon: const Icon(Icons.visibility_off_outlined))),
         Center(
           child: ToggleBtnWidget(
@@ -451,7 +454,9 @@ class CompanyJobDetailsPage extends StatelessWidget {
                   profileIcoButton: IconButton(
                       iconSize: 18,
                       color: Colors.white,
-                      onPressed: () {},
+                      onPressed: () {
+
+                      },
                       icon: const Icon(Icons.visibility_off_outlined))),
             ),
             Expanded(
@@ -609,21 +614,24 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
 
 
-   sheet.getRangeByName('A1').setText('Appliance Name');
-   sheet.getRangeByName('B1').setText('Arabic Appliance Name');
-   sheet.getRangeByName('C1').setText('Phone');
-   sheet.getRangeByName('D1').setText('Appliance Major');
-   sheet.getRangeByName('E1').setText('Appliance Current Job');
-
+   sheet.getRangeByName('A1').setText('full_name');
+   sheet.getRangeByName('B1').setText('full_name_ar');
+   sheet.getRangeByName('C1').setText('phone');
+   sheet.getRangeByName('D1').setText('nationality');
+   sheet.getRangeByName('E1').setText('current_job');
+   sheet.getRangeByName('F1').setText('Resume');
    for (int i = 0; i < profiles.length; i++) {
 
+     final website =profiles[i].resumeUrl!=null?
+     '$BaseStorageUrl${profiles[i].resumeUrl}':'';
 
 
        sheet.getRangeByIndex(i + 2, 2).setText(profiles[i].fullNameAr);
        sheet.getRangeByIndex(i + 2, 1).setText(profiles[i].fullName);
        sheet.getRangeByIndex(i + 2, 3).setText(profiles[i].phone);
-       sheet.getRangeByIndex(i + 2, 4).setText(profiles[i].major);
+       sheet.getRangeByIndex(i + 2, 4).setText(profiles[i].nationality);
        sheet.getRangeByIndex(i + 2, 5).setText(profiles[i].currentJob);
+       sheet.getRangeByIndex(i + 2, 6).setText(website);
 
    }
 
@@ -648,24 +656,5 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
   }
 }
-  // Future<List<ExcelDataRow>> _buildCustomersDataRowsIH() async {
-  //   List<ExcelDataRow> excelDataRows = <ExcelDataRow>[];
-  //
-  //   List<Profile> reports_1 = await Future.value(reports);
-  //
-  //   excelDataRows = reports_1.map<ExcelDataRow>((Profile dataRow) {
-  //     return ExcelDataRow(cells: <ExcelDataCell>[
-  //       ExcelDataCell(columnHeader: 'Person name', value: dataRow.fullName),
-  //       ExcelDataCell(
-  //           columnHeader: 'Phone Number', value: dataRow.phone),
-  //       ExcelDataCell(
-  //           columnHeader: 'Email', value: dataRow.email),
-  //       ExcelDataCell(columnHeader: 'Address', value: dataRow.address),
-  //       ExcelDataCell(columnHeader: 'Current Job', value: dataRow.currentJob),
-  //       ExcelDataCell(columnHeader: 'Major', value: dataRow.major)
-  //     ]);
-  //   }).toList();
-  //
-  //   return excelDataRows;
-  // }
+
 }

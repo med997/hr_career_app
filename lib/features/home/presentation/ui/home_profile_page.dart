@@ -9,6 +9,7 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
+import 'package:hr_career_platform/core/util/pick_pdf_function.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
@@ -18,7 +19,9 @@ import 'package:hr_career_platform/features/general/presentation/bloc/general_cu
 import 'package:hr_career_platform/features/profile/domain/entities/profile.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profile_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../core/util/const_val.dart';
 import '../../../../core/util/responsive.dart';
 import '../../../../core/widgets/location_widget.dart';
 import '../../../general/domain/entities/general.dart';
@@ -238,27 +241,22 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
     ];
     final List<DynamicModel> profileUpl = [
       DynamicModel('pdfName', FormType.text,
-          disabled: isDisable,
           key: 'pdfName',
-          controller: TextEditingController(),
-          width: Responsive.isMobile(context) ? width : defaultWidth,
-          action: ElevatedButton(
-              onPressed: () async {
-                FilePickerResult? result =
-                    await FilePicker.platform.pickFiles();
-                if (result != null && result.files.isNotEmpty) {
-                  String fileName = result.files.first.name;
-                  // context.read<ProfileCubit>().uploadFile(fileName);
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-                padding: EdgeInsets.all(4),
-                backgroundColor: primaryColor,
-              ),
-              child: const Icon(Icons.cloud_upload_outlined,
-                  size: 18, color: Colors.white)),
-          inputBorder: InputBorder.none,
+          controller: TextEditingController(text: profile.resumeUrl??''),
+          action: _addResumeBtn(context, profile),
+          icons: profile.resumeUrl != null
+              ? InkWell(
+                  child: const Icon(
+                    Icons.open_in_new,
+                    color: Colors.redAccent,
+                  ),
+                  onTap: () {
+                    final website ='$BaseStorageUrl${profile.resumeUrl}';
+                    launchUrlString("$website");
+                  },
+                )
+              : null,
+          width: Responsive.isMobile(context) ? width  : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ])
@@ -399,14 +397,14 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                     if (state is MessageCurdProfileState) {
                       final education = state.profile!.education;
                       education.map((e) => educationWidget(
-                          fromDateText:e['from_date'].toString() ,
+                          fromDateText: e['from_date'].toString(),
                           toDateText: e['to_date'].toString(),
                           locationText: e['where'].toString(),
                           infoText: e['studyGrade'].toString(),
                           qualifications: e['qualifications'].toString()));
                     }
                     return educationWidget(
-                        fromDateText:e['from_date'].toString() ,
+                        fromDateText: e['from_date'].toString(),
                         toDateText: e['to_date'].toString(),
                         locationText: e['where'].toString(),
                         infoText: e['studyGrade'].toString(),
@@ -574,6 +572,48 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                 } else {
                   return const Icon(
                     Icons.add,
+                    color: Colors.white,
+                    size: 16,
+                  );
+                }
+              },
+            ),
+          )),
+    );
+  }
+
+  _addResumeBtn(BuildContext context, Profile profile) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: MaterialButton(
+          color: primaryColor,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          key: const Key('btnResume'),
+          minWidth: 30,
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          height: 26,
+          shape: const CircleBorder(),
+          onPressed: () async {
+            dynamic path = await pickPdf(context);
+            if (path != null) {
+              context.read<CurdProfileCubit>().uploadPdf(path, profile.id!);
+            }
+          },
+          child: Center(
+            child: BlocBuilder<CurdProfileCubit, CurdProfileState>(
+              builder: (context, state) {
+                if (state is LoadingResumeProfileState) {
+                  return const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 3,
+                    ),
+                  );
+                } else {
+                  return const Icon(
+                    Icons.cloud,
                     color: Colors.white,
                     size: 16,
                   );

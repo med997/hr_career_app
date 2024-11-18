@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -40,12 +41,12 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () =>  context
+        onRefresh: () => context
             .read<NotificationCubit>()
             .getNotificationByUuid(widget.auth.userAuth!.id),
         child: Column(children: [
           ToggleBtnWidget(
-            options: const ['Not read', 'Archived'],
+            options: ["not_read_msg".tr(), "archived_msg".tr()],
           ),
           BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
             builder: (context, stateToggleBtn) {
@@ -65,8 +66,8 @@ class _NotificationPageState extends State<NotificationPage> {
                         mobile: _buildMobileLayout(notification),
                         tablet:
                             _buildTabletDesktopLayout(notification, 2, context),
-                        desktop:
-                            _buildTabletDesktopLayout(notification, 3, context));
+                        desktop: _buildTabletDesktopLayout(
+                            notification, 3, context));
                   } else if (state is NotificationErrorState) {
                     String imgUrl = state.msg == OFFLINE_FAILURE_MESSAGE
                         ? 'assets/imgs/conectErr.png'
@@ -112,7 +113,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   },
                   backgroundColor: primaryColor,
                   icon: Icons.archive,
-                  label: 'Archive',
+                  label: "Archived".tr(),
                 )
               ],
             ),
@@ -150,47 +151,40 @@ class _NotificationPageState extends State<NotificationPage> {
       ...notifications.map((ntf) {
         DateTime time = DateTime.parse(ntf.createdAt);
         return SizedBox(
-            width: itemWidth,
-            child: Slidable(
-              enabled: !ntf.isArchive!,
-              key: ValueKey(ntf.id),
-              endActionPane: ActionPane(
-                motion: ScrollMotion(),
-                children: [
-                  SlidableAction(
-                    onPressed: (context) {
-                      context
-                          .read<NotificationCubit>()
-                          .updateNotification(ntf.id!);
-                    },
-                    backgroundColor: primaryColor,
-                    icon: Icons.archive,
-                    label: 'Archive',
-                  )
-                ],
-              ),
-              child: ListTile(
-                shape: const Border(
-                    bottom: BorderSide(width: 0.1, color: primaryTransparent)),
-                leading: const Icon(
-                  Icons.notifications,
-                  color: primaryTransparent,
-                ),
-                title: Text(
-                  ntf.title,
-                  style: const TextStyle(
-                      color: primaryColor, fontWeight: FontWeight.w500),
-                ),
-                trailing: Text(
+          width: itemWidth,
+          child: ListTile(
+            shape: const Border(
+                bottom: BorderSide(width: 0.1, color: primaryTransparent)),
+            leading: const Icon(
+              Icons.notifications,
+              color: primaryTransparent,
+            ),
+            title: Text(
+              ntf.title,
+              style: const TextStyle(
+                  color: primaryColor, fontWeight: FontWeight.w500),
+            ),
+            trailing: Wrap(
+              children: [
+                Text(
                   '${time.hour}:${time.minute}',
                   style: const TextStyle(color: primaryColor, fontSize: 12),
                 ),
-                subtitle: Text(ntf.body,
+                !ntf.isArchive! ?  IconButton(
+                  onPressed: () {
+                    context
+                                  .read<NotificationCubit>()
+                                  .updateNotification(ntf.id!);
+                  },
+                  icon: Icon(Icons.archive,color: primaryColor,),): SizedBox()
+              ],
+            ),
+            subtitle: Text(ntf.body,
                     style: TextStyle(
                       color: primaryColor.withOpacity(0.7),
                     )),
-              ),
-            ));
+          ),
+        );
       })
     ]);
   }

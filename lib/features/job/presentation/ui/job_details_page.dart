@@ -32,10 +32,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-            child: Responsive(
-                mobile: _buildMobileWidget(context),
-                tablet: _buildTabletAndDesktopWidget(context),
-                desktop: _buildTabletAndDesktopWidget(context))),
+          child: Responsive(
+              mobile: _buildMobileWidget(context),
+              tablet: _buildTabletAndDesktopWidget(context),
+              desktop: _buildTabletAndDesktopWidget(context))),
     );
   }
 
@@ -165,11 +165,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                   minWidth: 25,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   padding: EdgeInsets.all(0),
-                  child: const Icon(
-                    Icons.visibility_off_outlined,
-                    size: 18,
-                    color: Colors.orangeAccent,
-                  ),
                   onPressed: () {},
                 ),
               ),
@@ -234,15 +229,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
         ),
         Expanded(
           child: ListView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,vertical: 16
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
               SubTitle(
                 title: "requirement_msg".tr(),
                 titleType: SubTitleType.textOnly,
               ),
-
               htmlReq != null
                   ? Html(
                       data: htmlReq,
@@ -256,22 +248,17 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                         color: Colors.grey,
                       ),
                     ),
-              const SizedBox(
-                height: 12,
-              ),
               const Divider(
-                height: 100,
-                color: Colors.black,
-                thickness:1,
-                indent: 100,
-                endIndent: 100,
+                height: 12,
+                color: primaryColor,
+                thickness: 0.5,
+                indent: 50,
+                endIndent: 50,
               ),
               SubTitle(
                 title: "how_to_apply_msg".tr(),
                 titleType: SubTitleType.textOnly,
               ),
-
-
             ],
           ),
         )

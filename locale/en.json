@@ -31,5 +31,7 @@
   "confirm_msg" : "Confirm",
   "documents_msg" : "Documents",
   "arabic" : "Arabic",
-  "english": "English"
+  "english": "English",
+  "archived_msg" : "Archived",
+  "not_read_msg" : "Not Read"
 }

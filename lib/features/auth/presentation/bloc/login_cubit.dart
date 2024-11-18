@@ -27,7 +27,7 @@ class LoginCubit extends Cubit<LoginState> {
     required this.fetchAuthUseCase,
   }) : super(LoginInitial());
 
-  Future<void> loginUser(int selectedIndex, Map<String, dynamic>? value) async {
+  Future<void> loginUser(int selectedIndex, Map<String, dynamic>? value,String? fcmToken) async {
     emit(LoginLoading());
 
     UsrType usrType = selectedIndex == 0 ? UsrType.user : UsrType.company;
@@ -44,12 +44,7 @@ class LoginCubit extends Cubit<LoginState> {
           email: value!['email'],
           password: value['password']);
     }
-    String? fcmToken;
-    if(!kIsWeb){
-      fcmToken = await FirebaseMessaging.instance.getToken();
-    }else{
-      fcmToken = await FirebaseMessaging.instance.getToken(vapidKey:FcmWebKeyPair);
-    }
+
 
     final failureOrSuccess = await loginUseCase.call(auth,fcmToken);
     emit(_mapFailureOrAuthToState(failureOrSuccess));
@@ -95,13 +90,8 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
-  Future<void> signOut() async {
-    String? fcmToken;
-    if(!kIsWeb){
-      fcmToken = await FirebaseMessaging.instance.getToken();
-    }else{
-      fcmToken = await FirebaseMessaging.instance.getToken(vapidKey:FcmWebKeyPair);
-    }
+  Future<void> signOut( String? fcmToken) async {
+
     final failureOrAuth = await deleteAuthUseCase.call(fcmToken!);
     emit(_signOutCheckState(failureOrAuth));
   }

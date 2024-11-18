@@ -19,6 +19,10 @@ class ErrorCurdTenderState extends CurdTenderState {
   @override
   List<Object> get props => [message];
 }
+final class TenderFetchedState extends CurdTenderState {
+  final List<Tender> tenders;
+  const TenderFetchedState({required this.tenders});
+}
 
 class MessageCurdTenderState extends CurdTenderState {
   final String message;

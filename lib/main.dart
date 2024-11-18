@@ -49,8 +49,9 @@ import 'injection_container.dart' as di;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   if (!kIsWeb) {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     await setupFlutterNotifications();
   }
   await EasyLocalization.ensureInitialized();
@@ -191,9 +192,8 @@ class _MyAppState extends State<MyApp> {
           locale: context.locale,
           localizationsDelegates: context.localizationDelegates,
 debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'App Name'.tr(),
           theme: appTheme,
-
           scrollBehavior: const MaterialScrollBehavior().copyWith(
             dragDevices: {
               PointerDeviceKind.mouse,

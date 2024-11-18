@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
@@ -27,17 +28,27 @@ class CompanyTendersPage extends StatelessWidget {
         children: [
           Center(
             child: ToggleBtnWidget(
-              options: const ['Archive', 'Hidden', 'Complete'],
+              options: ['active'.tr(), 'hidden'.tr(), 'completed'.tr()],
             ),
           ),
           Flexible(
-            child: ListView(children: const [
-              SizedBox(
+            child: ListView(children:  [
+              const SizedBox(
                 height: 5,
               ),
-              RecentTenders(
-                jobCardType: JobCardType.company,
-              )
+              BlocBuilder<ToggleBtnCubit, ToggleBtnState>(
+                builder: (context, state) {
+                  if(state is ToggleBtnChangedState){
+                    return RecentTenders(
+                      jobCardType: JobCardType.company,selectedJobState: state.selectedTab,
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+
+                },
+              ),
+
             ]),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
@@ -135,7 +136,7 @@ class _PaymentPageState extends State<PaymentPage> {
               showDialog(
                   context: context,
                   builder: (context) => SuccessDialog(
-                        message: 'Job inserted done',
+                        message: 'Job inserted done'.tr(),
                         onDonePressed: () {
                           context.read<StepperCubit>().addJobChangeStep(0);
                           context.read<StepperCubit>().addTenderChangeStep(0);

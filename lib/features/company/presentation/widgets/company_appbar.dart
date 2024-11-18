@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_localizations.dart';
@@ -120,8 +122,12 @@ class CompanyAppBarWidget extends StatelessWidget {
                           },
                           builder: (context, state) {
                             return MaterialButton(
-                                onPressed: () {
-                                  context.read<LoginCubit>().signOut();
+                                onPressed: () async {
+                                  String? fcmToken;
+                                  if(!kIsWeb){
+                                    fcmToken = await FirebaseMessaging.instance.getToken();
+                                  }
+                                  context.read<LoginCubit>().signOut(fcmToken??'');
                                 },
                                 shape: CircleBorder(),
                                 padding: EdgeInsets.all(2),

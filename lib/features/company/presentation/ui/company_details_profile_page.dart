@@ -57,7 +57,7 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
   }
 
   Widget _getCompanyJobList(BuildContext context) {
-    context.read<JobCubit>().getAllJobsByCompany(widget.company.id!);
+    context.read<JobCubit>().getAllActiveJobsByCompany(widget.company.id!);
     return BlocBuilder<JobCubit, JobState>(
       builder: (context, state) {
         if (state is JobFetchedState) {
@@ -82,12 +82,12 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
     );
   }
 
-  Widget _getCompanyTenderbList(BuildContext context) {
-    context.read<HomeCubit>().getCompanyHome(widget.company.id!);
-    return BlocBuilder<HomeCubit, HomeState>(
+  Widget _getCompanyTenderList(BuildContext context) {
+    context.read<CurdTenderCubit>().getAllActiveTendersByCompany(widget.company.id!);
+    return BlocBuilder<CurdTenderCubit, CurdTenderState>(
       builder: (context, state) {
-        if (state is HomeFetchedState) {
-          List<Tender>? tender = state.homes.recentTender;
+        if (state is TenderFetchedState) {
+          List<Tender>? tender = state.tenders;
           return ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             shrinkWrap: true,
@@ -103,7 +103,7 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
               ),
             ),
           );
-        } else if (state is HomeLoading) {
+        } else if (state is LoadingCurdTenderState) {
           return LoadingWidget(
             progressColor: primaryColor,
             width: 2,
@@ -175,7 +175,7 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
                       case 1:
                         return _getCompanyJobList(context);
                       case 2:
-                        return _getCompanyTenderbList(context);
+                        return _getCompanyTenderList(context);
                       case 3:
                         return CompanyGallery(widget.company);
                       default:
@@ -266,8 +266,8 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
               _getCompanyJobList(context),
               const Divider(
                 height: 100,
-                color: Colors.black,
-                thickness: 1,
+                color: primaryColor,
+                thickness: .5,
                 indent: 100,
                 endIndent: 100,
               ),
@@ -277,20 +277,7 @@ class _CompanyProfileDetailPageState extends State<CompanyProfileDetailPage> {
               ),
 
               //Tenders here
-              _getCompanyTenderbList(context),
-
-              const Divider(
-                height: 100,
-                color: Colors.black,
-                thickness: 1,
-                indent: 100,
-                endIndent: 100,
-              ),
-              SubTitle(
-                title: "gallery_msg".tr(),
-                titleType: SubTitleType.textOnly,
-              ),
-              CompanyGallery(widget.company)
+              _getCompanyTenderList(context),
             ],
           ),
         )

@@ -49,10 +49,10 @@ class AvatarNetwork extends StatelessWidget {
           InkWell(
             onTap: () => editClicked!(),
             child: Container(
-                padding: EdgeInsets.all(2),
+                padding: const EdgeInsets.all(2),
                 decoration: ShapeDecoration(
                     shape: CircleBorder(), color: Colors.yellow.shade700),
-                child: Icon(
+                child: const Icon(
                   Icons.edit,
                   size: 12,
                   color: primaryColor,

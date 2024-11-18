@@ -31,6 +31,9 @@
   "confirm_msg" : "تأكيد",
   "documents_msg" : "المستندات",
   "arabic" : "العربية",
-  "english": "English"
+  "english": "English",
+  "archived_msg" : "مؤرشف",
+  "not_read_msg" : "لم تُقرأ"
+
 
 }

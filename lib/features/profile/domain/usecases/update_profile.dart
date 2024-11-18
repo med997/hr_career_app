@@ -19,7 +19,10 @@ class UpdateProfileUseCase {
   Future<Either<Failure, Profile>> updateProfileEdc(Map<String, dynamic>? value,String id) async {
     return await profileRepository.updateProfileEdc(value,id);
   }
-  Future<Either<Failure, Profile>> uploadImageProfile(File file,String id) async {
+  Future<Either<Failure, Profile>> uploadImageProfile(dynamic file,String id) async {
     return await profileRepository.uploadImageProfile(file, id);
+  }
+  Future<Either<Failure, Profile>> uploadPdf(dynamic pdf,String id) async {
+    return await profileRepository.uploadPdf(pdf, id);
   }
 }

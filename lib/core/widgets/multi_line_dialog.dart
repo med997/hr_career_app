@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ Future<dynamic> showMultiLineDialog(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Cancel'),
+            child: Text('Cancel'.tr()),
           ),
           TextButton(
             onPressed: () {
@@ -40,7 +41,7 @@ Future<dynamic> showMultiLineDialog(
 
               return Navigator.pop(contextDialog, text);
             },
-            child: Text('ok'),
+            child: Text('ok'.tr()),
           ),
         ],
       );

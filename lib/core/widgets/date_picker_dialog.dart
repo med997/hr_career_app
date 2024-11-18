@@ -2,6 +2,7 @@
 
 
 import 'package:date_picker_plus/date_picker_plus.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ Future<dynamic> showDatePickerDialog(BuildContext context) {
     context: context,
     builder: (BuildContext contextDialog) {
       return AlertDialog(
-          title: const Text('SelectCurrentDate'),
+          title:  Text('SelectCurrentDate'.tr()),
           scrollable: true,
           content: SizedBox(
             height: 300,

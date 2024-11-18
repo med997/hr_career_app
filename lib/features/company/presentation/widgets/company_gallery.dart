@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/util/pick_image_function.dart';
 
 import '../../../../core/app_localizations.dart';
 import '../../../../core/app_theme.dart';
@@ -26,7 +28,7 @@ CompanyGallery(Company company) {
   return Column(
     children: [
       SubTitle(
-        title: 'Images',
+        title: 'Images'.tr(),
         titleType: SubTitleType.textOnly,
       ),
       SizedBox(
@@ -47,7 +49,9 @@ CompanyGallery(Company company) {
                 ),
                 child: Center(
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        pickImage(context);
+                      },
                       color: Colors.white,
                       shape: const CircleBorder(
                           side: BorderSide(color: Colors.white)),
@@ -86,7 +90,7 @@ CompanyGallery(Company company) {
         ),
       ),
       SubTitle(
-        title: 'Videos',
+        title: 'Videos'.tr(),
         titleType: SubTitleType.textOnly,
       ),
       SizedBox(
