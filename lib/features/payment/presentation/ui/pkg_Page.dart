@@ -156,30 +156,39 @@ class _PkgPageState extends State<PkgPage> {
     if (Responsive.isDesktop(context))
       itemWidth = MediaQuery.of(context).size.width / columnCount - 100;
 
-    return Wrap(children: [
-      ...packages.map(
-        (package) => SizedBox(
-          width: itemWidth,
-          child: InkWell(
-              child: PaymentCardWidget(
-            pkg: package,
-            onPkgSelected: () {
-              if (package.price == 0) {
-                if (widget.pkgType == PkgType.job) {
-                  _insertPaymentJob(package.id!);
-                } else {
-                  _insertPaymentTender(package.id!);
-                }
-              } else {
-                context
-                    .read<StepperCubit>()
-                    .addJobChangeStep(2, selectedPackage: package);
-              }
-            },
-          )),
-        ),
-      )
-    ]);
+    return Expanded(
+      child: ListView(
+      shrinkWrap: true,
+        children: [
+          Center(
+            child: Wrap(children: [
+              ...packages.map(
+                (package) => SizedBox(
+                  width: itemWidth,
+                  child: InkWell(
+                      child: PaymentCardWidget(
+                    pkg: package,
+                    onPkgSelected: () {
+                      if (package.price == 0) {
+                        if (widget.pkgType == PkgType.job) {
+                          _insertPaymentJob(package.id!);
+                        } else {
+                          _insertPaymentTender(package.id!);
+                        }
+                      } else {
+                        context
+                            .read<StepperCubit>()
+                            .addJobChangeStep(2, selectedPackage: package);
+                      }
+                    },
+                  )),
+                ),
+              )
+            ]),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
