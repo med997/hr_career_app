@@ -37,5 +37,22 @@
   "register_here" : "Register Here !",
   "email_no_confirmed" : "Email No Confirmed",
   "login" : "Login",
-  "not_read_msg" : "Not Read"
+  "not_read_msg" : "Not Read",
+  "select_current_date_msg" : "Select Current Date",
+  "cancel" : "Cancel",
+  "ok" : "Ok",
+  "refresh" : "Refresh",
+  "done" : "Done",
+  "enter_a_valid_email_address" : "Enter a valid email address",
+  "lets_log_in_apply_or_post_to_jobs" : "Let's log in. Apply or post to jobs!",
+  "hr_applications" : "HR Applications",
+  "continue_as_guest" : "Continue as Guest",
+  "forget_password" : "Forget Password ?",
+  "havent_an_account" : "Haven't an account ?",
+  "have_an_account" : "Have an account ?",
+  "register" : "Register",
+  "is_required" : "Is Required",
+  "if_you_already_have_an_account" : "If you already have an account",
+  "login_here" : "Login here !",
+  "verification_successfully" : "Verification Successfully!"
 }

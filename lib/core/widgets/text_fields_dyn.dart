@@ -60,7 +60,7 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
               if (dynamicModel.formType == FormType.email) {
                 final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
                 if (!emailRegex.hasMatch(text!)) {
-                  return 'Enter a valid email address';
+                  return 'enter_a_valid_email_address'.tr();
                 }
               }
               //To validate text length, it returns an error message if the text length is greater than the fixed length.

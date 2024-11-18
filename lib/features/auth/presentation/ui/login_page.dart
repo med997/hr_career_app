@@ -235,7 +235,7 @@ class LoginPage extends StatelessWidget {
             onPressed: () {},
             color: Colors.yellow.shade700,
             child: Text(
-              'Continue as Gust'.tr(),
+              'continue_as_guest'.tr(),
               style: const TextStyle(
                 color: Colors.white,
               ),
@@ -259,7 +259,7 @@ class LoginPage extends StatelessWidget {
           controller:  TextEditingController(),
           isRequired: true,
           validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+            DynamicFormValidator(ValidatorType.notEmpty, 'is_required'.tr())
           ],
           inputAction: TextInputAction.go,
           onSubmit: () {
@@ -299,7 +299,7 @@ class LoginPage extends StatelessWidget {
              
             },
             child: Text(
-              'Forget Password?'.tr(),
+              'forget_password'.tr(),
               style: const TextStyle(
                   color: primaryColor,
                   fontWeight: FontWeight.bold,
@@ -311,7 +311,7 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
                 Text(
-                "Haven't an account?".tr(),
+                "havent_an_account".tr(),
                 style: const TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.bold,
@@ -322,7 +322,7 @@ class LoginPage extends StatelessWidget {
                     Navigator.of(_).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                   },
-                  child: Text('Register'.tr())),
+                  child: Text('register'.tr())),
             ],
           ),
         ],

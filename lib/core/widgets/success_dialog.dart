@@ -24,7 +24,7 @@ class SuccessDialog extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
             height: 35,
             minWidth: 260,
-            child:   Text('Done'.tr(),style: TextStyle(color: Colors.white),),
+            child:   Text('done'.tr(),style: TextStyle(color: Colors.white),),
             onPressed: () {
               Navigator.of(context).pop();
               onDonePressed();

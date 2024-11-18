@@ -113,7 +113,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   },
                   backgroundColor: primaryColor,
                   icon: Icons.archive,
-                  label: "Archived".tr(),
+                  label: "archived_msg".tr(),
                 )
               ],
             ),

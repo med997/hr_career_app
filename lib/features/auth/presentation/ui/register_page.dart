@@ -366,7 +366,7 @@ class RegisterPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                       Text(
-                      'Have an account?'.tr(),
+                      'have_an_account'.tr(),
                       style: const TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.bold,
@@ -380,7 +380,7 @@ class RegisterPage extends StatelessWidget {
                               (route) => false);
                         },
                         child: Text(
-                          'Login'.tr(),
+                          'login'.tr(),
                           style: const TextStyle(color: primaryColor),
                         )),
                   ],
@@ -438,7 +438,7 @@ class RegisterPage extends StatelessWidget {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                          Text(
-                          'If you already have an account'.tr(),
+                          'if_you_already_have_an_account'.tr(),
                           style: const TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         TextButton(
@@ -448,7 +448,7 @@ class RegisterPage extends StatelessWidget {
                                       builder: (context) => LoginPage()),
                                   (route) => false);
                             },
-                            child: Text('Login here !'.tr())),
+                            child: Text('login_here'.tr())),
                       ],
                     ),
                   ],
@@ -517,7 +517,7 @@ class RegisterPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                    Text(
-                    'Register'.tr(),
+                    'register'.tr(),
                     style: const TextStyle(
                       color: Colors.white,
                     ),
