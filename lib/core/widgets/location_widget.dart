@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_career_platform/core/cubit/location_cubit.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
 

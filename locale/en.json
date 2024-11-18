@@ -33,5 +33,9 @@
   "arabic" : "Arabic",
   "english": "English",
   "archived_msg" : "Archived",
+  "dont_reg_msg" : "If you don’t have an account register You can",
+  "register_here" : "Register Here !",
+  "email_no_confirmed" : "Email No Confirmed",
+  "login" : "Login",
   "not_read_msg" : "Not Read"
 }

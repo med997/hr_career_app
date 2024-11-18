@@ -33,8 +33,7 @@ class _HomeJobPageState extends State<HomeJobPage> {
         onRefresh: () => context.read<HomeCubit>().getUserHome(),
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          children: [
-            // SearchWidget(),
+          children: [ // SearchWidget(),
             SubTitle(
               onShowMoreClicked: () {
                 if (kDebugMode) print('showMoreClicked');

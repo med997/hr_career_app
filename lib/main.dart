@@ -146,6 +146,7 @@ void main() async {
       Locale('en'),
       Locale('ar'),
     ],
+    startLocale: const Locale('ar'),
     fallbackLocale: const Locale('en'),
         extraAssetLoaders: [LocalizationApiLoader(supBase: di.sl())],
     path: 'locale',
@@ -192,7 +193,7 @@ class _MyAppState extends State<MyApp> {
           locale: context.locale,
           localizationsDelegates: context.localizationDelegates,
 debugShowCheckedModeBanner: false,
-          title: 'App Name'.tr(),
+          title: 'AppName'.tr(),
           theme: appTheme,
           scrollBehavior: const MaterialScrollBehavior().copyWith(
             dragDevices: {

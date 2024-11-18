@@ -73,7 +73,7 @@ class LoginPage extends StatelessWidget {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                              Text(
-                              'If you don’t have an account register You can'.tr(),
+                              'dont_reg_msg'.tr(),
                               style:
                                   TextStyle(color: Colors.black, fontSize: 16),
                             ),
@@ -82,7 +82,7 @@ class LoginPage extends StatelessWidget {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                                 },
-                                child: Text('Register here !'.tr())),
+                                child: Text('register_here'.tr())),
                           ],
                         ),
                       ],
@@ -157,7 +157,7 @@ class LoginPage extends StatelessWidget {
                 (route) => false);
           }
         }else if(state is ErrLoginUser){
-          if(state.msg.contains('Email not confirmed'.tr())){
+          if(state.msg.contains('email_no_confirmed'.tr())){
             final value =
             context.read<DynamicFormCubit>().getCurrentValue()['email'];
              Navigator.of(context).push(MaterialPageRoute(
@@ -189,7 +189,7 @@ class LoginPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                            Text(
-                            'Login'.tr(),
+                            'login'.tr(),
                             style: const TextStyle(
                               color: Colors.white,
                             ),
