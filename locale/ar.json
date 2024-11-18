@@ -54,5 +54,7 @@
   "is_required": "مطلوب",
   "if_you_already_have_an_account": "إذا كان لديك حساب بالفعل",
   "login_here": "تسجيل الدخول هنا!",
-  "verification_successfully": "تم التحقق بنجاح !"
+  "verification_successfully": "تم التحقق بنجاح !",
+  "user" : "مستخدم",
+  "company" : "شركة"
 }

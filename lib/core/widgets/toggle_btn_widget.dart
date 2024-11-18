@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
@@ -5,7 +6,7 @@ import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 
 class ToggleBtnWidget extends StatelessWidget {
   final Axis directions;
-  ToggleBtnWidget({super.key, this.options = const ['User', 'Company'],  this.directions=Axis.horizontal});
+  ToggleBtnWidget({super.key, this.options = const ['user', 'company'],  this.directions=Axis.horizontal});
 
   final List<String> options;
 
@@ -32,7 +33,7 @@ class ToggleBtnWidget extends StatelessWidget {
             },
             children: options.map((String label) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Text(label),
+              child: Text(label.tr()),
             )).toList(),
           ),
         );
