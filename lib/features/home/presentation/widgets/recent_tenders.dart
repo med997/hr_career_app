@@ -48,7 +48,9 @@ class RecentTenders extends StatelessWidget {
               imgUrl: imgUrl,
               errorText: state.msg,
               clickedReload: () {
-                context.read<HomeCubit>().getHomeUserTender();
+                if(jobCardType==JobCardType.user) {
+                  context.read<HomeCubit>().getHomeUserTender();
+                }
               });
         }
         return const SizedBox();

@@ -39,8 +39,6 @@ class _SplashPageState extends State<SplashPage> {
     String? fcmToken;
     if(!kIsWeb){
       fcmToken = await FirebaseMessaging.instance.getToken();
-    }else{
-      fcmToken = await FirebaseMessaging.instance.getToken(vapidKey:FcmWebKeyPair);
     }
     return fcmToken;
   }

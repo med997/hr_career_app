@@ -47,33 +47,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDBh7ripfS9Y5XLUVrgkd5H0XdvvvpPvSo',
-    appId: '1:181961421151:web:a1f1bbf70cfadc49dfc6ea',
-    messagingSenderId: '181961421151',
-    projectId: 'gymday-ee08c',
-    authDomain: 'gymday-ee08c.firebaseapp.com',
-    databaseURL: 'https://gymday-ee08c.firebaseio.com',
-    storageBucket: 'gymday-ee08c.appspot.com',
-    measurementId: 'G-NQZVD6LYCB',
+    apiKey: 'AIzaSyC65iFDkem4voUWid8lR1ahiOM0oOACn8Q',
+    appId: '1:266149675336:web:ad30a2671dbb6d7388b37d',
+    messagingSenderId: '266149675336',
+    projectId: 'hrapp-e4639',
+    authDomain: 'hrapp-e4639.firebaseapp.com',
+    storageBucket: 'hrapp-e4639.firebasestorage.app',
+    measurementId: 'G-N3F294SQCL',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBQHOUGH4jgpfU8B6KFTaK_Uip1TwGmXuY',
-    appId: '1:181961421151:android:37cc300d28f9d6afdfc6ea',
-    messagingSenderId: '181961421151',
-    projectId: 'gymday-ee08c',
-    databaseURL: 'https://gymday-ee08c.firebaseio.com',
-    storageBucket: 'gymday-ee08c.appspot.com',
-     );
+    apiKey: 'AIzaSyBtHSftQzpRlIKzM-4JiTzNdjSpoMJn1hw',
+    appId: '1:266149675336:android:9674bc3dba96d68288b37d',
+    messagingSenderId: '266149675336',
+    projectId: 'hrapp-e4639',
+    storageBucket: 'hrapp-e4639.firebasestorage.app',
+  );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyArxy7nXdMZmhRxqoL69KIvs6yVViTvlR4',
-    appId: '1:181961421151:ios:d9c3bf1932c11bebdfc6ea',
-    messagingSenderId: '181961421151',
-    projectId: 'gymday-ee08c',
-    databaseURL: 'https://gymday-ee08c.firebaseio.com',
-    storageBucket: 'gymday-ee08c.appspot.com',
-    androidClientId: '181961421151-2dirj5r60vmcb3ijvdb9b4ogkhtpeo4n.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAJgxTfTIoLQU9NfzyuNEcJFvNwayRj9mI',
+    appId: '1:266149675336:ios:84dc0425d89e3e3988b37d',
+    messagingSenderId: '266149675336',
+    projectId: 'hrapp-e4639',
+    storageBucket: 'hrapp-e4639.firebasestorage.app',
     iosBundleId: 'com.example.hrCareerPlatform',
   );
+
 }
