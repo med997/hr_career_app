@@ -90,7 +90,7 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
-  Future<void> signOut( String? fcmToken) async {
+  Future<void> signOut(String? fcmToken) async {
 
     final failureOrAuth = await deleteAuthUseCase.call(fcmToken!);
     emit(_signOutCheckState(failureOrAuth));

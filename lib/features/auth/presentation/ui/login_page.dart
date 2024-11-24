@@ -252,7 +252,7 @@ class LoginPage extends StatelessWidget {
           controller:  TextEditingController(),
           isRequired: true,
           validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+            DynamicFormValidator(ValidatorType.notEmpty, 'is_required'.tr())
           ],
           disabled: false, key: 'email'),
       DynamicModel('password', FormType.password,
@@ -315,14 +315,14 @@ class LoginPage extends StatelessWidget {
                 style: const TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14),
+                    fontSize: 11),
               ),
               TextButton(
                   onPressed: () {
                     Navigator.of(_).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                   },
-                  child: Text('register'.tr())),
+                  child: Text('create_account_reg'.tr(),style: TextStyle(fontSize: 11),)),
             ],
           ),
         ],
