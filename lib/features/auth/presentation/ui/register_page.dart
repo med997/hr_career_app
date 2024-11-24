@@ -1,4 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui';
@@ -365,7 +367,7 @@ class RegisterPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                      Text(
+                    Text(
                       'have_an_account'.tr(),
                       style: const TextStyle(
                           color: Colors.grey,
@@ -437,9 +439,10 @@ class RegisterPage extends StatelessWidget {
                     Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                         Text(
+                        Text(
                           'if_you_already_have_an_account'.tr(),
-                          style: const TextStyle(color: Colors.black, fontSize: 16),
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 16),
                         ),
                         TextButton(
                             onPressed: () {
@@ -477,7 +480,9 @@ class RegisterPage extends StatelessWidget {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) =>  VerificationPage(email: state.auth.email,),
+                builder: (context) => VerificationPage(
+                  email: state.auth.email,
+                ),
               ),
               (route) => false);
         }
@@ -491,23 +496,31 @@ class RegisterPage extends StatelessWidget {
               color: primaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
-              onPressed: () {
+              onPressed: () async {
                 final value =
                     context.read<DynamicFormCubit>().getCurrentValue();
                 print(value);
                 final selectedTab =
                     context.read<ToggleBtnCubit>().state.selectedTab;
+                String fcmToken = '';
+                if (!kIsWeb) {
+                  fcmToken =
+                      await FirebaseMessaging.instance.getToken() ?? '';
+                }
                 if (selectedTab == 0) {
+
                   if (regFormKeyUser.currentState!.validate()) {
                     context.read<RegisterCubit>().registerUser(
                         context.read<ToggleBtnCubit>().state.selectedTab,
-                        value);
+                        value,
+                        fcmToken ?? '');
                   }
                 } else {
                   if (regFormKeyCompany.currentState!.validate()) {
                     context.read<RegisterCubit>().registerUser(
                         context.read<ToggleBtnCubit>().state.selectedTab,
-                        value);
+                        value,
+                        fcmToken ?? '');
                   }
                 }
               },
@@ -516,7 +529,7 @@ class RegisterPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                   Text(
+                  Text(
                     'register'.tr(),
                     style: const TextStyle(
                       color: Colors.white,

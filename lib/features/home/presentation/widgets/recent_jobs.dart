@@ -45,7 +45,9 @@ class RecentJobsWidget extends StatelessWidget {
               imgUrl: imgUrl,
               errorText: state.msg,
               clickedReload: () {
-                context.read<HomeCubit>().getUserHome();
+                if(jobCardType == JobCardType.user) {
+                  context.read<HomeCubit>().getUserHome();
+                }
               });
         }
         return const SizedBox();
@@ -106,7 +108,7 @@ class RecentJobsWidget extends StatelessWidget {
                 : JobCard(
                     jobCardType: JobCardType.company,
                     job: job,
-                    chipText: jobs!.first.status,
+                    chipText: jobs.first.status,
                     chipBgColor: primaryColor,
                     columnWidth: itemWidth,
                   )),

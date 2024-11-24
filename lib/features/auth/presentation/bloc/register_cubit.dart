@@ -23,18 +23,13 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   RegisterCubit({required this.signupUseCase}) : super(RegisterInitial()) ;
 
-  Future<void> registerUser(int selectedIndex, Map<String,dynamic>? value) async {
+  Future<void> registerUser(int selectedIndex, Map<String,dynamic>? value, String fcmToken) async {
     emit(RegisterLoading());
 
     UsrType usrType = selectedIndex == 0 ? UsrType.user : UsrType.company;
     Auth auth;
 
-    String fcmToken;
-    if(!kIsWeb){
-      fcmToken = await FirebaseMessaging.instance.getToken()??'';
-    }else{
-      fcmToken = await FirebaseMessaging.instance.getToken(vapidKey:FcmWebKeyPair)??'';
-    }
+
       print(fcmToken);
     if (usrType == UsrType.user) {
       print(usrType);
