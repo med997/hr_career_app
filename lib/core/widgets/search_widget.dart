@@ -231,17 +231,12 @@ class SearchWidget extends StatelessWidget {
           controller: TextEditingController(),
           subDynamicModel: searchForm),
     ];
-    return Wrap(
-      children: <Widget>[
-               DynamicFormWidget(
-                key: const Key('search'),
-                dynamicFormsList: searchFormDesk,
-                formKey: _formKey,
-                useResponsiveUi: true,
-              ),
-
-      ],
-    );
+    return DynamicFormWidget(
+     key: const Key('search'),
+     dynamicFormsList: searchFormDesk,
+     formKey: _formKey,
+     useResponsiveUi: true,
+                  );
   }
 
   void _searchAction(BuildContext context) {

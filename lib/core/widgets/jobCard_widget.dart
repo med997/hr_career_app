@@ -163,7 +163,7 @@ class JobCard extends StatelessWidget {
               ),
 
               CustomChips(
-                chipsTitles: [job.status!??''],
+                chipsTitles: ['${job.status!??''}'.tr()],
                 bgColor: primaryColor,
               ),
             ],
