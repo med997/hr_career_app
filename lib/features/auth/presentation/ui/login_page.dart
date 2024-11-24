@@ -322,7 +322,7 @@ class LoginPage extends StatelessWidget {
                     Navigator.of(_).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                   },
-                  child: Text('create_account_reg'.tr(),style: TextStyle(fontSize: 11),)),
+                  child: Text('create_account_reg'.tr(),style: const TextStyle(fontSize: 11),)),
             ],
           ),
         ],

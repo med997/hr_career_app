@@ -53,6 +53,7 @@ class RegisterCubit extends Cubit<RegisterState> {
               email: value['email'])
 
       );
+
       print(auth.profile!.fcmToken);
     } else {
 
