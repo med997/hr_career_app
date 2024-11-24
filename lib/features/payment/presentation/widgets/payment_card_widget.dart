@@ -32,7 +32,7 @@ class PaymentCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              pkg.pkgName,
+              pkg.pkgName.tr(),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             const SizedBox(height: 12),
@@ -47,7 +47,7 @@ class PaymentCardWidget extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: primaryColor.withOpacity(0.4)),
                 ),
-                const Text('(SAR)/job'),
+                 Text('currencyJob'.tr()),
               ],
             ),
             const SizedBox(height: 12),
@@ -55,7 +55,7 @@ class PaymentCardWidget extends StatelessWidget {
               return  Padding(
                 padding: const EdgeInsets.only(bottom: 4.0),
                 child: Text(
-                  '• $feature', style: TextStyle(color: Colors.grey.shade600)),
+                  '• ${feature.tr()}', style: TextStyle(color: Colors.grey.shade600)),
               );
             },),
             const SizedBox(height: 20),
