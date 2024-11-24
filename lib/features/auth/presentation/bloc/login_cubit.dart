@@ -68,11 +68,14 @@ class LoginCubit extends Cubit<LoginState> {
   LoginState _mapCheckAuthToState(Either<Failure, Auth> either) {
     return either.fold(
           (failure) {
-        print(failure.runtimeType);
+            print(failure.runtimeType);
+            print(failure.message);
         return NoLoginUser(msg: _mapFailureToMessage(failure));
       },
           (auth) {
         authenticatedUser = auth;
+        print('_mapCheckAuthToState');
+        print(auth.toString());
         return CurrentUserStatus(auth: auth);
       },
     );

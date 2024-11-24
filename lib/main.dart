@@ -203,7 +203,7 @@ debugShowCheckedModeBanner: false,
               PointerDeviceKind.unknown
             },
           ),
-          home: const SplashPage(),
+          home:  SplashPage(),
         );
 
   }

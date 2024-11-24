@@ -28,7 +28,8 @@ class Auth extends Equatable {
   @override
   List<Object?> get props => [];
 
-
-
-
+  @override
+  String toString() {
+    return 'Auth{email: $email, password: $password, fcmToken: $fcmToken, userAuth: $userAuth, userType: $userType, profile: $profile, company: $company}';
+  }
 }

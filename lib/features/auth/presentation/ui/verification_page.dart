@@ -7,6 +7,7 @@ import 'package:hr_career_platform/core/splash_page.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/verification_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
+import 'package:hr_career_platform/main.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import '../../../../core/cubit/dynamic_form_cubit.dart';
 import '../../../../core/widgets/loading_widget.dart';
@@ -113,9 +114,10 @@ class VerificationPage extends StatelessWidget {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const SplashPage(),
+                builder: (context) =>  LoginPage(),
               ),
                   (route) => false);
+
         }
       },
       builder: (context, state) {

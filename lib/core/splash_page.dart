@@ -19,6 +19,7 @@ import '../features/home/presentation/ui/home_page.dart';
 import 'app_theme.dart';
 
 class SplashPage extends StatefulWidget {
+
   const SplashPage({super.key});
 
   @override
@@ -28,27 +29,32 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   reloadingAgain(BuildContext context) {}
 
+
   @override
   void initState() {
     super.initState();
+    print('spalsh initState');
     context.read<LoginCubit>().checkLoginStatus();
+    print('spalsh initState after');
     context.read<GeneralCubit>().getGeneral();
   }
 
-  Future<String?> getFcmToken() async {
-    String? fcmToken;
-    if(!kIsWeb){
-      fcmToken = await FirebaseMessaging.instance.getToken();
-    }
-    return fcmToken;
-  }
+
 
   @override
   Widget build(BuildContext context) {
+    print("splashPageBuilder");
     return Scaffold(
       body: BlocConsumer<LoginCubit, LoginState>
-        (listener: (contextState, state) async {
+        (
+
+          listener: (contextState, state)  {
+
+        print("splash status "+ state.runtimeType.toString());
+
         if (state is CurrentUserStatus) {
+          print("i am splash success");
+
           if (state.auth.userType == UsrType.user ) {
               Navigator.pushAndRemoveUntil(
                 context,
@@ -72,7 +78,11 @@ class _SplashPageState extends State<SplashPage> {
           }
         }
         if (state is NoLoginUser) {
+          print("i am splash no");
+          print(state.msg);
+
           if (state.msg == EMPTY_CACHE_FAILURE_MESSAGE) {
+            print('splash error' +state.msg);
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -100,6 +110,7 @@ class _SplashPageState extends State<SplashPage> {
           }
         }
       }, builder: (context, state) {
+
         return Container(
             decoration: BoxDecoration(
               image: const DecorationImage(

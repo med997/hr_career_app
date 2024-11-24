@@ -87,7 +87,7 @@ AppBar buildAppBar(
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SplashPage(),
+                                builder: (context) =>  SplashPage(),
                               ),
                               (route) => false);
                         }

@@ -115,7 +115,7 @@ class CompanyAppBarWidget extends StatelessWidget {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const SplashPage(),
+                                    builder: (context) =>  SplashPage(),
                                   ),
                                   (route) => false);
                             }
