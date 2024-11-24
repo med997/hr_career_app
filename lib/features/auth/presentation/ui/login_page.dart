@@ -73,7 +73,7 @@ class LoginPage extends StatelessWidget {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                              Text(
-                              'If you don’t have an account register You can'.tr(),
+                              'dont_reg_msg'.tr(),
                               style:
                                   TextStyle(color: Colors.black, fontSize: 16),
                             ),
@@ -82,7 +82,7 @@ class LoginPage extends StatelessWidget {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                                 },
-                                child: Text('Register here !'.tr())),
+                                child: Text('register_here'.tr())),
                           ],
                         ),
                       ],
@@ -157,7 +157,7 @@ class LoginPage extends StatelessWidget {
                 (route) => false);
           }
         }else if(state is ErrLoginUser){
-          if(state.msg.contains('Email not confirmed'.tr())){
+          if(state.msg.contains('email_no_confirmed')){
             final value =
             context.read<DynamicFormCubit>().getCurrentValue()['email'];
              Navigator.of(context).push(MaterialPageRoute(
@@ -189,7 +189,7 @@ class LoginPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                            Text(
-                            'Login'.tr(),
+                            'login'.tr(),
                             style: const TextStyle(
                               color: Colors.white,
                             ),
@@ -210,7 +210,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 if (state is ErrLoginUser)
                   Text(
-                    state.msg,
+                    state.msg.tr(),
                     style: const TextStyle(
                         color: Colors.redAccent, fontWeight: FontWeight.w500),
                   )
@@ -235,7 +235,7 @@ class LoginPage extends StatelessWidget {
             onPressed: () {},
             color: Colors.yellow.shade700,
             child: Text(
-              'Continue as Gust'.tr(),
+              'continue_as_guest'.tr(),
               style: const TextStyle(
                 color: Colors.white,
               ),
@@ -252,14 +252,14 @@ class LoginPage extends StatelessWidget {
           controller:  TextEditingController(),
           isRequired: true,
           validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+            DynamicFormValidator(ValidatorType.notEmpty, 'is_required'.tr())
           ],
           disabled: false, key: 'email'),
       DynamicModel('password', FormType.password,
           controller:  TextEditingController(),
           isRequired: true,
           validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+            DynamicFormValidator(ValidatorType.notEmpty, 'is_required'.tr())
           ],
           inputAction: TextInputAction.go,
           onSubmit: () {
@@ -299,7 +299,7 @@ class LoginPage extends StatelessWidget {
              
             },
             child: Text(
-              'Forget Password?'.tr(),
+              'forget_password'.tr(),
               style: const TextStyle(
                   color: primaryColor,
                   fontWeight: FontWeight.bold,
@@ -311,18 +311,18 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
                 Text(
-                "Haven't an account?".tr(),
+                "havent_an_account".tr(),
                 style: const TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14),
+                    fontSize: 11),
               ),
               TextButton(
                   onPressed: () {
                     Navigator.of(_).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
                   },
-                  child: Text('Register'.tr())),
+                  child: Text('create_account_reg'.tr(),style: TextStyle(fontSize: 11),)),
             ],
           ),
         ],

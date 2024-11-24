@@ -23,7 +23,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/util/const_val.dart';
 import '../../../../core/util/responsive.dart';
-import '../../../../core/widgets/map_icon_button.dart';
+import '../../../../core/widgets/location_widget.dart';
 import '../../../general/domain/entities/general.dart';
 import '../../../profile/presentation/widgets/education_widget.dart';
 import '../../../profile/presentation/widgets/experience_widget.dart';

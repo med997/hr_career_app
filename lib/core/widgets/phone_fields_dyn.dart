@@ -9,39 +9,37 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../app_theme.dart';
 
-
-
-
-Widget getPhoneWidget(DynamicModel dynamicModel,[BuildContext? context]) {
-  final List<Country> countriesList = countries.where((element) => element.code=='SA').toList();
-return
-  Padding(
-    padding:  EdgeInsets.only(bottom: dynamicModel.padding??8.0),
+Widget getPhoneWidget(DynamicModel dynamicModel, [BuildContext? context]) {
+  final List<Country> countriesList =
+      countries.where((element) => element.code == 'YE').toList();
+  return Padding(
+    padding: EdgeInsets.only(bottom: dynamicModel.padding ?? 8.0),
     child: IntlPhoneField(
-      readOnly: dynamicModel.disabled,
-      disableAutoFillHints: true,
-      textInputAction: dynamicModel.inputAction??TextInputAction.next,
-      textAlign: TextAlign.start,
-      key: Key(dynamicModel.key),
+        readOnly: dynamicModel.disabled,
+        disableAutoFillHints: true,
+        textInputAction: dynamicModel.inputAction ?? TextInputAction.next,
+        textAlign: TextAlign.start,
+        key: Key(dynamicModel.key),
         enabled: !dynamicModel.disabled,
         flagsButtonMargin: const EdgeInsets.symmetric(vertical: 4),
         flagsButtonPadding: const EdgeInsets.symmetric(vertical: 4),
-       controller: dynamicModel.controller,
-      showCountryFlag: false,
-      decoration: InputDecoration(
-        counterText: '',
-        helperText: dynamicModel.helperText ?? '',
+        controller: dynamicModel.controller,
+        showCountryFlag: false,
+        decoration: InputDecoration(
+          counterText: '',
+          helperText: dynamicModel.helperText ?? '',
           border: OutlineInputBorder(
             borderSide: const BorderSide(color: primaryColor),
             borderRadius: BorderRadius.circular(8),
           ),
-        labelText: dynamicModel.controlName.tr(),
-        contentPadding: const EdgeInsets.symmetric(vertical: 12),
-        constraints:   const BoxConstraints.tightFor(height: 60),
-      ),
+          labelText: dynamicModel.controlName.tr(),
+          contentPadding: const EdgeInsets.symmetric(vertical: 12),
+          constraints: const BoxConstraints.tightFor(height: 60),
+        ),
         validator: (text) {
           //To validate non-empty, it returns an error message if the text is empty.
-          if (dynamicModel.isRequired && dynamicModel.validators!
+          if (dynamicModel.isRequired &&
+              dynamicModel.validators!
                   .any((element) => element.type == ValidatorType.notEmpty) &&
               (text == null || text.number.isEmpty)) {
             return dynamicModel.validators!
@@ -50,12 +48,11 @@ return
           }
           return null;
         },
-countries:countriesList,
-      style: const TextStyle(fontSize: 14),
-      initialCountryCode: 'SA',
+        countries: countriesList,
+        style: const TextStyle(fontSize: 14),
+        initialCountryCode: 'YE',
         onChanged: (value) {
           context!.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
-        }
-    ),
+        }),
   );
 }

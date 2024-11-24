@@ -88,7 +88,7 @@ class LanguageButton extends StatelessWidget {
                         Navigator.pop(context);
                       },
                       child: Text(
-                      'Cancel'.tr(),
+                      'cancel'.tr(),
                       ),
                     ),
                   ],

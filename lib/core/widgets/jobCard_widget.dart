@@ -118,7 +118,7 @@ class JobCard extends StatelessWidget {
                       color: primaryColor.withOpacity(0.6),
                     ),
                     textColor: primaryTransparent.withOpacity(0.5),
-                    text: job.nationalities ?? 'All'.tr()),
+                    text: job.nationalities ?? 'all'.tr()),
               ],
             ),
           ),

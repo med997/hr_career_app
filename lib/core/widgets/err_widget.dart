@@ -29,7 +29,7 @@ class ErrWidget extends StatelessWidget {
                   children: [
                     Image.asset(imgUrl, height: 150,),
                     Text(
-                      errorText,
+                      errorText.tr(),
                       style: const TextStyle(
                           color: primaryColor, fontWeight: FontWeight.bold),
                     ),
@@ -48,7 +48,7 @@ class ErrWidget extends StatelessWidget {
                             },
                             color: Colors.yellow.shade700,
                             child:  Text(
-                              'Refresh'.tr(),
+                              'refresh'.tr(),
                               style: const TextStyle(
                                 color: Colors.white,
                               ),

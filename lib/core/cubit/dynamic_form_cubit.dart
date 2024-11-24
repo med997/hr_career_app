@@ -6,7 +6,7 @@ import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 
 import '../app_theme.dart';
-import '../widgets/map_icon_button.dart';
+import '../widgets/location_widget.dart';
 
 
 

@@ -9,7 +9,7 @@ Future<dynamic> showColorPickerDialog(BuildContext context) {
     builder: (BuildContext contextDialog) {
 
       return AlertDialog(
-        title:  Text('SelectCurrentDate'.tr()),
+        title:  Text('select_current_date_msg'.tr()),
         scrollable: true,
         content: SizedBox(
           height: 500,
@@ -36,7 +36,7 @@ Future<dynamic> showColorPickerDialog(BuildContext context) {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Cancel'.tr()),
+            child: Text('cancel'.tr()),
           ),
           TextButton(
             onPressed: () {
