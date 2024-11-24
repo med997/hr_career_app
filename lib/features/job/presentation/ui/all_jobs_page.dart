@@ -45,32 +45,37 @@ class AllJobsPage extends StatelessWidget {
     double itemWidth = MediaQuery.of(context).size.width / columnCount -50 ;
     if(Responsive.isDesktop(context))
       itemWidth = MediaQuery.of(context).size.width / columnCount -100 ;
-    return Wrap(
-        children: [
-          ...jobs.map(
-                (job) => SizedBox(
-                width: itemWidth,
-                child: jobCardType == JobCardType.user ? JobCard(
-                job: job,
-                  columnWidth: itemWidth,) : jobCardType == JobCardType.company ?JobCard(
-                  jobCardType: JobCardType.company,
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        Wrap(
+            children: [
+              ...jobs.map(
+                    (job) => SizedBox(
+                    width: itemWidth,
+                    child: jobCardType == JobCardType.user ? JobCard(
+                    job: job,
+                      columnWidth: itemWidth,) : jobCardType == JobCardType.company ?JobCard(
+                      jobCardType: JobCardType.company,
 
-                  chipText: tr("active_msg"),
-                  chipBgColor: primaryColor,
-             job: job,
-                  columnWidth: itemWidth,
-                ):
-                JobCard(
-                  jobCardType: JobCardType.company,
+                      chipText: tr("active_msg"),
+                      chipBgColor: primaryColor,
+                 job: job,
+                      columnWidth: itemWidth,
+                    ):
+                    JobCard(
+                      jobCardType: JobCardType.company,
 
-                  chipText: tr("active_msg"),
-                  chipBgColor: Colors.orange,
-                  job: job,
-                  columnWidth: itemWidth,
-                )
-            ),
-          )
-        ]);
+                      chipText: tr("active_msg"),
+                      chipBgColor: Colors.orange,
+                      job: job,
+                      columnWidth: itemWidth,
+                    )
+                ),
+              )
+            ]),
+      ],
+    );
   }
   @override
   Widget build(BuildContext context) {
