@@ -247,9 +247,7 @@ class VerificationPage extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   Directionality(
-                    textDirection: context.locale.languageCode == 'ar'
-                        ? ui.TextDirection.ltr
-                        : ui.TextDirection.ltr,
+                    textDirection: ui.TextDirection.ltr,
                     child: VerificationCodeField(
                       length: 6,
                       onFilled: (value) {
