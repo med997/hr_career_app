@@ -81,6 +81,8 @@ class LoginPage extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
+                                  // Navigator.of(context).push(MaterialPageRoute(
+                                  //     builder: (context) => VerificationPage(email: "20tkb17xx9@somelora.com")));
                                 },
                                 child: Text('register_here'.tr())),
                           ],

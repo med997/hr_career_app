@@ -7,6 +7,7 @@ import 'package:hr_career_platform/core/splash_page.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/verification_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
+import 'package:hr_career_platform/features/auth/presentation/ui/register_page.dart';
 import 'package:hr_career_platform/main.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import '../../../../core/cubit/dynamic_form_cubit.dart';
@@ -14,6 +15,7 @@ import '../../../../core/widgets/loading_widget.dart';
 import '../../domain/entities/auth.dart';
 import '../bloc/login_cubit.dart';
 import '../widget/login_ana_register_appbar_functhion.dart';
+import 'dart:ui' as ui;
 
 class VerificationPage extends StatelessWidget {
   final String email;
@@ -30,18 +32,26 @@ class VerificationPage extends StatelessWidget {
 
   Widget _desktopAndTabletVerificationPage(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
-
-          iconTheme: const IconThemeData.fallback(),
-          flexibleSpace: Container(
-              padding: const EdgeInsets.all(120.0),
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/imgs/bglarg.png'),
-                  fit: BoxFit.fitWidth, // Adjust fit as needed
-                ),
-              ))),
+        iconTheme: const IconThemeData.fallback(),
+        flexibleSpace: Container(
+          padding: const EdgeInsets.all(120.0),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/imgs/bglarg.png'),
+              fit: BoxFit.fitWidth, // Adjust fit as needed
+            ),
+          ),
+        ),
+        // leading: BackButton(
+        //   color: primaryColor,
+        //   onPressed: () {
+        //     Navigator.of(context).pushAndRemoveUntil(
+        //         MaterialPageRoute(builder: (context) => RegisterPage()),
+        //         (route) => false);
+        //   },
+        // ),
+      ),
       body: Container(
           padding: const EdgeInsets.all(120.0),
           decoration: const BoxDecoration(
@@ -69,36 +79,34 @@ class VerificationPage extends StatelessWidget {
 
   Widget _mobileVerificationPage(BuildContext context) {
     return Scaffold(
-
       body: SafeArea(
           child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: primaryTransparent.withOpacity(0.2),
-                  image: const DecorationImage(
-                    image: AssetImage('assets/imgs/paternPrimary.png'),
-                    fit: BoxFit.cover, // Adjust fit as needed
-                  ),
-                ),
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: primaryTransparent.withOpacity(0.2),
+              image: const DecorationImage(
+                image: AssetImage('assets/imgs/paternPrimary.png'),
+                fit: BoxFit.cover, // Adjust fit as needed
               ),
-              BackButton(
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => LoginPage()),
-                          (route) => false);
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: loginAndRegisterAppBar(bgColor: Colors.transparent),
-              ),
-              Center(
-                child: verificationCard(context),
-              ),
-            ],
-          )),
+            ),
+          ),
+          // BackButton(
+          //   onPressed: () {
+          //     Navigator.of(context).pushAndRemoveUntil(
+          //         MaterialPageRoute(builder: (context) => LoginPage()),
+          //         (route) => false);
+          //   },
+          // ),
+          Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: loginAndRegisterAppBar(bgColor: Colors.transparent),
+          ),
+          Center(
+            child: verificationCard(context),
+          ),
+        ],
+      )),
     );
   }
 
@@ -107,17 +115,16 @@ class VerificationPage extends StatelessWidget {
       listener: (context, state) {
         if (state is SuccessVerificationUser) {
           ScaffoldMessenger.of(context).showSnackBar(
-             SnackBar(
+            SnackBar(
               content: Text('verification_successfully'.tr()),
             ),
           );
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) =>  LoginPage(),
+                builder: (context) => LoginPage(),
               ),
-                  (route) => false);
-
+              (route) => false);
         }
       },
       builder: (context, state) {
@@ -132,43 +139,57 @@ class VerificationPage extends StatelessWidget {
                   builder: (context, btnState) {
                     return MaterialButton(
                       disabledColor: Colors.grey,
-
                       color: primaryColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
-                      onPressed:btnState? () {
-                          context.read<VerificationCubit>().resendOtp(email);
-                          context.read<DisableButtonCubit>().disableButton(true);
-
-                      }:null,
+                      onPressed: btnState
+                          ? () {
+                              context
+                                  .read<VerificationCubit>()
+                                  .resendOtp(email);
+                              context
+                                  .read<DisableButtonCubit>()
+                                  .disableButton(true);
+                            }
+                          : null,
                       enableFeedback: false,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                           Text(
+                          Text(
                             'resend_code'.tr(),
                             style: const TextStyle(
                               color: Colors.white,
                             ),
                           ),
-                          Countdown(
-                            seconds: 30,
-                            build: (BuildContext context, double time) =>
-                                Text(time.toString()),
-                            interval: const Duration(milliseconds: 1000),
-                            onFinished: () {
-                              context.read<DisableButtonCubit>().disableButton(false);
-                            },
-                          ),
+                          btnState == false
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
+                                  child: Countdown(
+                                    seconds: 30,
+                                    build:
+                                        (BuildContext context, double time) =>
+                                            Text(time.toString()),
+                                    interval:
+                                        const Duration(milliseconds: 1000),
+                                    onFinished: () {
+                                      context
+                                          .read<DisableButtonCubit>()
+                                          .disableButton(false);
+                                    },
+                                  ),
+                                )
+                              : const SizedBox(),
                           if (state is VerificationLoading)
                             Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 12.0),
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
                               child: FittedBox(
                                   child: LoadingWidget(
-                                    progressColor: Colors.white,
-                                  )),
+                                progressColor: Colors.white,
+                              )),
                             )
                         ],
                       ),
@@ -178,10 +199,13 @@ class VerificationPage extends StatelessWidget {
               ),
             ),
             if (state is ErrVerificationUser)
-              Text(
-                state.msg,
-                style: const TextStyle(
-                    color: Colors.redAccent, fontWeight: FontWeight.w500),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text(
+                  "OTP Error !".tr(),
+                  style: const TextStyle(
+                      color: Colors.redAccent, fontWeight: FontWeight.w500),
+                ),
               )
           ],
         );
@@ -193,43 +217,56 @@ class VerificationPage extends StatelessWidget {
     return Container(
       width: 400,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 50),
-      margin: const EdgeInsets.symmetric(horizontal: 28),
+      margin: const EdgeInsets.symmetric(horizontal: 40),
       decoration: BoxDecoration(
           color: bgColor, borderRadius: BorderRadius.circular(18)),
       child: ListView(
         shrinkWrap: true,
-
         children: [
-           Center(
+          Center(
             child: Text(
               "Verify Code".tr(),
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: 8),
-           Text(
+          Text(
             "Enter your verification code from your email that we've sent".tr(),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 10),
           SizedBox(
-            width: 300,
+            width: 50,
             height: 40,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              children: [
-                VerificationCodeField(
-                  length: 6,
-                  onFilled: (value) {
-                    context.read<VerificationCubit>().verifyUser(value, email);
-                  },
-                  size: const Size(40, 40),
-                  spaceBetween: 8,
-                  matchingPattern: RegExp(r'^\d+$',),
-                ),
-              ],
+            child: Center(
+              child: ListView(
+
+
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                children: [
+                  Directionality(
+                    textDirection: context.locale.languageCode == 'ar'
+                        ? ui.TextDirection.ltr
+                        : ui.TextDirection.ltr,
+                    child: VerificationCodeField(
+                      length: 6,
+                      onFilled: (value) {
+                        context
+                            .read<VerificationCubit>()
+                            .verifyUser(value, email);
+                      },
+                      size: const Size(40, 40),
+                      spaceBetween: 8,
+                      matchingPattern: RegExp(
+                        r'^\d+$',
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 10),
@@ -238,6 +275,4 @@ class VerificationPage extends StatelessWidget {
       ),
     );
   }
-
-
 }
