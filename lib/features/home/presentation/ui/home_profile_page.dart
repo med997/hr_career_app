@@ -331,7 +331,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           ]),
       DynamicModel('nationality', FormType.dropdown,
           items: nationalityItems,
-          disabled: isDisable,
+          disabled: true,
           key: 'nationality',
           controller: TextEditingController(text: profile.nationality ?? ''),
           width: Responsive.isMobile(context) ? width : defaultWidth,

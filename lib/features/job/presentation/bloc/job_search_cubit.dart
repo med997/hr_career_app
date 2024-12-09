@@ -2,6 +2,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/features/job/domain/usercase/get_all_jobs_by_company.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
@@ -22,7 +23,8 @@ class JobSearchCubit extends Cubit<JobState> {
     emit(JobLoadingState());
 
     final failureOrSuccess = await getJobUserCase.callAll(
-    value!['searchVal'],value['nationality']
+    value!['searchVal'],
+      VersionFor!='YE'? value['nationality']:'All'
     ,value['city'],value['category'],);
     emit(_mapFailureOrJobsToState(failureOrSuccess));
   }
