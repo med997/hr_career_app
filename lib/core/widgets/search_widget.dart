@@ -222,7 +222,7 @@ class SearchWidget extends StatelessWidget {
               color: primaryColor,
               child: Text(
                 'search'.tr(),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               )),
           subFormFooter: SizedBox(),
           validators: [

@@ -81,9 +81,7 @@ class LoginPage extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
-                                  // Navigator.of(context).push(MaterialPageRoute(
-                                  //     builder: (context) => VerificationPage(email: "20tkb17xx9@somelora.com")));
-                                },
+                                  },
                                 child: Text('register_here'.tr())),
                           ],
                         ),
@@ -223,8 +221,69 @@ class LoginPage extends StatelessWidget {
       },
     );
   }
+  _goRegPageBtn( BuildContext _) {
 
+        return Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Center(
+                child: SizedBox(
+                  width: 350,
+                  height: 35,
+                  child: MaterialButton(
+                    color: primaryColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    onPressed: () {
+                      Navigator.of(_).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
+
+                    },
+                    enableFeedback: false,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                         Text(
+                          'create_account_reg'.tr(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                   ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+
+  }
   Widget _asGustBtn() {
+    return BlocConsumer<LoginCubit, LoginState>(
+  listener: (context, state) {
+    if (state is SuccessLoginAsGustUser) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomePage(auth: state.auth,),
+            ),
+                (route) => false);
+
+    }else if(state is ErrLoginUser){
+      if(state.msg.contains('email_no_confirmed')){
+        final value =
+        context.read<DynamicFormCubit>().getCurrentValue()['email'];
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => VerificationPage(email: value)));
+      }
+
+    }
+  },
+  builder: (context, state) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Center(
@@ -234,7 +293,9 @@ class LoginPage extends StatelessWidget {
           child: MaterialButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            onPressed: () {},
+            onPressed: () {
+              context.read<LoginCubit>().loginAsGust();
+            },
             color: Colors.yellow.shade700,
             child: Text(
               'continue_as_guest'.tr(),
@@ -246,8 +307,9 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  },
+);
   }
-
   _cardLogin(BuildContext _) {
     final List<DynamicModel> loginDynForm = [
       DynamicModel('email', FormType.email,
@@ -295,6 +357,7 @@ class LoginPage extends StatelessWidget {
             ],
           ),
           _loginBtn(),
+          _goRegPageBtn(_),
           _asGustBtn(),
            Center(
             child: TextButton(onPressed: () {
@@ -308,7 +371,7 @@ class LoginPage extends StatelessWidget {
                   fontSize: 12),
             ),)
           ),
-          if(Responsive.isMobile(_))
+       /*   if(Responsive.isMobile(_))
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -326,7 +389,7 @@ class LoginPage extends StatelessWidget {
                   },
                   child: Text('create_account_reg'.tr(),style: const TextStyle(fontSize: 11),)),
             ],
-          ),
+          ),*/
         ],
       ),
     );

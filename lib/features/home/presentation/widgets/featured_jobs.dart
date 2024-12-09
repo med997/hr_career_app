@@ -104,6 +104,7 @@ class FeaturedJobs extends StatelessWidget {
       onTap:  () => Navigator.push(
         context,
         MaterialPageRoute(
+          maintainState: true,
             builder: (context) => JobDetailsPage(job: job) ),
       ),
       child: Padding(

@@ -12,6 +12,7 @@ import 'package:hr_career_platform/core/widgets/loading_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 
+import '../features/auth/domain/entities/auth.dart';
 import '../features/auth/presentation/bloc/login_cubit.dart';
 import '../features/auth/presentation/widget/login_ana_register_appbar_functhion.dart';
 import '../features/home/presentation/ui/company_home_page.dart';
@@ -40,6 +41,10 @@ class _SplashPageState extends State<SplashPage> {
   }
 
 
+  bool checkIsGust(Auth auth) {
+    return  auth.email == GustEmail;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +60,17 @@ class _SplashPageState extends State<SplashPage> {
         if (state is CurrentUserStatus) {
           print("i am splash success");
 
-          if (state.auth.userType == UsrType.user ) {
+          if (checkIsGust(state.auth)) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(
+                    auth: state.auth,
+                  ),
+                ),
+                (route) => false);
+
+          }else if (state.auth.userType == UsrType.user ) {
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(

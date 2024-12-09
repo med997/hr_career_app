@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hr_career_platform/core/error/exceptions.dart';
+import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/features/auth/data/models/auth_model.dart';
 import 'package:hr_career_platform/features/auth/domain/entities/auth.dart';
@@ -20,6 +21,7 @@ abstract class AuthRemoteDatasource {
 
   Future<Unit> signOut(UsrType usrType, String id, String fcmToken);
   Future<Unit> resendOtp(String email);
+  Future<AuthModel> loginAsGust();
   Future<AuthModel> getCurrentUserData();
 }
 
@@ -75,6 +77,35 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
             userAuth: user,
             profile: ProfileModel.fromJson(data));
       }
+      return authModelData;
+    } on AuthException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw ServerException(message: '${error.message} - ${error.statusCode}');
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw const ServerException(message: 'Something Wrong');
+    }
+  }
+
+  @override
+  Future<AuthModel> loginAsGust() async {
+    try {
+      final AuthModel authModelData;
+      final res = await supBase.auth.signInAnonymously();
+      final User? user = res.user;
+      print(user.toString());
+        authModelData = AuthModel(
+            userType: UsrType.user,
+            email: GustEmail,
+            password: '',
+            fcmToken: [''],
+            userAuth: user,
+            profile:null);
+
       return authModelData;
     } on AuthException catch (error) {
       if (kDebugMode) {
@@ -202,7 +233,8 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
         User? user = currentUserSession!.user;
 
         AuthModel authModelData;
-        UsrType usrType = user.userMetadata!['userType'] == "user"
+        UsrType usrType = user.isAnonymous?UsrType.user:
+        user.userMetadata!['userType'] == "user"
             ? UsrType.user
             : UsrType.company;
         List<String>? fcmToken = user.userMetadata!['fcm_token'];

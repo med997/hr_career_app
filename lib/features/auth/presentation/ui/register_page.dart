@@ -8,6 +8,7 @@ import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
+import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
@@ -135,86 +136,7 @@ class RegisterPage extends StatelessWidget {
     ];
   }
 
-  List<DynamicModel> regFormUsers(
-      List<ItemModel> genderItems, List<ItemModel> natList) {
-    return [
-      DynamicModel('fullName', FormType.text,
-          controller: TextEditingController(),
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          isRequired: true,
-          disabled: false,
-          key: 'fullName'),
-      DynamicModel('fullNameAr', FormType.text,
-          controller: TextEditingController(),
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          isRequired: true,
-          disabled: false,
-          key: 'fullNameAr'),
-      DynamicModel('email', FormType.email,
-          controller: TextEditingController(),
-          isRequired: true,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          disabled: false,
-          key: 'email'),
-      DynamicModel('phone', FormType.phone,
-          controller: TextEditingController(),
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          isRequired: true,
-          disabled: false,
-          key: 'phone'),
-      DynamicModel('currentJob', FormType.text,
-          controller: TextEditingController(),
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          isRequired: true,
-          disabled: false,
-          key: 'currentJob'),
-      DynamicModel('gender', FormType.dropdown,
-          items: genderItems,
-          controller: TextEditingController(),
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          isRequired: true,
-          disabled: false,
-          key: 'gender'),
-      DynamicModel('nationality', FormType.dropdown,
-          items: natList,
-          controller: TextEditingController(),
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          isRequired: true,
-          disabled: false,
-          key: 'nationality'),
-      DynamicModel('password', FormType.password,
-          controller: TextEditingController(),
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          isRequired: true,
-          disabled: false,
-          key: 'password'),
-      DynamicModel('confirmPassword', FormType.password,
-          controller: TextEditingController(),
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
-            DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
-          ],
-          isRequired: true,
-          disabled: false,
-          key: 'confirmPassword'),
-    ];
-  }
+
 
   final userDynForm = [
     DynamicModel('fullName', FormType.text,
@@ -266,7 +188,8 @@ class RegisterPage extends StatelessWidget {
         isRequired: true,
         disabled: false,
         key: 'gender'),
-    DynamicModel('nationality', FormType.dropdown,
+      if(VersionFor!='YE')
+        DynamicModel('nationality', FormType.dropdown,
         items: [],
         controller: TextEditingController(),
         validators: [
@@ -407,7 +330,8 @@ class RegisterPage extends StatelessWidget {
             padding: const EdgeInsets.all(32.0),
             child: loginAndRegisterAppBar(bgColor: Colors.transparent),
           ),
-          _cardRegister(_),
+  Center(child: _cardRegister(_),)
+
         ],
       ),
     );

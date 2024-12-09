@@ -21,9 +21,12 @@ import 'package:hr_career_platform/features/profile/presentation/bloc/curd_profi
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../core/splash_page.dart';
 import '../../../../core/util/const_val.dart';
 import '../../../../core/util/responsive.dart';
+import '../../../../core/widgets/err_widget.dart';
 import '../../../../core/widgets/location_widget.dart';
+import '../../../auth/presentation/bloc/login_cubit.dart';
 import '../../../general/domain/entities/general.dart';
 import '../../../profile/presentation/widgets/education_widget.dart';
 import '../../../profile/presentation/widgets/experience_widget.dart';
@@ -47,51 +50,91 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
   @override
   void initState() {
     super.initState();
-    context.read<ProfileCubit>().getUserByUuid(widget.auth.userAuth!.id);
+    if (!checkIsGust()) {
+      context.read<ProfileCubit>().getUserByUuid(widget.auth.userAuth!.id);
+    }
   }
 
   var isDisable = true;
 
+  bool checkIsGust() {
+    return  widget.auth.email == GustEmail;
+  }
+
+  _noLoginWidget() {
+    String imgUrl = 'assets/imgs/conectErr.png';
+    return Center(
+      child: BlocConsumer<LoginCubit, LoginState>(
+  listener: (context, state) {
+      if (state is LoginSignOutState) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SplashPage(),
+            ),
+                (route) => false);
+      }
+  },
+  builder: (context, state) {
+    return ErrWidget(
+        imgUrl: imgUrl,
+        errorText: 'noUserLogin'.tr(),
+        btnReloadLabel: 'goToLogin'.tr(),
+        clickedReload: () {
+          context.read<LoginCubit>().signOut('');
+        },
+      );
+  },
+),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
-      if (state is ProfileLoading) {
-        return LoadingWidget();
-      } else if (state is ProfileFetchedState) {
-        return ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          children: [
-            HeaderProfileWidget(
-              desc: state.profile.currentJob! ?? '',
-              withBox: true,
-              editingAvatar: true,
-              uuid: state.profile.id,
-              avatar: state.profile.avatarUrl ?? '',
-              fullName: state.profile.fullName ?? '',
-            ),
-            SubTitle(
-              title: "main_information_msg".tr(),
-              titleType: SubTitleType.withIcon,
-              iconButton: IconButton(
-                  onPressed: () {
-                    isDisable = !isDisable;
-                    context.read<DynamicFormCubit>().setDisableFiled(isDisable);
-                  },
-                  icon: const Icon(
-                    Icons.edit_road,
-                    color: primaryColor,
-                  )),
-            ),
-            _getMainInfProfileForm(state.profile, width, context),
-          ],
-        );
-      } else {
-        return const SizedBox();
-      }
-    });
-  }
+    if(checkIsGust()){
+      return _noLoginWidget();
+    }
+    else{
+      return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
+        if (state is ProfileLoading) {
+          return LoadingWidget();
+        } else if (state is ProfileFetchedState) {
+          return ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            children: [
+              HeaderProfileWidget(
+                desc: state.profile.currentJob! ?? '',
+                withBox: true,
+                editingAvatar: true,
+                uuid: state.profile.id,
+                avatar: state.profile.avatarUrl ?? '',
+                fullName: state.profile.fullName ?? '',
+              ),
+              SubTitle(
+                title: "main_information_msg".tr(),
+                titleType: SubTitleType.withIcon,
+                iconButton: IconButton(
+                    onPressed: () {
+                      isDisable = !isDisable;
+                      context.read<DynamicFormCubit>().setDisableFiled(isDisable);
+                    },
+                    icon: const Icon(
+                      Icons.edit_road,
+                      color: primaryColor,
+                    )),
+              ),
+              _getMainInfProfileForm(state.profile, width, context),
+            ],
+          );
+        } else {
+          return const SizedBox();
+        }
+      });
+
+    }
+   }
 
   Widget _getMainInfProfileForm(
       Profile profile, double width, BuildContext context) {
@@ -242,7 +285,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
     final List<DynamicModel> profileUpl = [
       DynamicModel('pdfName', FormType.text,
           key: 'pdfName',
-          controller: TextEditingController(text: profile.resumeUrl??''),
+          controller: TextEditingController(text: profile.resumeUrl ?? ''),
           action: _addResumeBtn(context, profile),
           icons: profile.resumeUrl != null
               ? InkWell(
@@ -251,12 +294,12 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                     color: Colors.redAccent,
                   ),
                   onTap: () {
-                    final website ='$BaseStorageUrl${profile.resumeUrl}';
+                    final website = '$BaseStorageUrl${profile.resumeUrl}';
                     launchUrlString("$website");
                   },
                 )
               : null,
-          width: Responsive.isMobile(context) ? width  : defaultWidth,
+          width: Responsive.isMobile(context) ? width : defaultWidth,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ])
