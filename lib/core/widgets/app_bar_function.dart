@@ -33,6 +33,8 @@ AppBar buildAppBar(
 
     iconTheme: const IconThemeData(color: primaryColor),
     centerTitle: true,
+    leading: withBackBtn==true?
+  BackButton(color: primaryColor,onPressed: onTap,): null,
     titleSpacing: 8,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,8 +44,7 @@ AppBar buildAppBar(
           crossAxisAlignment: CrossAxisAlignment.start,
           direction: Axis.vertical,
           children: [
-             if(withBackBtn==true)
-               BackButton(color: primaryColor,onPressed: onTap,),
+
             if (fullHeader == true)
               Text(
                 fullHeader ? ("welcome-back_msg".tr()) : ' ',
