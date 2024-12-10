@@ -26,7 +26,6 @@ class LoginCubit extends Cubit<LoginState> {
     required this.loginUseCase,
     required this.fetchAuthUseCase,
   }) : super(LoginInitial());
-
   Future<void> loginUser(int selectedIndex, Map<String, dynamic>? value,String? fcmToken) async {
     emit(LoginLoading());
 
@@ -49,6 +48,14 @@ class LoginCubit extends Cubit<LoginState> {
     final failureOrSuccess = await loginUseCase.call(auth,fcmToken);
     emit(_mapFailureOrAuthToState(failureOrSuccess));
   }
+  Future<void> loginAsGust() async {
+    emit(LoginLoading());
+
+
+    final failureOrSuccess = await loginUseCase.loginAsGust();
+    emit(_mapFailureOrAuthGustToState(failureOrSuccess));
+  }
+
 
   Future<void> checkLoginStatus() async {
     final failureOrAuth = await fetchAuthUseCase.call();
@@ -64,6 +71,15 @@ class LoginCubit extends Cubit<LoginState> {
             } ,
     );
   }
+  LoginState _mapFailureOrAuthGustToState(Either<Failure, Auth> either) {
+    return either.fold(
+          (failure) => ErrLoginUser(msg: _mapFailureToMessage(failure)),
+          (auth) {
+            authenticatedUser = auth;
+            return SuccessLoginAsGustUser(auth: auth);
+            } ,
+    );
+  }
 
   LoginState _mapCheckAuthToState(Either<Failure, Auth> either) {
     return either.fold(
@@ -71,8 +87,7 @@ class LoginCubit extends Cubit<LoginState> {
             print(failure.runtimeType);
             print(failure.message);
         return NoLoginUser(msg: _mapFailureToMessage(failure));
-      },
-          (auth) {
+      },(auth) {
         authenticatedUser = auth;
         print('_mapCheckAuthToState');
         print(auth.toString());

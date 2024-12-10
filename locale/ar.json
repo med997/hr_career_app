@@ -55,7 +55,7 @@
   "if_you_already_have_an_account": "إذا كان لديك حساب بالفعل",
   "login_here": "تسجيل الدخول هنا!",
   "verification_successfully": "تم التحقق بنجاح !",
-  "create_account_reg" : "قم بإنشاء حساب لتتمكن من التسجيل والدخول",
-  "User" : "مستخدم",
+  "create_account_reg" : "تسجيل حساب جديد",
+  "User" : "افراد",
   "Company" : "شركة"
 }

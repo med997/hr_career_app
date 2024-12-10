@@ -9,10 +9,11 @@ import 'package:hr_career_platform/core/cubit/reload_btn_cubit.dart';
 class ErrWidget extends StatelessWidget {
   final String imgUrl;
   final String errorText;
+  final String? btnReloadLabel;
   final Function clickedReload;
 
   const ErrWidget(
-      {super.key, required this.imgUrl, required this.errorText, required this.clickedReload});
+      {super.key, required this.imgUrl, this.btnReloadLabel, required this.errorText, required this.clickedReload});
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +44,13 @@ class ErrWidget extends StatelessWidget {
                           child: MaterialButton(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8)),
+
                             onPressed: () {
                               clickedReload();
                             },
                             color: Colors.yellow.shade700,
                             child:  Text(
-                              'refresh'.tr(),
+                              btnReloadLabel??'refresh'.tr(),
                               style: const TextStyle(
                                 color: Colors.white,
                               ),

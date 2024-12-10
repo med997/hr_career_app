@@ -15,11 +15,13 @@ import '../../../../core/app_localizations.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/cubit/dynamic_form_cubit.dart';
 import '../../../../core/model/dynamic_model.dart';
+import '../../../../core/splash_page.dart';
 import '../../../../core/util/const_val.dart';
 import '../../../../core/util/enums.dart';
 import '../../../../core/util/responsive.dart';
 import '../../../../core/util/validator.dart';
 import '../../../../core/widgets/dyn_form_widget.dart';
+import '../../../../core/widgets/err_widget.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../../core/widgets/sub-title.dart';
 import '../../../auth/domain/entities/auth.dart';
@@ -47,69 +49,109 @@ class ApplyNowPage extends StatefulWidget {
 class _ApplyNowPageState extends State<ApplyNowPage> {
   final reviewMainInfoFormKey = GlobalKey<FormState>();
   double defaultWidth = 300;
+  Auth? auth;
 
   @override
   void initState() {
     super.initState();
+    auth = context.read<LoginCubit>().authenticatedUser;
+    if (!checkIsGust(auth)) {
+      context.read<ProfileCubit>().getUserByUuid(auth!.userAuth!.id);
+    }
+  }
 
-    context.read<ProfileCubit>().getUserByUuid(
-        context.read<LoginCubit>().authenticatedUser!.userAuth!.id);
+  bool checkIsGust(Auth? auth) {
+    return auth != null && auth.email == GustEmail;
+  }
+
+  _noLoginWidget() {
+    String imgUrl = 'assets/imgs/conectErr.png';
+    return Center(
+      child: BlocConsumer<LoginCubit, LoginState>(
+        listener: (context, state) {
+          if (state is LoginSignOutState) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SplashPage(),
+                ),
+                (route) => false);
+          }
+        },
+        builder: (context, state) {
+          return ErrWidget(
+            imgUrl: imgUrl,
+            errorText: 'noUserLogin'.tr(),
+            btnReloadLabel: 'goToLogin'.tr(),
+            clickedReload: () {
+              context.read<LoginCubit>().signOut('');
+            },
+          );
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(body: SafeArea(
-      child: BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
-        if (state is ProfileLoading) {
-          return LoadingWidget();
-        } else if (state is ProfileFetchedState) {
-          context.read<CurdApplianceJobCubit>().resetState();
-          String imgUrl = state.profile.avatarUrl != null
-              ? '$BaseStorageUrl${state.profile.avatarUrl}'
-              : '';
+    return Scaffold(
+      appBar: AppBar(title: Text('apply_now_msg'.tr()),),
+        body: SafeArea(
+      child: checkIsGust(auth)
+          ? _noLoginWidget()
+          : BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
+              if (state is ProfileLoading) {
+                return LoadingWidget();
+              } else if (state is ProfileFetchedState) {
+                context.read<CurdApplianceJobCubit>().resetState();
+                String imgUrl = state.profile.avatarUrl != null
+                    ? '$BaseStorageUrl${state.profile.avatarUrl}'
+                    : '';
 
-          return Flex(
-            direction: Axis.vertical,
-            children: [
-              Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  child: ListTile(
-                    trailing: IconButton(onPressed: () {
-                      Navigator.pop(context);
-                    }, icon: const Icon(Icons.clear)),
-                    minLeadingWidth: 48,
-                    leading:
-                    AvatarNetwork(imgUrl: imgUrl, withBorder: false),
-                    title: Text(
-                      state.profile.fullName ?? '',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 14),
-                    ),
-                    horizontalTitleGap: 2,
-                    minTileHeight: 2,
-                    subtitle: Text(
-                      state.profile.currentJob ?? '',
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                  )),
-              Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
+                return Flex(
+                  direction: Axis.vertical,
                   children: [
-
-                    _getMainInfProfileForm(state.profile, width, context)
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        child: ListTile(
+                          trailing: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(Icons.clear)),
+                          minLeadingWidth: 48,
+                          leading:
+                              AvatarNetwork(imgUrl: imgUrl, withBorder: false),
+                          title: Text(
+                            state.profile.fullName ?? '',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 14),
+                          ),
+                          horizontalTitleGap: 2,
+                          minTileHeight: 2,
+                          subtitle: Text(
+                            state.profile.currentJob ?? '',
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        )),
+                    Expanded(
+                      child: ListView(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        children: [
+                          _getMainInfProfileForm(state.profile, width, context)
+                        ],
+                      ),
+                    ),
+                    _confirmBtn()
                   ],
-                ),
-              ),
-              _confirmBtn()
-            ],
-          );
-        } else {
-          return const SizedBox();
-        }
-      }),
+                );
+              } else {
+                return const SizedBox();
+              }
+            }),
     ));
   }
 
@@ -305,7 +347,6 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
 
   _confirmBtn() {
     return BlocConsumer<CurdApplianceJobCubit, CurdApplianceJobState>(
-
       listener: (context, state) {
         if (state is MessageCurdApplianceJobState) {
           showDialog<Color>(
@@ -324,7 +365,6 @@ class _ApplyNowPageState extends State<ApplyNowPage> {
                     });
               });
         }
-
       },
       builder: (context, state) {
         return Padding(

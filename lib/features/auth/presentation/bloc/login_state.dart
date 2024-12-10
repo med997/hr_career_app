@@ -24,6 +24,11 @@ class SuccessLoginUser extends LoginState {
   const SuccessLoginUser({required this.auth});
 
 }
+class SuccessLoginAsGustUser extends LoginState {
+  final Auth auth;
+  const SuccessLoginAsGustUser({required this.auth});
+
+}
 class CurrentUserStatus extends LoginState {
   final Auth auth;
   const CurrentUserStatus({required this.auth});

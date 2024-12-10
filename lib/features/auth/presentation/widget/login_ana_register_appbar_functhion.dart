@@ -9,7 +9,7 @@ Widget loginAndRegisterAppBar({Color? bgColor = null}) {
     children: [
       Image.asset('assets/imgs/project_logo.png'),
        Text(
-        'hr_applications'.tr(),
+        'AppName'.tr(),
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: primaryColor),
       ),
 

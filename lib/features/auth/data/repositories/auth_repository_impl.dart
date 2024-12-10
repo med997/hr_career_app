@@ -25,6 +25,11 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
+  Future<Either<Failure, Auth>> loginAsGust() async {
+    return await _getMessage(() => authRemoteDatasource.loginAsGust());
+  }
+
+  @override
   Future<Either<Failure, Auth>> signup(Auth auth) async {
     if (await networkInfo.isConnected) {
       try {
@@ -95,6 +100,7 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, Unit>> signOut(String fcmToken) async {
     try {
       final accountLoginIn = await authLocalDataSource.getCachedAuths();
+
       await authRemoteDatasource.signOut(
           accountLoginIn.userType, accountLoginIn.userAuth!.id, fcmToken);
       await authLocalDataSource.clearCachedAuths();

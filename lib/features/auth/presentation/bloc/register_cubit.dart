@@ -43,7 +43,7 @@ class RegisterCubit extends Cubit<RegisterState> {
               fullNameAr: value['fullNameAr'],
               currentJob: value['currentJob'],
               gender: value['gender'],
-              nationality: value['nationality'],
+              nationality: VersionFor!='YE'? value['nationality']:"All",
               phone: value['phone'],
               email: value['email'])
 

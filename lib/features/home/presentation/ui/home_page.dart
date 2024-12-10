@@ -15,11 +15,11 @@ import '../../../../core/util/const_val.dart';
 import '../../../../core/widgets/notification_page.dart';
 import '../../../auth/domain/entities/auth.dart';
 
-
 class HomePage extends StatelessWidget {
   final Auth auth;
 
   const HomePage({super.key, required this.auth});
+
   @override
   Widget build(BuildContext context) {
     return Responsive(
@@ -28,34 +28,44 @@ class HomePage extends StatelessWidget {
         desktop: desktopHomeBuilder(context));
   }
 
+  bool checkIsGust() {
+    return  auth.email == GustEmail;
+  }
+
   Widget mobileHomeBuilder() {
     return BlocBuilder<TabNavCubit, TabNavState>(
       builder: (context, state) {
         return Scaffold(
           appBar: (state is TabNavChangedState)
               ? buildAppBar(
-                  userName: state.selectedTab == 4 ? 'Notification'.tr()
-                      : state.selectedTab == 2 ? "search_msg".tr()
-                          : state.selectedTab == 3 ? "profile_msg".tr()
-                              :auth.profile!.fullName??'',
-                  img:  auth.profile!.avatarUrl??'',
+                  userName: state.selectedTab == 4
+                      ? 'Notification'.tr()
+                      : state.selectedTab == 2
+                          ? "search_msg".tr()
+                          : state.selectedTab == 3
+                              ? "profile_msg".tr()
+                              :checkIsGust()?'GustUser'.tr():
+                  auth.profile!.fullName ?? '',
+                  img: checkIsGust()?'': auth.profile!.avatarUrl ?? '',
                   userOrCompany: 'User',
                   fullHeader: (state.selectedTab == 4 ||
                           state.selectedTab == 3 ||
                           state.selectedTab == 2)
                       ? false
                       : true,
-                  selectedTab: state.selectedTab, context: context,
+                  selectedTab: state.selectedTab,
+                  context: context,
                 )
               : buildAppBar(
-                  userName: auth.profile!.fullName??'',
-              img:auth.profile!.avatarUrl ??'',
+                  userName:checkIsGust()?'GustUser'.tr(): auth.profile!.fullName ?? '',
+                  img:checkIsGust()?'': auth.profile!.avatarUrl ?? '',
                   userOrCompany: 'User',
                   fullHeader: true,
-                  selectedTab: state.selectedTab, context: context,
+                  selectedTab: state.selectedTab,
+                  context: context,
                 ),
           body: (state is TabNavChangedState)
-              ? _navPageBody(state.selectedTab,context)
+              ? _navPageBody(state.selectedTab, context)
               : SizedBox(),
           bottomNavigationBar: NavigationBar(
             destinations: navUserItem,
@@ -74,26 +84,31 @@ class HomePage extends StatelessWidget {
         return Scaffold(
           appBar: (state is TabNavChangedState)
               ? buildAppBar(
-            userName: state.selectedTab == 4 ? 'Notification'.tr()
-                : state.selectedTab == 2 ? "search_msg".tr()
-                : state.selectedTab == 3 ? "profile_msg".tr()
-                :auth.profile!.fullName??'',
-            img:auth.profile!.avatarUrl??'',
-            userOrCompany: 'User',
-            fullHeader: (state.selectedTab == 4 ||
-                state.selectedTab == 3 ||
-                state.selectedTab == 2)
-                ? false
-                : true,
-            selectedTab: state.selectedTab, context: context,
-          )
+                  userName: state.selectedTab == 4
+                      ? 'Notification'.tr()
+                      : state.selectedTab == 2
+                          ? "search_msg".tr()
+                          : state.selectedTab == 3
+                              ? "profile_msg".tr()
+                              :checkIsGust()?'GustUser'.tr(): auth.profile!.fullName ?? '',
+                  img:checkIsGust()?'': auth.profile!.avatarUrl ?? '',
+                  userOrCompany: 'User',
+                  fullHeader: (state.selectedTab == 4 ||
+                          state.selectedTab == 3 ||
+                          state.selectedTab == 2)
+                      ? false
+                      : true,
+                  selectedTab: state.selectedTab,
+                  context: context,
+                )
               : buildAppBar(
-            userName: auth.profile!.fullName??'',
-            img:auth.profile!.avatarUrl ??'',
-            userOrCompany: 'User',
-            fullHeader: true,
-            selectedTab: state.selectedTab, context: context,
-          ),
+                  userName:checkIsGust()?'GustUser'.tr(): auth.profile!.fullName ?? '',
+                  img:checkIsGust()?'': auth.profile!.avatarUrl ?? '',
+                  userOrCompany: 'User',
+                  fullHeader: true,
+                  selectedTab: state.selectedTab,
+                  context: context,
+                ),
           body: Row(
             children: [
               NavigationRail(
@@ -109,7 +124,7 @@ class HomePage extends StatelessWidget {
                   selectedIndex: state.selectedTab),
               Expanded(
                 child: (state is TabNavChangedState)
-                    ? _navPageBody(state.selectedTab,context)
+                    ? _navPageBody(state.selectedTab, context)
                     : SizedBox(),
               )
             ],
@@ -119,18 +134,22 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _navPageBody(int selectedTab,BuildContext context) {
+  Widget _navPageBody(int selectedTab, BuildContext context) {
     switch (selectedTab) {
       case 0:
         return HomeJobPage();
       case 1:
         return const HomeTenderPage();
-        case 2:
-        return  SearchPage();
+      case 2:
+        return SearchPage();
       case 3:
-        return HomeProfilePage(auth: auth,);
+        return HomeProfilePage(
+          auth: auth,
+        );
       case 4:
-        return  NotificationPage(auth: auth,);
+        return NotificationPage(
+          auth: auth,
+        );
       default:
         return Placeholder();
     }

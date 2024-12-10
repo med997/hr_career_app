@@ -77,7 +77,7 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
             /*fit: FlexFit.tight,flex: 1,*/
             flex: 3,
             child: TenderDetailsTabBar(tender: widget.tender)),
-        Center(
+   /*     Center(
           child: SizedBox(
             width: 260,
             height: 35,
@@ -92,7 +92,7 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
               ),
             ),
           ),
-        )
+        )*/
       ],
     );
   }
@@ -187,7 +187,7 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
                 ),
               ),
             ),
-            Padding(
+           /* Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: SizedBox(
                 width: 260,
@@ -203,7 +203,7 @@ class _TenderDetailsPageState extends State<TenderDetailsPage> {
                   ),
                 ),
               ),
-            )
+            )*/
           ],
         ),
         Expanded(

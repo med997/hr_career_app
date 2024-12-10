@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -44,7 +45,8 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       final decodeJsonData = json.decode(jsonString);
       print(decodeJsonData);
       AuthModel authModelData;
-      UsrType usrType = decodeJsonData['userAuth']['user_metadata']['userType'] == "user" ? UsrType
+      UsrType usrType =decodeJsonData['email']==GustEmail?UsrType.user:
+      decodeJsonData['userAuth']['user_metadata']['userType'] == "user" ? UsrType
           .user : UsrType.company;
       print('getCurrentUserData');
       print(usrType.toString());

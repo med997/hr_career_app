@@ -6,6 +6,7 @@ import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
+import 'package:hr_career_platform/core/util/const_val.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/app_bar_function.dart';
@@ -70,7 +71,7 @@ class SearchWidget extends StatelessWidget {
           ],
           controller: TextEditingController(),
           items: cityItems),
-      DynamicModel(
+     if(VersionFor!='YE') DynamicModel(
         padding: 8,
           'nationality',
           key: 'nationality',
@@ -196,7 +197,7 @@ class SearchWidget extends StatelessWidget {
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ],
           controller: TextEditingController()),
-      DynamicModel(
+     if(VersionFor!='YE')   DynamicModel(
           'nationality',
           key: 'nationality',
           width: width,
@@ -222,7 +223,7 @@ class SearchWidget extends StatelessWidget {
               color: primaryColor,
               child: Text(
                 'search'.tr(),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               )),
           subFormFooter: SizedBox(),
           validators: [
