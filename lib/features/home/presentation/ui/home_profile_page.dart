@@ -540,7 +540,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                 key == 'education' ||
                 key == 'pdfName');
           if (kDebugMode) {
-            print('mainInformation : ${infoValue}');
+            print('mainInformation : $infoValue');
           }
           await context
               .read<CurdProfileCubit>()

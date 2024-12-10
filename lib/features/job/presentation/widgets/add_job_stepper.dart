@@ -14,6 +14,7 @@ class AddJobStepper extends StatelessWidget {
       builder: (context, state) {
         return EasyStepper(
           activeStep: state.activeStep,
+
           stepShape: StepShape.rRectangle,
           stepBorderRadius: 12,
           borderThickness: 2,
@@ -29,6 +30,7 @@ class AddJobStepper extends StatelessWidget {
           activeStepBorderColor: primaryColor,
           activeStepIconColor: primaryColor,
           showLoadingAnimation: false,
+
           steps:  [
             EasyStep(icon: const Icon(Icons.add), title: 'information'.tr()),
             EasyStep(icon: const Icon(Icons.card_membership), title: 'selectPackage'.tr()),

@@ -13,6 +13,8 @@ import 'package:hr_career_platform/features/tender/domain/entities/tender.dart';
 import 'package:moyasar/moyasar.dart';
 
 import '../../../../core/widgets/success_dialog.dart';
+import '../../../auth/presentation/bloc/login_cubit.dart';
+import '../../../home/presentation/ui/company_home_page.dart';
 
 class PaymentPage extends StatefulWidget {
   final PkgType pkgType;
@@ -140,8 +142,9 @@ class _PaymentPageState extends State<PaymentPage> {
                         onDonePressed: () {
                           context.read<StepperCubit>().addJobChangeStep(0);
                           context.read<StepperCubit>().addTenderChangeStep(0);
-                          Navigator.pop(context);
-                        },
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              builder: (context) => HomeCompanyPage(auth: context.read<LoginCubit>().authenticatedUser!)
+                          ));                        },
                       ));
             }
           },

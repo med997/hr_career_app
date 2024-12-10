@@ -9,8 +9,10 @@ import 'package:hr_career_platform/core/cubit/locale_cubit.dart';
 import 'package:hr_career_platform/core/widgets/avatar_network.dart';
 import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/language_button_widget.dart';
+import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
 import 'package:hr_career_platform/features/tender/presentation/ui/add_tender_page.dart';
 import 'package:hr_career_platform/main.dart';
+import 'package:universal_html/html.dart';
 
 import '../../features/auth/presentation/bloc/login_cubit.dart';
 import '../../features/job/presentation/ui/add_job_page.dart';
@@ -22,11 +24,13 @@ AppBar buildAppBar(
     required String img,
     bool fullHeader = false,
     bool withBackBtn = false,
+      Function()? onTap,
     required String userOrCompany,
     int? selectedTab,
     required BuildContext context}) {
   String imageUrl = img.isNotEmpty ? '$BaseStorageUrl$img' : '';
   return AppBar(
+
     iconTheme: const IconThemeData(color: primaryColor),
     centerTitle: true,
     titleSpacing: 8,
@@ -38,6 +42,8 @@ AppBar buildAppBar(
           crossAxisAlignment: CrossAxisAlignment.start,
           direction: Axis.vertical,
           children: [
+             if(withBackBtn==true)
+               BackButton(color: primaryColor,onPressed: onTap,),
             if (fullHeader == true)
               Text(
                 fullHeader ? ("welcome-back_msg".tr()) : ' ',
