@@ -39,13 +39,11 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
   void initState() {
     super.initState();
     context.read<GeneralCubit>().getGeneral();
-
   }
 
   @override
   Widget build(BuildContext context) {
-    double width =
-    Responsive.isMobile(context) ? MediaQuery.of(context).size.width : 300;
+    double width = Responsive.isMobile(context) ? MediaQuery.of(context).size.width : 300;
     return ListView(
       shrinkWrap: true,
       padding: const EdgeInsets.symmetric(horizontal: 22),
@@ -53,7 +51,9 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
         _getMainInfAddTenderForm(width, context),
         BlocConsumer<CurdTenderCubit, CurdTenderState>(
           listener: (context, state) => state is MessageCurdTenderState
-              ? context.read<StepperCubit>().addTenderChangeStep(1, addedTender: state.tender)
+              ? context
+                  .read<StepperCubit>()
+                  .addTenderChangeStep(1, addedTender: state.tender)
               : null,
           builder: (context, state) {
             if (state is LoadingCurdTenderState) {
@@ -79,9 +79,8 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
           generals.cities.map((e) => ItemModel(key: e, value: e)).toList();
       categoryItems =
           generals.jobCategory.map((e) => ItemModel(key: e, value: e)).toList();
-
     }
-    List<DynamicModel> addTenderForm = [
+    List<DynamicModel> addTenderForm =  [
       DynamicModel(
         'tenderTitle',
         FormType.text,
@@ -90,7 +89,8 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
           DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
         ],
         width: width,
-        controller: TextEditingController(text: widget.tender?.tenderTitle),
+        controller:
+            TextEditingController(text: widget.tender?.tenderTitle ?? ''),
         isRequired: true,
       ),
       DynamicModel(
@@ -117,7 +117,6 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
         width: width,
         isRequired: true,
       ),
-
       DynamicModel(
         'city',
         FormType.dropdown,
@@ -142,7 +141,6 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
         items: nationalityItems,
         isRequired: true,
       ),
-
       DynamicModel(
         'category',
         FormType.dropdown,
@@ -154,7 +152,6 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
         width: width,
         items: categoryItems,
       ),
-
     ];
 
     return Flex(
@@ -179,13 +176,12 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
                   context.read<LoginCubit>().authenticatedUser!.userAuth!.id;
 
               print('company_id: $companyId ===> $value');
-              context.read<CurdTenderCubit>().insertTender(value, companyId);
-
+              if (addTenderFormKey.currentState!.validate()) {
+                context.read<CurdTenderCubit>().insertTender(value, companyId);
+              }
               // context.read<StepperCubit>().changeStep(1);
             })
       ],
     );
   }
-
-
 }

@@ -38,8 +38,13 @@ Widget getPhoneWidget(DynamicModel dynamicModel, [BuildContext? context]) {
         ),
         validator: (text) {
           //To validate non-empty, it returns an error message if the text is empty.
-          if (dynamicModel.isRequired &&
-              dynamicModel.validators!
+          if (!dynamicModel.isRequired && dynamicModel.validators == null) {
+            return null;
+          }
+          if (dynamicModel.isRequired && text == null ) {
+            return 'this_phone_number_is_required'.tr();
+          }
+          if (dynamicModel.validators!
                   .any((element) => element.type == ValidatorType.notEmpty) &&
               (text == null || text.number.isEmpty)) {
             return dynamicModel.validators!

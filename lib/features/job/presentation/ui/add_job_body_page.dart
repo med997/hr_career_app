@@ -39,7 +39,6 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -53,7 +52,9 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
         _getMainInfAddJobForm(width, context),
         BlocConsumer<CurdJobCubit, CurdJobState>(
           listener: (context, state) => state is MessageCurdJobState
-              ? context.read<StepperCubit>().addJobChangeStep(1, addedJob: state.job)
+              ? context
+                  .read<StepperCubit>()
+                  .addJobChangeStep(1, addedJob: state.job)
               : null,
           builder: (context, state) {
             if (state is LoadingCurdJobState) {
@@ -108,12 +109,8 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
         'otherApplyLinks',
         FormType.text,
         key: 'otherApplyLinks',
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
         controller: TextEditingController(text: widget.job?.otherApplyLinks),
         width: width,
-        isRequired: true,
       ),
       DynamicModel(
         'jobDesc',
@@ -257,8 +254,9 @@ class _AddJobBodyPageState extends State<AddJobBodyPage> {
                   context.read<LoginCubit>().authenticatedUser!.userAuth!.id;
 
               print('company_id: $companyId ===> $value');
-              context.read<CurdJobCubit>().insertJob(value, companyId);
-
+              if (addJobFormKey.currentState!.validate()) {
+                context.read<CurdJobCubit>().insertJob(value, companyId);
+              }
               // context.read<StepperCubit>().changeStep(1);
             })
       ],

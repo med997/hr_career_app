@@ -33,10 +33,10 @@
   "arabic": "العربية",
   "english": "English",
   "archived_msg": "مؤرشف",
-  "dont_reg_msg" : "إذا لم يكن لديك حساب قم بالتسجيل يمكنك ذلك",
-  "register_here" : "سجل هنا!",
-  "email_no_confirmed" : "البريد الإلكتروني لم يتم تأكيده",
-  "login" : "تسجيل الدخول",
+  "dont_reg_msg": "إذا لم يكن لديك حساب قم بالتسجيل يمكنك ذلك",
+  "register_here": "سجل هنا!",
+  "email_no_confirmed": "البريد الإلكتروني لم يتم تأكيده",
+  "login": "تسجيل الدخول",
   "not_read_msg": "لم تُقرأ",
   "select_current_date_msg": "حدد التاريخ الحالي",
   "cancel": "الغاء",
@@ -55,7 +55,9 @@
   "if_you_already_have_an_account": "إذا كان لديك حساب بالفعل",
   "login_here": "تسجيل الدخول هنا!",
   "verification_successfully": "تم التحقق بنجاح !",
-  "create_account_reg" : "تسجيل حساب جديد",
-  "User" : "افراد",
-  "Company" : "شركة"
+  "create_account_reg": "تسجيل حساب جديد",
+  "User": "افراد",
+  "close_page": "إغلاق الصفحة",
+  "close_add_page_msg": "هل أنت متأكد أنك تريد الخروج من هذه الصفحة؟ سيتم إلغاء جميع تغييراتك.",
+  "Company": "شركة"
 }

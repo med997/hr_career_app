@@ -55,7 +55,7 @@ class CurdJobCubit extends Cubit<CurdJobState> {
         jobTitle: value!['jobTitle'],
         gender: value['gender'],
         office: value['office'],
-        otherApplyLinks: value['otherApplyLinks'],
+        otherApplyLinks: value['otherApplyLinks']??'',
         address: value['address'],
         timeParts: value['timeParts'],
         city: value['city']??'',

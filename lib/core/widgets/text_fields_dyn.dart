@@ -7,96 +7,102 @@ import 'package:hr_career_platform/core/util/enums.dart';
 
 Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
   return Padding(
-    padding:  EdgeInsets.only(bottom: dynamicModel.padding??2.0),
+    padding: EdgeInsets.only(bottom: dynamicModel.padding ?? 2.0),
     child: Flex(
-   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       direction: Axis.horizontal,
       children: [
         Flexible(
-          child:  TextFormField(
-            key: Key(dynamicModel.controlName),
-            enabled: !dynamicModel.disabled,
-              textInputAction:dynamicModel.inputAction?? TextInputAction.next,
+          child: TextFormField(
+              key: Key(dynamicModel.controlName),
+              enabled: !dynamicModel.disabled,
+              textInputAction: dynamicModel.inputAction ?? TextInputAction.next,
               style: const TextStyle(fontSize: 14),
-            controller: dynamicModel.controller,
-            onSaved: (newValue) {
-              dynamicModel.onSubmit??
-                  dynamicModel.onSubmit!();
-            },
-
-
-            obscureText: dynamicModel.formType == FormType.password,
-            decoration: InputDecoration(
-              border: dynamicModel.inputBorder,
-              suffixIcon: dynamicModel.icons,
-              suffixIconConstraints: BoxConstraints.tightFor(height: 20,width: 40),
-              helperText: dynamicModel.helperText ?? '',
-              labelText: dynamicModel.controlName.tr(),
-              errorMaxLines: 1,
-              errorStyle: const TextStyle(
-                color: Colors.redAccent,
-                fontSize: 10.0,
+              controller: dynamicModel.controller,
+              onSaved: (newValue) {
+                dynamicModel.onSubmit ?? dynamicModel.onSubmit!();
+              },
+              obscureText: dynamicModel.formType == FormType.password,
+              decoration: InputDecoration(
+                border: dynamicModel.inputBorder,
+                suffixIcon: dynamicModel.icons,
+                suffixIconConstraints:
+                    BoxConstraints.tightFor(height: 20, width: 40),
+                helperText: dynamicModel.helperText ?? '',
+                labelText: dynamicModel.controlName.tr(),
+                errorMaxLines: 1,
+                errorStyle: const TextStyle(
+                  color: Colors.redAccent,
+                  fontSize: 10.0,
+                ),
+                constraints:
+                    BoxConstraints.tightFor(height: dynamicModel.hight ?? 55),
               ),
-              constraints:   BoxConstraints.tightFor(height: dynamicModel.hight??55),
-            ),
-            keyboardType: dynamicModel.formType == FormType.number
-                ? TextInputType.number
-                : dynamicModel.formType ==FormType.email
-                ? TextInputType.emailAddress
-                : TextInputType.text,
-            maxLines: 1,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (text) {
-              //To validate non-empty, it returns an error message if the text is empty.
-              if (dynamicModel.isRequired &&
-                  dynamicModel.validators!
-                      .any((element) => element.type == ValidatorType.notEmpty) &&
-                  (text == null || text.isEmpty)) {
-                return dynamicModel.validators!
-                    .firstWhere((element) => element.type == ValidatorType.notEmpty)
-                    .errorMessage;
-              }
-              if (dynamicModel.formType == FormType.email) {
-                final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-                if (!emailRegex.hasMatch(text!)) {
-                  return 'enter_a_valid_email_address'.tr();
+              keyboardType: dynamicModel.formType == FormType.number
+                  ? TextInputType.number
+                  : dynamicModel.formType == FormType.email
+                      ? TextInputType.emailAddress
+                      : TextInputType.text,
+              maxLines: 1,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (text) {
+                if (!dynamicModel.isRequired &&
+                    dynamicModel.validators == null) {
+                  return null;
                 }
-              }
-              //To validate text length, it returns an error message if the text length is greater than the fixed length.
-              if (dynamicModel.validators!
-                  .any((element) => element.type == ValidatorType.textLength)) {
-                var validator = dynamicModel.validators!.firstWhere(
-                    (element) => element.type == ValidatorType.textLength);
-                int? len = text?.length;
-                if (len != null && len > validator.textLength) {
-                  return validator.errorMessage;
+                if (dynamicModel.isRequired &&
+                    (text == null || text.trim().isEmpty)) {
+                  return 'this_field_is_required'.tr();
                 }
+                //To validate non-empty, it returns an error message if the text is empty.
+                if (dynamicModel.validators!.any(
+                        (element) => element.type == ValidatorType.notEmpty) &&
+                    (text == null || text.isEmpty)) {
+                  return dynamicModel.validators!
+                      .firstWhere(
+                          (element) => element.type == ValidatorType.notEmpty)
+                      .errorMessage;
                 }
-          //To validate text equal to another text ,
-          //
-          // it returns an error message if the text length is greater than the fixed length.
+                if (dynamicModel.formType == FormType.email) {
+                  final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                  if (!emailRegex.hasMatch(text!)) {
+                    return 'enter_a_valid_email_address'.tr();
+                  }
+                }
+                //To validate text length, it returns an error message if the text length is greater than the fixed length.
+                if (dynamicModel.validators!.any(
+                    (element) => element.type == ValidatorType.textLength)) {
+                  var validator = dynamicModel.validators!.firstWhere(
+                      (element) => element.type == ValidatorType.textLength);
+                  int? len = text?.length;
+                  if (len != null && len > validator.textLength) {
+                    return validator.errorMessage;
+                  }
+                }
+                //To validate text equal to another text ,
+                //
+                // it returns an error message if the text length is greater than the fixed length.
 
-          if (dynamicModel.validators!.any((element) => element.type == ValidatorType.equalTo)) {
-                var validator = dynamicModel.validators!.firstWhere(
-                (element) => element.type == ValidatorType.equalTo);
-                String? compareText =  dynamicModel.compareText;
-                print('compareText $compareText');
-                if (compareText!=null && text !=compareText) {
-                  return validator.errorMessage;
+                if (dynamicModel.validators!
+                    .any((element) => element.type == ValidatorType.equalTo)) {
+                  var validator = dynamicModel.validators!.firstWhere(
+                      (element) => element.type == ValidatorType.equalTo);
+                  String? compareText = dynamicModel.compareText;
+                  print('compareText $compareText');
+                  if (compareText != null && text != compareText) {
+                    return validator.errorMessage;
+                  }
                 }
-              }
-              return null;
-            },
-            onChanged: (value) {
-              // (dynamicModel.controller as TextEditingController).text=value;
-               context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
-            }),
+                return null;
+              },
+              onChanged: (value) {
+                // (dynamicModel.controller as TextEditingController).text=value;
+                context.read<DynamicFormCubit>().updateFieldValue(dynamicModel);
+              }),
         ),
-        if(dynamicModel.action != null && !dynamicModel.disabled)  SizedBox(
-          height: 35 ,
-            width: 35,
-            child: dynamicModel.action!),
+        if (dynamicModel.action != null && !dynamicModel.disabled)
+          SizedBox(height: 35, width: 35, child: dynamicModel.action!),
       ],
     ),
   );

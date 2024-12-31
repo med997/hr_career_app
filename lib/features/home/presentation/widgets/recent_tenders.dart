@@ -35,7 +35,7 @@ class RecentTenders extends StatelessWidget {
           return LoadingWidget();
         } else if (state is HomeFetchedState) {
           return Responsive(
-              mobile: _buildMobileLayout(state.homes.recentTender, jobCardType),
+              mobile: _buildMobileLayout(state.homes.recentTender),
               tablet: _buildTabletDesktopLayout(
                   state.homes.recentTender, 2, context),
               desktop: _buildTabletDesktopLayout(
@@ -58,20 +58,18 @@ class RecentTenders extends StatelessWidget {
     );
   }
 
-  Widget _buildMobileLayout(List<Tender>? tender, JobCardType jobCardType) {
+  Widget _buildMobileLayout(List<Tender>? tender) {
     if (selectedJobState != null && tender != null) {
       tender = tender
           .where(
             (tender) => tender.status == jobStatusList[selectedJobState ?? 0],
           )
           .toList();
-    }else {
-      tender = [];
     }
     return ListView.builder(
         shrinkWrap: true,
         physics: const PageScrollPhysics(),
-        itemCount: tender!.length ?? 0,
+        itemCount: tender!=null?tender.length : 0,
         itemBuilder: (context, i) => InkWell(
               onTap: () => Navigator.push(
                 context,
@@ -116,6 +114,7 @@ class RecentTenders extends StatelessWidget {
             })),
             child: TenderCard(
               tender: tender,
+              columnWidth: itemWidth,
             ),
           ),
         ),

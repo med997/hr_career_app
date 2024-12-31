@@ -122,32 +122,30 @@ class _PkgPageState extends State<PkgPage> {
   }
 
   Widget buildMobileLayout(List<Package> packages) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: packages.length,
-        itemBuilder: (context, index) {
-          Package e = packages[index];
-          return InkWell(
-              child: PaymentCardWidget(
-            pkg: e,
-            onPkgSelected: () {
-              if (e.price == 0) {
-                if (widget.pkgType == PkgType.job) {
-                  _insertPaymentJob(e.id!);
-                } else {
-                  _insertPaymentTender(e.id!);
-                }
+    return ListView.builder(
+      itemCount: packages.length,
+      itemBuilder: (context, index) {
+        Package e = packages[index];
+        return InkWell(
+            child: PaymentCardWidget(
+          pkg: e,
+          onPkgSelected: () {
+            if (e.price == 0) {
+              if (widget.pkgType == PkgType.job) {
+                _insertPaymentJob(e.id!);
               } else {
-                context
-                    .read<StepperCubit>()
-                    .addJobChangeStep(2, selectedPackage: e);
+                _insertPaymentTender(e.id!);
               }
-            },
-          ));
-        },
-        shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-      ),
+            } else {
+              context
+                  .read<StepperCubit>()
+                  .addJobChangeStep(2, selectedPackage: e);
+            }
+          },
+        ));
+      },
+      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(horizontal: 32),
     );
   }
 

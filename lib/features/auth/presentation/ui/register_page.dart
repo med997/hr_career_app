@@ -136,7 +136,86 @@ class RegisterPage extends StatelessWidget {
     ];
   }
 
-
+  List<DynamicModel> regFormUsers(
+      List<ItemModel> genderItems, List<ItemModel> natList) {
+    return [
+      DynamicModel('fullName', FormType.text,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'fullName'),
+      DynamicModel('fullNameAr', FormType.text,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'fullNameAr'),
+      DynamicModel('email', FormType.email,
+          controller: TextEditingController(),
+          isRequired: true,
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          disabled: false,
+          key: 'email'),
+      DynamicModel('phone', FormType.phone,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'phone'),
+      DynamicModel('currentJob', FormType.text,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'currentJob'),
+      DynamicModel('gender', FormType.dropdown,
+          items: genderItems,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'gender'),
+      if(VersionFor!='YE') DynamicModel('nationality', FormType.dropdown,
+          items: natList,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'nationality'),
+      DynamicModel('password', FormType.password,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'password'),
+      DynamicModel('confirmPassword', FormType.password,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired'),
+            DynamicFormValidator(ValidatorType.equalTo, 'PasswordNotMatch'),
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'confirmPassword'),
+    ];
+  }
 
   final userDynForm = [
     DynamicModel('fullName', FormType.text,

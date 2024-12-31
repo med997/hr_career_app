@@ -12,7 +12,7 @@ import '../util/enums.dart';
 Widget getMultiLineFieldWidget(
     DynamicModel dynamicModel, BuildContext context) {
   return Padding(
-    padding:  EdgeInsets.only(bottom: dynamicModel.padding??8.0),
+    padding: EdgeInsets.only(bottom: dynamicModel.padding ?? 8.0),
     child: TextFormField(
         key: Key(dynamicModel.key),
         onTap: () async {
@@ -25,7 +25,9 @@ Widget getMultiLineFieldWidget(
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(
           helperText: dynamicModel.helperText ?? '',
-          labelText: dynamicModel.controlName.tr(),
+          labelText: '${dynamicModel.controlName.tr()}${dynamicModel.isRequired
+              ? ' *'
+              : ''}',
           errorMaxLines: 1,
           errorStyle: const TextStyle(
             color: Colors.redAccent,
@@ -38,6 +40,12 @@ Widget getMultiLineFieldWidget(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (text) {
           //To validate non-empty, it returns an error message if the text is empty.
+          if (!dynamicModel.isRequired && dynamicModel.validators == null) {
+            return null;
+          }
+          if (dynamicModel.isRequired && (text == null || text.trim().isEmpty)) {
+            return 'this_field_is_required'.tr();
+          }
           if (dynamicModel.isRequired &&
               dynamicModel.validators!
                   .any((element) => element.type == ValidatorType.notEmpty) &&
@@ -46,6 +54,7 @@ Widget getMultiLineFieldWidget(
                 .firstWhere((element) => element.type == ValidatorType.notEmpty)
                 .errorMessage;
           }
+          return null;
         },
         onChanged: (value) {
           print(value);

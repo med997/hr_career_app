@@ -178,16 +178,6 @@ class SearchWidget extends StatelessWidget {
           ],
           controller: TextEditingController()),
       DynamicModel(
-          'company',
-          key: 'company',
-          width: width,
-          FormType.dropdown,
-          items: companyItems,
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          controller: TextEditingController()),
-      DynamicModel(
           'city',
           key: 'city',
           width: width,

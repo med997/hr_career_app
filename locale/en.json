@@ -40,6 +40,7 @@
   "not_read_msg" : "Not Read",
   "select_current_date_msg" : "Select Current Date",
   "cancel" : "Cancel",
+  "close_page": "Close Page",
   "ok" : "Ok",
   "refresh" : "Refresh",
   "done" : "Done",
@@ -56,6 +57,7 @@
   "login_here" : "Login here !",
   "verification_successfully" : "Verification Successfully!",
   "create_account_reg" : "Create New Account",
+  "close_add_page_msg" : "Are you sure you want to leave this page? all your changes will be lost.",
   "User" : "User",
   "Company" : "Company"
 

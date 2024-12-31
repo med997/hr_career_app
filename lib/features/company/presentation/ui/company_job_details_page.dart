@@ -47,7 +47,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
 
   CompanyJobDetailsPage({super.key, required this.job, this.profile});
 
-  final reviewProfileFormKey = GlobalKey<FormState>();
+  final reviewJobFormKey = GlobalKey<FormState>();
 
   bool isEditing = true;
 
@@ -124,12 +124,8 @@ class CompanyJobDetailsPage extends StatelessWidget {
           disabled: isEditing),
       DynamicModel('otherApplyLinks', FormType.text,
           key: 'otherApplyLinks',
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
           controller: TextEditingController(text: job.otherApplyLinks),
           width: width,
-          isRequired: true,
           disabled: isEditing),
       DynamicModel('jobDesc', FormType.multiline,
           key: 'jobDesc',
@@ -239,7 +235,7 @@ class CompanyJobDetailsPage extends StatelessWidget {
     return DynamicFormWidget(
       key: const Key('jobEditingInf'),
       dynamicFormsList: reviewJobForm,
-      formKey: reviewProfileFormKey,
+      formKey: reviewJobFormKey,
       useResponsiveUi: true,
     );
   }
@@ -323,9 +319,12 @@ class CompanyJobDetailsPage extends StatelessWidget {
                                                 .id;
                                             print(
                                                 'company_id: $companyId ===> $value');
-                                            context
-                                                .read<CurdJobCubit>()
-                                                .updateJob(value, job);
+                                            if(reviewJobFormKey.currentState!.validate()){
+                                              context
+                                                  .read<CurdJobCubit>()
+                                                  .updateJob(value, job);
+                                            }
+
                                           }
                                         : null,
                                     child:
@@ -513,11 +512,13 @@ class CompanyJobDetailsPage extends StatelessWidget {
                                         .id;
                                     print(
                                         'company_id: $companyId ===> $value');
-                                    context
-                                        .read<CurdJobCubit>()
-                                        .updateJob(value, job);
-                                  }
-                                      : null,
+                                    if(reviewJobFormKey.currentState!.validate()){
+                                      context
+                                          .read<CurdJobCubit>()
+                                          .updateJob(value, job);
+                                    }
+
+                                  } : null,
                                   child:
                                   BlocBuilder<CurdJobCubit, CurdJobState>(
                                     builder: (context, state) {

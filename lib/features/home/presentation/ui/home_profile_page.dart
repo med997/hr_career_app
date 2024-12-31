@@ -287,7 +287,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           key: 'pdfName',
           controller: TextEditingController(text: profile.resumeUrl ?? ''),
           action: _addResumeBtn(context, profile),
-          icons: profile.resumeUrl != null
+          icons: profile.resumeUrl != null && profile.resumeUrl!.isNotEmpty
               ? InkWell(
                   child: const Icon(
                     Icons.open_in_new,
