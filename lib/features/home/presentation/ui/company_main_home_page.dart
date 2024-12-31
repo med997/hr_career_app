@@ -58,7 +58,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
                   icn: Icons.work_outline,
                   iconLabel: "add_job_msg".tr(),
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) =>  const AddJobPage(),
                     ));
                   }),
@@ -70,7 +70,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
                   icn: Icons.bookmark_added_outlined,
                   iconLabel: tr("add_tender_msg"),
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) =>  const AddTenderPage(),
                     ));
 

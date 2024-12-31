@@ -10,6 +10,8 @@ import 'package:hr_career_platform/features/payment/presentation/bloc/package_cu
 import 'package:hr_career_platform/features/payment/presentation/widgets/payment_card_widget.dart';
 import 'package:moyasar/moyasar.dart';
 
+import '../../../auth/presentation/bloc/login_cubit.dart';
+import '../../../home/presentation/ui/company_home_page.dart';
 import '../../../job/domain/entities/job.dart';
 import '../../../job/presentation/bloc/stepper_cubit.dart';
 import '../../../tender/domain/entities/tender.dart';
@@ -87,8 +89,9 @@ class _PkgPageState extends State<PkgPage> {
                               ? 'Job_inserted_done'.tr()
                               : 'tender_inserted_done'.tr(),
                           onDonePressed: () {
-                            Navigator.pop(context);
-                          },
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                builder: (context) => HomeCompanyPage(auth: context.read<LoginCubit>().authenticatedUser!)
+                            ));                          },
                         ),
                       );
                     }
@@ -105,10 +108,12 @@ class _PkgPageState extends State<PkgPage> {
                     return const SizedBox();
                   },
                 ),
-                Responsive(
-                    mobile: buildMobileLayout(state.packages),
-                    tablet: _buildTabletDesktopLayout(state.packages, 2),
-                    desktop: _buildTabletDesktopLayout(state.packages, 3))
+                Flexible(
+                  child: Responsive(
+                      mobile: buildMobileLayout(state.packages),
+                      tablet: _buildTabletDesktopLayout(state.packages, 2),
+                      desktop: _buildTabletDesktopLayout(state.packages, 3)),
+                )
               ],
             ),
           );
