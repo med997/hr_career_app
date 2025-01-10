@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui';
@@ -20,8 +21,11 @@ import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubi
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/verification_page.dart';
 import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
+import 'package:universal_html/js.dart';
 
 import '../../../../core/widgets/location_widget.dart';
+import '../widget/terms_and_conditions.dart';
+import '../bloc/terms_and_conditions_cubit.dart';
 import '../widget/login_ana_register_appbar_functhion.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -188,15 +192,16 @@ class RegisterPage extends StatelessWidget {
           isRequired: true,
           disabled: false,
           key: 'gender'),
-      if(VersionFor!='YE') DynamicModel('nationality', FormType.dropdown,
-          items: natList,
-          controller: TextEditingController(),
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          isRequired: true,
-          disabled: false,
-          key: 'nationality'),
+      if (VersionFor != 'YE')
+        DynamicModel('nationality', FormType.dropdown,
+            items: natList,
+            controller: TextEditingController(),
+            validators: [
+              DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+            ],
+            isRequired: true,
+            disabled: false,
+            key: 'nationality'),
       DynamicModel('password', FormType.password,
           controller: TextEditingController(),
           validators: [
@@ -267,16 +272,16 @@ class RegisterPage extends StatelessWidget {
         isRequired: true,
         disabled: false,
         key: 'gender'),
-      if(VersionFor!='YE')
-        DynamicModel('nationality', FormType.dropdown,
-        items: [],
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        isRequired: true,
-        disabled: false,
-        key: 'nationality'),
+    if (VersionFor != 'YE')
+      DynamicModel('nationality', FormType.dropdown,
+          items: [],
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'nationality'),
     DynamicModel('password', FormType.password,
         controller: TextEditingController(),
         validators: [
@@ -300,6 +305,19 @@ class RegisterPage extends StatelessWidget {
 
   _cardRegister(BuildContext _) {
     List<ItemModel> cityItems = [];
+    bool isAccepted = false;
+
+    void _showTermsDialog(BuildContext context) async {
+      final accepted = await showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) {
+          return  const TermsAndConditionsDialog();
+        },
+      );
+
+
+    }
+
     return Container(
         height: 500,
         width: 400,
@@ -364,6 +382,42 @@ class RegisterPage extends StatelessWidget {
                   return const SizedBox();
                 },
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  BlocBuilder<TermsAndConditionsCubit, TermsAndConditionsState>(
+                    builder: (context, state) {
+                      bool isChecked = state is TermsAndConditionsChecked
+                          ? state.isChecked
+                          : false;
+                      return Checkbox(
+                        value: isChecked,
+                        onChanged: (bool? value) {
+                          context.read<TermsAndConditionsCubit>().toggleCheckbox(isChecked);
+                        },
+                      );
+                    },
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                         TextSpan(
+                          text: 'I accept all '.tr(),
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                        TextSpan(
+                          text: 'Terms and Conditions'.tr(),
+                          style: const TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              _showTermsDialog(_);
+                            },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               _registerBtn(),
               if (Responsive.isMobile(_))
                 Row(
@@ -409,8 +463,9 @@ class RegisterPage extends StatelessWidget {
             padding: const EdgeInsets.all(32.0),
             child: loginAndRegisterAppBar(bgColor: Colors.transparent),
           ),
-  Center(child: _cardRegister(_),)
-
+          Center(
+            child: _cardRegister(_),
+          )
         ],
       ),
     );
@@ -495,59 +550,76 @@ class RegisterPage extends StatelessWidget {
           child: SizedBox(
             width: 350,
             height: 35,
-            child: MaterialButton(
-              color: primaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              onPressed: () async {
-                final value =
-                    context.read<DynamicFormCubit>().getCurrentValue();
-                print(value);
-                final selectedTab =
-                    context.read<ToggleBtnCubit>().state.selectedTab;
-                String fcmToken = '';
-                if (!kIsWeb) {
-                  fcmToken =
-                      await FirebaseMessaging.instance.getToken() ?? '';
-                }
-                if (selectedTab == 0) {
-
-                  if (regFormKeyUser.currentState!.validate()) {
-                    context.read<RegisterCubit>().registerUser(
-                        context.read<ToggleBtnCubit>().state.selectedTab,
-                        value,
-                        fcmToken ?? '');
-                  }
-                } else {
-                  if (regFormKeyCompany.currentState!.validate()) {
-                    context.read<RegisterCubit>().registerUser(
-                        context.read<ToggleBtnCubit>().state.selectedTab,
-                        value,
-                        fcmToken ?? '');
-                  }
-                }
-              },
-              enableFeedback: false,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'register'.tr(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
+            child:
+                BlocBuilder<TermsAndConditionsCubit, TermsAndConditionsState>(
+              builder: (context, state) {
+                bool isChecked = state is TermsAndConditionsChecked
+                    ? state.isChecked
+                    : false;
+                return MaterialButton(
+                  color: primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  onPressed: isChecked
+                      ? () async {
+                          final value = context
+                              .read<DynamicFormCubit>()
+                              .getCurrentValue();
+                          print(value);
+                          final selectedTab =
+                              context.read<ToggleBtnCubit>().state.selectedTab;
+                          String fcmToken = '';
+                          if (!kIsWeb) {
+                            fcmToken =
+                                await FirebaseMessaging.instance.getToken() ??
+                                    '';
+                          }
+                          if (selectedTab == 0) {
+                            if (regFormKeyUser.currentState!.validate()) {
+                              context.read<RegisterCubit>().registerUser(
+                                  context
+                                      .read<ToggleBtnCubit>()
+                                      .state
+                                      .selectedTab,
+                                  value,
+                                  fcmToken ?? '');
+                            }
+                          } else {
+                            if (regFormKeyCompany.currentState!.validate()) {
+                              context.read<RegisterCubit>().registerUser(
+                                  context
+                                      .read<ToggleBtnCubit>()
+                                      .state
+                                      .selectedTab,
+                                  value,
+                                  fcmToken ?? '');
+                            }
+                          }
+                        }
+                      : null,
+                  enableFeedback: false,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'register'.tr(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      if (state is RegisterLoading)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: FittedBox(
+                              child: LoadingWidget(
+                            progressColor: Colors.white,
+                          )),
+                        )
+                    ],
                   ),
-                  if (state is RegisterLoading)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: FittedBox(
-                          child: LoadingWidget(
-                        progressColor: Colors.white,
-                      )),
-                    )
-                ],
-              ),
+                );
+              },
             ),
           ),
         );
