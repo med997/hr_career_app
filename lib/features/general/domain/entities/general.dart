@@ -14,6 +14,7 @@ class General extends Equatable {
  final List<String> qualifications;
  final List<String> jobClassification;
  // final List<String> status;
+ final List<String> companyActivity;
 
   General({
     required this.cities,
@@ -29,6 +30,7 @@ class General extends Equatable {
     required this.qualifications,
     required this.jobClassification,
     // required this.status
+    required this.companyActivity,
   });
 
   @override

@@ -11,19 +11,19 @@ import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
+import 'package:hr_career_platform/core/util/nav_to_sevices.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/util/validator.dart';
 import 'package:hr_career_platform/core/widgets/dyn_form_widget.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
-import 'package:hr_career_platform/core/widgets/toggle_btn_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
-import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/register_page.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/verification_page.dart';
 import 'package:hr_career_platform/features/auth/presentation/widget/login_ana_register_appbar_functhion.dart';
 import 'package:hr_career_platform/features/home/presentation/bloc/tab_nav_cubit.dart';
 
 import '../../../../core/app_theme.dart';
+import '../../../company/presentation/widgets/company_appbar.dart';
 import '../../../home/presentation/ui/company_home_page.dart';
 import '../../../home/presentation/ui/home_page.dart';
 
@@ -31,7 +31,6 @@ class LoginPage extends StatelessWidget {
   final loginFormKey = GlobalKey<FormState>();
 
   LoginPage({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +40,6 @@ class LoginPage extends StatelessWidget {
         tablet: _desktopAndTabletLoginPage(context),
         desktop: _desktopAndTabletLoginPage(context));
   }
-
-
 
   Widget _desktopAndTabletLoginPage(BuildContext context) {
     return Scaffold(
@@ -72,7 +69,7 @@ class LoginPage extends StatelessWidget {
                         Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
-                             Text(
+                            Text(
                               'dont_reg_msg'.tr(),
                               style:
                                   TextStyle(color: Colors.black, fontSize: 16),
@@ -80,19 +77,57 @@ class LoginPage extends StatelessWidget {
                             TextButton(
                                 onPressed: () {
                                   Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
-                                  },
+                                      MaterialPageRoute(
+                                          builder: (context) => RegisterPage()),
+                                      (route) => false);
+                                },
                                 child: Text('register_here'.tr())),
                           ],
                         ),
+                        const SizedBox(
+                          height: 60,
+                        ),
+                        const Text(
+                          "تواصل بنا",
+                          style: TextStyle(color: primaryColor, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          runAlignment: WrapAlignment.start,
+                          spacing: 15,
+                          runSpacing: 10,
+                          children: [
+                            CircularIconButton(
+                              icon: Icons.call_outlined,
+                              onPressed: () {
+                                navToCall("779377119");
+                              },
+                              clr: primaryColor,
+                            ),
+                            CircularIconButton(
+                              icon: Icons.mail_outlined,
+                              onPressed: () {
+                                navToEmail("meddce997@gmail.com");
+                              },
+                              clr: primaryColor,
+                            ),
+                            CircularIconButton(
+                              icon: Icons.chat_outlined,
+                              onPressed: () {
+                                navToWhatsapp("+967779377119");
+                              },
+                              clr: primaryColor,
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ),
-
                   Flexible(
-                      flex: 1,
-                      fit: FlexFit.loose,
-                      child: _cardLogin(context)),
+                      flex: 1, fit: FlexFit.loose, child: _cardLogin(context)),
                 ])));
   }
 
@@ -108,34 +143,78 @@ class LoginPage extends StatelessWidget {
                   image: AssetImage('assets/imgs/paternPrimary.png'),
                   fit: BoxFit.fitWidth, // Adjust fit as needed
                 ),
-
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(32.0),
               child: loginAndRegisterAppBar(bgColor: Colors.transparent),
             ),
-            Center(child: _cardLogin(_)),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Center(child: _cardLogin(_)),
+                const SizedBox(
+                  height: 60,
+                ),
+                const Text(
+                  "تواصل بنا",
+                  style: TextStyle(color: primaryColor, fontSize: 16),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  runAlignment: WrapAlignment.start,
+                  spacing: 15,
+                  runSpacing: 10,
+                  children: [
+                    CircularIconButton(
+                      icon: Icons.call_outlined,
+                      onPressed: () {
+                        navToCall("Weteek phone number".tr());
+                      },
+                      clr: primaryColor,
+                    ),
+                    CircularIconButton(
+                      icon: Icons.mail_outlined,
+                      onPressed: () {
+                        navToEmail("weteek@gmail.com".tr());
+                      },
+                      clr: primaryColor,
+                    ),
+                    CircularIconButton(
+                      icon: Icons.chat_outlined,
+                      onPressed: () {
+                        navToWhatsapp("weteek whatsapp number".tr());
+                      },
+                      clr: primaryColor,
+                    )
+                  ],
+                )
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 
-  doLogin(BuildContext context) async{
-    final value =
-    context.read<DynamicFormCubit>().getCurrentValue();
+  doLogin(BuildContext context) async {
+    final value = context.read<DynamicFormCubit>().getCurrentValue();
     print(value);
-    String? fcmToken='';
-    if(!kIsWeb){
+    String? fcmToken = '';
+    if (!kIsWeb) {
       fcmToken = await FirebaseMessaging.instance.getToken();
     }
     if (loginFormKey.currentState!.validate()) {
       context.read<LoginCubit>().loginUser(
           context.read<ToggleBtnCubit>().state.selectedTab,
-          value,fcmToken??'');
+          value,
+          fcmToken ?? '');
     }
   }
+
   _loginBtn() {
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
@@ -145,25 +224,28 @@ class LoginPage extends StatelessWidget {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomePage(auth: state.auth,),
+                  builder: (context) => HomePage(
+                    auth: state.auth,
+                  ),
                 ),
                 (route) => false);
           } else {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeCompanyPage(auth: state.auth,),
+                  builder: (context) => HomeCompanyPage(
+                    auth: state.auth,
+                  ),
                 ),
                 (route) => false);
           }
-        }else if(state is ErrLoginUser){
-          if(state.msg.contains('email_no_confirmed')){
+        } else if (state is ErrLoginUser) {
+          if (state.msg.contains('email_no_confirmed')) {
             final value =
-            context.read<DynamicFormCubit>().getCurrentValue()['email'];
-             Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => VerificationPage(email: value)));
+                context.read<DynamicFormCubit>().getCurrentValue()['email'];
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => VerificationPage(email: value)));
           }
-          
         }
       },
       builder: (context, state) {
@@ -188,7 +270,7 @@ class LoginPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                           Text(
+                          Text(
                             'login'.tr(),
                             style: const TextStyle(
                               color: Colors.white,
@@ -221,115 +303,115 @@ class LoginPage extends StatelessWidget {
       },
     );
   }
-  _goRegPageBtn( BuildContext _) {
 
-        return Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Center(
-                child: SizedBox(
-                  width: 350,
-                  height: 35,
-                  child: MaterialButton(
-                    color: primaryColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    onPressed: () {
-                      Navigator.of(_).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => RegisterPage()),(route) => false);
-
-                    },
-                    enableFeedback: false,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                         Text(
-                          'create_account_reg'.tr(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                   ],
+  _goRegPageBtn(BuildContext _) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Center(
+            child: SizedBox(
+              width: 350,
+              height: 35,
+              child: MaterialButton(
+                color: primaryColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                onPressed: () {
+                  Navigator.of(_).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => RegisterPage()),
+                      (route) => false);
+                },
+                enableFeedback: false,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'create_account_reg'.tr(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _asGustBtn() {
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is SuccessLoginAsGustUser) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePage(
+                  auth: state.auth,
+                ),
+              ),
+              (route) => false);
+        } else if (state is ErrLoginUser) {
+          if (state.msg.contains('email_no_confirmed')) {
+            final value =
+                context.read<DynamicFormCubit>().getCurrentValue()['email'];
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => VerificationPage(email: value)));
+          }
+        }
+      },
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Center(
+            child: SizedBox(
+              width: 350,
+              height: 30,
+              child: MaterialButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                onPressed: () {
+                  context.read<LoginCubit>().loginAsGust();
+                },
+                color: Colors.yellow.shade700,
+                child: Text(
+                  'continue_as_guest'.tr(),
+                  style: const TextStyle(
+                    color: Colors.white,
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         );
-
-  }
-  Widget _asGustBtn() {
-    return BlocConsumer<LoginCubit, LoginState>(
-  listener: (context, state) {
-    if (state is SuccessLoginAsGustUser) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomePage(auth: state.auth,),
-            ),
-                (route) => false);
-
-    }else if(state is ErrLoginUser){
-      if(state.msg.contains('email_no_confirmed')){
-        final value =
-        context.read<DynamicFormCubit>().getCurrentValue()['email'];
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => VerificationPage(email: value)));
-      }
-
-    }
-  },
-  builder: (context, state) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Center(
-        child: SizedBox(
-          width: 350,
-          height: 30,
-          child: MaterialButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            onPressed: () {
-              context.read<LoginCubit>().loginAsGust();
-            },
-            color: Colors.yellow.shade700,
-            child: Text(
-              'continue_as_guest'.tr(),
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      ),
+      },
     );
-  },
-);
   }
+
   _cardLogin(BuildContext _) {
     final List<DynamicModel> loginDynForm = [
       DynamicModel('email', FormType.email,
-          controller:  TextEditingController(),
+          controller: TextEditingController(),
           isRequired: true,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'is_required'.tr())
           ],
-          disabled: false, key: 'email'),
+          disabled: false,
+          key: 'email'),
       DynamicModel('password', FormType.password,
-          controller:  TextEditingController(),
+          controller: TextEditingController(),
           isRequired: true,
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'is_required'.tr())
           ],
-          inputAction: TextInputAction.go,
-          onSubmit: () {
-            doLogin(_);
-          },
-          disabled: false, key: 'password'),
+          inputAction: TextInputAction.go, onSubmit: () {
+        doLogin(_);
+      }, disabled: false, key: 'password'),
     ];
     return Container(
       width: 400,
@@ -359,19 +441,18 @@ class LoginPage extends StatelessWidget {
           _loginBtn(),
           _goRegPageBtn(_),
           _asGustBtn(),
-           Center(
-            child: TextButton(onPressed: () {
-             
-            },
+          Center(
+              child: TextButton(
+            onPressed: () {},
             child: Text(
               'forget_password'.tr(),
               style: const TextStyle(
                   color: primaryColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 12),
-            ),)
-          ),
-       /*   if(Responsive.isMobile(_))
+            ),
+          )),
+          /*   if(Responsive.isMobile(_))
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -62,6 +62,7 @@ class RegisterCubit extends Cubit<RegisterState> {
                phone: value['phone'],
                email: value['email'],
                city: value['city'],
+               companyActivity: value['companyActivity'],
              fcmToken: [fcmToken],
                govRegNo: value['govRegNo'],
                address: value['address'],),);

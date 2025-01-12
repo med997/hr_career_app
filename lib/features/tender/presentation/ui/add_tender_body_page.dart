@@ -17,6 +17,7 @@ import 'package:hr_career_platform/features/general/presentation/bloc/general_cu
 import 'package:hr_career_platform/features/job/presentation/bloc/stepper_cubit.dart';
 import 'package:hr_career_platform/features/profile/presentation/bloc/profile_cubit.dart';
 
+import '../../../../core/util/const_val.dart';
 import '../../../auth/presentation/bloc/login_cubit.dart';
 import '../../../company/presentation/bloc/curd_company_cubit.dart';
 import '../../domain/entities/tender.dart';
@@ -129,7 +130,8 @@ class _AddTenderBodyPageState extends State<AddTenderBodyPage> {
         items: cityItems,
         isRequired: true,
       ),
-      DynamicModel(
+      if (VersionFor != 'YE')
+        DynamicModel(
         'nationalities',
         FormType.dropdown,
         key: 'nationalities',

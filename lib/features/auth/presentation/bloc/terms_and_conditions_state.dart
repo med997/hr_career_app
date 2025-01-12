@@ -6,9 +6,9 @@ part of 'terms_and_conditions_cubit.dart';
   List<Object?> get props => [];
 }
 
+
 class TermsAndConditionsInitial extends TermsAndConditionsState {}
 
-class TermsAndConditionsChecked extends TermsAndConditionsState {
-  final bool isChecked;
-  TermsAndConditionsChecked(this.isChecked);
-}
+class TermsAndConditionsChecked extends TermsAndConditionsState {}
+
+class TermsAndConditionsUnchecked extends TermsAndConditionsState {}

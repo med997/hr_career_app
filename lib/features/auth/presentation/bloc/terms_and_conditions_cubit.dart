@@ -5,8 +5,13 @@ import 'package:meta/meta.dart';
 part 'terms_and_conditions_state.dart';
 
 class TermsAndConditionsCubit extends Cubit<TermsAndConditionsState> {
-  TermsAndConditionsCubit() : super(TermsAndConditionsInitial());
+  TermsAndConditionsCubit() : super(TermsAndConditionsUnchecked());
 
   void toggleCheckbox(bool isChecked) {
-    emit(TermsAndConditionsChecked(!isChecked));
-  }}
+    if (isChecked) {
+      emit(TermsAndConditionsChecked());
+    } else {
+      emit(TermsAndConditionsUnchecked());
+    }
+  }
+}

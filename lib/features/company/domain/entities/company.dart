@@ -23,6 +23,7 @@ class Company extends Equatable {
   final dynamic videoPaths;
   final dynamic otherContact;
   final dynamic documentPaths;
+  final dynamic companyActivity;
 
   Company({
     this.id,
@@ -47,6 +48,7 @@ class Company extends Equatable {
     this.videoPaths,
     this.otherContact,
     this.documentPaths,
+    this.companyActivity
   });
 
   @override

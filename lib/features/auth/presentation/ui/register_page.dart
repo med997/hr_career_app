@@ -23,7 +23,9 @@ import 'package:hr_career_platform/features/auth/presentation/ui/verification_pa
 import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
 import 'package:universal_html/js.dart';
 
+import '../../../../core/util/nav_to_sevices.dart';
 import '../../../../core/widgets/location_widget.dart';
+import '../../../company/presentation/widgets/company_appbar.dart';
 import '../widget/terms_and_conditions.dart';
 import '../bloc/terms_and_conditions_cubit.dart';
 import '../widget/login_ana_register_appbar_functhion.dart';
@@ -32,7 +34,7 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
   List<DynamicModel> regFormCompany(
-      BuildContext context, List<ItemModel> ciyItems) {
+      BuildContext context, List<ItemModel> ciyItems, List<ItemModel> compActivityItems) {
     return [
       DynamicModel('companyNameEn', FormType.text,
           controller: TextEditingController(),
@@ -104,6 +106,15 @@ class RegisterPage extends StatelessWidget {
           isRequired: true,
           disabled: false,
           key: 'city'),
+      DynamicModel('companyActivity', FormType.dropdown,
+          items: compActivityItems,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'companyActivity'),
       DynamicModel('phone', FormType.phone,
           isRequired: true,
           controller: TextEditingController(),
@@ -305,10 +316,10 @@ class RegisterPage extends StatelessWidget {
 
   _cardRegister(BuildContext _) {
     List<ItemModel> cityItems = [];
-    bool isAccepted = false;
+    List<ItemModel> companyActivityItems = [];
 
-    void _showTermsDialog(BuildContext context) async {
-      final accepted = await showDialog<bool>(
+    void showTermsDialog(BuildContext context) async {
+       await showDialog<bool>(
         context: context,
         builder: (BuildContext context) {
           return  const TermsAndConditionsDialog();
@@ -349,7 +360,7 @@ class RegisterPage extends StatelessWidget {
                       return DynamicFormWidget(
                         key: const Key('regFormCompany'),
                         formKey: regFormKeyCompany,
-                        dynamicFormsList: regFormCompany(_, cityItems),
+                        dynamicFormsList: regFormCompany(_, cityItems, companyActivityItems),
                         submitBtnLabel: 'login',
                         useResponsiveUi: false,
                       );
@@ -376,6 +387,11 @@ class RegisterPage extends StatelessWidget {
                     cityItems = gnState.generals.cities
                         .map((e) => ItemModel(key: e, value: e))
                         .toList();
+                    companyActivityItems = gnState.generals.companyActivity
+                        .map((e) => ItemModel(key: e, value: e))
+                        .toList();
+
+                    print(gnState.generals.companyActivity);
 
                     return const SizedBox();
                   }
@@ -387,14 +403,16 @@ class RegisterPage extends StatelessWidget {
                 children: [
                   BlocBuilder<TermsAndConditionsCubit, TermsAndConditionsState>(
                     builder: (context, state) {
-                      bool isChecked = state is TermsAndConditionsChecked
-                          ? state.isChecked
-                          : false;
+                      bool isChecked = state is TermsAndConditionsChecked;
                       return Checkbox(
                         value: isChecked,
                         onChanged: (bool? value) {
+                          isChecked = value ?? false;
                           context.read<TermsAndConditionsCubit>().toggleCheckbox(isChecked);
-                        },
+                            print("in register page:  $isChecked");
+
+                          }
+
                       );
                     },
                   ),
@@ -410,7 +428,7 @@ class RegisterPage extends StatelessWidget {
                           style: const TextStyle(color: Colors.blue),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              _showTermsDialog(_);
+                              showTermsDialog(_);
                             },
                         ),
                       ],
@@ -443,6 +461,7 @@ class RegisterPage extends StatelessWidget {
                         )),
                   ],
                 ),
+
             ]));
   }
 
@@ -463,8 +482,13 @@ class RegisterPage extends StatelessWidget {
             padding: const EdgeInsets.all(32.0),
             child: loginAndRegisterAppBar(bgColor: Colors.transparent),
           ),
-          Center(
-            child: _cardRegister(_),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Center(
+                child: _cardRegister(_),
+              ),
+            ],
           )
         ],
       ),
@@ -512,6 +536,7 @@ class RegisterPage extends StatelessWidget {
                             child: Text('login_here'.tr())),
                       ],
                     ),
+
                   ],
                 ),
               ),
@@ -553,9 +578,7 @@ class RegisterPage extends StatelessWidget {
             child:
                 BlocBuilder<TermsAndConditionsCubit, TermsAndConditionsState>(
               builder: (context, state) {
-                bool isChecked = state is TermsAndConditionsChecked
-                    ? state.isChecked
-                    : false;
+                bool isChecked = state is TermsAndConditionsChecked;
                 return MaterialButton(
                   color: primaryColor,
                   shape: RoundedRectangleBorder(
