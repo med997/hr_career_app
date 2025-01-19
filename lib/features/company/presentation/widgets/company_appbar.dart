@@ -1,27 +1,19 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_career_platform/core/app_localizations.dart';
 import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/splash_page.dart';
-import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/avatar_network.dart';
-import 'package:hr_career_platform/core/widgets/image_holder.dart';
 import 'package:hr_career_platform/core/widgets/language_button_widget.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
-import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/company/domain/entities/company.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/curd_company_cubit.dart';
 import '../../../../core/util/const_val.dart';
 import '../../../../core/util/nav_to_sevices.dart';
-import '../../../../core/widgets/loading_widget.dart';
 import '../../../../core/widgets/text_with_icon.dart';
-import '../../../profile/presentation/bloc/curd_profile_cubit.dart';
 
 class CompanyAppBarWidget extends StatelessWidget {
   final Company company;
@@ -38,7 +30,7 @@ class CompanyAppBarWidget extends StatelessWidget {
       {super.key,
       required this.company,
       required this.useMobile,
-       this.avatarForDesktop,
+      this.avatarForDesktop,
       this.type = 'APPBAR',
       this.appbarCompanyDetail = false,
       this.withContactsBtn = false,
@@ -61,29 +53,26 @@ class CompanyAppBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return Container(
-        padding: const EdgeInsets.only(top: 12,bottom: 12,right: 12,left: 12),
-        decoration:  const BoxDecoration(
-            color: Colors.black,
-            image: DecorationImage(
-              opacity: 0.4,
-              image: AssetImage('assets/imgs/imgCmpProfile.png'),
-              fit: BoxFit.cover, // Adjust fit as needed
-            ),
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30))
-
-
-        ),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              if (appbarCompanyDetail == true)
-                Container(
-               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+    return Container(
+      padding: const EdgeInsets.only(top: 12, bottom: 12, right: 12, left: 12),
+      decoration: const BoxDecoration(
+          color: Colors.black,
+          image: DecorationImage(
+            opacity: 0.4,
+            image: AssetImage('assets/imgs/imgCmpProfile.png'),
+            fit: BoxFit.cover, // Adjust fit as needed
+          ),
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30))),
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            if (appbarCompanyDetail == true)
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                     color: primaryColor.withOpacity(0.8),
                     borderRadius: BorderRadius.circular(12)),
@@ -93,7 +82,6 @@ class CompanyAppBarWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-
                     Text(
                       "profile_msg".tr(),
                       style: const TextStyle(
@@ -115,7 +103,7 @@ class CompanyAppBarWidget extends StatelessWidget {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>  SplashPage(),
+                                    builder: (context) => SplashPage(),
                                   ),
                                   (route) => false);
                             }
@@ -124,10 +112,13 @@ class CompanyAppBarWidget extends StatelessWidget {
                             return MaterialButton(
                                 onPressed: () async {
                                   String? fcmToken;
-                                  if(!kIsWeb){
-                                    fcmToken = await FirebaseMessaging.instance.getToken();
+                                  if (!kIsWeb) {
+                                    fcmToken = await FirebaseMessaging.instance
+                                        .getToken();
                                   }
-                                  context.read<LoginCubit>().signOut(fcmToken??'');
+                                  context
+                                      .read<LoginCubit>()
+                                      .signOut(fcmToken ?? '');
                                 },
                                 shape: CircleBorder(),
                                 padding: EdgeInsets.all(2),
@@ -140,8 +131,7 @@ class CompanyAppBarWidget extends StatelessWidget {
                                   Icons.power_settings_new_outlined,
                                   color: Colors.white,
                                   size: 18,
-                                )
-                            );
+                                ));
                           },
                         ),
                       ],
@@ -149,27 +139,25 @@ class CompanyAppBarWidget extends StatelessWidget {
                   ],
                 ),
               ),
-
-              ListTile(
-
-                trailing: withBackBtn?const BackButton(color: Colors.white):null,
-                leading: BlocBuilder<CurdCompanyCubit, CurdCompanyState>(
-                  builder: (context, state) {
-                    if (state is LoadingCurdCompanyState) {
-                      return const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(
-                          color: secondaryColor,
-                          strokeWidth: 2,
-
-                        ),
-                      );
-                    } else if (state is MessageCurdCompanyState) {
-                      String imageUrl = state.company.companyLogo != null
-                          ? '$BaseStorageUrl${state.company.companyLogo}'
-                          : '';
-                      if (useMobile  == true) {
-                        return AvatarNetwork(
+            ListTile(
+              trailing:
+                  withBackBtn ? const BackButton(color: Colors.white) : null,
+              leading: BlocBuilder<CurdCompanyCubit, CurdCompanyState>(
+                builder: (context, state) {
+                  if (state is LoadingCurdCompanyState) {
+                    return const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(
+                        color: secondaryColor,
+                        strokeWidth: 2,
+                      ),
+                    );
+                  } else if (state is MessageCurdCompanyState) {
+                    String imageUrl = state.company.companyLogo != null
+                        ? '$BaseStorageUrl${state.company.companyLogo}'
+                        : '';
+                    if (useMobile == true) {
+                      return AvatarNetwork(
                         imgUrl: imageUrl,
                         withBorder: false,
                         withEditBtn: true,
@@ -177,116 +165,123 @@ class CompanyAppBarWidget extends StatelessWidget {
                         editClicked: () =>
                             withEditing ? pickImage(context) : null,
                       );
-                      } else {
-                        return avatarForDesktop!;
-                      }
+                    } else {
+                      return avatarForDesktop!;
                     }
-                    String imageUrl = company.companyLogo!.isNotEmpty
-                        ? '$BaseStorageUrl${company.companyLogo!}'
-                        : '';
-                    if (useMobile == true) {
-                      return AvatarNetwork(
+                  }
+                  String imageUrl = company.companyLogo!.isNotEmpty
+                      ? '$BaseStorageUrl${company.companyLogo!}'
+                      : '';
+                  if (useMobile == true) {
+                    return AvatarNetwork(
                         imgUrl: imageUrl,
                         editClicked: () =>
                             withEditing ? pickImage(context) : null,
                         bgColor: Colors.white,
                         withEditBtn: withEditing,
                         withBorder: false);
-                    } else {
-                      return avatarForDesktop!;
-                    }
-                  },
-                ),
-                title: Text(
-                  company.nameEn,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 16),
-                ),
-                subtitle: Wrap(
-                  spacing: 2,
-                  children: [
-                    Text(
-                      company.major ?? '',
-                      style: const TextStyle(color: Colors.grey, fontSize: 14),
-                    ),
-                    TextWithIcon(
-                      icon: const Icon(
-                        Icons.place_outlined,
-                        color: primaryColor,
-                        size: 18,
-                      ),
-                      text: company.city ?? '',
-                      textColor: Colors.grey,
-                    )
-                  ],
-                ),
+                  } else {
+                    return avatarForDesktop!;
+                  }
+                },
               ),
-            if(withContactsBtn)
-                  Wrap(
-                      alignment: WrapAlignment.start,
-                      runAlignment: WrapAlignment.start,
-                      spacing: 15,
-                      runSpacing: 10,
-                      children: [
-                        CircularIconButton(
-                          icon: Icons.call_outlined,
-                          onPressed: () {
-                            navToCall(company.phone);
-                          },
-                        ),
-                        CircularIconButton(
-                          icon: Icons.mail_outlined,
-                          onPressed: () {
-                            navToEmail(company.email);
-                          },
-                        ),
-                        CircularIconButton(
-                          icon: Icons.language_outlined,
-                          onPressed: () {
-                            navToWebsite(company.website ?? '');
-                          },
-                        ),
-                      (company.locations!=null&&company.locations!.length==2)?
-                      CircularIconButton(
+              title: Text(
+                company.nameEn,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 16),
+              ),
+              subtitle: Wrap(
+                spacing: 2,
+                children: [
+                  Text(
+                    company.major ?? '',
+                    style: const TextStyle(color: Colors.grey, fontSize: 14),
+                  ),
+                  TextWithIcon(
+                    icon: const Icon(
+                      Icons.place_outlined,
+                      color: primaryColor,
+                      size: 18,
+                    ),
+                    text: company.city ?? '',
+                    textColor: Colors.grey,
+                  )
+                ],
+              ),
+            ),
+            if (withContactsBtn)
+              Wrap(
+                alignment: WrapAlignment.start,
+                runAlignment: WrapAlignment.start,
+                spacing: 15,
+                runSpacing: 10,
+                children: [
+                  CircularIconButton(
+                    icon: Icons.call_outlined,
+                    onPressed: () {
+                      navToCall(company.phone);
+                    },
+                    clr: Colors.white,
+                  ),
+                  CircularIconButton(
+                    icon: Icons.mail_outlined,
+                    onPressed: () {
+                      navToEmail(company.email);
+                    },
+                    clr: Colors.white,
+                  ),
+                  CircularIconButton(
+                    icon: Icons.language_outlined,
+                    onPressed: () {
+                      navToWebsite(company.website ?? '');
+                    },
+                    clr: Colors.white,
+                  ),
+                  (company.locations != null && company.locations!.length == 2)
+                      ? CircularIconButton(
                           icon: Icons.send_outlined,
                           onPressed: () {
-                            MapUtils.navToMap(company.locations![0], company.locations![1]);
+                            MapUtils.navToMap(
+                                company.locations![0], company.locations![1]);
                           },
-                        ):const SizedBox(),
-                        CircularIconButton(
-                          icon: Icons.more_horiz_rounded,
-                          onPressed: () {},
-                        ),
-                      ],
-                    )
-
-            ],
-          ),
+                          clr: Colors.white,
+                        )
+                      : const SizedBox(),
+                  CircularIconButton(
+                    icon: Icons.more_horiz_rounded,
+                    onPressed: () {},
+                    clr: Colors.white,
+                  ),
+                ],
+              )
+          ],
         ),
-      );
-
+      ),
+    );
   }
 }
 
 class CircularIconButton extends StatelessWidget {
   const CircularIconButton(
-      {super.key, required this.icon, required this.onPressed});
+      {super.key,
+      required this.icon,
+      required this.onPressed,
+      required this.clr});
 
   final IconData icon;
   final Function() onPressed;
+  final Color clr;
 
   @override
   Widget build(BuildContext context) {
     return IconButton.filled(
         iconSize: 20,
-
         onPressed: onPressed,
         icon: Icon(
           icon,
-
-          color: Colors.white,
+          color: clr,
         ),
         style: IconButton.styleFrom(
           backgroundColor: primaryColor.withOpacity(0.9),

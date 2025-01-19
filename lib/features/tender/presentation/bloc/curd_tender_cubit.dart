@@ -7,6 +7,7 @@ import 'package:hr_career_platform/features/tender/domain/usecases/get_all_activ
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
+import '../../../../core/util/const_val.dart';
 import '../../domain/entities/tender.dart';
 import '../../domain/usecases/update_tender.dart';
 
@@ -34,7 +35,7 @@ class CurdTenderCubit extends Cubit<CurdTenderState> {
             (value['otherApplyLinks'] as ParchmentDocument).toJson(),
         city: value['city'] ?? '',
         category: value['category'] ?? '',
-        nationalities: value['nationalities'],
+        nationalities: VersionFor!='YE'? value['nationalities']:"All",
         status: 'draft',
         companyId: companyId,
         tenderDesc: (value['tenderDesc'] as ParchmentDocument).toPlainText(),

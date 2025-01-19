@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui';
@@ -20,15 +21,20 @@ import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubi
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/verification_page.dart';
 import 'package:hr_career_platform/features/general/presentation/bloc/general_cubit.dart';
+import 'package:universal_html/js.dart';
 
+import '../../../../core/util/nav_to_sevices.dart';
 import '../../../../core/widgets/location_widget.dart';
+import '../../../company/presentation/widgets/company_appbar.dart';
+import '../widget/terms_and_conditions.dart';
+import '../bloc/terms_and_conditions_cubit.dart';
 import '../widget/login_ana_register_appbar_functhion.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
   List<DynamicModel> regFormCompany(
-      BuildContext context, List<ItemModel> ciyItems) {
+      BuildContext context, List<ItemModel> ciyItems, List<ItemModel> compActivityItems) {
     return [
       DynamicModel('companyNameEn', FormType.text,
           controller: TextEditingController(),
@@ -100,6 +106,15 @@ class RegisterPage extends StatelessWidget {
           isRequired: true,
           disabled: false,
           key: 'city'),
+      DynamicModel('companyActivity', FormType.dropdown,
+          items: compActivityItems,
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'companyActivity'),
       DynamicModel('phone', FormType.phone,
           isRequired: true,
           controller: TextEditingController(),
@@ -188,15 +203,16 @@ class RegisterPage extends StatelessWidget {
           isRequired: true,
           disabled: false,
           key: 'gender'),
-      if(VersionFor!='YE') DynamicModel('nationality', FormType.dropdown,
-          items: natList,
-          controller: TextEditingController(),
-          validators: [
-            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-          ],
-          isRequired: true,
-          disabled: false,
-          key: 'nationality'),
+      if (VersionFor != 'YE')
+        DynamicModel('nationality', FormType.dropdown,
+            items: natList,
+            controller: TextEditingController(),
+            validators: [
+              DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+            ],
+            isRequired: true,
+            disabled: false,
+            key: 'nationality'),
       DynamicModel('password', FormType.password,
           controller: TextEditingController(),
           validators: [
@@ -267,16 +283,16 @@ class RegisterPage extends StatelessWidget {
         isRequired: true,
         disabled: false,
         key: 'gender'),
-      if(VersionFor!='YE')
-        DynamicModel('nationality', FormType.dropdown,
-        items: [],
-        controller: TextEditingController(),
-        validators: [
-          DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
-        ],
-        isRequired: true,
-        disabled: false,
-        key: 'nationality'),
+    if (VersionFor != 'YE')
+      DynamicModel('nationality', FormType.dropdown,
+          items: [],
+          controller: TextEditingController(),
+          validators: [
+            DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
+          ],
+          isRequired: true,
+          disabled: false,
+          key: 'nationality'),
     DynamicModel('password', FormType.password,
         controller: TextEditingController(),
         validators: [
@@ -300,6 +316,19 @@ class RegisterPage extends StatelessWidget {
 
   _cardRegister(BuildContext _) {
     List<ItemModel> cityItems = [];
+    List<ItemModel> companyActivityItems = [];
+
+    void showTermsDialog(BuildContext context) async {
+       await showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) {
+          return  const TermsAndConditionsDialog();
+        },
+      );
+
+
+    }
+
     return Container(
         height: 500,
         width: 400,
@@ -331,7 +360,7 @@ class RegisterPage extends StatelessWidget {
                       return DynamicFormWidget(
                         key: const Key('regFormCompany'),
                         formKey: regFormKeyCompany,
-                        dynamicFormsList: regFormCompany(_, cityItems),
+                        dynamicFormsList: regFormCompany(_, cityItems, companyActivityItems),
                         submitBtnLabel: 'login',
                         useResponsiveUi: false,
                       );
@@ -358,11 +387,54 @@ class RegisterPage extends StatelessWidget {
                     cityItems = gnState.generals.cities
                         .map((e) => ItemModel(key: e, value: e))
                         .toList();
+                    companyActivityItems = gnState.generals.companyActivity
+                        .map((e) => ItemModel(key: e, value: e))
+                        .toList();
+
+                    print(gnState.generals.companyActivity);
 
                     return const SizedBox();
                   }
                   return const SizedBox();
                 },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  BlocBuilder<TermsAndConditionsCubit, TermsAndConditionsState>(
+                    builder: (context, state) {
+                      bool isChecked = state is TermsAndConditionsChecked;
+                      return Checkbox(
+                        value: isChecked,
+                        onChanged: (bool? value) {
+                          isChecked = value ?? false;
+                          context.read<TermsAndConditionsCubit>().toggleCheckbox(isChecked);
+                            print("in register page:  $isChecked");
+
+                          }
+
+                      );
+                    },
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                         TextSpan(
+                          text: 'I accept all '.tr(),
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                        TextSpan(
+                          text: 'Terms and Conditions'.tr(),
+                          style: const TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              showTermsDialog(_);
+                            },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               _registerBtn(),
               if (Responsive.isMobile(_))
@@ -389,6 +461,7 @@ class RegisterPage extends StatelessWidget {
                         )),
                   ],
                 ),
+
             ]));
   }
 
@@ -409,8 +482,14 @@ class RegisterPage extends StatelessWidget {
             padding: const EdgeInsets.all(32.0),
             child: loginAndRegisterAppBar(bgColor: Colors.transparent),
           ),
-  Center(child: _cardRegister(_),)
-
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Center(
+                child: _cardRegister(_),
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -457,6 +536,7 @@ class RegisterPage extends StatelessWidget {
                             child: Text('login_here'.tr())),
                       ],
                     ),
+
                   ],
                 ),
               ),
@@ -495,59 +575,74 @@ class RegisterPage extends StatelessWidget {
           child: SizedBox(
             width: 350,
             height: 35,
-            child: MaterialButton(
-              color: primaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              onPressed: () async {
-                final value =
-                    context.read<DynamicFormCubit>().getCurrentValue();
-                print(value);
-                final selectedTab =
-                    context.read<ToggleBtnCubit>().state.selectedTab;
-                String fcmToken = '';
-                if (!kIsWeb) {
-                  fcmToken =
-                      await FirebaseMessaging.instance.getToken() ?? '';
-                }
-                if (selectedTab == 0) {
-
-                  if (regFormKeyUser.currentState!.validate()) {
-                    context.read<RegisterCubit>().registerUser(
-                        context.read<ToggleBtnCubit>().state.selectedTab,
-                        value,
-                        fcmToken ?? '');
-                  }
-                } else {
-                  if (regFormKeyCompany.currentState!.validate()) {
-                    context.read<RegisterCubit>().registerUser(
-                        context.read<ToggleBtnCubit>().state.selectedTab,
-                        value,
-                        fcmToken ?? '');
-                  }
-                }
-              },
-              enableFeedback: false,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'register'.tr(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
+            child:
+                BlocBuilder<TermsAndConditionsCubit, TermsAndConditionsState>(
+              builder: (context, state) {
+                bool isChecked = state is TermsAndConditionsChecked;
+                return MaterialButton(
+                  color: primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  onPressed: isChecked
+                      ? () async {
+                          final value = context
+                              .read<DynamicFormCubit>()
+                              .getCurrentValue();
+                          print(value);
+                          final selectedTab =
+                              context.read<ToggleBtnCubit>().state.selectedTab;
+                          String fcmToken = '';
+                          if (!kIsWeb) {
+                            fcmToken =
+                                await FirebaseMessaging.instance.getToken() ??
+                                    '';
+                          }
+                          if (selectedTab == 0) {
+                            if (regFormKeyUser.currentState!.validate()) {
+                              context.read<RegisterCubit>().registerUser(
+                                  context
+                                      .read<ToggleBtnCubit>()
+                                      .state
+                                      .selectedTab,
+                                  value,
+                                  fcmToken ?? '');
+                            }
+                          } else {
+                            if (regFormKeyCompany.currentState!.validate()) {
+                              context.read<RegisterCubit>().registerUser(
+                                  context
+                                      .read<ToggleBtnCubit>()
+                                      .state
+                                      .selectedTab,
+                                  value,
+                                  fcmToken ?? '');
+                            }
+                          }
+                        }
+                      : null,
+                  enableFeedback: false,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'register'.tr(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      if (state is RegisterLoading)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: FittedBox(
+                              child: LoadingWidget(
+                            progressColor: Colors.white,
+                          )),
+                        )
+                    ],
                   ),
-                  if (state is RegisterLoading)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: FittedBox(
-                          child: LoadingWidget(
-                        progressColor: Colors.white,
-                      )),
-                    )
-                ],
-              ),
+                );
+              },
             ),
           ),
         );

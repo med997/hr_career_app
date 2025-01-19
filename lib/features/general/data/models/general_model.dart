@@ -14,6 +14,9 @@ class GeneralModel extends General {
       required super.companyMajor,
       required super.qualifications,
       required super.jobClassification,
+      required super.companyActivity
+
+
       // required super.status
 
       });
@@ -32,6 +35,8 @@ class GeneralModel extends General {
       companyMajor: List<String>.from(json["company_major"].map((x) => x)),
       qualifications: List<String>.from(json["qualifications"].map((x) => x)),
       jobClassification: List<String>.from(json["job_classification"].map((x) => x)),
+      companyActivity:List<String>.from(json["comp_activity"].map((x) => x)),
+
   );
   Map<String, dynamic> toJson() => {
       "cities": List<dynamic>.from(cities.map((x) => x)),
@@ -47,5 +52,7 @@ class GeneralModel extends General {
       "company_major": List<dynamic>.from(companyMajor.map((x) => x)),
       "qualifications": List<dynamic>.from(qualifications.map((x) => x)),
       "job_classification": List<dynamic>.from(jobClassification.map((x) => x)),
+      "comp_activity": List<dynamic>.from(companyActivity.map((x) => x)),
+
   };
 }

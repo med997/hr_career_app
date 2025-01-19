@@ -18,6 +18,7 @@ import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/splash_page.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/bloc/register_cubit.dart';
+import 'package:hr_career_platform/features/auth/presentation/bloc/terms_and_conditions_cubit.dart';
 import 'package:hr_career_platform/features/auth/presentation/ui/login_page.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/company_profile_cubit.dart';
 import 'package:hr_career_platform/features/company/presentation/bloc/curd_company_cubit.dart';
@@ -138,6 +139,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => di.sl<CurdTenderCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => di.sl<TermsAndConditionsCubit>(),
       ),
     ],
 

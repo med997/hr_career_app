@@ -329,7 +329,8 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
           validators: [
             DynamicFormValidator(ValidatorType.notEmpty, 'isRequired')
           ]),
-      DynamicModel('nationality', FormType.dropdown,
+      if (VersionFor != 'YE')
+        DynamicModel('nationality', FormType.dropdown,
           items: nationalityItems,
           disabled: true,
           key: 'nationality',
@@ -539,6 +540,9 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                 key == 'email' ||
                 key == 'education' ||
                 key == 'pdfName');
+          infoValue['nationality']= VersionFor!='YE'? infoValue['nationality']:"All";
+
+
           if (kDebugMode) {
             print('mainInformation : $infoValue');
           }
