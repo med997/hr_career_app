@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hr_career_platform/core/cubit/dynamic_form_cubit.dart';
 import 'package:hr_career_platform/core/cubit/toggle_btn_cubit.dart';
 import 'package:hr_career_platform/core/model/dynamic_model.dart';
@@ -87,9 +88,9 @@ class LoginPage extends StatelessWidget {
                         const SizedBox(
                           height: 60,
                         ),
-                        const Text(
-                          "تواصل بنا",
-                          style: TextStyle(color: primaryColor, fontSize: 16),
+                         Text(
+                          "contactUs".tr(),
+                          style: const TextStyle(color: primaryColor, fontSize: 16),
                         ),
                         const SizedBox(
                           height: 10,
@@ -101,25 +102,19 @@ class LoginPage extends StatelessWidget {
                           runSpacing: 10,
                           children: [
                             CircularIconButton(
-                              icon: Icons.call_outlined,
+                              icon: Icons.mail,
                               onPressed: () {
-                                navToCall("779377119");
+                                navToEmail('infoEmail'.tr());
                               },
                               clr: primaryColor,
                             ),
-                            CircularIconButton(
-                              icon: Icons.mail_outlined,
+                            IconButton(
+
+                              icon: SvgPicture.asset('assets/imgs/whatsapp.svg'),
                               onPressed: () {
-                                navToEmail("meddce997@gmail.com");
+                                navToWhatsapp('infoNumber'.tr());
                               },
-                              clr: primaryColor,
-                            ),
-                            CircularIconButton(
-                              icon: Icons.chat_outlined,
-                              onPressed: () {
-                                navToWhatsapp("+967779377119");
-                              },
-                              clr: primaryColor,
+
                             )
                           ],
                         )
@@ -170,25 +165,19 @@ class LoginPage extends StatelessWidget {
                   runSpacing: 10,
                   children: [
                     CircularIconButton(
-                      icon: Icons.call_outlined,
+                      icon: Icons.mail,
                       onPressed: () {
-                        navToCall("Weteek phone number".tr());
+                        navToEmail('infoEmail'.tr());
                       },
                       clr: primaryColor,
                     ),
-                    CircularIconButton(
-                      icon: Icons.mail_outlined,
+                    IconButton(
+
+                      icon: SvgPicture.asset('assets/imgs/whatsapp.svg'),
                       onPressed: () {
-                        navToEmail("weteek@gmail.com".tr());
+                        navToWhatsapp('infoNumber'.tr());
                       },
-                      clr: primaryColor,
-                    ),
-                    CircularIconButton(
-                      icon: Icons.chat_outlined,
-                      onPressed: () {
-                        navToWhatsapp("weteek whatsapp number".tr());
-                      },
-                      clr: primaryColor,
+
                     )
                   ],
                 )

@@ -14,6 +14,7 @@ class DynamicModel {
   FormType formType;
   String? value;
   String? helperText;
+  bool? hidePass;
   List<ItemModel> items;
   ItemModel? selectedItem;
   bool isRequired;
@@ -44,6 +45,7 @@ class DynamicModel {
       this.key = '',
       this.selectedItem,
       this.icons,
+        this.hidePass= true,
       this.error,
       this.controller,
       this.controllerFlt,

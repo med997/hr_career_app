@@ -6,6 +6,7 @@ import 'package:hr_career_platform/core/model/dynamic_model.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 
 Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
+
   return Padding(
     padding: EdgeInsets.only(bottom: dynamicModel.padding ?? 2.0),
     child: Flex(
@@ -23,12 +24,33 @@ Widget getTextWidget(DynamicModel dynamicModel, BuildContext context) {
               onSaved: (newValue) {
                 dynamicModel.onSubmit ?? dynamicModel.onSubmit!();
               },
-              obscureText: dynamicModel.formType == FormType.password,
+              obscureText: (dynamicModel.formType == FormType.password &&
+                  dynamicModel.hidePass == true),
               decoration: InputDecoration(
                 border: dynamicModel.inputBorder,
-                suffixIcon: dynamicModel.icons,
+                suffixIcon: dynamicModel.formType == FormType.password
+                    ? dynamicModel.hidePass == true
+                        ? IconButton(
+                    padding: EdgeInsets.all(0),
+                            onPressed: () {
+                              dynamicModel.hidePass = false;
+                              context
+                                  .read<DynamicFormCubit>()
+                                  .updateFieldValue(dynamicModel);
+                            },
+                            icon: const Icon(Icons.visibility))
+                        : IconButton(
+                  padding: EdgeInsets.all(0),
+                            onPressed: () {
+                              dynamicModel.hidePass = true;
+                              context
+                                  .read<DynamicFormCubit>()
+                                  .updateFieldValue(dynamicModel);
+                            },
+                            icon: const Icon(Icons.visibility_off))
+                    : dynamicModel.icons,
                 suffixIconConstraints:
-                    BoxConstraints.tightFor(height: 20, width: 40),
+                    const BoxConstraints.tightFor(height: 20, width: 40),
                 helperText: dynamicModel.helperText ?? '',
                 labelText: dynamicModel.controlName.tr(),
                 errorMaxLines: 1,
