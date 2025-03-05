@@ -94,9 +94,6 @@ class CompanyAppBarWidget extends StatelessWidget {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       spacing: 6,
                       children: [
-                        const LanguageButton(
-                          clr: Colors.white,
-                        ),
                         BlocConsumer<LoginCubit, LoginState>(
                           listener: (context, state) {
                             if (state is LoginSignOutState) {

@@ -19,22 +19,25 @@ import '../../features/job/presentation/ui/add_job_page.dart';
 import '../splash_page.dart';
 import '../util/const_val.dart';
 
-AppBar buildAppBar(
+AppBar  buildAppBar(
     {required String userName,
     required String img,
     bool fullHeader = false,
     bool withBackBtn = false,
-      Function()? onTap,
+    Function()? onTap,
     required String userOrCompany,
     int? selectedTab,
     required BuildContext context}) {
   String imageUrl = img.isNotEmpty ? '$BaseStorageUrl$img' : '';
   return AppBar(
-
     iconTheme: const IconThemeData(color: primaryColor),
     centerTitle: true,
-    leading: withBackBtn==true?
-  BackButton(color: primaryColor,onPressed: onTap,): null,
+    leading: withBackBtn == true
+        ? BackButton(
+            color: primaryColor,
+            onPressed: onTap,
+          )
+        : null,
     titleSpacing: 8,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,7 +47,6 @@ AppBar buildAppBar(
           crossAxisAlignment: CrossAxisAlignment.start,
           direction: Axis.vertical,
           children: [
-
             if (fullHeader == true)
               Text(
                 fullHeader ? ("welcome-back_msg".tr()) : ' ',
@@ -94,19 +96,22 @@ AppBar buildAppBar(
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  SplashPage(),
+                                builder: (context) => SplashPage(),
                               ),
                               (route) => false);
                         }
                       },
                       builder: (context, state) {
                         return MaterialButton(
-                            onPressed: () async{
+                            onPressed: () async {
                               String? fcmToken;
-                              if(!kIsWeb){
-                                fcmToken = await FirebaseMessaging.instance.getToken();
+                              if (!kIsWeb) {
+                                fcmToken =
+                                    await FirebaseMessaging.instance.getToken();
                               }
-                              context.read<LoginCubit>().signOut(fcmToken??'');
+                              context
+                                  .read<LoginCubit>()
+                                  .signOut(fcmToken ?? '');
                             },
                             shape: CircleBorder(),
                             materialTapTargetSize:
@@ -131,10 +136,16 @@ AppBar buildAppBar(
             if (fullHeader == true)
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: AvatarNetwork(
-                  imgUrl: imageUrl,
-                  withBorder: false,
-                ),
+                child: Wrap(direction: Axis.horizontal, spacing: 6, children: [
+                  AvatarNetwork(
+                    imgUrl: imageUrl,
+                    withBorder: false,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 5.0),
+                    child: LanguageButton(clr: primaryColor),
+                  )
+                ]),
               )
           ],
         )

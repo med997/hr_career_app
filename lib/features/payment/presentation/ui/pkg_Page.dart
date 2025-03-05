@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_career_platform/core/app_theme.dart';
 import 'package:hr_career_platform/core/util/enums.dart';
 import 'package:hr_career_platform/core/util/responsive.dart';
 import 'package:hr_career_platform/core/widgets/loading_widget.dart';
@@ -69,11 +70,21 @@ class _PkgPageState extends State<PkgPage> {
       builder: (context, state) {
         if (state is PackageFetchedState) {
           return Scaffold(
+
+
             body: Flex(
               direction: Axis.vertical,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                BackButton(
+                  color: primaryColor,
+                  onPressed:(){
+                  context
+                      .read<StepperCubit>()
+                      .backStep(1);
+                } ,),
+
                 BlocConsumer<PaymentCurdCubit, PaymentCurdState>(
                   listener: (context, state) {
                     if (state is MessageCurdPaymentState) {

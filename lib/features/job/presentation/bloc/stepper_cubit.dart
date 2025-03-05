@@ -25,6 +25,12 @@ class StepperCubit extends Cubit<StepperState> {
 
     emit(StepperChangedState(activeStep: tabIndex));
   }
+
+  Future<void> backStep(int tabIndex,) async {
+
+    emit(StepperChangedState(activeStep: tabIndex-1));
+  }
+
   Future<void> addTenderChangeStep(int tabIndex,
       {Tender? addedTender, Package? selectedPackage}) async {
     if(addedTender!=null) {
