@@ -70,7 +70,7 @@ class _CompanyMainHomePageState extends State<CompanyMainHomePage> {
                   icn: Icons.bookmark_added_outlined,
                   iconLabel: tr("add_tender_msg"),
                   onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>  const AddTenderPage(),
                     ));
 
