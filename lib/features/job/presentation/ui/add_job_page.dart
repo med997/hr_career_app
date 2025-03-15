@@ -37,6 +37,7 @@ class AddJobPage extends StatelessWidget {
           fullHeader: false,
           userOrCompany: 'User',
           context: context,
+
         ),
         body: Flex(
           direction: Axis.vertical,

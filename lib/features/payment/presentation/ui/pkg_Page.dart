@@ -84,7 +84,6 @@ class _PkgPageState extends State<PkgPage> {
                       .read<StepperCubit>()
                       .backStep(1);
                 } ,),
-
                 BlocConsumer<PaymentCurdCubit, PaymentCurdState>(
                   listener: (context, state) {
                     if (state is MessageCurdPaymentState) {
